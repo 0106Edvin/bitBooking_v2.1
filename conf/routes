@@ -3,8 +3,17 @@
 # ~~~~
 
 # Home page
-GET         /                           @controllers.Application.index()
+GET         /                                 @controllers.Application.index()
+GET         /login                            @controllers.Application.index()
+GET         /register                         @controllers.Users.register()
+GET         /admin                            @controllers.Users.logAdmin()
+GET         /feature                          @controllers.Application.insertFeature()
+GET         /logout                           @controllers.Users.logOut()
+GET         /admin/adminhotels                @controllers.Users.showAdminHotels()
+GET         /admin/adminusers                 @controllers.Users.showAdminUsers()
+GET         /admin/adminfeatures              @controllers.Users.showAdminFeatures()
+
+GET         /admin/adminusers/:email          @controllers.Users.deleteUser(email: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
+GET         /assets/*file                     controllers.Assets.versioned(path="/public", file: Asset)
