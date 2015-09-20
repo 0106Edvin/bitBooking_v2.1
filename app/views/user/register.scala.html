@@ -1,0 +1,55 @@
+@(userForm: Form[App_User])
+@import helper._
+@main("Register form"){
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/register.css")"/>
+    <script src="@routes.Assets.versioned("javascripts/register.js")"></script>
+    <div class="container" style="background-color: #f5e79e">
+        <div class="register">
+        @helper.form(action = routes.Users.insertUser()) {
+            <fieldset>
+                <form>
+                    <div class="duplicate-email">
+                    @if(flash.containsKey("error")) {
+                        @flash.get("error")
+                    }
+                    </div>
+                        <!-- label and input field for email-->
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">
+                    <div id="email_error"></div>
+                        <!--label and input field for password-->
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();" >
+                    <div id="password_error"></div>
+                        <!--label and input field for password confirmation-->
+                    <label for="password">Confirm password: </label>
+                    <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onblur="checkPasswordMatch();" >
+                    <div id="password2_error"></div>
+                        <!--label and input for name-->
+                    <label for="name">First name:</label>
+                    <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onblur="checkName(); checkNameLength();">
+                    <div id="name_error"></div>
+                    <div id="namelength_error"></div>
+                        <!--label and input for lastname-->
+                    <label for="last-name">Last name:</label>
+                    <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onblur="checkLastname(); checkLastnameLength();">
+                    <div id="lastname_error"></div>
+                    <div id="lastnamelength_error"></div>
+                        <!--label and input for lastname-->
+                    <label for="phone-number">Phone number:</label>
+                    <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onblur="isNumber();">
+                    <div id="numberlength_error"></div>
+                    <div id="number_error"></div>
+
+                        <!--submit button-->
+                    <input type="submit" id="submit" value="Register">
+                </form>
+                <hr>
+                <label>Already have an account? <a id ="here" href="/">Log In!</a></label>
+            </fieldset>
+        }
+        </div>
+    </div>
+}
