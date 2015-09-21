@@ -1,0 +1,29 @@
+@(hotels: List[Hotel])
+@import helper._
+@index {
+
+    @for(hotel <- hotels) {
+        <div class="col-md-3 hero-feature">
+            <div class="thumbnail">
+                <img src="http://placehold.it/800x500" alt="">
+                <div class="caption">
+                    <h2>@hotel.name</h2>
+                    <p>Hotel address:<br> @hotel.location</p>
+
+
+                    <p>
+                        <a class="btn btn-primary">
+                                Make reservation!</a>
+                        <a href="@routes.Hotels.showHotel(hotel.id)"><button name="" class="btn btn-default">
+                            More Info</button>
+                        </a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+}
+    <!-- /.row -->
