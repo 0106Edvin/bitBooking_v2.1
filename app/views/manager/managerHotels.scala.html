@@ -1,0 +1,51 @@
+@(hotels: java.util.List[Hotel])
+@main {
+    <div class="container" style="background-color : #f5e79e">
+    @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 6) {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(hotel <- hotels) {
+                    <tr>
+                        <td>@hotel.name</td>
+                        <td>@hotel.location</td>
+                        <td>@hotel.description</td>
+                        <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
+                            <td>
+                                <a href="@routes.Hotels.deleteHotel(hotel.id)">
+                                    <button class="btn btn-danger">Delete</button>
+                                </a>
+                            </td>
+                        </form>
+
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <a href="@routes.Hotels.saveHotel()">
+                            <button class="btn btn-success">Add</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    } else {
+
+        <div class="row" style="background-color : #f5e79e">
+            <div class="col-md-8">
+                <br/>
+                <h1>Access denied.</h1>
+                <h3>You do not have permissions to see this page.</h3>
+            </div>
+        </div>
+        <hr/>
+    }
+    </div>
+}
