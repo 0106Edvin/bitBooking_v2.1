@@ -70,7 +70,8 @@ public class Users extends Controller {
             return ok(register.render(boundForm));
 
         } else if (name.length() < 2 || lastname.length() < 2 ) {
-            flash("error", "Name and last name must be at least 2 letters long!");
+            flascccccceefkceenlrtdjedrehjbfvgrrvdthbkbvnvdki
+            h("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
         } else if (phone.length() > 15) {
