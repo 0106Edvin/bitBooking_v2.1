@@ -1,13 +1,12 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Model;
 import models.AppUser;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import java.util.List;
+import helpers.*;
+import views.html.user.*;
 
 /**
  * Created by ajla on 9/20/15.
@@ -26,12 +25,14 @@ public class Users extends Controller {
 
 
     /*opening register form */
-    public Result register() {
+    public Result registerUser()
+    {
         return ok(register.render(userForm));
     }
 
-    /*insert registered user into database*/
-    public Result insertUser() {
+    /*insert registered user into the database*/
+
+    public Result saveUser() {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         //getting the values from the fields
@@ -48,7 +49,7 @@ public class Users extends Controller {
             flash("error", "Passwords don't match!");
             return ok(register.render(boundForm));
 
-        } else if (pass1.length() < 6 && pass2.length() < 6) {
+        } else if (pass1.length() < Constants.MIN_PASSWORD_LENGTH || pass2.length() < Constants.MIN_PASSWORD_LENGTH) {
             flash("error", "Password must be at least 6 characters long!");
             return ok(register.render(boundForm));
 
@@ -56,11 +57,11 @@ public class Users extends Controller {
             flash("error", "Name and last name must contain letters only!");
             return ok(register.render(boundForm));
 
-        } else if (name.length() < 2 && lastname.length() < 2) {
+        } else if (name.length() < Constants.MIN_NAME_LENGTH || lastname.length() < Constants.MIN_NAME_LENGTH ) {
             flash("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
-        } else if (phone.length() > 15) {
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH) {
             flash("error", "Phone number can't be more than 15 digits long!");
             return ok(register.render(boundForm));
 
@@ -89,45 +90,30 @@ public class Users extends Controller {
      *
      * @return
      */
-    public Result login() {
-        Form<AppUser> boundForm = userForm.bindFromRequest();
-
-        String email = boundForm.bindFromRequest().field("email").value();
-        String password = boundForm.bindFromRequest().field("password").value();
-
-        AppUser user = AppUser.authenticate(email, password);
-
-        if (user == null) {
-            flash("error", "Incorrect email or password! Please try again!");
-            return badRequest(list.render(hotels));
-        } else {
-            response().setCookie("email", user.email);
-            response().setCookie("name", user.firstname);
-            response().setCookie("userTypeId", user.userTypeId.toString());
-            response().setCookie("userId", user.id.toString());
-
-            return redirect(routes.Users.editUser(user.email));
-        }
-    }
+//    public Result login() {
+//        Form<AppUser> boundForm = userForm.bindFromRequest();
+//
+//        String email = boundForm.bindFromRequest().field("email").value();
+//        String password = boundForm.bindFromRequest().field("password").value();
+//
+//        AppUser user = AppUser.authenticate(email, password);
+//
+//        if (user == null) {
+//            flash("error", "Incorrect email or password! Please try again!");
+//            return badRequest(list.render(hotels));
+//        } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
+//
+//            SessionsAndCookies.setCookies(user);
+//            return redirect(routes.adminpanel.render());
+//        } else {
+//            SessionsAndCookies.setCookies(user);
+//            return redirect(routes.Users.editUser(user.email));
+//        }
+//    }
 
 //    public Result editUser(String email) {
 //        App_User user = App_User.getUserByEmail(email);
 //        return ok(profilePage.render(user));
-//    }
-
-//    public Result logAdmin() {
-//        Integer usrType = null;
-//        try {
-//            usrType = Integer.parseInt(request().cookies().get("userTypeId").value());
-//        } catch (Exception e) {
-//            return ok(list.render(hotels));
-//        }
-//
-//        if (usrType == 3) {
-//            return ok(adminpanel.render());
-//        } else {
-//            return ok(list.render(hotels));
-//        }
 //    }
 
 //    public Result logManager() {
@@ -136,11 +122,7 @@ public class Users extends Controller {
 
     public Result logOut() {
 
-        response().discardCookie("email");
-        response().discardCookie("name");
-        response().discardCookie("userTypeId");
-        response().discardCookie("userId");
-
+        SessionsAndCookies.clearCookies();
         return redirect(routes.Application.index());
     }
 
@@ -236,27 +218,27 @@ public class Users extends Controller {
 //    }
 //
 //
-//    public Result setRole(String email) {
-//        Form<App_User> boundForm = userForm.bindFromRequest();
-//
-//        App_User user = App_User.getUserByEmail(email);
-//        String userType = boundForm.bindFromRequest().field("usertype").value();
-//
-//
-//
-//        if (userType.equals("buyer")) {
-//            user.userTypeId = 4;
-//
-//        } else if (userType.equals("seller")) {
-//            user.userTypeId = 5;
-//
-//        } else if (userType.equals("hotelmanager")) {
-//            user.userTypeId = 6;
-//        }
-//        Ebean.update(user);
-//
-//        return redirect(routes.Users.showAdminUsers());
-//
-//    }
+ /*   public Result setRole(String email) {
+        Form<AppUser> boundForm = userForm.bindFromRequest();
+
+        AppUser user = AppUser.getUserByEmail(email);
+        String userType = boundForm.bindFromRequest().field("usertype").value();
+
+
+
+        if (userType.equals("buyer")) {
+            user.userAccessLevel = UserAccessLevel.BUYER;
+
+        } else if (userType.equals("seller")) {
+            user.userAccessLevel = UserAccessLevel.SELLER;
+
+        } else if (userType.equals("hotelmanager")) {
+            user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
+        }
+        Ebean.update(user);
+
+        return redirect(routes.Users.showAdminUsers());
+
+    }*/
 
 }

@@ -23,3 +23,6 @@ POST        /hotelmanager/savehotel          @controllers.Hotels.saveHotel()
 GET         /admin/createFeature             @controllers.Features.createFeature()
 POST        /admin/saveFeature               @controllers.Features.saveFeature()
 
+#User
+GET         /user/register                   @controllers.Users.registerUser()
+POST        /user/register/save              @controllers.Users.saveUser()
