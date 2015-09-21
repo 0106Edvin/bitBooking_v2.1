@@ -1,0 +1,43 @@
+@(features: List[Feature])
+@import helper._
+@main {
+    @helper.form(action = routes.Hotels.saveHotel()) {
+        <div class="container">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>REGISTER YOUR HOTEL</h2>
+                    </div>
+                    <div class="col-md-5  text-left">
+                        <input id="gLat" name="coordinateX" value="43.8534183">
+                        <input id="gLng" name="coordinateY" value="18.37808399999">
+                        <div id="mapCanvas" class="shrinked-map"></div>
+                        <div id="infoPanel" style="display : none">
+                            <b>Marker status:</b>
+                            <div id="markerStatus"><i>Click and drag the marker.</i></div>
+                            <b>Current position:</b>
+                            <div id="info"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-md-offset-1 contact-form">
+                        <h3> Hotel information </h3>
+
+                        <form class="form">
+
+                            <input name="name" class="name" type="text" placeholder="Hotel Name">
+                            <input name="location" class="email" type="text" placeholder="Location">
+                            <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
+                            <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end of contact section -->
+
+    }
+
+}

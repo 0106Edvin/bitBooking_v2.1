@@ -5,11 +5,9 @@
 <html lang="en">
     <head>
         <title></title>
-        @*<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">*@
-        @*<link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">*@
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
+        <script src="@routes.Assets.versioned("javascripts/js/coordinate.jss")"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -23,7 +21,7 @@
                 <div class="row">
                     <div class="col-xs-5 header-logo">
                         <br>
-                        <a href="index.html"><img src= "@routes.Assets.versioned("img/BitBooking2.png")" alt="" class="img-responsive logo"></a>
+                        <a href="@routes.Application.index()"><img src= "@routes.Assets.versioned("img/BitBooking2.png")" alt="" class="img-responsive logo"></a>
                     </div>
 
                     <div class="col-md-7">
@@ -57,5 +55,25 @@
             </div>
         </header> <!-- end of header area -->
     @content
+
+        <!-- footer starts here -->
+        <footer class="footer clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 footer-para">
+                        <p>&copy;rockIT All right reserved</p>
+                    </div>
+
+                    <div class="col-xs-6 text-right">
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-skype"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
     </body>
+
 </html>
