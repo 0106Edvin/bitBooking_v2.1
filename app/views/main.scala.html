@@ -11,9 +11,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+
+        <link rel="stylesheet" href="@routes.Assets.versioned(" stylesheets/register.css")"/>
+        <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
+
         <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/style.css")">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700' rel='stylesheet' type='text/css'>
+
+
     </head>
     <body>
         <header class="top-header">
@@ -41,11 +47,11 @@
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li><a class="menu active" href="#home" >Home</a></li>
-                                        <li><a class="menu" href="#about">hotels</a></li>
-                                        <li><a class="menu" href="#service">our services </a></li>
-                                        <li><a class="menu" href="#team">register</a></li>
-                                        <li><a class="menu" href="#contact">login</a></li>
+                                        <li><a class="menu active" href="" >Home</a></li>
+                                        <li><a class="menu" href="">hotels</a></li>
+                                        <li><a class="menu" href="">our services </a></li>
+                                        <li><a class="menu" href="@routes.Users.registerUser">register</a></li>
+                                        <li><a class="menu" href="">login</a></li>
                                     </ul>
                                 </div><!-- /navbar-collapse -->
                             </div><!-- / .container-fluid -->

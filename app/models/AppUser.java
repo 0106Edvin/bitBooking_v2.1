@@ -5,17 +5,19 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.List;
+import helpers.*;
 
 /**
  * Model of App_User. App_User is a person who sign up into database on bitBooking.ba web page
  * and has permissions depending on type of user
  * Created by ajla on 9/20/15.
  */
+@Entity
 public class AppUser extends Model {
-    public static final Integer USR_TYPE_BUYER = 4;
     public static Finder<String, AppUser> finder = new Finder<>(AppUser.class);
 
     /*
@@ -47,8 +49,7 @@ public class AppUser extends Model {
     @Constraints.Pattern(value = "\\d+", message = "Phone number can contain digits only!")
     public String phoneNumber;
 
-    @ManyToOne
-    public Integer userTypeId = USR_TYPE_BUYER;
+    public Integer userAccessLevel = UserAccessLevel.BUYER;
 
 
     /**
@@ -136,7 +137,7 @@ public class AppUser extends Model {
     }
 
     public static List<AppUser> getUsersByUserTypeId(Integer userTypeId) {
-        List<AppUser> users = finder.where().eq("userTypeId", userTypeId).findList();
+        List<AppUser> users = finder.where().eq("userAccessLevel", userTypeId).findList();
         return users;
     }
 
