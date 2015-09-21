@@ -1,13 +1,13 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import models.AppUser;
 import models.Feature;
 import models.Hotel;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.hotel.createhotel;
-import views.html.hotel.updateHotel;
+import views.html.hotel.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,8 @@ public class Hotels extends Controller {
 
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
-        return ok(createhotel.render(features));
+        List<AppUser> users = AppUser.finder.all();
+        return ok(createHotel.render(features, users));
     }
 
 

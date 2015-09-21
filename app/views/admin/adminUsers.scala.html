@@ -46,21 +46,21 @@
           </thead>
           <tbody>
           @for(user <- users){
-            @if(user.userTypeId != 3) {
+            @if(user.userAccessLevel == 2) {
               <tr>
                 <td>@user.firstname</td>
                 <td>@user.lastname</td>
                 <td>@user.email</td>
-                @if(user.userTypeId == 6) {
+                @if(user.userAccessLevel == 4) {
                   <td>Hotel Manager</td>
                 }
-                @if(user.userTypeId == 5) {
+                @if(user.userAccessLevel == 3) {
                   <td>Seller</td>
                 }
-                @if(user.userTypeId == 4) {
+                @if(user.userAccessLevel == 2) {
                   <td>Buyer</td>
                 }
-                @if(user.userTypeId == 3) {
+                @if(user.userAccessLevel == 1) {
                   <td>Admin</td>
                 }
                 <td></td>

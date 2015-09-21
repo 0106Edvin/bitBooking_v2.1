@@ -6,17 +6,17 @@
           <h1 class="page-header"> Edit Profile</h1>
         </div>
         <div class="col-md-2">
-         @if(user.userTypeId == 3) {
+         @if(user.userAccessLevel == 1) {
            <div class="button">
-            <a href="@routes.Users.logAdmin()"> <button class="btn btn-danger" style="height : 100px">ADMIN PANEL</button></a>
+            <a href="@routes.Users.login()"> <button class="btn btn-danger" style="height : 100px">ADMIN PANEL</button></a>
            </div>
          }
-          @if(user.userTypeId == 6) {
+          @if(user.userAccessLevel == 4) {
             <div class="button">
               <a href="@routes.Users.showManagerHotels()"> <button class="btn btn-danger" style="height : 100px">MANAGER PANEL</button></a>
             </div>
           }
-          @*@if(user.userTypeId == 5){*@
+          @*@if(user.userAccessLevel == 3){*@
             @*<div class="button">*@
 
               @*<a href="@routes.Rooms.showSellerHotels()"><button class="btn btn-danger" style="height : 100px">YOUR HOTELS</button></a>*@
@@ -52,7 +52,7 @@
             </div>
           }
           <h3>Personal info</h3>
-          @*<form class="form-horizontal" role="form" method="post" action="@routes.Users.updateUser(user.email)">*@
+          <form class="form-horizontal" role="form" method="post" action="@routes.Users.updateUser(user.email)">
             <div class="form-group">
               <label class="col-lg-3 control-label">First name:</label>
               <div class="col-lg-8">
