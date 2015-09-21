@@ -48,7 +48,9 @@ function checkPasswordMatch() {
 
 
     if (pass1 != pass2) {
+
         document.getElementById('password2_error').innerHTML="Passwords do not match";
+
         document.getElementById('submit').disable="true";
         return false;
     }else {
@@ -73,7 +75,9 @@ function checkName(){
 
         return true;
     } else  {
+
         document.getElementById('name_error').innerHTML="Name must have letters only!";
+
         document.getElementById('submit').disable="true";
         return false;
     }
@@ -92,7 +96,9 @@ function checkLastname(){
         document.getElementById('submit').disable="false";
         return true;
     } else  {
+
         document.getElementById('lastname_error').innerHTML="Last Name must have letters only!";
+
         document.getElementById('submit').disable="true";
         return false;
     }
@@ -155,7 +161,9 @@ function numberLength(){
 function isNumber(){
     var number = document.getElementById("phone-number").value;
 
+
     if(/\D/.test(number) ){
+
         document.getElementById('number_error').innerHTML="Number can contain only digits(0-9)!";
         document.getElementById('submit').disable="true";
         return false;
