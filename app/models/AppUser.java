@@ -5,6 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.List;
@@ -15,6 +16,7 @@ import helpers.*;
  * and has permissions depending on type of user
  * Created by ajla on 9/20/15.
  */
+@Entity
 public class AppUser extends Model {
     public static Finder<String, AppUser> finder = new Finder<>(AppUser.class);
 

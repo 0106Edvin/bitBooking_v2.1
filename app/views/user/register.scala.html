@@ -1,85 +1,54 @@
 @(userForm: Form[AppUser])
 @import helper._
-@main{
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="@routes.Assets.versioned(" stylesheets/register.css")"/>
-<script src="@routes.Assets.versioned(" javascripts/register.js")"></script>
-    <div class="container" style="background-color: #f5e79e">
-        <div class="register">
-        @helper.form(action = routes.Users.saveUser()) {
-            <!--<fieldset>-->
-                <!--<form>-->
-                    <!--<div class="duplicate-email">-->
-                    <!--@if(flash.containsKey("error")) {-->
-                        <!--@flash.get("error")-->
-                    <!--}-->
-                    <!--</div>-->
-                        <!--&lt;!&ndash; label and input field for email&ndash;&gt;-->
-                    <!--<label for="email">Email:</label>-->
-                    <!--<input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">-->
-                    <!--<div id="email_error"></div>-->
-                        <!--&lt;!&ndash;label and input field for password&ndash;&gt;-->
-                    <!--<label for="password">Password: </label>-->
-                    <!--<input type="password" id="password" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();" >-->
-                    <!--<div id="password_error"></div>-->
-                        <!--&lt;!&ndash;label and input field for password confirmation&ndash;&gt;-->
-                    <!--<label for="password">Confirm password: </label>-->
-                    <!--<input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onblur="checkPasswordMatch();" >-->
-                    <!--<div id="password2_error"></div>-->
-                        <!--&lt;!&ndash;label and input for name&ndash;&gt;-->
-                    <!--<label for="name">First name:</label>-->
-                    <!--<input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onblur="checkName(); checkNameLength();">-->
-                    <!--<div id="name_error"></div>-->
-                    <!--<div id="namelength_error"></div>-->
+@main   {
 
-                        <!--&lt;!&ndash;label and input for lastname&ndash;&gt;-->
-                    <!--<label for="last-name">Last name:</label>-->
-                    <!--<input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onblur="checkLastname(); checkLastnameLength();">-->
-                    <!--<div id="lastname_error"></div>-->
-                    <!--<div id="lastnamelength_error"></div>-->
-                        <!--&lt;!&ndash;label and input for lastname&ndash;&gt;-->
-                    <!--<label for="phone-number">Phone number:</label>-->
-                    <!--<input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onblur="isNumber();">-->
-                    <!--<div id="numberlength_error"></div>-->
-                    <!--<div id="number_error"></div>-->
-
-                        <!--&lt;!&ndash;submit button&ndash;&gt;-->
-                    <!--<input type="submit" id="submit" value="Register">-->
-                <!--</form>-->
-                <!--<hr>-->
-                <!--<label>Already have an account? <a id ="here" href="/">Log In!</a></label>-->
-            <!--</fieldset>-->
-
-
-
-
-      <section class="contact">
-        <div class="container">
-            <div class="row">
-                <div class="contact-caption clearfix">
-                    <div class="contact-heading text-center">
-                        <h2>contact us</h2>
-                    </div>
-
-
-                    <div class="col-md-6 col-md-offset-1 contact-form">
-                        <h3>leave us a message</h3>
-
-                        <form class="form">
-                            <input class="name" type="text" placeholder="Name">
-                            <input class="email" type="email" placeholder="Email">
-                            <input class="phone" type="text" placeholder="Phone No:">
-                            <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-                            <input class="submit-btn" type="submit" value="SUBMIT">
-                        </form>
-                    </div>
-
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>Register</h2>
                 </div>
+
+
+                <div class="col-md-6 col-md-offset-3 contact-form">
+                    <h3>Please enter your data</h3>
+                    @helper.form(action = routes.Users.saveUser()) {
+                    <form>
+                        <div class="duplicate-email">
+                            @if(flash.containsKey("error")) {
+                            @flash.get("error")
+                            }
+                        </div>
+                        <!--input field for email-->
+                        <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">
+                        <div id="email_error"></div>
+                        <!--input field for password-->
+                        <input type="password" id="password" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();" >
+                        <div id="password_error"></div>
+                        <!--input field for password confirmation-->
+                        <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onblur="checkPasswordMatch();" >
+                        <div id="password2_error"></div>
+                        <!--input for name-->
+                        <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onblur="checkName(); checkNameLength();">
+                        <div id="name_error"></div>
+                        <div id="namelength_error"></div>
+
+                        <!--input for lastname-->
+                        <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onblur="checkLastname(); checkLastnameLength();">
+                        <div id="lastname_error"></div>
+                        <div id="lastnamelength_error"></div>
+                        <!--input for lastname-->
+                        <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onblur="isNumber();">
+                        <div id="numberlength_error"></div>
+                        <div id="number_error"></div>
+
+                        <!--submit button-->
+                        <input class="submit-btn" type="submit" value="Register">
+                    </form>
+                    }
+                </div>
+
             </div>
-        </div>
-    </section><!-- end of contact sec
-        }
         </div>
     </div>
 }

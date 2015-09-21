@@ -8,6 +8,7 @@ import play.mvc.Result;
 import helpers.*;
 import views.html.user.*;
 
+
 /**
  * Created by ajla on 9/20/15.
  */
@@ -49,7 +50,7 @@ public class Users extends Controller {
             flash("error", "Passwords don't match!");
             return ok(register.render(boundForm));
 
-        } else if (pass1.length() < Constants.MIN_PASSWORD_LENGTH || pass2.length() < Constants.MIN_PASSWORD_LENGTH) {
+        } else if (pass1.length() < 6 || pass2.length() < 6) {
             flash("error", "Password must be at least 6 characters long!");
             return ok(register.render(boundForm));
 
@@ -57,11 +58,11 @@ public class Users extends Controller {
             flash("error", "Name and last name must contain letters only!");
             return ok(register.render(boundForm));
 
-        } else if (name.length() < Constants.MIN_NAME_LENGTH || lastname.length() < Constants.MIN_NAME_LENGTH ) {
+        } else if (name.length() < 2 || lastname.length() < 2 ) {
             flash("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH) {
+        } else if (phone.length() > 15) {
             flash("error", "Phone number can't be more than 15 digits long!");
             return ok(register.render(boundForm));
 
