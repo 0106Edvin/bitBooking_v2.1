@@ -17,34 +17,35 @@ GET         /                                           @controllers.Application
 GET         /assets/*file                               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Hotel manager
-#GET         /manager/login                              @controllers.Users.logManager()
+GET         /manager/login                              @controllers.Users.logManager()
 
 GET         /hotelmanager/createhotel                   @controllers.Hotels.createHotel()
 POST        /hotelmanager/savehotel                     @controllers.Hotels.saveHotel()
-#GET         /hotelmanager/hotels                        @controllers.Users.showManagerHotels()
+GET         /hotelmanager/hotels                        @controllers.Users.showManagerHotels()
 GET         /hotelmanager/hotels/:id                    @controllers.Hotels.deleteHotel(id: Integer)
 
 
 
 #Admin
-#GET         /admin                                      @controllers.Users.logAdmin()
 
 
 GET         /admin/createFeature                        @controllers.Features.createFeature()
 POST        /admin/saveFeature                          @controllers.Features.saveFeature()
 GET         /admin/updateFeature/:id                    @controllers.Features.updateFeature(id: Integer)
 GET         /admin/adminfeatures/:id                    @controllers.Features.deleteFeature(id: Integer)
-
+GET         /admin/adminfeatures                        @controllers.Users.showAdminFeatures()
 
 
 #
-#POST        /admin/adminusers/:email                    @controllers.Users.setRole(email: String)
-#
-#
-#GET         /admin/adminhotels                          @controllers.Users.showAdminHotels()
+POST        /admin/adminusers/:email                    @controllers.Users.setRole(email: String)
+
+
+GET         /admin/adminhotels                          @controllers.Users.showAdminHotels()
+GET         /admin/adminusers                           @controllers.Users.showAdminUsers()
+
 GET         /admin/adminhotels/:id                      @controllers.Hotels.deleteHotelAdmin(id: Integer)
 
-#GET         /admin/adminusers/:email                    @controllers.Users.deleteUser(email: String)
+GET         /admin/adminusers/:email                    @controllers.Users.deleteUser(email: String)
 
 
 GET         /admin/adminfeatures/editFeature/:id        @controllers.Features.editfeature(id: Integer)
@@ -54,8 +55,10 @@ GET         /admin/adminhotels/showhotel/:id            @controllers.Hotels.show
 
 
 #User
-GET         /user/register                   @controllers.Users.registerUser()
-POST        /user/register/save              @controllers.Users.saveUser()
+GET         /user/register                              @controllers.Users.registerUser()
+POST        /user/register/save                         @controllers.Users.saveUser()
+GET         /user/login                                 @controllers.Users.login()
+POST        /user/update/:email                         @controllers.Users.updateUser(email: String)
 
 #Seller
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
