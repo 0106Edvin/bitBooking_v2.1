@@ -4,25 +4,59 @@
 
 # Home page
 
-GET         /                                @controllers.Application.index()
+GET         /                                           @controllers.Application.index()
 
 
-GET         /                                @controllers.Application.index()
+GET         /                                           @controllers.Application.index()
+
 
 
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                               controllers.Assets.versioned(path="/public", file: Asset)
 
 #Hotel manager
-GET         /hotelmanager/createhotel        @controllers.Hotels.createHotel()
-POST        /hotelmanager/savehotel          @controllers.Hotels.saveHotel()
+#GET         /manager/login                              @controllers.Users.logManager()
+
+GET         /hotelmanager/createhotel                   @controllers.Hotels.createHotel()
+POST        /hotelmanager/savehotel                     @controllers.Hotels.saveHotel()
+#GET         /hotelmanager/hotels                        @controllers.Users.showManagerHotels()
+GET         /hotelmanager/hotels/:id                    @controllers.Hotels.deleteHotel(id: Integer)
+
+
 
 #Admin
-GET         /admin/createFeature             @controllers.Features.createFeature()
-POST        /admin/saveFeature               @controllers.Features.saveFeature()
+#GET         /admin                                      @controllers.Users.logAdmin()
+
+
+GET         /admin/createFeature                        @controllers.Features.createFeature()
+POST        /admin/saveFeature                          @controllers.Features.saveFeature()
+GET         /admin/updateFeature/:id                    @controllers.Features.updateFeature(id: Integer)
+GET         /admin/adminfeatures/:id                    @controllers.Features.deleteFeature(id: Integer)
+
+
+
+#
+#POST        /admin/adminusers/:email                    @controllers.Users.setRole(email: String)
+#
+#
+#GET         /admin/adminhotels                          @controllers.Users.showAdminHotels()
+GET         /admin/adminhotels/:id                      @controllers.Hotels.deleteHotelAdmin(id: Integer)
+
+#GET         /admin/adminusers/:email                    @controllers.Users.deleteUser(email: String)
+
+
+GET         /admin/adminfeatures/editFeature/:id        @controllers.Features.editfeature(id: Integer)
+
+
+GET         /admin/adminhotels/showhotel/:id            @controllers.Hotels.showHotel(id: Integer)
+
 
 #User
 GET         /user/register                   @controllers.Users.registerUser()
 POST        /user/register/save              @controllers.Users.saveUser()
+
+#Seller
+POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
+

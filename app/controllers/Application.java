@@ -1,14 +1,18 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import models.Hotel;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.list;
 
-import views.html.*;
+import java.util.List;
 
 public class Application extends Controller {
 
     public Result index() {
-        return ok(index.render());
+//        return ok(index.render());
+        List<Hotel> hotels = Hotel.finder.all();
+        return ok(list.render(hotels));
     }
 
 }
