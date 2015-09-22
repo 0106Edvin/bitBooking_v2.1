@@ -1,88 +1,62 @@
 @(features: java.util.List[Feature])(users: java.util.List[AppUser])
-@import helper._
-@main {
-    @helper.form(action = routes.Hotels.saveHotel()) {
-        <div class="container">
-            <div class="row">
-                <div class="contact-caption clearfix">
-                    <div class="contact-heading text-center">
-                        <h2>REGISTER YOUR HOTEL</h2>
-                    </div>
-                    <div class="info-detail">
-                        <div class="col-md-5  text-left">
-                            <br>
-                            <input id="gLat" name="coordinateX" value="43.8534183" disabled>
-                            <input id="gLng" name="coordinateY" value="18.37808399999" disabled>
-                            <br>
+    @import helper._
+    @main {
+        @helper.form(action = routes.Hotels.saveHotel()) {
+            <div class="container">
+                < class="row">
+                <form role="form">
+                    <div class="contact-caption clearfix">
+                        <div class="contact-heading text-center">
+                            <h2>REGISTER YOUR HOTEL</h2>
+                        </div>
+                        <div class="info-detail form-group">
+                            <div class="col-md-6 col-md-offset-0 contact-form form-group">
+                                <h3> Hotel information </h3>
+
+                                <input name="name" class="name" type="text" placeholder="Hotel Name" required>
+                                <input name="location" class="email" type="text" placeholder="Location">
+                                <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
+
+                                <div class="col-md-6 col-md-offset-1">
+                                    <h3>Features</h3>
+                                    @for(feature <- features) {
+                                        <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
+                                        }
+                                </div>
+                                <div class="col-md-10 col-md-offset-20">
+                                <h3>Select the owner</h3>
+                                <select id="ddlsellers" name="seller">
+                                @for(user <- users) {
+                                    <option value="@user.id">@user.email</option>
+                                }
+                                </select>
+                                </div>
+                                <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-0 col-md-offset-6 ">
+
+                            <input id="gLat" name="coordinateX" value="43.8534183" >
+                            <input id="gLng" name="coordinateY" value="18.37808399999">
                             <div id="mapCanvas" class="shrinked-map"></div>
-                            <div id="infoPanel" style="display: none">
+                            <div id="infoPanel" style="display : none">
                                 <b>Marker status:</b>
                                 <div id="markerStatus"><i>Click and drag the marker.</i></div>
                                 <b>Current position:</b>
                                 <div id="info"></div>
                             </div>
+                            <hr/>
                         </div>
                     </div>
-
-                    <div class="col-md-6 col-md-offset-1 contact-form">
-                        <h3> Hotel information </h3>
-
-                        <form class="form">
-
-                            <input name="name" class="name" type="text" placeholder="Hotel Name">
-                            <input name="location" class="email" type="text" placeholder="Location">
-                            <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
-                          <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
-                        </form>
-                    </div>
-
-                        <!-- ******************OWNER************************-->
-                    <div class="col-md-5 contact-info text-left">
-
-                        <h3>Select the owner</h3>
-                        <div class="info-detail">
-                            <br>
-                            <select id="ddlsellers" name="seller">
-
-                            @for(user <- users) {
-                                <option value="@user.id">@user.email</option>
-                            }
-                            </select>
-                        </div>
-                    </div>
-
-                        <!-- *******************FEATURES***********************-->
-                    <div class="col-md-5 contact-info text-left">
-                        <h3>Features</h3>
-                        <div class="info-detail">
-                        @for(feature <- features) {
-                            <div>
-                                <span>
-                                    <input name="@feature.id" value="@feature.id" value="true" type="checkbox"/>
-                                    <label for="@feature.id">@feature.name</label>
-                                </span>
-                            </div>
-                        }
-                        </div>
-
-                    </div>
-
-                    @*<div class="col-md-6 col-md-offset-1 contact-form">*@
-                        @*<form class="form" >*@
-                            @*<input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">*@
-                        @*</form>*@
-                    @*</div>*@
-                </div>
-            </div>
-        </div>
-
-
-        <!-- end of contact section -->
-
+                </form>
+            }
+    </div>
 
     }
-
-}
 
 
 

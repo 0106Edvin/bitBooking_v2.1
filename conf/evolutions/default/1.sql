@@ -73,6 +73,7 @@ create table room_feature (
   constraint pk_room_feature primary key (room_id, feature_id))
 ;
 <<<<<<< HEAD
+<<<<<<< HEAD
 alter table price add constraint fk_price_room_1 foreign key (room_id) references room (id) on delete restrict on update restrict;
 create index ix_price_room_1 on price (room_id);
 alter table room add constraint fk_room_hotel_2 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
@@ -82,16 +83,23 @@ create index ix_room_hotel_2 on room (hotel_id);
 alter table room add constraint fk_room_hotel_1 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_room_hotel_1 on room (hotel_id);
 =======
+=======
+>>>>>>> create hotel
 alter table comment add constraint fk_comment_user_1 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
 create index ix_comment_user_1 on comment (user_id);
 alter table comment add constraint fk_comment_hotel_2 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_comment_hotel_2 on comment (hotel_id);
+<<<<<<< HEAD
 alter table price add constraint fk_price_room_3 foreign key (room_id) references room (id) on delete restrict on update restrict;
 create index ix_price_room_3 on price (room_id);
 alter table room add constraint fk_room_hotel_4 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_room_hotel_4 on room (hotel_id);
 >>>>>>> Stashed changes
 >>>>>>> Radi jos malo
+=======
+alter table room add constraint fk_room_hotel_3 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_3 on room (hotel_id);
+>>>>>>> create hotel
 
 
 

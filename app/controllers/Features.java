@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Feature;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,6 +24,7 @@ public class Features extends Controller {
         Form<Feature> boundForm = featureForm.bindFromRequest();
 
         Feature feature = boundForm.get();
+
         feature.save();
         return redirect(routes.Application.index());
     }

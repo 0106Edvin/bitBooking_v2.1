@@ -240,15 +240,7 @@ public class Users extends Controller {
            }
        }
    }
-
-<<<<<<< HEAD
-   @Security.Authenticated(Authenticators.SellerFilter.class)
-=======
-<<<<<<< Updated upstream
-=======
 //   @Security.Authenticated(Authenticators.SellerFilter.class)
->>>>>>> Stashed changes
->>>>>>> Radi jos malo
    public Result getSellers() {
        List<AppUser> users = AppUser.getUsersByUserTypeId(5);
        List<Feature> features = Feature.finder.all();
