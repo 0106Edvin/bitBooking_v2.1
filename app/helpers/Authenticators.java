@@ -5,6 +5,9 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import controllers.routes;
+import views.html.user.profilePage;
+
+import java.util.logging.Logger;
 
 
 /**
@@ -88,7 +91,9 @@ public class Authenticators {
         }
     }
 
-    public static class BuyerFilter extends Security.Authenticator {
+    public static class isUserLogged extends Security.Authenticator {
+
+        AppUser user = null;
 
         @Override
         public String getUsername(Http.Context ctx) {
@@ -96,14 +101,18 @@ public class Authenticators {
                 return null;
             String email = ctx.session().get("email");
             AppUser u = AppUser.getUserByEmail(email);
-            if (u != null && u.userAccessLevel == UserAccessLevel.BUYER)
+            if (u != null) {
+                user = u;
                 return u.email;
-            return null;
+            } else {
+                return null;
+            }
+
         }
 
         @Override
         public Result onUnauthorized(Http.Context ctx) {
-            return redirect(routes.Application.index());
+            return ok(profilePage.render(user));
         }
     }
 

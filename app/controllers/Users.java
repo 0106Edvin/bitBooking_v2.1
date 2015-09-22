@@ -128,15 +128,16 @@ public class Users extends Controller {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return TODO;
-        } else {
+        } else if (user.userAccessLevel == UserAccessLevel.BUYER) {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
-              return redirect(routes.Users.updateUser(user.email));
-
+              return redirect(routes.Users.editUser(user.email));
+        } else {
+            return redirect(routes.Application.index());
         }
    }
 
-    @Security.Authenticated(Authenticators.AdminFilter.class)
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
@@ -184,7 +185,7 @@ public class Users extends Controller {
     }
 
 
-    @Security.Authenticated(Authenticators.AdminFilter.class)
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result updateUser(String email) {
        Form<AppUser> boundForm = userForm.bindFromRequest();
        AppUser user = AppUser.getUserByEmail(email);
