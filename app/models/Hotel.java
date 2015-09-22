@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
@@ -20,37 +21,37 @@ public class Hotel extends Model {
     public String name;
     public String location;
     public String description;
-//    public String coordinateX;
-//    public String coordinateY;
-//    public Integer sellerId;
+   public String coordinateX;
+   public String coordinateY;
+   public Integer sellerId;
 
     @ManyToMany
     public List<Feature> features;
-//
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    public List<Image> images;
-//
-//    @OneToMany
-//    public List<Room> rooms;
-//
-//    @OneToMany
-//    public List<Comment> comments;
 
-    public Hotel(Integer id, String name, String location, String description, List<Feature> features){//, String coordinateX, String coordinateY,
-               //  Integer sellerId}, List<Image> images, List<Room> rooms, List<Comment> comments) {
+    @OneToMany
+    public List<Room> rooms;
+
+  //  @OneToMany
+ //   public List<Comment> comments;
+
+    public Hotel(Integer id, String name, String location, String description, List<Feature> features, String coordinateX, String coordinateY,List<Room> rooms, Integer sellerId){//
+               // }, List<Image> images, , List<Comment> comments) {
 
 
         this.id = id;
         this.name = name;
         this.location = location;
         this.description = description;
-//        this.coordinateX = coordinateX;
-//        this.coordinateY = coordinateY;
-//        this.sellerId = sellerId;
-//        this.features = features;
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.sellerId = sellerId;
+        this.features = features;
 //        this.images = images;
         this.features = features;
-//        this.rooms = rooms;
+       this.rooms = rooms;
 //        this.comments = comments;
 
 

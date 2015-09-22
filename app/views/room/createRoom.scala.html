@@ -1,0 +1,47 @@
+@(features: List[Feature])(hotelId: Integer)
+    @import helper._
+    @main {
+        @helper.form(action = routes.Rooms.saveRoom(hotelId)) {
+            <form class="form">
+                <div class="container">
+                    <div class="row">
+                        <div class="contact-caption clearfix">
+                            <div class="contact-heading text-center">
+                                <h2>CREATE ROOM</h2>
+                            </div>
+                            <div class="col-md-6 col-md-offset-1 contact-form">
+                                <h3>room information</h3>
+
+
+                                <input name="name" class="name" type="text" placeholder="Room Name">
+                                <input name="numberOfBeds" class="phone" type="text" placeholder="Number of beds">
+
+                                <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Description"></textarea>
+                                <input class="submit-btn" type="submit" value="SUBMIT" onclick="@routes.Rooms.saveRoom(hotelId)">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <br>
+                                    <h3>Features</h3>
+                                    @for(feature <- features) {
+                                        <div>
+                                            <span>
+                                                <input type="checkbox" class="checkbox-circle" id="@feature.id" name="@feature.name"/>
+                                                <label for="@feature.name">@feature.name</label>
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                    <!-- end of contact section -->
+            </form>
+        }
+    }
