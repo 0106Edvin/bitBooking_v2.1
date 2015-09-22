@@ -23,7 +23,7 @@ public class Hotels extends Controller {
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
-        return ok(createHotel.render(features, users));
+        return ok(createhotel.render(features, users));
     }
 
 
@@ -110,7 +110,7 @@ public class Hotels extends Controller {
     public Result showHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
 //        if (request().cookies().get("email") != null) {
-////            return ok(hotel.render(hotel, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel)));
+//            return ok(hotel.render(hotel, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel)));
 //        } else {
 //
 
