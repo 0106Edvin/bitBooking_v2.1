@@ -10,11 +10,13 @@ import models.Hotel;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.list;
 import views.html.user.*;
 import views.html.manager.*;
 import views.html.admin.*;
 import views.html.hotel.*;
+import helpers.Authenticators;
 
 
 import java.util.List;
@@ -114,65 +116,74 @@ public class Users extends Controller {
             flash("error", "Incorrect email or password! Please try again!");
             return badRequest(list.render(hotels));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
-
+            SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return ok(adminPanel.render());
+        } else if (user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
+            SessionsAndCookies.setUserSessionSata(user);
+            SessionsAndCookies.setCookies(user);
+            return ok(managerHotels.render(hotels));
+        } else if (user.userAccessLevel == UserAccessLevel.SELLER) {
+            SessionsAndCookies.setUserSessionSata(user);
+            SessionsAndCookies.setCookies(user);
+            return TODO;
         } else {
+            SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return redirect(routes.Users.updateUser(user.email));
         }
     }
 
+    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
     }
 
-    public Result logManager() {
-        return ok(managerHotels.render(hotels));
-    }
-
     public Result logOut() {
-
         SessionsAndCookies.clearCookies();
         return redirect(routes.Application.index());
     }
-
-   public Result showAdminHotels() {
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminHotels() {
        List<Hotel> hotels = finder.all();
        return ok(adminHotels.render(hotels));
 
-   }
+    }
 
    /*shows the list of users to admin*/
-
-   public Result showAdminUsers() {
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminUsers() {
        List<AppUser> users = userFinder.all();
        return ok(adminUsers.render(users));
-   }
+    }
 
-   /*shows the list of features to admin*/
-   public Result showAdminFeatures() {
+    /*shows the list of features to admin*/
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminFeatures() {
        List<Feature> features = featureFinder.all();
        return ok(adminFeatures.render(features));
 
-   }
+    }
 
    /*shows the list of hotels to hotel manager*/
+   @Security.Authenticated(Authenticators.HotelManagerFilter.class)
    public Result showManagerHotels() {
        List<Hotel> hotels = finder.all();
        return ok(managerHotels.render(hotels));
    }
 
-   /*This method allows admin to delete user*/
-   public Result deleteUser(String email) {
+    /*This method allows admin to delete user*/
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result deleteUser(String email) {
        AppUser user = AppUser.getUserByEmail(email);
        Ebean.delete(user);
        return redirect(routes.Users.showAdminUsers());
-   }
+    }
 
 
-   public Result updateUser(String email) {
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result updateUser(String email) {
        Form<AppUser> boundForm = userForm.bindFromRequest();
        AppUser user = AppUser.getUserByEmail(email);
        //getting the values from the fields
@@ -224,20 +235,19 @@ public class Users extends Controller {
        }
    }
 
+   @Security.Authenticated(Authenticators.SellerFilter.class)
    public Result getSellers() {
        List<AppUser> users = AppUser.getUsersByUserTypeId(5);
        List<Feature> features = Feature.finder.all();
-       return ok(createHotel.render(features, users));
+       return ok(createhotel.render(features, users));
    }
 
-
+   @Security.Authenticated(Authenticators.AdminFilter.class)
    public Result setRole(String email) {
      Form<AppUser> boundForm = userForm.bindFromRequest();
 
      AppUser user = AppUser.getUserByEmail(email);
      String userType = boundForm.bindFromRequest().field("usertype").value();
-
-
 
      if (userType.equals("buyer")) {
          user.userAccessLevel = UserAccessLevel.BUYER;
