@@ -148,25 +148,22 @@ public class Users extends Controller {
 
     public Result logOut() {
         SessionsAndCookies.clearCookies();
+        SessionsAndCookies.clearUserSessionData();
         return redirect(routes.Application.index());
     }
 
-
-
-//        @Security.Authenticated(Authenticators.AdminFilter.class)
-        public Result showAdminHotels () {
-            List<Hotel> hotels = finder.all();
-            return ok(adminHotels.render(hotels));
-
-        }
-
-    /*shows the list of users to admin*/
-//        @Security.Authenticated(Authenticators.AdminFilter.class)
-
-        public Result showAdminUsers () {
-            List<AppUser> users = userFinder.all();
-            return ok(adminUsers.render(users));
-        }
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminHotels() {
+        List<Hotel> hotels = finder.all();
+        return ok(adminHotels.render(hotels));
+    }
+    
+   /*shows the list of users to admin*/
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminUsers() {
+       List<AppUser> users = userFinder.all();
+       return ok(adminUsers.render(users));
+    }
 
     /*shows the list of features to admin*/
 //        @Security.Authenticated(Authenticators.AdminFilter.class)
