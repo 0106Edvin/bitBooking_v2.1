@@ -44,16 +44,15 @@ public class Rooms extends Controller {
 
         String name = roomForm1.bindFromRequest().field("name").value();
         String description = roomForm1.bindFromRequest().field("description").value();
-//        Integer numberOfBeds = Integer.parseInt(roomForm1.bindFromRequest().field("numberOfBeds").value());
+        Integer numberOfBeds = Integer.parseInt(roomForm1.bindFromRequest().field("numberOfBeds").value());
 
         room.name = name;
         room.description = description;
-//        room.numberOfBeds = numberOfBeds;
+        room.numberOfBeds = numberOfBeds;
 
-        Ebean.update(room);
+        room.update();
 
- //       return redirect(routes.Prices.savePrice(id));
-        return redirect(routes.Application.index());
+       return redirect(routes.Prices.savePrice(id));
     }
     public Result deleteRoom(Integer id){
         Room room = Room.findRoomById(id);

@@ -32,6 +32,15 @@ create table hotel (
   constraint pk_hotel primary key (id))
 ;
 
+create table price (
+  id                        integer auto_increment not null,
+  check_in                  datetime,
+  check_out                 datetime,
+  cost                      decimal(38),
+  room_id                   integer,
+  constraint pk_price primary key (id))
+;
+
 create table room (
   id                        integer auto_increment not null,
   description               varchar(255),
@@ -53,8 +62,10 @@ create table room_feature (
   feature_id                     integer not null,
   constraint pk_room_feature primary key (room_id, feature_id))
 ;
-alter table room add constraint fk_room_hotel_1 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_1 on room (hotel_id);
+alter table price add constraint fk_price_room_1 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_1 on price (room_id);
+alter table room add constraint fk_room_hotel_2 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_2 on room (hotel_id);
 
 
 
@@ -77,6 +88,8 @@ drop table feature;
 drop table hotel_feature;
 
 drop table hotel;
+
+drop table price;
 
 drop table room;
 

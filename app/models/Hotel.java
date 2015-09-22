@@ -21,9 +21,10 @@ public class Hotel extends Model {
     public String name;
     public String location;
     public String description;
-   public String coordinateX;
-   public String coordinateY;
-   public Integer sellerId;
+    public String coordinateX;
+    public String coordinateY;
+    public Integer sellerId;
+
 
     @ManyToMany
     public List<Feature> features;
@@ -34,11 +35,11 @@ public class Hotel extends Model {
     @OneToMany
     public List<Room> rooms;
 
-  //  @OneToMany
- //   public List<Comment> comments;
+    //  @OneToMany
+    //   public List<Comment> comments;
 
-    public Hotel(Integer id, String name, String location, String description, List<Feature> features, String coordinateX, String coordinateY,List<Room> rooms, Integer sellerId){//
-               // }, List<Image> images, , List<Comment> comments) {
+    public Hotel(Integer id, String name, String location, String description, List<Feature> features, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId) {//
+        // }, List<Image> images, , List<Comment> comments) {
 
 
         this.id = id;
@@ -49,13 +50,15 @@ public class Hotel extends Model {
         this.coordinateY = coordinateY;
         this.sellerId = sellerId;
         this.features = features;
+
 //        this.images = images;
         this.features = features;
-       this.rooms = rooms;
+        this.rooms = rooms;
 //        this.comments = comments;
 
 
     }
+
     //method that finds hotel by id
     public static Hotel findHotelById(Integer id) {
         Hotel hotel = finder.where().eq("id", id).findUnique();
@@ -65,7 +68,7 @@ public class Hotel extends Model {
 
     @Override
     public String toString() {
-        return (id.toString() + " " + name + " " + location );
+        return (id.toString() + " " + name + " " + location);
     }
 
 }

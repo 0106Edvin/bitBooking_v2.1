@@ -11,30 +11,30 @@
                             </div>
                             <div class="col-md-6 col-md-offset-1 contact-form">
                                 <h3>room information</h3>
-
+                                <div class="info-detail">
 
                                 <input name="name" class="name" type="text" placeholder="Room Name">
-                                <input name="numberOfBeds" class="phone" type="text" placeholder="Number of beds">
+                                <input name="numberOfBeds" class="phone" type="number" placeholder="Number of beds">
 
-                                <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Description"></textarea>
-                                <input class="submit-btn" type="submit" value="SUBMIT" onclick="@routes.Rooms.saveRoom(hotelId)">
-
+                                <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description"></textarea>
+                               <a href="@routes.Rooms.saveRoom(hotelId)"> <input class="submit-btn" type="submit" value="SUBMIT" ></a>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <br>
+                            <div class="col-md-5  contact-form">
+
                                     <h3>Features</h3>
+                                <div class="info-detail">
                                     @for(feature <- features) {
                                         <div>
                                             <span>
-                                                <input type="checkbox" class="checkbox-circle" id="@feature.id" name="@feature.name"/>
+                                                <input type="checkbox" class="fa-check-circle" id="@feature.id" name="@feature.name"/>
                                                 <label for="@feature.name">@feature.name</label>
                                             </span>
                                         </div>
                                     }
                                 </div>
-                            </div>
 
+                            </div>
 
                         </div>
                     </div>

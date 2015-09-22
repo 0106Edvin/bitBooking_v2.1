@@ -1,0 +1,28 @@
+@(roomId: Integer)
+    @main{
+
+        <form action="@routes.Prices.savePrice(roomId)" method="post">
+            <div class="form-group">
+                <label name="date">Set the price for room </label>
+                <hr>
+                <div class="form-group">
+                    <label>From </label>
+                    <input type="date" name="checkIn"/>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="date" name="checkOut"/>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" name="cost" style="width : 100px">
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" id="submit" value="Add Price" class="btn btn-info" href="@routes.Prices.savePrice(roomId)">
+                </div>
+            </div>
+        </form>
+
+
+    }
