@@ -1,12 +1,14 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import helpers.Authenticators;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.hotel.*;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class Hotels extends Controller {
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
 //    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
-
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
@@ -28,6 +30,7 @@ public class Hotels extends Controller {
 
 
     /*   Saving hotel to data base*/
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
 
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
