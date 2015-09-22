@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.List;
+import java.util.logging.Logger;
+
 import helpers.*;
 
 /**
@@ -86,6 +88,7 @@ public class AppUser extends Model {
      * @return
      */
     public static AppUser authenticate(String email, String password) {
+
         AppUser user = finder.where().eq("email", email.toString()).findUnique();
 
         if (user != null && BCrypt.checkpw(password, user.password)) {

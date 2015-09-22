@@ -105,12 +105,13 @@ public class Users extends Controller {
      * @return
      */
     public Result login() {
-        Form<AppUser> boundForm = userForm.bindFromRequest();
 
-        String email = boundForm.bindFromRequest().field("email").value();
-        String password = boundForm.bindFromRequest().field("password").value();
+      Form<AppUser> boundForm = userForm.bindFromRequest();
 
-        AppUser user = AppUser.authenticate(email, password);
+      String email = boundForm.bindFromRequest().field("email").value();
+      String password = boundForm.bindFromRequest().field("password").value();
+
+      AppUser user = AppUser.authenticate(email, password);
 
         if (user == null) {
             flash("error", "Incorrect email or password! Please try again!");
@@ -130,9 +131,10 @@ public class Users extends Controller {
         } else {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
-            return redirect(routes.Users.updateUser(user.email));
+              return redirect(routes.Users.updateUser(user.email));
+
         }
-    }
+   }
 
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result editUser(String email) {
