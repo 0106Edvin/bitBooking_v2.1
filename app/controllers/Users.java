@@ -137,7 +137,8 @@ public class Users extends Controller {
         }
    }
 
-    @Security.Authenticated(Authenticators.isUserLogged.class)
+
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
@@ -147,22 +148,24 @@ public class Users extends Controller {
         SessionsAndCookies.clearCookies();
         return redirect(routes.Application.index());
     }
-    @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminHotels() {
+
+   public Result showAdminHotels() {
+
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminHotels(){
        List<Hotel> hotels = finder.all();
        return ok(adminHotels.render(hotels));
 
     }
 
    /*shows the list of users to admin*/
-    @Security.Authenticated(Authenticators.AdminFilter.class)
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminUsers() {
        List<AppUser> users = userFinder.all();
        return ok(adminUsers.render(users));
     }
-
     /*shows the list of features to admin*/
-    @Security.Authenticated(Authenticators.AdminFilter.class)
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminFeatures() {
        List<Feature> features = featureFinder.all();
        return ok(adminFeatures.render(features));
@@ -170,14 +173,14 @@ public class Users extends Controller {
     }
 
    /*shows the list of hotels to hotel manager*/
-   @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+//   @Security.Authenticated(Authenticators.HotelManagerFilter.class)
    public Result showManagerHotels() {
        List<Hotel> hotels = finder.all();
        return ok(managerHotels.render(hotels));
    }
 
     /*This method allows admin to delete user*/
-    @Security.Authenticated(Authenticators.AdminFilter.class)
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteUser(String email) {
        AppUser user = AppUser.getUserByEmail(email);
        Ebean.delete(user);
@@ -185,7 +188,7 @@ public class Users extends Controller {
     }
 
 
-    @Security.Authenticated(Authenticators.isUserLogged.class)
+//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result updateUser(String email) {
        Form<AppUser> boundForm = userForm.bindFromRequest();
        AppUser user = AppUser.getUserByEmail(email);
@@ -238,14 +241,21 @@ public class Users extends Controller {
        }
    }
 
+<<<<<<< HEAD
    @Security.Authenticated(Authenticators.SellerFilter.class)
+=======
+<<<<<<< Updated upstream
+=======
+//   @Security.Authenticated(Authenticators.SellerFilter.class)
+>>>>>>> Stashed changes
+>>>>>>> Radi jos malo
    public Result getSellers() {
        List<AppUser> users = AppUser.getUsersByUserTypeId(5);
        List<Feature> features = Feature.finder.all();
        return ok(createhotel.render(features, users));
    }
 
-   @Security.Authenticated(Authenticators.AdminFilter.class)
+//   @Security.Authenticated(Authenticators.AdminFilter.class)
    public Result setRole(String email) {
      Form<AppUser> boundForm = userForm.bindFromRequest();
 
@@ -261,7 +271,7 @@ public class Users extends Controller {
      } else if (userType.equals("hotelmanager")) {
          user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
      }
-     Ebean.update(user);
+    user.update();
 
      return redirect(routes.Users.showAdminUsers());
 

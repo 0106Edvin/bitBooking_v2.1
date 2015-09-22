@@ -9,7 +9,7 @@ GET         /                                           @controllers.Application
 
 GET         /                                           @controllers.Application.index()
 
-
+GET         /showRooms/:hotelId                         @controllers.Rooms.showRoom(hotelId: Integer)
 
 
 
@@ -34,6 +34,7 @@ GET         /admin/updateFeature/:id                    @controllers.Features.up
 GET         /admin/adminfeatures/:id                    @controllers.Features.deleteFeature(id: Integer)
 GET         /admin/adminfeatures                        @controllers.Users.showAdminFeatures()
 
+GET         /deleteComment/:commentId                   @controllers.Comments.deleteComment(commentId: Integer)
 
 #
 POST        /admin/adminusers/:email                    @controllers.Users.setRole(email: String)
@@ -46,9 +47,7 @@ GET         /admin/adminhotels/:id                      @controllers.Hotels.dele
 
 GET         /admin/adminusers/:email                    @controllers.Users.deleteUser(email: String)
 
-
 GET         /admin/adminfeatures/editFeature/:id        @controllers.Features.editfeature(id: Integer)
-
 
 GET         /admin/adminhotels/showhotel/:id            @controllers.Hotels.showHotel(id: Integer)
 
@@ -59,6 +58,8 @@ POST        /user/register/save                         @controllers.Users.saveU
 GET         /user/login                                 @controllers.Users.login()
 GET         /user/update/:email                         @controllers.Users.editUser(email: String)
 POST        /user/update/:email                         @controllers.Users.updateUser(email: String)
+
+POST        /user/hotel/:hotelId                        @controllers.Comments.insertComment(hotelId: Integer)
 
 #Seller
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)

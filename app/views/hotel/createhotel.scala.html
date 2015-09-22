@@ -1,7 +1,7 @@
 @(features: java.util.List[Feature])(users: java.util.List[AppUser])
 @import helper._
 @main {
-
+    @helper.form(action = routes.Hotels.saveHotel()) {
         <div class="container">
             <div class="row">
                 <div class="contact-caption clearfix">
@@ -32,7 +32,7 @@
                             <input name="name" class="name" type="text" placeholder="Hotel Name">
                             <input name="location" class="email" type="text" placeholder="Location">
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
-                           @*<input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">*@
+                          <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
                         </form>
                     </div>
 
@@ -66,12 +66,12 @@
                         </div>
 
                     </div>
-                    @helper.form(action = routes.Hotels.saveHotel()) {
-                    <div class="col-md-6 col-md-offset-1 contact-form">
-                        <form class="form" >
-                            <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
-                        </form>
-                    </div>
+
+                    @*<div class="col-md-6 col-md-offset-1 contact-form">*@
+                        @*<form class="form" >*@
+                            @*<input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">*@
+                        @*</form>*@
+                    @*</div>*@
                 </div>
             </div>
         </div>

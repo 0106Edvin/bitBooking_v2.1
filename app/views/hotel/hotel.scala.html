@@ -1,39 +1,168 @@
+@import models.Comment
 @import java.lang.Boolean
+@import helpers.UserAccessLevel
 @(hotel: Hotel)(hasCommented: Boolean)
 @import helper._
 @main {
-    <meta charset="UTF-16">
-    <div class="container" style="background-color : #f5e79e">
-        <h2 style="text-align : center"> @hotel.name </h2>
-        <hr/>
+    <div class="container">
         <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>@hotel.name</h2>
+                </div>
 
-            <div class="text-center">
-                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                <h6 style="text-align : center">Picture description</h6>
-            </div>
 
-        </div>
-        <div class="col-md-8">
+                <div class="col-md-4">
+                    @*@if(request().cookies().get("email") != null) {*@
+                        @*@if(Integer.parseInt(request().cookies().get(UserAccessLevel).value()) == 3) {*@
+                            @*<a href="@routes.Hotels.updateHotel(hotel.id)" ><button class="btn btn-warning">*@
+                                @*EDIT</button> </a>*@
+                        @*}*@
+                    @*}*@
+                    <div class="text-center">
+                        <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                        <h6 style="text-align : center">Picture description</h6>
+                    </div>
 
-            <div>
-                <h5 value="@hotel.location">Hotel Adress: @hotel.location</h5>
-            </div>
-        </div>
-    </div> <hr/>
-    <div class="row">
-        <div class="col-md-12">
-            <div>
-                <h4>Description</h4>
-                <br/>
-                <p>
-                @hotel.description
-                </p>
+                </div>
+
+
+                <div class="info-detail">
+                    <div class="col-md-5  text-left">
+                        <br>
+                        <input id="gLat" name="coordinateX" value="43.8534183" disabled>
+                        <input id="gLng" name="coordinateY" value="18.37808399999" disabled>
+                        <br>
+                        <div id="mapCanvas" class="shrinked-map"></div>
+                        <div id="infoPanel" style="display : none">
+                            <b>Marker status:</b>
+                            <div id="markerStatus"><i>Click and drag the marker.</i></div>
+                            <b>Current position:</b>
+                            <div id="info"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5 value="@hotel.location">Hotel Adress: @hotel.location</h5>
+                </div>
+
+                    <!-- description -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h4>Description</h4>
+                            <br/>
+                            <p>
+                            @hotel.description
+                            </p>
+                        </div>
+                    </div>
+                </div><hr/>
+
+                    <!-- features and galery -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Feature</h4>
+                        <ul>
+                        @for(feature <- hotel.features) {
+                            <li>
+                                @feature.name
+                            @*<img src="@routes.Assets.versioned("images/" + feature.image)" style="width : 50 px ; height : 50 px"/>*@
+                            </li>
+                        }
+                        </ul>
+                    </div>
+                    <div class="col-md-9">
+                        <h3>Gallery</h3>
+                        @*@for(image <- hotel.images) {*@
+                            @*<img src="@routes.Assets.versioned("images/" + image.path)" style="min-width : 200 px ; height : 100 px ; margin-right : 10 px ;"/>*@
+                        @*}*@
+                    </div>
+                    <a href="@routes.Rooms.showRoom(hotel.id)" ><button class="btn btn-warning">View rooms</button> </a>
+                </div>
+
+                    <!-- MAP-->
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom : 2 %">
+                        <h6>Map</h6>
+                        <input id="gLat" name="coordinateX" value=@hotel.coordinateX>
+                        <input id="gLng" name="coordinateY" value=@hotel.coordinateY>
+                        <div id="mapCanvas" class="wide-map"></div>
+                        <div id="infoPanel" style="display : none">
+                            <b>Marker status:</b>
+                            <div id="markerStatus"><i>Click and drag the marker.</i></div>
+                            <b>Current position:</b>
+                            <div id="info"></div>
+
+                        </div>
+                    </div><hr/>
+
+
+                    <h3>Comments</h3>
+                    <hr/>
+                    @if(request().cookies().get("email") != null) {
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
+                                    <div class="form-group">
+                                        <div>
+                                            <label>User:</label>
+                                            <label>@request.cookies.get("name").value()</label>
+                                        </div>
+                                        <label for="usr">Title:</label>
+                                        <input type="text" class="form-control" id="usr" name="title">
+                                        <label for="comment">Comment:</label>
+                                        <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content"></textarea>
+                                        <label for="rate">Rate hotel:</label>
+                                        <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        @if(hasCommented) {
+                                            <div style="text-align : right">
+                                                <h3>You already commented this hotel.</h3>
+                                                <button type="submit" class="btn btn-success" disabled>Post</button>
+                                            </div>
+                                        } else {
+                                            <div style="text-align : right">
+                                                <button type="submit" class="btn btn-success">Post</button>
+                                            </div>
+                                        }
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            }
+
+                    <div class="col-md-5" style="background-color : white ; border : 1 px solid black ; margin : 5 px">
+                    @for(comment <- hotel.comments) {
+                        <div class="row">
+                            <h3 style="color : #269abc">@comment.user.firstname</h3>
+                            <h4 style="color : #ac2925 ; text-align : center">@comment.title</h4>
+                            <p>@comment.content</p>
+                            <h5>This user rated hotel with: @comment.rating</h5>
+                            <hr>
+                            @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 3) {
+                                <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
+                                    <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+                                </form>
+                            }
+                        </div>
+                    }
+                    </div>
+
+
+                </div>
+                </div>
             </div>
         </div>
     </div>
-    <hr/>
 
 }
-
-
