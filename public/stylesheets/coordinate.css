@@ -1,0 +1,17 @@
+#mapCanvas {
+    float: left;
+  }
+  #infoPanel {
+    float: left;
+    margin-left: 10px;
+  }
+
+.wide-map {
+    width: 100%;
+    height: 400px;
+}
+
+.shrinked-map {
+    width: 500px;
+    height: 290px;
+}

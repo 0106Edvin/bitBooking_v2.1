@@ -63,3 +63,10 @@ POST        /user/update/:email                         @controllers.Users.updat
 #Seller
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
 
+#Room
+GET         /seller/createroom/:hotelId                 @controllers.Rooms.createRoom(hotelId: Integer)
+GET         /room/:id                                   @controllers.Rooms.showRoom(id: Integer)
+POST        /seller/saveroom/:hotelId                    @controllers.Rooms.saveRoom(hotelId: Integer)
+POST        /seller/updateroom/:id                      @controllers.Rooms.updateRoom(id: Integer)
+GET         /deleteroom/:roomId                         @controllers.Rooms.deleteRoom(roomId: Integer)
+

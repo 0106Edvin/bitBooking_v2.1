@@ -11,10 +11,11 @@
                     <div class="info-detail">
                         <div class="col-md-5  text-left">
                             <br>
-                            <input id="gLat" name="coordinateX" value="43.8534183">
-                            <input id="gLng" name="coordinateY" value="18.37808399999">
+                            <input id="gLat" name="coordinateX" value="43.8534183" disabled>
+                            <input id="gLng" name="coordinateY" value="18.37808399999" disabled>
+                            <br>
                             <div id="mapCanvas" class="shrinked-map"></div>
-                            <div id="infoPanel" style="display : none">
+                            <div id="infoPanel" style="display: none">
                                 <b>Marker status:</b>
                                 <div id="markerStatus"><i>Click and drag the marker.</i></div>
                                 <b>Current position:</b>
@@ -31,7 +32,7 @@
                             <input name="name" class="name" type="text" placeholder="Hotel Name">
                             <input name="location" class="email" type="text" placeholder="Location">
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
-                            @*<input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">*@
+                           @*<input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">*@
                         </form>
                     </div>
 
@@ -67,7 +68,7 @@
                     </div>
                     @helper.form(action = routes.Hotels.saveHotel()) {
                     <div class="col-md-6 col-md-offset-1 contact-form">
-                        <form >
+                        <form class="form" >
                             <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
                         </form>
                     </div>

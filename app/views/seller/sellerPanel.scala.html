@@ -1,0 +1,39 @@
+@(hotels: List[Hotel])
+@main{
+    <div class="container" style="background-color : #204d74">
+    @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 5) {
+        <div class="container" style="background-color: seashell;width: 90%;margin-bottom: 5%;margin-top: 5%;">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Hotel name</th>
+                            <th>Address</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for(hotel <- hotels) {
+                            @if(hotel.sellerId == Integer.parseInt(request().cookies().get("userId").value())) {
+                                <tr>
+
+                                    <td>@hotel.name</td>
+                                    <td>@hotel.location</td>
+
+                                    <td>
+                                        <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
+                                            <button class="btn btn-danger">Add Room</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            </div>
+    }
+    </div>
+}

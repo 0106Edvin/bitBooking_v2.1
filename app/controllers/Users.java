@@ -227,7 +227,7 @@ public class Users extends Controller {
    public Result getSellers() {
        List<AppUser> users = AppUser.getUsersByUserTypeId(5);
        List<Feature> features = Feature.finder.all();
-       return ok(createHotel.render(features, users));
+       return ok(createhotel.render(features, users));
    }
 
 

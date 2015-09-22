@@ -1,0 +1,39 @@
+@(room: Room)
+@main{
+    <meta charset="UTF-16">
+    <div class="container" style="background-color : #f5e79e">
+        <hr/>
+        <div class="row">
+            <div class="col-md-4">
+                @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 6) {
+                    <a href="@routes.Rooms.updateRoom(room.id)" ><button class="btn btn-warning">EDIT</button> </a>
+                } <hr/>
+                <div class="text-center">
+                    <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                    <h6 style="text-align: center">Picture description</h6>
+                </div>
+                <hr/>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <h4>Description</h4>
+                    <br/>
+                    <p>
+                    @room.description
+                    </p>
+                </div>
+                <hr/>
+                <div>
+                    <h4>Feature</h4>
+                    <ul>
+                        <li>Feature1</li>
+                        <li>Feature2</li>
+                        <li>Feature3</li>
+                        <li>Feature4</li>
+                        <li>Feature5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
