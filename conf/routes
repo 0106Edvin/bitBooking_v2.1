@@ -60,6 +60,8 @@ POST        /user/update/:email                         @controllers.Users.updat
 
 POST        /user/hotel/:hotelId                        @controllers.Comments.insertComment(hotelId: Integer)
 
+GET         /user/showhotel/:hotelId                    @controllers.Hotels.showHotel(hotelId: Integer)
+
 #Seller
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
 POST        /seller/updateroom/setprice/:roomId         @controllers.Prices.savePrice(roomId: Integer)
