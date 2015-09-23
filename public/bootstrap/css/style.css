@@ -259,7 +259,7 @@ li a.active{
 .service{
 	background: url(../img/pattern.jpg);
 	background-repeat: repeat-y;
-	margin-top: 40px;
+	margin-top: 10px;
 }
 .service h2{
 	font-size: 90px;
@@ -267,12 +267,31 @@ li a.active{
 	margin-top: 70px;
 	margin-bottom: 0;
 }
-.service h4{
+.service h4 {
 	font-size: 24px;
 	color: #fff;
 	margin-top: 0;
 	margin-bottom: 70px;
 	display: block;
+}
+.service label  {
+	font-size: 24px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+
+}
+.service p{
+    font-size: 24px;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.service li{
+    font-size: 24px;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 .single-service-img {
   width: 205px;

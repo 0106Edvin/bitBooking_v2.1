@@ -1,20 +1,20 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import helpers.Authenticators;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
-
-import play.Logger;
-
 import models.Room;
-
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.hotel.createhotel;
 import views.html.hotel.updateHotel;
-import views.html.room.*;
+import views.html.room.showRooms;
+
 import java.util.ArrayList;
 import java.util.List;
 
