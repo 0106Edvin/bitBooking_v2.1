@@ -10,14 +10,15 @@ import models.Hotel;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Security;
+import views.html.admin.adminFeatures;
+import views.html.admin.adminHotels;
+import views.html.admin.adminPanel;
+import views.html.admin.adminUsers;
+import views.html.hotel.createhotel;
 import views.html.list;
-import views.html.user.*;
-import views.html.manager.*;
-import views.html.admin.*;
-import views.html.hotel.*;
-import helpers.Authenticators;
-
+import views.html.manager.managerHotels;
+import views.html.user.profilePage;
+import views.html.user.register;
 
 import java.util.List;
 
@@ -137,8 +138,8 @@ public class Users extends Controller {
         }
    }
 
+//    @Security.Authenticated(Authenticators.isUserLogged.class)
 
-//    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
@@ -149,6 +150,10 @@ public class Users extends Controller {
         return redirect(routes.Application.index());
     }
 
+
+
+
+    public Result showAdminHotels(){
 //    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminHotels() {
        List<Hotel> hotels = finder.all();
@@ -186,7 +191,8 @@ public class Users extends Controller {
     }
 
 
-//    @Security.Authenticated(Authenticators.AdminFilter.class)
+//    @Security.Authenticated(Authenticators.isUserLogged.class)
+
     public Result updateUser(String email) {
        Form<AppUser> boundForm = userForm.bindFromRequest();
        AppUser user = AppUser.getUserByEmail(email);
@@ -238,6 +244,7 @@ public class Users extends Controller {
            }
        }
    }
+
 //   @Security.Authenticated(Authenticators.SellerFilter.class)
    public Result getSellers() {
        List<AppUser> users = AppUser.getUsersByUserTypeId(5);

@@ -1,17 +1,20 @@
 package controllers;
 
 import com.avaje.ebean.Model;
-import helpers.Authenticators;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
+
 import play.Logger;
+
+import models.Room;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Security;
-import views.html.hotel.*;
-
+import views.html.hotel.createhotel;
+import views.html.hotel.updateHotel;
+import views.html.room.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,9 @@ public class Hotels extends Controller {
 //    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
 
+
 //    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
@@ -32,7 +37,9 @@ public class Hotels extends Controller {
 
 
     /*   Saving hotel to data base*/
+
 //    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+
     public Result saveHotel() {
 
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
@@ -154,9 +161,9 @@ public class Hotels extends Controller {
         return hotels;
     }
 
-//    public Result showRooms(Integer hotelId) {
-//        List<Room> rooms = Room.finder.all();
-//        Hotel hotel = Hotel.findHotelById(hotelId);
-//        return ok(showRooms.render(rooms, hotel));
-//    }
+   public Result showRooms(Integer hotelId) {
+       List<Room> rooms = Room.finder.all();
+       Hotel hotel = Hotel.findHotelById(hotelId);
+       return ok(showRooms.render(rooms, hotel));
+   }
 }
