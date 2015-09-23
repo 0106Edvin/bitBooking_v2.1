@@ -24,10 +24,6 @@ public class Hotels extends Controller {
 
 
 //    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-<<<<<<< HEAD
-
-=======
->>>>>>> create hotel
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
@@ -36,13 +32,7 @@ public class Hotels extends Controller {
 
 
     /*   Saving hotel to data base*/
-<<<<<<< HEAD
-
 //    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-
-=======
-//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
->>>>>>> create hotel
     public Result saveHotel() {
 
         Form<Hotel> boundForm = hotelForm.bindFromRequest();

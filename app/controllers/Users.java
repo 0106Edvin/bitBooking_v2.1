@@ -149,10 +149,8 @@ public class Users extends Controller {
         return redirect(routes.Application.index());
     }
 
-   public Result showAdminHotels() {
-
 //    @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminHotels(){
+    public Result showAdminHotels() {
        List<Hotel> hotels = finder.all();
        return ok(adminHotels.render(hotels));
 
