@@ -17,12 +17,15 @@
                                 <input name="location" class="email" type="text" placeholder="Location">
                                 <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
 
-                                <div class="col-md-6 col-md-offset-1">
+
+                                <div class="col-md-0 col-md-offset-0">
+
                                     <h3>Features</h3>
                                     @for(feature <- features) {
                                         <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
                                         }
                                 </div>
+
                                 <div class="col-md-10 col-md-offset-20">
                                 <h3>Select the owner</h3>
                                 <select id="ddlsellers" name="seller">
@@ -30,6 +33,15 @@
                                     <option value="@user.id">@user.email</option>
                                 }
                                 </select>
+
+                                <div class="col-md-0 col-md-offset-0">
+                                    <h3>Select the owner</h3>
+                                    <select id="ddlsellers" name="seller">
+                                    @for(user <- users) {
+                                        <option value="@user.id">@user.email</option>
+                                    }
+                                    </select>
+
                                 </div>
                                 <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
 
@@ -38,7 +50,9 @@
 
                         </div>
 
+
                         <div class="col-md-0 col-md-offset-6 ">
+
 
                             <input id="gLat" name="coordinateX" value="43.8534183" >
                             <input id="gLng" name="coordinateY" value="18.37808399999">
@@ -57,6 +71,4 @@
     </div>
 
     }
-
-
 
