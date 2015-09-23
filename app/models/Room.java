@@ -1,8 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.util.List;
 
 /**
@@ -15,8 +17,15 @@ public class Room extends Model {
     @Id
     public Integer id;
     public String description;
+
+    @Digits(integer=3, fraction=0)
+    @Constraints.Min(1)
+    @Constraints.Max(30)
+    @Constraints.Required
     public Integer numberOfBeds;
+
     public String name;
+
     @ManyToMany
     public List<Feature> features;
 

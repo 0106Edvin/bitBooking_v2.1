@@ -69,7 +69,7 @@ public class Users extends Controller {
             flash("error", "Password must be at least 6 characters long!");
             return ok(register.render(boundForm));
 
-        } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
+        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
             flash("error", "Name and last name must contain letters only!");
             return ok(register.render(boundForm));
 
@@ -195,7 +195,7 @@ public class Users extends Controller {
             flash("error", "Passwords don't match");
             return ok(profilePage.render(user));
 
-        } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
+        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
             flash("error", "Name and last name must contain letters only");
             return ok(profilePage.render(user));
 
@@ -216,8 +216,10 @@ public class Users extends Controller {
             try {
                 user.firstname = name;
                 user.lastname = lastname;
-                user.password = pass1;
-                user.hashPass();
+               if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
+                   user.password = pass1;
+                   user.hashPass();
+               }
                 user.phoneNumber = phone;
 
 
