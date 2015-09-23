@@ -3,6 +3,7 @@
     @index {
 
         <div class="container">
+            <div class="row">
         @for(hotel <- hotels) {
             @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
                 <div class="col-md-4 col-sm-6">
@@ -27,6 +28,7 @@
                     </div>
                 </div>
             }
+        </div>
         </div>
     }
     }
