@@ -5,6 +5,7 @@ import helpers.Authenticators;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -21,7 +22,12 @@ public class Hotels extends Controller {
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
 //    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
-    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+
+//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+<<<<<<< HEAD
+
+=======
+>>>>>>> create hotel
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
@@ -30,7 +36,13 @@ public class Hotels extends Controller {
 
 
     /*   Saving hotel to data base*/
-    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+<<<<<<< HEAD
+
+//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+
+=======
+//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+>>>>>>> create hotel
     public Result saveHotel() {
 
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
@@ -45,6 +57,8 @@ public class Hotels extends Controller {
             if (feature != null) {
                 checkBoxValues.add(feature);
             }
+
+            Logger.debug(checkBoxValues.toString());
         }
 
         List<Feature> featuresForHotel = new ArrayList<Feature>();
@@ -58,6 +72,9 @@ public class Hotels extends Controller {
         }
 
         hotel.features = featuresForHotel;
+        Integer sellerId = Integer.parseInt(boundForm.bindFromRequest().field("seller").value());
+
+        hotel.sellerId = sellerId;
 
         hotel.save();
         return redirect(routes.Application.index());

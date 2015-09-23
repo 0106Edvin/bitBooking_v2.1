@@ -35,12 +35,11 @@ public class Hotel extends Model {
     @OneToMany
     public List<Room> rooms;
 
-    //  @OneToMany
-    //   public List<Comment> comments;
+      @OneToMany
+      public List<Comment> comments;
 
-    public Hotel(Integer id, String name, String location, String description, List<Feature> features, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId) {//
-        // }, List<Image> images, , List<Comment> comments) {
-
+    public Hotel(Integer id, String name, String location, String description, List<Feature> features,List<Comment> comments, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId) {//
+        // }, List<Image> images, , ) {
 
         this.id = id;
         this.name = name;
@@ -52,9 +51,10 @@ public class Hotel extends Model {
         this.features = features;
 
 //        this.images = images;
-        this.features = features;
+
+
         this.rooms = rooms;
-//        this.comments = comments;
+        this.comments = comments;
 
 
     }
