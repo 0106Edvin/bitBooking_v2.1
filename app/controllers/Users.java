@@ -152,124 +152,124 @@ public class Users extends Controller {
         return redirect(routes.Application.index());
     }
 
-//    @Security.Authenticated(Authenticators.AdminFilter.class)
+    //    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminHotels() {
         List<Hotel> hotels = finder.all();
         return ok(adminHotels.render(hotels));
     }
-    
-   /*shows the list of users to admin*/
+
+    /*shows the list of users to admin*/
 //    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminUsers() {
-       List<AppUser> users = userFinder.all();
-       return ok(adminUsers.render(users));
+        List<AppUser> users = userFinder.all();
+        return ok(adminUsers.render(users));
     }
 
     /*shows the list of features to admin*/
 //        @Security.Authenticated(Authenticators.AdminFilter.class)
-        public Result showAdminFeatures () {
-            List<Feature> features = featureFinder.all();
-            return ok(adminFeatures.render(features));
+    public Result showAdminFeatures () {
+        List<Feature> features = featureFinder.all();
+        return ok(adminFeatures.render(features));
 
-        }
+    }
 
     /*shows the list of hotels to hotel manager*/
 //        @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-        public Result showManagerHotels () {
-            List<Hotel> hotels = finder.all();
-            return ok(managerHotels.render(hotels));
-        }
+    public Result showManagerHotels () {
+        List<Hotel> hotels = finder.all();
+        return ok(managerHotels.render(hotels));
+    }
 
     /*This method allows admin to delete user*/
 //        @Security.Authenticated(Authenticators.AdminFilter.class)
-        public Result deleteUser (String email){
-            AppUser user = AppUser.getUserByEmail(email);
-            Ebean.delete(user);
-            return redirect(routes.Users.showAdminUsers());
-        }
+    public Result deleteUser (String email){
+        AppUser user = AppUser.getUserByEmail(email);
+        Ebean.delete(user);
+        return redirect(routes.Users.showAdminUsers());
+    }
 
 
 //        @Security.Authenticated(Authenticators.isUserLogged.class)
 
-        public Result updateUser (String email){
-            Form<AppUser> boundForm = userForm.bindFromRequest();
-            AppUser user = AppUser.getUserByEmail(email);
-            //getting the values from the fields
-            String pass1 = boundForm.bindFromRequest().field("password").value();
-            String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
-            String name = boundForm.bindFromRequest().field("firstname").value();
-            String lastname = boundForm.bindFromRequest().field("lastname").value();
-            String phone = boundForm.bindFromRequest().field("phoneNumber").value();
+    public Result updateUser (String email){
+        Form<AppUser> boundForm = userForm.bindFromRequest();
+        AppUser user = AppUser.getUserByEmail(email);
+        //getting the values from the fields
+        String pass1 = boundForm.bindFromRequest().field("password").value();
+        String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
+        String name = boundForm.bindFromRequest().field("firstname").value();
+        String lastname = boundForm.bindFromRequest().field("lastname").value();
+        String phone = boundForm.bindFromRequest().field("phoneNumber").value();
 
-            if (!pass1.equals(pass2)) {
-                flash("error", "Passwords don't match");
+        if (!pass1.equals(pass2)) {
+            flash("error", "Passwords don't match");
+            return ok(profilePage.render(user));
+
+        } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
+            flash("error", "Name and last name must contain letters only");
+            return ok(profilePage.render(user));
+
+        } else if (name.length() < 2 || lastname.length() < 2) {
+            flash("error", "Name and last name must be at least 2 letters long");
+            return ok(profilePage.render(user));
+
+        } else if (phone.length() > 15) {
+            flash("error", "Phone number can't be more than 15 digits long");
+            return ok(profilePage.render(user));
+
+        } else if (phone.matches("^[a-zA-Z]+$")) {
+            flash("error", "Phone number must contain digits only");
+            return ok(profilePage.render(user));
+
+        } else {
+
+            try {
+                user.firstname = name;
+                user.lastname = lastname;
+                user.password = pass1;
+                user.hashPass();
+                user.phoneNumber = phone;
+
+
+                user.update();
+
+                flash("success", "Your data was updated");
+                return redirect(routes.Users.updateUser(user.email));
+
+            } catch (Exception e) {
+                flash("error", "You didn't fill the form corectly, please try again");
                 return ok(profilePage.render(user));
-
-            } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
-                flash("error", "Name and last name must contain letters only");
-                return ok(profilePage.render(user));
-
-            } else if (name.length() < 2 || lastname.length() < 2) {
-                flash("error", "Name and last name must be at least 2 letters long");
-                return ok(profilePage.render(user));
-
-            } else if (phone.length() > 15) {
-                flash("error", "Phone number can't be more than 15 digits long");
-                return ok(profilePage.render(user));
-
-            } else if (phone.matches("^[a-zA-Z]+$")) {
-                flash("error", "Phone number must contain digits only");
-                return ok(profilePage.render(user));
-
-            } else {
-
-                try {
-                    user.firstname = name;
-                    user.lastname = lastname;
-                    user.password = pass1;
-                    user.hashPass();
-                    user.phoneNumber = phone;
-
-
-                    user.update();
-
-                    flash("success", "Your data was updated");
-                    return redirect(routes.Users.updateUser(user.email));
-
-                } catch (Exception e) {
-                    flash("error", "You didn't fill the form corectly, please try again");
-                    return ok(profilePage.render(user));
-                }
             }
-        }
-
-//        @Security.Authenticated(Authenticators.SellerFilter.class)
-        public Result getSellers () {
-            List<AppUser> users = AppUser.getUsersByUserTypeId(5);
-            List<Feature> features = Feature.finder.all();
-            return ok(createhotel.render(features, users));
-        }
-
-//        @Security.Authenticated(Authenticators.AdminFilter.class)
-        public Result setRole (String email){
-            Form<AppUser> boundForm = userForm.bindFromRequest();
-
-            AppUser user = AppUser.getUserByEmail(email);
-            String userType = boundForm.bindFromRequest().field("usertype").value();
-
-            if (userType.equals("buyer")) {
-                user.userAccessLevel = UserAccessLevel.BUYER;
-
-            } else if (userType.equals("seller")) {
-                user.userAccessLevel = UserAccessLevel.SELLER;
-
-            } else if (userType.equals("hotelmanager")) {
-                user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
-            }
-            user.update();
-
-            return redirect(routes.Users.showAdminUsers());
-
         }
     }
+
+    //        @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result getSellers () {
+        List<AppUser> users = AppUser.getUsersByUserTypeId(5);
+        List<Feature> features = Feature.finder.all();
+        return ok(createhotel.render(features, users));
+    }
+
+    //        @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result setRole (String email){
+        Form<AppUser> boundForm = userForm.bindFromRequest();
+
+        AppUser user = AppUser.getUserByEmail(email);
+        String userType = boundForm.bindFromRequest().field("usertype").value();
+
+        if (userType.equals("buyer")) {
+            user.userAccessLevel = UserAccessLevel.BUYER;
+
+        } else if (userType.equals("seller")) {
+            user.userAccessLevel = UserAccessLevel.SELLER;
+
+        } else if (userType.equals("hotelmanager")) {
+            user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
+        }
+        user.update();
+
+        return redirect(routes.Users.showAdminUsers());
+
+    }
+}
 

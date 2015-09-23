@@ -25,9 +25,8 @@ function checkEmail() {
 //returns error msg if password is less than 6 characters long
 function checkPasswordLength() {
 
-    var pass1 = document.getElementById('password').value;
+    var pass1 = document.getElementById("password1").value;
 
-    var ok = true;
 
     if(pass1.length < 6){
         document.getElementById('password_error').innerHTML="Password must be at least 6 characters long!";
@@ -43,7 +42,7 @@ function checkPasswordLength() {
 //function that checks if passwords match
 //returns error msg if passwords dont match
 function checkPasswordMatch() {
-    var pass1 = document.getElementById("password").value;
+    var pass1 = document.getElementById("password1").value;
     var pass2 = document.getElementById("password-retype").value;
 
 
@@ -183,5 +182,9 @@ function call() {
     checkNameLength();
     numberLength();
 
+
+}
+
+function lastname(){
 
 }
