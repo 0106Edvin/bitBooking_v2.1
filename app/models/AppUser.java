@@ -144,6 +144,10 @@ public class AppUser extends Model {
         return users;
     }
 
+    public static AppUser findUserById(Integer id){
+        AppUser user = finder.where().eq("id",id).findUnique();
+        return user;
+    }
 }
 
 

@@ -1,58 +1,81 @@
 @(hotel: Hotel)
-    @import helper._
-    @main {
-        @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 5) {
-            @helper.form(action = routes.Hotels.updateHotel(hotel.id), 'enctype -> "multipart/form-data") {
-                <div class="container">
-                    <div class="row">
-                        <div class="contact-caption clearfix">
-                            <div class="contact-heading text-center">
-                                <h2>UPDATE YOUR HOTEL</h2>
+@import helper._
+@main {
+
+    @helper.form(action = routes.Hotels.updateHotel(hotel.id), 'enctype -> "multipart/form-data") {
+        <div class="container">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>UPDATE YOUR HOTEL</h2>
+                    </div>
+                    <form class="form">
+                        <div class="col-md-5  text-left">
+                            <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
+                            <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
+                            <div id="mapCanvas" class="shrinked-map"></div>
+                            <div id="infoPanel" style="display : none">
+                                <b>Marker status:</b>
+                                <div id="markerStatus"><i>Click and drag the marker.</i></div>
+                                <b>Current position:</b>
+                                <div id="info"></div>
                             </div>
-                            <div class="col-md-5  text-left">
-                                <input id="gLat" name="coordinateX" value="43.8534183">
-                                <input id="gLng" name="coordinateY" value="18.37808399999">
-                                <div id="mapCanvas" class="shrinked-map"></div>
-                                <div id="infoPanel" style="display : none">
-                                    <b>Marker status:</b>
-                                    <div id="markerStatus"><i>Click and drag the marker.</i></div>
-                                    <b>Current position:</b>
-                                    <div id="info"></div>
-                                </div>
-                            </div>
+                        </div>
 
 
-                            <div class="col-md-6 col-md-offset-1 contact-form">
-                                <h3> Hotel information </h3>
+                        <div class="col-md-6 col-md-offset-1 contact-form">
+                            <h3> Hotel information </h3>
 
-                                <form class="form">
 
-                                    <input name="name" class="name" type="text" placeholder="Hotel Name" value="@hotel.name">
-                                    <input name="location" class="email" type="text" placeholder="Location" value="@hotel.location">
-                                    <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none" >@hotel.description</textarea>
-                                    <input class="submit-btn" type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)">
-                                </form>
-                            </div>
+                            <input name="name" class="name" type="text" placeholder="Hotel Name" value="@hotel.name">
+                            <input name="location" class="email" type="text" placeholder="Location" value="@hotel.location">
+                            <input name="city" class="email" type="text" placeholder="Location" value="@hotel.city">
+                            <input name="country" class="email" type="text" placeholder="Location" value="@hotel.country">
+                            <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none" >@hotel.description</textarea>
 
                         </div>
-                    </div>
-                </div>
-                <!-- end of contact section -->
-            }
-            @*</form>*@
-            <div class="col-md-6" style="margin-top : 2 %">
-                <img src="http://placehold.it/500x400" alt=""/>
-            </div>
+                        <div class="row">
+                            <div class="col-md-9 col-md-offset-1 contact-form">
+                                <h3>Profile picture: </h3>
+                                <div id="upload-file-container">
+                                        <input type="file" name="profileImage" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-9 col-md-offset-1 contact-form">
+                                <h3>Choose pictures for gallery: </h3>
+                                <div id="upload-file-container">
+                                    <input type="file" name="image" class="form-control" multiple/>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="col-md-6 col-md-offset-1 contact-form">
+                        <input class="submit-btn" type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)">
+                        </div>
+                    </form>
 
-        } else {
-
-            <div class="row" style="background-color : #f5e79e">
-                <div class="col-md-8">
-                    <br/>
-                    <h1>Access denied.</h1>
-                    <h3>You do not have permissions to see this page.</h3>
                 </div>
             </div>
-            <hr/>
-        }
+        </div>
+        <!-- end of contact section -->
     }
+    @*</form>*@
+    @*<div class="col-md-6" style="margin-top : 2 %">*@
+    @*<img src="http://placehold.it/500x400" alt=""/>*@
+    @*</div>*@
+
+    @*} else {*@
+
+    @*<div class="row" style="background-color : #f5e79e">*@
+    @*<div class="col-md-8">*@
+    @*<br/>*@
+    @*<h1>Access denied.</h1>*@
+    @*<h3>You do not have permissions to see this page.</h3>*@
+    @*</div>*@
+    @*</div>*@
+    @*<hr/>*@
+    @*}*@
+}

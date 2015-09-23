@@ -63,6 +63,7 @@ POST        /user/hotel/:hotelId                        @controllers.Comments.in
 GET         /user/showhotel/:hotelId                    @controllers.Hotels.showHotel(hotelId: Integer)
 
 #Seller
+GET         /seller/edithotel/:id                       @controllers.Hotels.editHotel(id: Integer)
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
 POST        /seller/updateroom/setprice/:roomId         @controllers.Prices.savePrice(roomId: Integer)
 

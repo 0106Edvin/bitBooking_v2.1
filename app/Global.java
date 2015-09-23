@@ -1,3 +1,5 @@
+import com.cloudinary.Cloudinary;
+import models.Image;
 import play.GlobalSettings;
 import play.Play;
 import play.libs.F;
@@ -26,5 +28,9 @@ public class Global extends GlobalSettings {
         return F.Promise.<Result>pure(badRequest(notFound.render()));
     }
 
+    @Override
+    public void onStart(Application application) {
+      Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
+    }
 }
 
