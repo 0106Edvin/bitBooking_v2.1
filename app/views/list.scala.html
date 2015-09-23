@@ -1,6 +1,14 @@
 @(hotels: List[Hotel])
-    @import helper._
-    @index {
+@import helper._
+@index {
+    @for(hotel <- hotels) {
+        @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
+            <div class="col-md-4 col-sm-6">
+                <div class="single-about-detail clearfix">
+                    <div class="about-img">
+                        <img class="img-responsive" src="http://placehold.it/360x300" alt="">
+                    </div>
+
 
         <div class="container">
             <div class="row">
@@ -14,25 +22,23 @@
                             }else{
                                 <img src="@hotel.images.get(0).getSize(360,300)"/>
                             }
-                        </div>
 
-                        <div class="about-details">
-                            <div class="pentagon-text">
-                                <h1>bB</h1>
-                            </div>
-
-                            <h3>@hotel.name</h3>
-                            <p>Hotel address: <br>@hotel.location</p>
-
-
-                                <button name="" class="edvin-button" href="@routes.Hotels.showHotel(hotel.id)">VIEW HOTEL</button>
+                    <div class="about-details">
+                        <div class="pentagon-text">
+                            <h1>bB</h1>
 
                         </div>
+
+                        <h3>@hotel.name</h3>
+                        <p>Hotel address: <br>@hotel.location</p>
+
+
+                        <button name="" class="edvin-button" href="@routes.Hotels.showHotel(hotel.id)">VIEW HOTEL</button>
 
                     </div>
+
                 </div>
-            }
-        </div>
-        </div>
+            </div>
+        }
     }
-    }
+}

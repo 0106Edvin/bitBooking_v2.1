@@ -1,7 +1,9 @@
+
 body{
 	margin: 0;
 	padding: 0;
 	font-family: 'BenchNine', sans-serif;
+
 }
 li{
 	list-style: none;
@@ -24,6 +26,10 @@ h1, h2{
     font-family: 'BenchNine', sans-serif;
     font-weight: bold;
 }
+.useri{
+	width: 200px !important;
+}
+
 
 /*header area*/
 .top-header{
@@ -303,6 +309,13 @@ li a.active{
     margin-top: 0;
     margin-bottom: 10px;
 }
+.service input{
+	font-size: 20px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
 .single-service-img {
   width: 205px;
   height: 125px;
