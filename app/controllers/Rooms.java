@@ -22,8 +22,6 @@ public class Rooms extends Controller {
     public static final Form<Room> roomForm = Form.form(Room.class);
     public static Model.Finder<String, Room> finder = new Model.Finder<String, Room>(Room.class);
     public static Model.Finder<String, Feature> featureFinder = new Model.Finder<String, Feature>(Feature.class);
-    public static Model.Finder<String, Hotel> hotelFinder = new Model.Finder<String, Hotel>(Hotel.class);
-
 
     public Result saveRoom(Integer hotelId) {
 
@@ -66,15 +64,16 @@ public class Rooms extends Controller {
         Room room = Room.findRoomById(id);
         return ok(views.html.room.room.render(room));
     }
-    public Result showSellerHotels() {
-        List<Hotel> hotels = hotelFinder.all();
-        return ok(sellerPanel.render(hotels));
 
-    }
     public Result createRoom(Integer hotelId){
             List<Feature> features = Feature.finder.all();
 
         return ok(createRoom.render(features, hotelId));
     }
 
+    public Result showRooms(Integer hotelId) {
+        List<Room> rooms = Room.finder.all();
+        Hotel hotel = Hotel.findHotelById(hotelId);
+        return ok(showRooms.render(rooms, hotel));
+    }
 }
