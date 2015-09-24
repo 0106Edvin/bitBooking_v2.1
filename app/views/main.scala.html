@@ -16,6 +16,8 @@
 
         <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
 
+        <script src='@routes.Assets.versioned("javascripts/deleteConfirmation.js")'></script>
+
         <script src='@routes.Assets.versioned("javascripts/js/coordinate.js")'></script>
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/coordinate.css")">
 
@@ -57,6 +59,7 @@
                                         <li><a class="menu" href="">our services </a></li>
                                         @if(currentUser == null) {
                                         <li><a class="menu" href="@routes.Users.registerUser">register</a></li>
+
                                             <li class="menu">
                                             <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true"> Login </a>
                                             <div class="dropdown-menu">
@@ -75,6 +78,7 @@
                                         }else{
                                             <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
                                         }
+
                                     </ul>
                                     }
                                 </div><!-- /navbar-collapse -->

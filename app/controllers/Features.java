@@ -1,8 +1,10 @@
 package controllers;
 
 import models.Feature;
+
 import models.Image;
 import play.Logger;
+
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -29,6 +31,7 @@ public class Features extends Controller {
 
         Feature feature = boundForm.get();
         feature.save();
+
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
         if(filePart != null){
@@ -39,7 +42,9 @@ public class Features extends Controller {
 
         }
         feature.update();
-        return redirect(routes.Application.index());
+
+        return redirect(routes.Users.showAdminFeatures());
+
     }
 
 
@@ -48,7 +53,7 @@ public class Features extends Controller {
         Feature feature = Feature.findFeatureById(id);
         feature.delete();
 
-        return redirect(routes.Application.index());
+        return redirect(routes.Users.showAdminFeatures());
     }
 
 

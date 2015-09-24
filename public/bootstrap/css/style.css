@@ -5,6 +5,10 @@ body{
 	font-family: 'BenchNine', sans-serif;
 
 }
+#hotelsbtn{
+	margin-left: 60px;
+}
+
 li{
 	list-style: none;
 }
@@ -25,6 +29,17 @@ h1, h2{
     border: transparent;
     font-family: 'BenchNine', sans-serif;
     font-weight: bold;
+}
+.edvin-button-role{
+	width: 70px;
+	height: 30px;
+	font-size: 18px;
+	color: #fff;
+	background: transparent ;
+	padding: 0;
+	border: transparent;
+	font-family: 'BenchNine', sans-serif;
+	font-weight: bold;
 }
 .useri{
 	width: 200px !important;
@@ -315,6 +330,19 @@ li a.active{
 	margin-top: 0;
 	margin-bottom: 10px;
 }
+.service th{
+	font-size: 24px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.service td{
+	font-size: 18px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
 
 .single-service-img {
   width: 205px;
