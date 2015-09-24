@@ -1,6 +1,6 @@
 @import helper._
 @main {
-    @helper.form(action = routes.Features.saveFeature()) {
+    @helper.form(action = routes.Features.saveFeature(),'enctype -> "multipart/form-data") {
         <div class="container">
             <div class="row">
                 <div class="contact-caption clearfix">
@@ -10,10 +10,11 @@
                     <div class="col-md-6 col-md-offset-3 contact-form">
 
                         <form class="form">
+                            <label>Feature name:</label>
                             <input name="name" type="text" placeholder="Feature Name">
-
+                            <label>Set icon:</label>
+                            <input type="file" name="image" class="form-control" required/>
                             <input name="name" class="submit-btn " type="submit" value="ADD" onclick="@routes.Features.saveFeature()">
-
                         </form>
 
                     </div>

@@ -96,13 +96,13 @@ public class Hotels extends Controller {
         hotel.city = city;
         hotel.country = country;
 
-        Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
-        if(filePart != null){
-            File file = filePart.getFile();
-            Image profileImage = Image.create(file,hotel.id,null,null);
-            hotel.profileImg = profileImage;
-        }
+//        Http.MultipartFormData body = request().body().asMultipartFormData();
+//        Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
+//        if(filePart != null){
+//            File file = filePart.getFile();
+//            Image profileImage = Image.create(file,hotel.id,null,null);
+//            hotel.profileImg = profileImage;
+//        }
 
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();

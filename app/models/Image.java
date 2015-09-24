@@ -30,7 +30,7 @@ public class Image extends Model {
     @ManyToOne
     public Hotel hotel;
 
-    @OneToOne
+    @OneToOne(mappedBy = "profileImg")
     public AppUser user;
 
     @OneToOne

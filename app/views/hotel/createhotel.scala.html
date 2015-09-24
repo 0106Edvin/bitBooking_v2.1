@@ -25,6 +25,7 @@
                                     <h3>Features</h3>
                                     @for(feature <- features) {
                                         <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
+                                        <img src="@feature.icon.getSize(30,30)"/>
                                         }
                                 </div>
                                 <div class="col-md-0 col-md-offset-0">

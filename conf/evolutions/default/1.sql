@@ -11,7 +11,9 @@ create table app_user (
   password                  varchar(255),
   phone_number              varchar(255),
   user_access_level         integer,
+  profile_img_id            integer,
   constraint uq_app_user_email unique (email),
+  constraint uq_app_user_profile_img_id unique (profile_img_id),
   constraint pk_app_user primary key (id))
 ;
 
@@ -28,6 +30,8 @@ create table comment (
 create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
+  icon_id                   integer,
+  constraint uq_feature_icon_id unique (icon_id),
   constraint pk_feature primary key (id))
 ;
 
@@ -50,9 +54,7 @@ create table image (
   image_url                 varchar(255),
   secret_image_url          varchar(255),
   hotel_id                  integer,
-  user_id                   integer,
   feature_id                integer,
-  constraint uq_image_user_id unique (user_id),
   constraint uq_image_feature_id unique (feature_id),
   constraint pk_image primary key (id))
 ;
@@ -87,20 +89,22 @@ create table room_feature (
   feature_id                     integer not null,
   constraint pk_room_feature primary key (room_id, feature_id))
 ;
-alter table comment add constraint fk_comment_user_1 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
-create index ix_comment_user_1 on comment (user_id);
-alter table comment add constraint fk_comment_hotel_2 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_comment_hotel_2 on comment (hotel_id);
-alter table image add constraint fk_image_hotel_3 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_image_hotel_3 on image (hotel_id);
-alter table image add constraint fk_image_user_4 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
-create index ix_image_user_4 on image (user_id);
-alter table image add constraint fk_image_feature_5 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
-create index ix_image_feature_5 on image (feature_id);
-alter table price add constraint fk_price_room_6 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_price_room_6 on price (room_id);
-alter table room add constraint fk_room_hotel_7 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_7 on room (hotel_id);
+alter table app_user add constraint fk_app_user_profileImg_1 foreign key (profile_img_id) references image (id) on delete restrict on update restrict;
+create index ix_app_user_profileImg_1 on app_user (profile_img_id);
+alter table comment add constraint fk_comment_user_2 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
+create index ix_comment_user_2 on comment (user_id);
+alter table comment add constraint fk_comment_hotel_3 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_comment_hotel_3 on comment (hotel_id);
+alter table feature add constraint fk_feature_icon_4 foreign key (icon_id) references image (id) on delete restrict on update restrict;
+create index ix_feature_icon_4 on feature (icon_id);
+alter table image add constraint fk_image_hotel_5 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_image_hotel_5 on image (hotel_id);
+alter table image add constraint fk_image_feature_6 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
+create index ix_image_feature_6 on image (feature_id);
+alter table price add constraint fk_price_room_7 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_7 on price (room_id);
+alter table room add constraint fk_room_hotel_8 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_8 on room (hotel_id);
 
 
 

@@ -14,16 +14,13 @@
 
 
                 <div class="col-md-6 col-md-offset-0 ">
-                    @*@if(request().cookies().get("email") != null) {*@
-                    @*@if(Integer.parseInt(request().cookies().get(UserAccessLevel).value()) == 3) {*@
-                    @*<a href="@routes.Hotels.updateHotel(hotel.id)" ><button class="btn btn-warning">*@
-                    @*EDIT</button> </a>*@
-                    @*}*@
-                    @*}*@
-
                     <div class="service">
                     <div class="text-center">
-                        <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                        @if(hotel.images.size() == 0) {
+                            <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                        }else{
+                            <img src="@hotel.images.get(0).getSize(400,300)"/>
+                        }
                         <h4 style="text-align : center">Picture description</h4>
                     </div>
                     </div>
@@ -75,7 +72,7 @@
                                 @for(feature <- hotel.features) {
                                     <li>
                                         @feature.name
-                                        @*<img src="@routes.Assets.versioned("images/" + feature.image)" style="width : 50 px ; height : 50 px"/>*@
+                                    <img src="@feature.icon.getSize(30,30)"/>
                                     </li>
                                 }
                                 </div>
@@ -89,9 +86,11 @@
                     <div class="col-md-10 col-md-offset-0">
                         <h3>Gallery</h3>
                         <div class="info-detail">
-                            @*@for(image <- hotel.images) {*@
-                            @*<img src="@routes.Assets.versioned("images/" + image.path)" style="min-width : 200 px ; height : 100 px ; margin-right : 10 px ;"/>*@
-                            @*}*@
+                            @if(hotel.images.size() != 0) {
+                                @for(image <- hotel.images) {
+                                    <img src="@image.getSize(300, 200)"/>
+                                }
+                            }
                             <a href="@routes.Rooms.showRoom(hotel.id)" ><button class="btn btn-warning">View rooms</button></a>
                         </div>
                     </div>
@@ -175,6 +174,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 }
 
