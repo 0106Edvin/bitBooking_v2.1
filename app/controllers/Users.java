@@ -238,7 +238,7 @@ public class Users extends Controller {
                 return redirect(routes.Users.updateUser(user.email));
 
             } catch (Exception e) {
-                flash("error", "You didn't fill the form corectly, please try again\n" +e.getMessage());
+                flash("error", "You didn't fill the form correctly, please try again\n" + e.getMessage());
                 return ok(profilePage.render(user));
             }
         }
