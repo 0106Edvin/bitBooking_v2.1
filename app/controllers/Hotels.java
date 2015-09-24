@@ -3,13 +3,18 @@ package controllers;
 import com.avaje.ebean.Model;
 import models.*;
 import play.Logger;
+
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import views.html.hotel.createhotel;
 import views.html.hotel.updateHotel;
 import views.html.room.showRooms;
+import views.html.room.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +84,8 @@ public class Hotels extends Controller {
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
 
         String name = hotelForm1.bindFromRequest().field("name").value();
+        String city = hotelForm1.bindFromRequest().field("city").value();
+        String country = hotelForm1.bindFromRequest().field("country").value();
         String location = hotelForm1.bindFromRequest().field("location").value();
         String description = hotelForm1.bindFromRequest().field("description").value();
 
@@ -86,26 +93,27 @@ public class Hotels extends Controller {
         hotel.name = name;
         hotel.location = location;
         hotel.description = description;
-
+        hotel.city = city;
+        hotel.country = country;
 
 //        Http.MultipartFormData body = request().body().asMultipartFormData();
-//        List<Http.MultipartFormData.FilePart> pictures = body.getFiles();
-//
-//        if (pictures != null) {
-//            for (Http.MultipartFormData.FilePart picture : pictures) {
-//                String fileName = picture.getFilename();
-//                File file = picture.getFile();
-//
-//                try {
-//                    FileUtils.moveFile(file, new File(Play.application().path() + "/public/images/" + fileName));
-//                    Image image = new Image(fileName, hotel, null);
-//                    Ebean.save(image);
-//                } catch (IOException ex) {
-//                    Logger.info("Could not move file. " + ex.getMessage());
-//                    flash("error", "Could not move file.");
-//                }
-//            }
+//        Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
+//        if(filePart != null){
+//            File file = filePart.getFile();
+//            Image profileImage = Image.create(file,hotel.id,null,null);
+//            hotel.profileImg = profileImage;
 //        }
+
+        Http.MultipartFormData body1 = request().body().asMultipartFormData();
+        List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
+        if(fileParts != null){
+            for (Http.MultipartFormData.FilePart filePart1 : fileParts){
+                File file = filePart1.getFile();
+                Image image = Image.create(file,hotel.id,null,null);
+                hotel.images.add(image);
+            }
+        }
+
 
         hotel.update();
 

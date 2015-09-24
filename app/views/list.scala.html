@@ -9,7 +9,11 @@
                 <div class="col-md-4 col-sm-6">
                     <div class="single-about-detail clearfix">
                         <div class="about-img">
+                            @if(hotel.images.size() == 0){
                             <img class="img-responsive" src="http://placehold.it/360x300" alt="">
+                            }else{
+                                <img src="@hotel.images.get(0).getSize(360,300)"/>
+                            }
                         </div>
 
                         <div class="about-details">

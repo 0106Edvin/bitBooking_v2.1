@@ -1,12 +1,16 @@
 package controllers;
 
 import models.Feature;
+import models.Image;
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import views.html.feature.createFeature;
 import views.html.feature.updateFeature;
+
+import java.io.File;
 
 /**
  * Created by ajla.eltabari on 09/09/15.
@@ -24,8 +28,17 @@ public class Features extends Controller {
         Form<Feature> boundForm = featureForm.bindFromRequest();
 
         Feature feature = boundForm.get();
-
         feature.save();
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart filePart = body.getFile("image");
+        if(filePart != null){
+            File file = filePart.getFile();
+            Image icon1 = Image.create(file,null,null,feature.id);
+            icon1.save();
+            feature.icon = icon1;
+
+        }
+        feature.update();
         return redirect(routes.Application.index());
     }
 

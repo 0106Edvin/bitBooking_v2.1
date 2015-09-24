@@ -8,8 +8,10 @@ import helpers.*;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
+import models.Image;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.admin.adminFeatures;
@@ -22,6 +24,7 @@ import views.html.manager.managerHotels;
 import views.html.user.profilePage;
 import views.html.user.register;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -222,6 +225,12 @@ public class Users extends Controller {
                }
                 user.phoneNumber = phone;
 
+                Http.MultipartFormData body = request().body().asMultipartFormData();
+                Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
+                if(filePart != null){
+                    File file = filePart.getFile();
+                    Image profileImage = Image.create(file,null,user.id,null);
+                }
 
                 user.update();
 
@@ -229,7 +238,7 @@ public class Users extends Controller {
                 return redirect(routes.Users.updateUser(user.email));
 
             } catch (Exception e) {
-                flash("error", "You didn't fill the form corectly, please try again");
+                flash("error", "You didn't fill the form corectly, please try again\n" +e.getMessage());
                 return ok(profilePage.render(user));
             }
         }
@@ -264,4 +273,3 @@ public class Users extends Controller {
 
     }
 }
-

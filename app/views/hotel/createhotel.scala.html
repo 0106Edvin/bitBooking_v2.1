@@ -14,7 +14,9 @@
                                 <h3> Hotel information </h3>
 
                                 <input name="name" class="name" type="text" placeholder="Hotel Name" required>
-                                <input name="location" class="email" type="text" placeholder="Location">
+                                <input name="location" class="email" type="text" placeholder="Address">
+                                <input name="city" class="email" type="text" placeholder="City">
+                                <input name="country" class="email" type="text" placeholder="Country">
                                 <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
 
 
@@ -23,9 +25,9 @@
                                     <h3>Features</h3>
                                     @for(feature <- features) {
                                         <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
+                                        <img src="@feature.icon.getSize(30,30)"/>
                                         }
                                 </div>
-
                                 <div class="col-md-0 col-md-offset-0">
                                     <h3>Select the owner</h3>
                                     <select id="ddlsellers" name="seller">

@@ -11,7 +11,9 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "mysql" % "mysql-connector-java" % "5.1.36",
-  "org.mindrot" % "jbcrypt" % "0.3m"
+  "org.mindrot" % "jbcrypt" % "0.3m",
+  "com.cloudinary" % "cloudinary" % "1.0.14"
+
 )
 
 lazy val myProject = (project in file("."))
