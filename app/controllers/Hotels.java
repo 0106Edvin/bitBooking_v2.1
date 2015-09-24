@@ -3,8 +3,6 @@ package controllers;
 import com.avaje.ebean.Model;
 import models.*;
 import play.Logger;
-
-import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -13,6 +11,8 @@ import views.html.hotel.createhotel;
 import views.html.hotel.updateHotel;
 import views.html.room.showRooms;
 import views.html.room.*;
+import views.html.seller.sellerPanel;
+import helpers.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -165,9 +165,9 @@ public class Hotels extends Controller {
         return hotels;
     }
 
-   public Result showRooms(Integer hotelId) {
-       List<Room> rooms = Room.finder.all();
-       Hotel hotel = Hotel.findHotelById(hotelId);
-       return ok(showRooms.render(rooms, hotel));
-   }
+    public Result showSellerHotels(Integer userId) {
+        List<Hotel> hotels = (List<Hotel>) finder.where().eq("sellerId", userId).findFutureList();
+        return ok(sellerPanel.render(hotels));
+
+    }
 }
