@@ -1,36 +1,33 @@
 @(feature: Feature)
 @import helper._
-@main{
-    <div class="container" style="background-color: #204d74">
-        <div class="container" style="background-color: seashell;width: 90%;margin: 5%">
-        @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 3) {
-            @helper.form(action = routes.Features.updateFeature(feature.id)) {
-                <h1>Add feature</h1>
-                <hr/>
-                <div class="col-md-6">
+@main {
+    <div class="container">
+        <div class="row">
+        @helper.form(action = routes.Features.updateFeature(feature.id)) {
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>UPDATE FEATURE: @feature.name</h2>
+                </div>
+
+                <div class="col-md-6 col-md-offset-1 contact-form">
                     <div>
                         <label>Name:</label>
                         <input name="name" value="@feature.name">
                     </div>
-                    <hr/>
-                    <h1>Icon:</h1>
-                    <hr/>
+
+
+                    @*<h1>Icons</h1>*@
+
                     <div>
-                        <button class="btn btn-success" name="submit" onclick="updateFeature()">Update</button>
+                        <button class="edvin-button" name="submit" onclick="updateFeature()">Update</button>
                     </div>
                 </div>
-            }
-        } else {
 
-            <div class="row" style="background-color: #f5e79e">
-                <div class="col-md-8">
-                    <br/>
-                    <h1>Access denied.</h1>
-                    <h3>You do not have permissions to see this page.</h3>
-                </div>
             </div>
-            <hr/>
+
+
         }
+
         </div>
     </div>
 }
