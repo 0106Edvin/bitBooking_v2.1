@@ -23,18 +23,29 @@
                                 <div class="col-md-0 col-md-offset-0">
 
                                     <h3>Features</h3>
+                                    <div class="info-detail ">
                                     @for(feature <- features) {
+
                                         <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
+
                                         <img src="@feature.icon.getSize(30,30)"/>
+
+
                                         }
+                                    </div>
                                 </div>
+
                                 <div class="col-md-0 col-md-offset-0">
+
                                     <h3>Select the owner</h3>
-                                    <select id="ddlsellers" name="seller">
-                                    @for(user <- users) {
-                                        <option value="@user.id">@user.email</option>
-                                    }
-                                    </select>
+                                    <div class="info-detail">
+                                        <select id="ddlsellers" name="seller">
+                                            <br>
+                                            @for(user <- users) {
+                                                <option class="useri" style="font-size : larger " value="@user.id">@user.email</option>
+                                            }
+                                        </select>
+                                    </div>
 
                                 </div>
                                 <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
