@@ -65,7 +65,7 @@ function checkPasswordMatch() {
 //a function that checks if name and lastname contain only letters
 //returns error msg if name contains any other characters
 function checkName(){
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-z\s]+$/;
     var name = document.getElementById("name");
 
     if(name.value.match(letters) ) {
@@ -86,7 +86,7 @@ function checkName(){
 //this functio checks if lastname contains only letters
 //returns error msg if lastname contains any other characters
 function checkLastname(){
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-z\s]+$/;
     var lastname = document.getElementById("last-name");
 
     if(lastname.value.match(letters)) {

@@ -4,7 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.Authenticators;
 import helpers.SessionsAndCookies;
-import helpers.UserAccessLevel;
+import helpers.*;
 import models.AppUser;
 import models.Feature;
 import models.Hotel;
@@ -65,19 +65,19 @@ public class Users extends Controller {
             flash("error", "Passwords don't match!");
             return ok(register.render(boundForm));
 
-        } else if (pass1.length() < 6 || pass2.length() < 6) {
+        } else if (pass1.length() < Constants.MIN_PASSWORD_LENGTH || pass2.length() < Constants.MIN_PASSWORD_LENGTH) {
             flash("error", "Password must be at least 6 characters long!");
             return ok(register.render(boundForm));
 
-        } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
+        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
             flash("error", "Name and last name must contain letters only!");
             return ok(register.render(boundForm));
 
-        } else if (name.length() < 2 || lastname.length() < 2) {
+        } else if (name.length() < Constants.MIN_NAME_LENGTH || lastname.length() < Constants.MIN_NAME_LENGTH) {
             flash("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
-        } else if (phone.length() > 15) {
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH) {
             flash("error", "Phone number can't be more than 15 digits long!");
             return ok(register.render(boundForm));
 
@@ -122,20 +122,10 @@ public class Users extends Controller {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return ok(adminPanel.render());
-        } else if (user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
-            SessionsAndCookies.setUserSessionSata(user);
-            SessionsAndCookies.setCookies(user);
-            return ok(managerHotels.render(hotels));
-        } else if (user.userAccessLevel == UserAccessLevel.SELLER) {
-            SessionsAndCookies.setUserSessionSata(user);
-            SessionsAndCookies.setCookies(user);
-            return TODO;
-        } else if (user.userAccessLevel == UserAccessLevel.BUYER) {
+        } else {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return redirect(routes.Users.editUser(user.email));
-        } else {
-            return redirect(routes.Application.index());
         }
     }
 
@@ -205,7 +195,7 @@ public class Users extends Controller {
             flash("error", "Passwords don't match");
             return ok(profilePage.render(user));
 
-        } else if ((!name.matches("^[a-zA-Z\\s]*$")) || (!lastname.matches("^[a-zA-Z\\s]*$"))) {
+        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
             flash("error", "Name and last name must contain letters only");
             return ok(profilePage.render(user));
 
@@ -226,8 +216,10 @@ public class Users extends Controller {
             try {
                 user.firstname = name;
                 user.lastname = lastname;
-                user.password = pass1;
-                user.hashPass();
+               if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
+                   user.password = pass1;
+                   user.hashPass();
+               }
                 user.phoneNumber = phone;
 
 
