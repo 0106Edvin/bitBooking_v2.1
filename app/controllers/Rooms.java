@@ -76,4 +76,6 @@ public class Rooms extends Controller {
         Hotel hotel = Hotel.findHotelById(hotelId);
         return ok(showRooms.render(rooms, hotel));
     }
+
+
 }
