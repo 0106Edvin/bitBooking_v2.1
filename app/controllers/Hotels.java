@@ -1,20 +1,18 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import helpers.Authenticators;
 import models.*;
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import views.html.hotel.searchedhotels;
-import views.html.hotel.createhotel;
-import views.html.hotel.updateHotel;
-import views.html.room.showRooms;
-import views.html.room.*;
-import views.html.seller.*;
-import helpers.*;
 import play.mvc.Security;
+import views.html.hotel.createhotel;
+import views.html.hotel.hotel;
+import views.html.hotel.updateHotel;
+import views.html.seller.sellerPanel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -128,15 +126,13 @@ public class Hotels extends Controller {
     }
 
     public Result showHotel(Integer id) {
-        Hotel hotel = Hotel.findHotelById(id);
-//        if (request().cookies().get("email") != null) {
-//            return ok(hotel.render(hotel, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel)));
-//        } else {
-
-
-            return ok(views.html.hotel.hotel.render(hotel, true));
+        Hotel hotel1 = Hotel.findHotelById(id);
+        if (request().cookies().get("email") != null) {
+            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1)));
+        } else {
+            return ok(views.html.hotel.hotel.render(hotel1, true));
         }
-//    }
+    }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editHotel(Integer id) {
