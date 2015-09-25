@@ -11,7 +11,7 @@ import views.html.hotel.createhotel;
 import views.html.hotel.updateHotel;
 import views.html.room.showRooms;
 import views.html.room.*;
-import views.html.seller.sellerPanel;
+import views.html.seller.*;
 import helpers.*;
 
 import java.io.File;
@@ -166,7 +166,7 @@ public class Hotels extends Controller {
     }
 
     public Result showSellerHotels(Integer userId) {
-        List<Hotel> hotels = (List<Hotel>) finder.where().eq("sellerId", userId).findFutureList();
+        List<Hotel> hotels = finder.all();
         return ok(sellerPanel.render(hotels));
 
     }

@@ -1,7 +1,6 @@
 @(hotels: List[Hotel])
-@main{
+@main {
     <div class="container" style="background-color : #204d74">
-    @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 5) {
         <div class="container" style="background-color: seashell;width: 90%;margin-bottom: 5%;margin-top: 5%;">
             <div class="col-md-12">
                 <table class="table table-hover">
@@ -34,6 +33,5 @@
                 </table>
             </div>
             </div>
-    }
     </div>
 }

@@ -3,10 +3,6 @@
 # ~~~~
 
 # Home page
-
-GET         /                                           @controllers.Application.index()
-
-
 GET         /                                           @controllers.Application.index()
 
 GET         /showRooms/:hotelId                         @controllers.Rooms.showRoom(hotelId: Integer)
@@ -25,7 +21,7 @@ GET         /hotelmanager/hotels/:id                    @controllers.Hotels.dele
 
 #Admin
 
-
+GET         /admin/panel                                @controllers.Users.showAdminPanel()
 GET         /admin/createFeature                        @controllers.Features.createFeature()
 POST        /admin/saveFeature                          @controllers.Features.saveFeature()
 GET         /admin/updateFeature/:id                    @controllers.Features.updateFeature(id: Integer)
@@ -67,7 +63,7 @@ GET         /user/showhotel/:hotelId                    @controllers.Hotels.show
 GET         /seller/edithotel/:id                       @controllers.Hotels.editHotel(id: Integer)
 POST        /seller/updatehotel/:id                     @controllers.Hotels.updateHotel(id: Integer)
 POST        /seller/updateroom/setprice/:roomId         @controllers.Prices.savePrice(roomId: Integer)
-GET         /seller/panel/:userId                       @controllers.Hotels.showSellerHotels(userId: Integer)
+GET         /seller/sellerPanel/:userId                       @controllers.Hotels.showSellerHotels(userId: Integer)
 
 #Room
 GET         /seller/createroom/:hotelId                 @controllers.Rooms.createRoom(hotelId: Integer)

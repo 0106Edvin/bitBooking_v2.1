@@ -173,6 +173,12 @@ public class Users extends Controller {
         return ok(managerHotels.render(hotels));
     }
 
+    /*shows the list of hotels to hotel manager*/
+//        @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result showAdminPanel () {
+        return ok(adminPanel.render());
+    }
+
     /*This method allows admin to delete user*/
 //        @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteUser (String email){

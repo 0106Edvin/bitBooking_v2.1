@@ -21,9 +21,14 @@
                         </div>
 
                     <div class="col-md-2 pannel-button">
+                        @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
+                        <div class="col-md-2 pannel-button carousel-caption">
+                            <button onclick="@routes.Users.showAdminPanel()">admin panel</button>
+                        </div>
+                        }
                         @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
-                        <div class="button">
-                            <a href="@routes.Users.showManagerHotels()"> <button class="btn btn-danger" style="height : 100px">MANAGER PANEL</button></a>
+                        <div class="col-md-2 pannel-button carousel-caption">
+                            <button onclick="@routes.Users.showManagerHotels()">manager panel</button>
                         </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.SELLER) {
