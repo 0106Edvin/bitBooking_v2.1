@@ -48,7 +48,7 @@
                     </thead>
                     <tbody>
                     @for(user <- users) {
-
+                        @if(user.userAccessLevel != 1) {
                             <tr class="service">
                                 <td>@user.firstname</td>
                                 <td>@user.lastname</td>
@@ -87,6 +87,7 @@
                                 </form>
                             </tr>
 
+                        }
                     }
                     </tbody>
                 </table>

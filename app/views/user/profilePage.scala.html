@@ -1,5 +1,6 @@
 @import helpers.UserAccessLevel
 @(user: AppUser)
+@import helper._
 @main {
     <div class="container">
         <div class="row">
@@ -20,20 +21,21 @@
                             <input type="file" name="image" class="form-control" multiple/>
                         </div>
 
-                    <div class="col-md-2 pannel-button">
+                      <div class="col-md-2 pannel-button">
                         @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
                         <div class="col-md-2 pannel-button carousel-caption">
-                            <button onclick="@routes.Users.showAdminPanel()">admin panel</button>
+                            <a href="@routes.Users.showAdminPanel()">  <button onclick="@routes.Users.showAdminPanel()">admin panel</button>
                         </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                         <div class="col-md-2 pannel-button carousel-caption">
-                            <button onclick="@routes.Users.showManagerHotels()">manager panel</button>
+                            <a href="@routes.Users.showManagerHotels()">  <button onclick="@routes.Users.showManagerHotels()">manager panel</button>
                         </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.SELLER) {
                         <div class="col-md-2 pannel-button carousel-caption">
-                            <button onclick="@routes.Hotels.showSellerHotels(user.id)">your hotels</button>
+
+                           <a href="@routes.Hotels.showSellerHotels(user.id)"> <button onclick="@routes.Hotels.showSellerHotels(user.id)">your hotels</button></a>
                         </div>
                         }
                     </div>
