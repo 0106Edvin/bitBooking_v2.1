@@ -2,10 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +12,7 @@ public class Feature extends Model {
 
     @Id
     public Integer id;
+    @Column(unique = true)
     public String name;
 
     @OneToOne

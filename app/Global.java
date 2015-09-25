@@ -11,6 +11,8 @@ import play.mvc.Http.*;
 import views.html.*;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.notFound;
+import play.api.mvc.EssentialFilter;
+import play.filters.csrf.CSRFFilter;
 
 
 /**
@@ -32,5 +34,12 @@ public class Global extends GlobalSettings {
     public void onStart(Application application) {
       Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
     }
+
+//    @Override
+//    public <T extends EssentialFilter> Class<T>[] filters() {
+//        Class[] filters = {CSRFFilter.class};
+//        return filters;
+//
+//    }
 }
 

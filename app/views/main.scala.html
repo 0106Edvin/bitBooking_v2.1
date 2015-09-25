@@ -65,6 +65,11 @@
                                                     Login </a>
                                                 <div class="dropdown-menu">
                                                     <form id="formLogin" class="form container-fluid">
+                                                        <div class="duplicate-email">
+                                                            @if(flash.containsKey("error")) {
+                                                                @flash.get("error")
+                                                            }
+                                                        </div>
                                                         <br>
                                                         <div class="form-group">
                                                             <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="">

@@ -62,6 +62,16 @@ public class Hotel extends Model {
         return hotel;
     }
 
+    public static List<Hotel> findHotelsByName(String name){
+        return finder.where().eq("name",name).findList();
+    }
+    public static List<Hotel> findHotelsByCountry(String name){
+        return finder.where().eq("country",name).findList();
+    }
+    public static List<Hotel> findHotelsByCity(String name){
+        return finder.where().eq("city",name).findList();
+    }
+
     @Override
     public String toString() {
         return (id.toString() + " " + name + " " + location);

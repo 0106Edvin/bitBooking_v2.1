@@ -69,12 +69,14 @@
                         <div class="info-detail">
                             <ul>
                                 <div class="service">
-                                @for(feature <- hotel.features) {
-                                    <li>
-                                        @feature.name
-                                    <img src="@feature.icon.getSize(30,30)"/>
-                                    </li>
-                                }
+                                    @if(hotel.features.size() != 0) {
+                                        @for(feature <- hotel.features) {
+                                            <li>
+                                                @feature.name
+                                            <img src="@feature.icon.getSize(30,30)"/>
+                                            </li>
+                                        }
+                                    }
                                 </div>
                             </ul>
                         </div>
