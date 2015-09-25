@@ -16,6 +16,7 @@ GET         /hotelmanager/createhotel                   @controllers.Hotels.crea
 POST        /hotelmanager/savehotel                     @controllers.Hotels.saveHotel()
 GET         /hotelmanager/hotels                        @controllers.Users.showManagerHotels()
 GET         /hotelmanager/hotels/:id                    @controllers.Hotels.deleteHotel(id: Integer)
+GET         /hotels/search                              @controllers.Hotels.search()
 
 
 

@@ -7,12 +7,14 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import views.html.hotel.searchedhotels;
 import views.html.hotel.createhotel;
 import views.html.hotel.updateHotel;
 import views.html.room.showRooms;
 import views.html.room.*;
 import views.html.seller.*;
 import helpers.*;
+import play.mvc.Security;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,9 +28,7 @@ public class Hotels extends Controller {
 //    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
 
-
-//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result createHotel() {
         List<Feature> features = Hotels.featureFinder.all();
         List<AppUser> users = AppUser.finder.all();
@@ -38,8 +38,7 @@ public class Hotels extends Controller {
 
     /*   Saving hotel to data base*/
 
-//    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
 
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
@@ -78,6 +77,7 @@ public class Hotels extends Controller {
 
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
 
         Hotel hotel = Hotel.findHotelById(id);
@@ -138,12 +138,15 @@ public class Hotels extends Controller {
         }
 //    }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
         return ok(updateHotel.render(hotel));
     }
 
+
     /*This method allows hotel manager to delete hotels*/
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result deleteHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
         hotel.delete();
@@ -153,6 +156,7 @@ public class Hotels extends Controller {
 
     /*This method allows admin to delete hotels*/
 
+    @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteHotelAdmin(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
         hotel.delete();
@@ -169,5 +173,24 @@ public class Hotels extends Controller {
         List<Hotel> hotels = finder.all();
         return ok(sellerPanel.render(hotels));
 
+    }
+
+    public Result search(){
+        Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
+        String category = hotelForm1.bindFromRequest().field("category").value();
+        String searchWhat = hotelForm1.bindFromRequest().field("search").value();
+        List<Hotel> hotels = new ArrayList<>();
+        if(category.equals("name")){
+            hotels = Hotel.findHotelsByName(searchWhat);
+        }else if(category.equals("country")){
+            hotels = Hotel.findHotelsByCountry(searchWhat);
+        }else if(category.equals("city")){
+            hotels = Hotel.findHotelsByCity(searchWhat);
+        }
+        Logger.debug(hotels.size()+"");
+//        else if(category.equals("price")){
+//            List<Hotel> hotels = Room.findHotelByPrice(category);
+//        }
+        return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 }

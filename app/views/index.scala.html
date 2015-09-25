@@ -14,7 +14,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -22,7 +22,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -30,7 +30,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -38,7 +38,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -46,7 +46,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -54,7 +54,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -62,7 +62,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -70,7 +70,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -78,7 +78,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -86,7 +86,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                         <div class="item">
@@ -94,7 +94,7 @@
                             <div class="carousel-caption">
                                 <h2>providing</h2>
                                 <p>high quality service for booking</p>
-                                <button>learn more</button>
+                                <a href="#searchPanel"><button>search hotels</button></a>
                             </div>
                         </div>
                     </div>
@@ -130,64 +130,60 @@
     </section><!-- end of about section -->
 
 
-    <!-- service section starts here -->
+<section class="">
+    <div class="" id="searchPanel">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>Search Hotels</h2>
+                </div>
 
-    <section class="about text-center" id="about">
-        <div class="container">
-            <div class="row">
+                <div class="col-md-4 col-md-offset-3 contact-form">
+                    @* <h4>Search:</h4>*@
+                    <div class="info-detail">
+                        <form method="get" action="@routes.Hotels.search()">
+                        @*<div class="fa-search">*@
+                            @*<div class="form-group">*@
 
-                <h2>our services</h2>
-                <h4>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</h4>
-                <br>
-                <div class="col-md-3 col-sm-6">
-                    <div class="single-service">
-                        <div class="single-service-img">
-                            <div class="service-img">
-                                <img class="heart img-responsive" src="@routes.Assets.versioned("img/service1.png")" alt="">
-                            </div>
+                                @*<select name="object" class="form-control" id="sel1">*@
+                                    @*<option>Hotel</option>*@
+                                    @*<option>Room</option>*@
+
+                                    @*</select>*@
+                                @*</div>*@
+
+                            @*</div>*@
+
+
+                        <div class="form-group">
+                            <h4>Search By:</h4>
+                            <hr>
+                            <select name="category" class="form-control" id="sel1">
+                                <option value="country">Country</option>
+                                <option value="city">City</option>
+                                <option value="price">Price</option>
+                                <option value="name">Name</option>
+                            </select>
+
                         </div>
+                        <div>
+                            <h5> </h5>
+                        </div>
+                        <!--input field for search-->
+                        <input type="text" id="search1" name = "search" >
 
-                        <h3>Heart problem</h3>
+                        <!--submit button-->
+                        <input class="submit-btn" type="submit" value="Search">
+                    </form>
+
                     </div>
                 </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="single-service">
-                        <div class="single-service-img">
-                            <div class="service-img">
-                                <img class="brain img-responsive" src="@routes.Assets.versioned("img/service2.png")" alt="">
-                            </div>
-                        </div>
-                        <h3>brain problem</h3>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="single-service">
-                        <div class="single-service-img">
-                            <div class="service-img">
-                                <img class="knee img-responsive" src="@routes.Assets.versioned("img/service3.png")" alt="">
-                            </div>
-                        </div>
-
-                        <h3>knee problem</h3>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="single-service">
-                        <div class="single-service-img">
-                            <div class="service-img">
-                                <img class="bone img-responsive" src="@routes.Assets.versioned("img/service4.png")" alt="">
-                            </div>
-                        </div>
-
-                        <h3>human bones problem</h3>
-                    </div>
-                </div>
             </div>
         </div>
-    </section><!-- end of service section -->
+    </div>
+
+</section>
 
 
     <!-- team section -->

@@ -31,6 +31,7 @@ create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
   icon_id                   integer,
+  constraint uq_feature_name unique (name),
   constraint uq_feature_icon_id unique (icon_id),
   constraint pk_feature primary key (id))
 ;
