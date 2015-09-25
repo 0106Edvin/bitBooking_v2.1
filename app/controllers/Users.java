@@ -200,6 +200,14 @@ public class Users extends Controller {
         String lastname = boundForm.bindFromRequest().field("lastname").value();
         String phone = boundForm.bindFromRequest().field("phoneNumber").value();
 
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart filePart = body.getFile("image");
+        if(filePart != null){
+            File file = filePart.getFile();
+            Image profileImage = Image.create(file,null,user.id,null);
+            user.profileImg = profileImage;
+        }
+
         if (!pass1.equals(pass2)) {
             flash("error", "Passwords don't match");
             return ok(profilePage.render(user));
@@ -230,13 +238,6 @@ public class Users extends Controller {
                    user.hashPass();
                }
                 user.phoneNumber = phone;
-
-                Http.MultipartFormData body = request().body().asMultipartFormData();
-                Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
-                if(filePart != null){
-                    File file = filePart.getFile();
-                    Image profileImage = Image.create(file,null,user.id,null);
-                }
 
                 user.update();
 

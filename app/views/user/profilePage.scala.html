@@ -10,17 +10,7 @@
                 </div>
                 <div class="info-detail form-group">
 
-                <div class="col-md-5 contact-info text-left">
-                        <div class="text-center">
-                            @if(user.profileImg == null) {
-                                <img class="avatar img-circle img-thumbnail" src="http://www.dreveterinary.com/lib/img/placeholder_small.png" alt=""/>
-                            }else{
-                                <img src="@user.profileImg.getThumbnail"/>
-                            }
-                            <h6>Upload a profile photo...</h6>
-                            <input type="file" name="image" class="form-control" multiple/>
-                        </div>
-
+                <div class="col-md-3 contact-info text-left">
                       <div class="col-md-2 pannel-button">
                         @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
                         <div class="col-md-2 pannel-button carousel-caption">
@@ -42,7 +32,7 @@
 
                 </div>
 
-                <div class="col-md-6 col-md-offset-1 contact-form">
+                <div class="col-md-8 col-md-offset-1 contact-form">
                     @if(flash.containsKey("error")) {
                     <div class="alert alert-danger alert-dismissable">
                         <a class="panel-close close" data-dismiss="alert">�</a>
@@ -59,7 +49,16 @@
                     </div>
                     }
 
-                    <form class="form-horizontal" role="form" method="post" action="@routes.Users.updateUser(user.email)">
+                    <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="@routes.Users.updateUser(user.email)">
+                        <div class="text-center">
+                            @if(user.profileImg == null) {
+                                <img class="avatar img-circle img-thumbnail" src="http://www.dreveterinary.com/lib/img/placeholder_small.png" alt=""/>
+                            }else{
+                                <img src="@user.profileImg.getThumbnail"/>
+                            }
+                            <h6>Upload a profile photo...</h6>
+                            <input type="file" name="image" class="form-control"/>
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name:</label>
                             <div class="col-lg-8">
