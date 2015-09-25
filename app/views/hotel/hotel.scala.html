@@ -75,7 +75,7 @@
 
                                         <li>
                                             @feature.name
-                                            @*<img src="@feature.icon.getSize(30, 30)"/>*@
+                                            <img src="@feature.icon.getSize(30, 30)"/>
                                         </li>
                                     }
                                 }
@@ -93,7 +93,7 @@
                         <div class="info-detail">
                             @if(hotel.images.size() != 0) {
                                 @for(image <- hotel.images) {
-                                    @*<img src="@image.getSize(300, 200)"/>*@
+                                    <img src="@image.getSize(300, 200)"/>
                                 }
                             }
                             <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning">
@@ -163,7 +163,7 @@
                             <p>@comment.content</p>
                             <h5>This user rated hotel with: @comment.rating</h5>
 
-                            @if(Integer.parseInt(request().cookies().get("userTypeId").value()) == 3) {
+                            @if(Integer.parseInt(request().cookies().get("userAccessLevel").value()) == UserAccessLevel.ADMIN) {
                                 <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
                                     <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
                                         <button class="btn btn-danger">Delete</button>
