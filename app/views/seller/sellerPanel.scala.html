@@ -1,21 +1,29 @@
 @(hotels: List[Hotel])
 @main {
-    <div class="container" style="background-color : #204d74">
-        <div class="container" style="background-color: seashell;width: 90%;margin-bottom: 5%;margin-top: 5%;">
-            <div class="col-md-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Hotel name</th>
-                            <th>Address</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>Your hotels</h2>
+                </div>
 
-                    <tbody>
+
+                <div class="col-md-11 col-md-offset-1 contact-form">
+                    <h3>The list of your hotels</h3>
+
+                    <table class="table">
+                        <thead>
+                            <tr class="service">
+                                <th>Hotel name</th>
+                                <th>Address</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
                         @for(hotel <- hotels) {
                             @if(hotel.sellerId == Integer.parseInt(request().cookies().get("userId").value())) {
-                                <tr>
+                                <tr class="service">
 
                                     <td>@hotel.name</td>
                                     <td>@hotel.location</td>
@@ -29,9 +37,11 @@
                             }
                         }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-            </div>
+        </div>
     </div>
 }
