@@ -619,6 +619,10 @@ li a.active{
 	margin: 10px 0 30px 0;
 }
 
+.my-profile {
+	text-decoration: underline;
+}
+
 /*gmap*/
 #map{
 	height: 830px;

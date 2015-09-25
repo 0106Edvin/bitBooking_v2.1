@@ -78,6 +78,7 @@
                                             </li>
                                         } else {
                                             <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
+                                        <li><a class="menu my-profile" href="@routes.Users.editUser(currentUser.email)">@currentUser.email</a></li>
                                         }
 
                                     </ul>
