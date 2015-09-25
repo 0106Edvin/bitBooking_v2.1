@@ -24,7 +24,7 @@
                                 <td>@hotel.description</td>
                                 <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
                                     <td>
-                                        <a href="@routes.Hotels.deleteHotel(hotel.id)">
+                                        <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
                                             <button class="btn btn-danger">Delete</button>
                                         </a>
                                     </td>

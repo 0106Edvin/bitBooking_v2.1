@@ -117,8 +117,8 @@ public class Hotels extends Controller {
 
         hotel.update();
 
-//        return ok(routes.Hotels.showHotel(hotel.id));
-        return redirect(routes.Application.index());
+        return redirect(routes.Hotels.showHotel(hotel.id));
+        //return redirect(routes.Application.index());
     }
 
 

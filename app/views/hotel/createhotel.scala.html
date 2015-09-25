@@ -1,74 +1,78 @@
 @(features: java.util.List[Feature])(users: java.util.List[AppUser])
-    @import helper._
-    @main {
-        @helper.form(action = routes.Hotels.saveHotel()) {
-            <div class="container">
-                < class="row">
-                <form role="form">
-                    <div class="contact-caption clearfix">
-                        <div class="contact-heading text-center">
-                            <h2>REGISTER YOUR HOTEL</h2>
-                        </div>
-                        <div class="info-detail form-group">
-                            <div class="col-md-6 col-md-offset-0 contact-form form-group">
-                                <h3> Hotel information </h3>
+@import helper._
+@main {
+    @helper.form(action = routes.Hotels.saveHotel()) {
+        <div class="container">
+            < class="row">
+            <form role="form">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>REGISTER YOUR HOTEL</h2>
+                    </div>
+                    <div class="info-detail form-group">
+                        <div class="col-md-6 col-md-offset-0 contact-form form-group">
+                            <h3> Hotel information </h3>
 
-                                <input name="name" class="name" type="text" placeholder="Hotel Name" required>
-                                <input name="location" class="email" type="text" placeholder="Address">
-                                <input name="city" class="email" type="text" placeholder="City">
-                                <input name="country" class="email" type="text" placeholder="Country">
-                                <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
+                            <input name="name" class="name" type="text" placeholder="Hotel Name" required>
+                            <input name="location" class="email" type="text" placeholder="Address">
+                            <input name="city" class="email" type="text" placeholder="City">
+                            <input name="country" class="email" type="text" placeholder="Country">
+                            <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
 
 
-                                <div class="col-md-0 col-md-offset-0">
+                            <div class="col-md-0 col-md-offset-0">
 
-                                    <h3>Features</h3>
-                                    <div class="info-detail ">
-                                    @for(feature <- features) {
+                                <h3>Features</h3>
+                                <div class="info-detail ">
+                                @for(feature <- features) {
 
-                                        <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
+                                    <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
 
-                                        <img src="@feature.icon.getSize(30, 30)"/>
-
+                                        @*<img src="@feature.icon.getSize(30,30)"/>*@
 
                                     }
-                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md-0 col-md-offset-0">
+                            <div class="col-md-0 col-md-offset-0">
 
-                                    <h3>Select the owner</h3>
-                                    <div class="info-detail">
-                                        <select id="ddlsellers" name="seller">
-                                            <br>
-                                            @for(user <- users) {
+                                <h3>Select the owner</h3>
+                                <div class="info-detail">
+                                    <select id="ddlsellers" name="seller">
+                                        <br>
+
+                                        @for(user <- users) {
+                                            @if(user.userAccessLevel == 3) {
                                                 <option class="useri" style="font-size : larger " value="@user.id">@user.email</option>
                                             }
-                                        </select>
-                                    </div>
-
+                                        }
+                                    </select>
                                 </div>
-                                <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
-
                             </div>
+                            <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
 
                         </div>
-                        <div class="col-md-0 col-md-offset-6 ">
-                            <input id="gLat" name="coordinateX" value="43.8534183" readonly>
-                            <input id="gLng" name="coordinateY" value="18.37808399999" readonly>
-                            <div id="mapCanvas" class="shrinked-map"></div>
-                            <div id="infoPanel" style="display : none">
-                                <b>Marker status:</b>
-                                <div id="markerStatus"><i>Click and drag the marker.</i></div>
-                                <b>Current position:</b>
-                                <div id="info"></div>
-                            </div>
-                            <hr/>
-                        </div>
+
                     </div>
-                </form>
-            }
-    </div>
 
-    }
+                    <div class="col-md-0 col-md-offset-6 ">
+                        <br/><br/><br>
+
+                        <input id="gLat" name="coordinateX" value="43.8534183" readonly>
+                        <input id="gLng" name="coordinateY" value="18.37808399999" readonly>
+                        <div id="mapCanvas" class="shrinked-map"></div>
+                        <div id="infoPanel" style="display : none">
+                            <b>Marker status:</b>
+                            <div id="markerStatus"><i>Click and drag the marker.</i></div>
+                            <b>Current position:</b>
+                            <div id="info"></div>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+            </form>
+        }
+</div>
+
+}
 

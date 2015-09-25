@@ -1,48 +1,59 @@
+@import helpers.UserAccessLevel
+@import helpers.SessionsAndCookies
 @(rooms: List[Room])(hotel: Hotel)
 @main{
 
-<div class="container" style="background-color: #204d74">
-     <div class="container" style="background-color: seashell; width: 90%; margin-bottom: 5%; margin-top: 5%;">
-         <div class="col-md-12">
-             <table class="table table-hover">
-                 <thead>
-                     <tr>
-                         <th>Name</th>
-                         <th>Description</th>
-                         <th>Number of beds</th>
-                         <th></th>
-                     </tr>
-                 </thead>
-                 <tbody>
+        <div class="container">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>@hotel.name</h2>
+                    </div>
 
-                     @for(room <- rooms) {
-                         @if(room.hotel == hotel) {
+                    <div class="col-md-0 col-md-offset-1 contact-form">
+                        <h3>@hotel.name rooms</h3>
 
 
-                             <tr>
-                                 <td>@room.name</td>
-                                 <td>@room.description</td>
-                                 <td>@room.numberOfBeds</td>
+                        <table class="table">
+                            <thead>
+                                <tr class="service">
+                                    <th>Name</th>
+                                    <th>Number of beds</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
 
-                                 <td>
-                                     <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                         <button class="btn btn-danger" data-role = "delete" >Delete</button>
-                                     </a>
-                                 </td>
-                                 <td>
-                                     <a href="@routes.Rooms.updateRoom(room.id)">
-                                         <button class="btn btn-primary" data-role = "edit">Edit</button>
-                                     </a>
-                                 </td>
+                            <tbody>
 
-                             </tr>
-                         }
-                     }
+                            @for(room <- rooms) {
+                                @if(room.hotel == hotel) {
+                                    <tr class="service">
+                                        <td>@room.name</td>
+                                        <td>@room.numberOfBeds</td>
 
-                 </tbody>
-             </table>
-         </div>
-     </div>
- </div>
+                                        <td>
+                                            <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
+                                                <button class="btn btn-danger" data-role = "delete" >Delete</button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="@routes.Rooms.updateRoom(room.id)">
+                                                <button class="btn btn-primary" data-role = "edit">Edit</button>
+                                            </a>
+                                        </td>
 
-}
+                                    </tr>
+                                }
+                            }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }

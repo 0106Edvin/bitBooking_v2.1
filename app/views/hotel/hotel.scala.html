@@ -15,14 +15,14 @@
 
                 <div class="col-md-6 col-md-offset-0 ">
                     <div class="service">
-                    <div class="text-center">
-                        @if(hotel.images.size() == 0) {
-                            <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                        }else{
-                            <img src="@hotel.images.get(0).getSize(400,300)"/>
-                        }
-                        <h4 style="text-align : center">Picture description</h4>
-                    </div>
+                        <div class="text-center">
+                            @if(hotel.images.size() == 0) {
+                                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                            } else {
+                                <img src="@hotel.images.get(0).getSize(400, 300)"/>
+                            }
+                            <h4 style="text-align : center">Picture description</h4>
+                        </div>
                     </div>
                 </div>
 
@@ -69,14 +69,17 @@
                         <div class="info-detail">
                             <ul>
                                 <div class="service">
-                                    @if(hotel.features.size() != 0) {
-                                        @for(feature <- hotel.features) {
-                                            <li>
-                                                @feature.name
-                                            <img src="@feature.icon.getSize(30,30)"/>
-                                            </li>
-                                        }
+
+                                @if(hotel.features.size() != 0) {
+                                    @for(feature <- hotel.features) {
+
+                                        <li>
+                                            @feature.name
+                                            @*<img src="@feature.icon.getSize(30, 30)"/>*@
+                                        </li>
                                     }
+                                }
+
                                 </div>
                             </ul>
                         </div>
@@ -90,10 +93,11 @@
                         <div class="info-detail">
                             @if(hotel.images.size() != 0) {
                                 @for(image <- hotel.images) {
-                                    <img src="@image.getSize(300, 200)"/>
+                                    @*<img src="@image.getSize(300, 200)"/>*@
                                 }
                             }
-                            <a href="@routes.Rooms.showRoom(hotel.id)" ><button class="btn btn-warning">View rooms</button></a>
+                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning">
+                                View rooms</button></a>
                         </div>
                     </div>
                 </div>
@@ -104,46 +108,44 @@
                         <h3>Comments</h3>
                         <div class="info-detail">
                         @if(request().cookies().get("email") != null) {
-
-
                             <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
                                 <div class="form-group">
                                     <div>
                                         <div class="service">
-                                        <label>User:</label>
+                                            <label>User:</label>
 
-                                        <label>@request.cookies.get("name").value()</label>
-                                    </div>
+                                            <label>@request.cookies.get("name").value()</label>
+                                        </div>
                                     </div>
                                     <div class="service">
                                         <label for="usr">Title:</label>
-                                        </div>
-                                        <input type="text" class="form-control" id="usr" name="title">
+                                    </div>
+                                    <input type="text" class="form-control" id="usr" name="title">
                                     <div class="service">
                                         <label for="comment">Comment:</label>
-                                        </div>
-                                        <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content"></textarea>
+                                    </div>
+                                    <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content"></textarea>
                                     <div class="service">
                                         <label for="rate">Rate hotel:</label>
-                                        </div>
-                                        <select id="rate" name="rating" class="form-control" onchange="" style="width :70px">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                        </div>
-                                        @if(hasCommented) {
-                                            <div style="text-align : right">
-                                                <h3>You already commented this hotel.</h3>
-                                                <button type="submit" class="btn btn-success" disabled>Post</button>
-                                            </div>
-                                        } else {
-                                            <div style="text-align : right">
-                                                <button type="submit" class="btn btn-success">Post</button>
-                                            </div>
-                                        }
+                                    </div>
+                                    <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                                @if(hasCommented) {
+                                    <div style="text-align : right">
+                                        <h3>You already commented this hotel.</h3>
+                                        <button type="submit" class="btn btn-success" disabled>Post</button>
+                                    </div>
+                                } else {
+                                    <div style="text-align : right">
+                                        <button type="submit" class="btn btn-success">Post</button>
+                                    </div>
+                                }
 
 
                             </form>
