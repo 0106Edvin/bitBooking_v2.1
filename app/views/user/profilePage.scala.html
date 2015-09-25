@@ -24,12 +24,12 @@
                       <div class="col-md-2 pannel-button">
                         @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
                         <div class="col-md-2 pannel-button carousel-caption">
-                            <a href="@routes.Users.showAdminPanel()">  <button onclick="@routes.Users.showAdminPanel()">admin panel</button>
+                            <a href="@routes.Users.showAdminPanel()">  <button onclick="@routes.Users.showAdminPanel()">admin panel</button></a>
                         </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                         <div class="col-md-2 pannel-button carousel-caption">
-                            <a href="@routes.Users.showManagerHotels()">  <button onclick="@routes.Users.showManagerHotels()">manager panel</button>
+                            <a href="@routes.Users.showManagerHotels()">  <button onclick="@routes.Users.showManagerHotels()">manager panel</button></a>
                         </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.SELLER) {
