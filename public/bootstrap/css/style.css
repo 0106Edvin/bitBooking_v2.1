@@ -1,8 +1,14 @@
+
 body{
 	margin: 0;
 	padding: 0;
 	font-family: 'BenchNine', sans-serif;
+
 }
+#hotelsbtn{
+	margin-left: 60px;
+}
+
 li{
 	list-style: none;
 }
@@ -12,6 +18,31 @@ a:hover, a:visited, a{
 h1, h2{
 	text-transform: uppercase;
 	font-weight: bold;
+}
+.edvin-button{
+    width: 180px;
+    height: 50px;
+    font-size: 24px;
+    color: #fff;
+    background: transparent ;
+    padding: 0;
+    border: transparent;
+    font-family: 'BenchNine', sans-serif;
+    font-weight: bold;
+}
+.edvin-button-role{
+	width: 70px;
+	height: 30px;
+	font-size: 18px;
+	color: #fff;
+	background: transparent ;
+	padding: 0;
+	border: transparent;
+	font-family: 'BenchNine', sans-serif;
+	font-weight: bold;
+}
+.useri{
+	width: 200px !important;
 }
 
 
@@ -259,7 +290,7 @@ li a.active{
 .service{
 	background: url(../img/pattern.jpg);
 	background-repeat: repeat-y;
-	margin-top: 40px;
+	margin-top: 10px;
 }
 .service h2{
 	font-size: 90px;
@@ -267,13 +298,52 @@ li a.active{
 	margin-top: 70px;
 	margin-bottom: 0;
 }
-.service h4{
+.service h4 {
 	font-size: 24px;
 	color: #fff;
 	margin-top: 0;
 	margin-bottom: 70px;
 	display: block;
 }
+.service label  {
+	font-size: 24px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+
+}
+.service p{
+    font-size: 24px;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.service li{
+    font-size: 24px;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.service input{
+	font-size: 20px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.service th{
+	font-size: 24px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.service td{
+	font-size: 18px;
+	color: #fff;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+
 .single-service-img {
   width: 205px;
   height: 125px;
@@ -543,6 +613,14 @@ li a.active{
 }
 .contact-form{
 	padding-right: 40px;
+}
+
+.pannel-button {
+	margin: 10px 0 30px 0;
+}
+
+.my-profile {
+	text-decoration: underline;
 }
 
 /*gmap*/

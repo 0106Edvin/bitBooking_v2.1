@@ -1,0 +1,49 @@
+@(room: Room)
+@main {
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>@room.name</h2>
+                </div>
+
+                <div class="col-md-5 contact-info text-left">
+                    <h3>contact information</h3>
+                    <div class="info-detail">
+
+                        <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                        <div class="service">
+                            <p>Picture description</p>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-md-offset-1 contact-form">
+                    <h3>@room.name description</h3>
+                    <div class="info-detail">
+                        <div class="service">
+                            <p>@room.description</p>
+                        </div>
+                    </div>
+
+                    @*<div class="info-detail">*@
+                        @*<div class="service">*@
+                            @*<p>@room.features</p>*@
+                        @*</div>*@
+                    @*</div>*@
+                    <div>
+                    <a href="@routes.Rooms.updateRoom(room.id)" ><button class="btn btn-warning">EDIT</button> </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

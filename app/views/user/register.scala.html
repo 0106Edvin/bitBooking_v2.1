@@ -12,6 +12,7 @@
 
                 <div class="col-md-6 col-md-offset-3 contact-form">
                     <h3>Please enter your data</h3>
+                    <div class="info-detail">
                     @helper.form(action = routes.Users.saveUser()) {
                     <form>
                         <div class="duplicate-email">
@@ -23,18 +24,18 @@
                         <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">
                         <div id="email_error"></div>
                         <!--input field for password-->
-                        <input type="password" id="password" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();" >
+                        <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();">
                         <div id="password_error"></div>
                         <!--input field for password confirmation-->
                         <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onblur="checkPasswordMatch();" >
                         <div id="password2_error"></div>
                         <!--input for name-->
-                        <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onblur="checkName(); checkNameLength();">
+                        <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onblur="checkName();" onfocusout=" checkNameLength()">
                         <div id="name_error"></div>
                         <div id="namelength_error"></div>
 
                         <!--input for lastname-->
-                        <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onblur="checkLastname(); checkLastnameLength();">
+                        <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onblur="checkLastname();" onfocusout="checkLastnameLength()" >
                         <div id="lastname_error"></div>
                         <div id="lastnamelength_error"></div>
                         <!--input for lastname-->
@@ -45,7 +46,8 @@
                         <!--submit button-->
                         <input class="submit-btn" type="submit" value="Register">
                     </form>
-                    } 
+                    }
+                        </div>
                 </div>
 
             </div>

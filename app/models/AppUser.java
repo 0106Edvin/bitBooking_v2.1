@@ -4,11 +4,9 @@ import com.avaje.ebean.Model;
 import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
+
 import helpers.*;
 
 /**
@@ -51,6 +49,8 @@ public class AppUser extends Model {
 
     public Integer userAccessLevel = UserAccessLevel.BUYER;
 
+    @OneToOne
+    public Image profileImg;
 
     /**
      * Default constructor
@@ -67,13 +67,13 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
         this.password = password;
-        System.out.println(this.password);
         this.phoneNumber = phoneNumber;
+        this.profileImg = profileImg;
     }
 
     /**
@@ -86,6 +86,7 @@ public class AppUser extends Model {
      * @return
      */
     public static AppUser authenticate(String email, String password) {
+
         AppUser user = finder.where().eq("email", email.toString()).findUnique();
 
         if (user != null && BCrypt.checkpw(password, user.password)) {
@@ -141,6 +142,10 @@ public class AppUser extends Model {
         return users;
     }
 
+    public static AppUser findUserById(Integer id){
+        AppUser user = finder.where().eq("id",id).findUnique();
+        return user;
+    }
 }
 
 

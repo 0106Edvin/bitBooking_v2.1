@@ -1,4 +1,5 @@
 logs
+/conf/application.conf
 target
 /.idea
 /.idea_modules
