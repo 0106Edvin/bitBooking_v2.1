@@ -105,8 +105,10 @@
                 </div>
 
 
+
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
+
                         <h3>Comments</h3>
                         <div class="info-detail">
                         @if(currentUser != null) {
@@ -130,13 +132,15 @@
                                     <div class="service">
                                         <label for="rate">Rate hotel:</label>
                                     </div>
-                                    <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+
+                                        <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+
                                 </div>
                                 @if(hasCommented) {
                                     <div style="text-align : right">
@@ -156,6 +160,9 @@
                         </div>
                     </div>
                 </div>
+               
+
+
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
                     @for(comment <- hotel.comments) {

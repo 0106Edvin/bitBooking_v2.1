@@ -1,3 +1,5 @@
+@import helpers.UserAccessLevel
+
 @(users: java.util.List[AppUser])
 @main {
     <div class="container">
@@ -48,21 +50,21 @@
                     </thead>
                     <tbody>
                     @for(user <- users) {
-                        @if(user.userAccessLevel != 1) {
+                        @if(user.userAccessLevel != UserAccessLevel.ADMIN) {
                             <tr class="service">
                                 <td>@user.firstname</td>
                                 <td>@user.lastname</td>
                                 <td>@user.email</td>
-                                @if(user.userAccessLevel == 4) {
+                                @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                                     <td>Hotel Manager</td>
                                 }
-                                @if(user.userAccessLevel == 3) {
+                                @if(user.userAccessLevel == UserAccessLevel.SELLER) {
                                     <td>Seller</td>
                                 }
-                                @if(user.userAccessLevel == 2) {
+                                @if(user.userAccessLevel == UserAccessLevel.BUYER) {
                                     <td>Buyer</td>
                                 }
-                                @if(user.userAccessLevel == 1) {
+                                @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
                                     <td>Admin</td>
                                 }
                                 <td></td>
@@ -76,10 +78,25 @@
                                 </form>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
-                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" >
-                                            <option value="buyer">Buyer</option>
-                                            <option value="seller">Seller</option>
-                                            <option value="hotelmanager">Hotel Manager</option>
+                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" required >
+                                            @if(user.userAccessLevel == UserAccessLevel.BUYER){
+                                                <option value="buyer" selected="true">Buyer</option>
+                                                <option value="seller">Seller</option>
+                                                <option value="hotelmanager">Hotel Manager</option>
+                                            }
+                                            @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER){
+                                                <option value="buyer">Buyer</option>
+                                                <option value="seller">Seller</option>
+                                                <option value="hotelmanager" selected="true">Hotel Manager</option>
+                                            }
+                                            @if(user.userAccessLevel == UserAccessLevel.SELLER){
+                                                <option value="buyer">Buyer</option>
+                                                <option value="seller" selected="true">Seller</option>
+                                                <option value="hotelmanager">Hotel Manager</option>
+                                            }
+
+
+
                                         </select>
 
                                     </td>

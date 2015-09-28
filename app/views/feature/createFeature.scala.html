@@ -16,9 +16,9 @@
                                 }
                             </div>
                             <label>Feature name:</label>
-                            <input name="name" type="text" placeholder="Feature Name" required>
+                            <input name="name" style="text-transform: capitalize;" type="text" placeholder="Feature Name" required>
                             <label>Set icon:</label>
-                            <input type="file" name="image" class="form-control"/>
+                            <input type="file" name="image" class="form-control" accept="image/*" required/>
                             <input name="name" class="submit-btn " type="submit" value="ADD" onclick="@routes.Features.saveFeature()">
                         </form>
                     </div>
