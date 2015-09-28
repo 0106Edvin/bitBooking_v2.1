@@ -5,7 +5,9 @@
 # Home page
 GET         /                                               @controllers.Application.index()
 
-GET         /showRooms/:hotelId                             @controllers.Rooms.showRoom(hotelId: Integer)
+GET         /hotel/showrooms/:hotelId                       @controllers.Rooms.showRooms(hotelId: Integer)
+GET         /room/showRoom/:hotelId                         @controllers.Rooms.showRoom(hotelId: Integer)
+GET         /hotel/showhotel/:hotelId                       @controllers.Hotels.showHotel(hotelId: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
@@ -19,6 +21,15 @@ GET         /hotelmanager/hotels                            @controllers.Users.s
 GET         /hotelmanager/hotels/:id                        @controllers.Hotels.deleteHotel(id: Integer)
 GET         /hotels/search                                  @controllers.Hotels.search()
 
+
+#User
+GET         /user/register                                  @controllers.Users.registerUser()
+POST        /user/register/save                             @controllers.Users.saveUser()
+POST        /user/login                                     @controllers.Users.login()
+GET         /user/logout                                    @controllers.Users.logOut()
+GET         /user/update/:email                             @controllers.Users.editUser(email: String)
+POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
+POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
 
 
 
@@ -41,26 +52,11 @@ GET         /admin/adminhotels                              @controllers.Users.s
 GET         /admin/adminusers                               @controllers.Users.showAdminUsers()
 
 GET         /admin/adminhotels/:id                          @controllers.Hotels.deleteHotelAdmin(id: Integer)
-
 GET         /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
 
 GET         /admin/adminfeatures/editFeature/:id            @controllers.Features.editfeature(id: Integer)
 
 GET         /admin/adminhotels/showhotel/:id                @controllers.Hotels.showHotel(id: Integer)
-
-
-#User
-GET         /user/register                                  @controllers.Users.registerUser()
-POST        /user/register/save                             @controllers.Users.saveUser()
-POST        /user/login                                     @controllers.Users.login()
-GET         /user/logout                                    @controllers.Users.logOut()
-
-GET         /user/update/:email                             @controllers.Users.editUser(email: String)
-POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
-
-POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
-
-GET         /user/showhotel/:hotelId                        @controllers.Hotels.showHotel(hotelId: Integer)
 
 #Seller
 GET         /seller/edithotel/:id                           @controllers.Hotels.editHotel(id: Integer)
@@ -68,7 +64,7 @@ POST        /seller/updatehotel/:id                         @controllers.Hotels.
 POST        /seller/updateroom/setprice/:roomId             @controllers.Prices.savePrice(roomId: Integer)
 GET         /seller/sellerPanel/:userId                     @controllers.Hotels.showSellerHotels(userId: Integer)
 GET         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.editHotel(hotelId: Integer)
-POST         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
+POST        /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
 
 #Room
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
@@ -78,4 +74,7 @@ GET         /seller/updateroom/:id                          @controllers.Rooms.e
 POST        /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
 GET         /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
 
-GET         /seller/sellerpanel/showrooms/:hotelId          @controllers.Rooms.showRooms(hotelId: Integer)
+
+
+#General routes
+
