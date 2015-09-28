@@ -25,9 +25,9 @@
                                 <h3>Features</h3>
                                 <div class="info-detail ">
                                 @for(feature <- features) {
-
-                                    <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
-
+                            <div style="text-transform: capitalize; font-size: 22px; color:#FFFFFF;">
+                                    <input type="checkbox" name="@feature.name" value="@feature.name" style="width: 16px; height: 16px;"><td>  @feature.name</td><br>
+                                </div>
                                         @*<img src="@feature.icon.getSize(30,30)"/>*@
 
                                     }
