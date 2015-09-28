@@ -1,6 +1,6 @@
 @import helpers.UserAccessLevel
 @import helpers.SessionsAndCookies
-@(rooms: List[Room])(hotel: Hotel)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
+@(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
 
 @main{
         <div class="container">

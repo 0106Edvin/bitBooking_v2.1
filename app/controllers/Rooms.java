@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import controllers.routes;
+import models.AppUser;
 import models.Feature;
 import models.Hotel;
 import models.Room;
@@ -56,7 +57,7 @@ public class Rooms extends Controller {
         Room room = Room.findRoomById(id);
 
         Ebean.delete(room);
-        return redirect(routes.Application.index());
+        return redirect(routes.Rooms.showRooms(room.hotel.id));
     }
 
 
@@ -74,7 +75,8 @@ public class Rooms extends Controller {
     public Result showRooms(Integer hotelId) {
         List<Room> rooms = Room.finder.all();
         Hotel hotel = Hotel.findHotelById(hotelId);
-        return ok(showRooms.render(rooms, hotel, null));
+        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        return ok(showRooms.render(rooms, hotel, user));
     }
 
     public Result editRoom(Integer id) {

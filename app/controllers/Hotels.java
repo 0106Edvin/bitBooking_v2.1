@@ -127,10 +127,12 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        AppUser user = null;
         if (request().cookies().get("email") != null) {
-            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), null));
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
+            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), user));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, true, null));
+            return ok(views.html.hotel.hotel.render(hotel1, true, user));
         }
     }
 

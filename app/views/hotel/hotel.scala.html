@@ -1,9 +1,8 @@
 @import models.Comment
 @import java.lang.Boolean
 @import helpers.UserAccessLevel
-@import helpers.SessionsAndCookies
 
-@(hotel: Hotel)(hasCommented: Boolean)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
+@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
 @main {
     <div class="container">
