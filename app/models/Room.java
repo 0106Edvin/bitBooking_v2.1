@@ -32,25 +32,28 @@ public class Room extends Model {
     @ManyToOne
     public Hotel hotel;
 
-//    @OneToMany
-//    public List<Price> prices;
+    @OneToMany
+    public List<Price> prices;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Image> images;
+
 
     public Room(){
 
     }
-    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds){//, List<Price> prices
+    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images){
         this.id = id;
         this.description= description;
         this.features = features;
         this.name = name;
         this.hotel = hotel;
         this.numberOfBeds= numberOfBeds;
-//        this.prices = prices;
+        this.prices = prices;
+        this.images = images;
     }
     public static Room findRoomById(Integer id) {
         Room room = finder.where().eq("id", id).findUnique();
-
         return room;
-
     }
 }

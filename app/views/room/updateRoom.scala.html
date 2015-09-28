@@ -15,10 +15,10 @@
                         <div class="info-detail">
                         @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
                             <form class="form">
-                            <input name="name" class="name" type="text" placeholder="@room.name">
-                            <input name="numberOfBeds" class="phone" type="number" placeholder="@room.numberOfBeds">
+                            <input name="name" class="name" type="text" value="@room.name">
+                            <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds">
 
-                            <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="@room.description"></textarea>
+                            <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" value="@room.description"></textarea>
                             <h3>Choose pictures for gallery: </h3>
                             <div id="upload-file-container">
                                 <input type="file" name="image" class="form-control" multiple/>
