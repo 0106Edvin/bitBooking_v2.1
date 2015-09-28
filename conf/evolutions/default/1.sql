@@ -55,6 +55,7 @@ create table image (
   image_url                 varchar(255),
   secret_image_url          varchar(255),
   hotel_id                  integer,
+  room_id                   integer,
   feature_id                integer,
   constraint uq_image_feature_id unique (feature_id),
   constraint pk_image primary key (id))
@@ -100,12 +101,14 @@ alter table feature add constraint fk_feature_icon_4 foreign key (icon_id) refer
 create index ix_feature_icon_4 on feature (icon_id);
 alter table image add constraint fk_image_hotel_5 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_image_hotel_5 on image (hotel_id);
-alter table image add constraint fk_image_feature_6 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
-create index ix_image_feature_6 on image (feature_id);
-alter table price add constraint fk_price_room_7 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_price_room_7 on price (room_id);
-alter table room add constraint fk_room_hotel_8 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_8 on room (hotel_id);
+alter table image add constraint fk_image_room_6 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_image_room_6 on image (room_id);
+alter table image add constraint fk_image_feature_7 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
+create index ix_image_feature_7 on image (feature_id);
+alter table price add constraint fk_price_room_8 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_8 on price (room_id);
+alter table room add constraint fk_room_hotel_9 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_9 on room (hotel_id);
 
 
 

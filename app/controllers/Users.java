@@ -199,7 +199,7 @@ public class Users extends Controller {
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
         if(filePart != null){
             File file = filePart.getFile();
-            Image profileImage = Image.create(file,null,user.id,null);
+            Image profileImage = Image.create(file,null,user.id,null,null);
             user.profileImg = profileImage;
         }
 
