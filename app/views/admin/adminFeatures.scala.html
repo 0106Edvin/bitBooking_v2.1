@@ -38,13 +38,16 @@
                         <thead>
                             <tr >
                                 <th>Name</th>
-                                <th></th>
+                                <th>Icon</th>
                             </tr>
                         </thead>
                         <tbody>
                             @for(feature <- features) {
                                 <tr class="service">
-                                    <td>@feature.name</td>
+                                    <td style="text-transform: capitalize">@feature.name</td>
+                                    @if(feature.icon != null){
+                                        <td><img src="@feature.icon.getSize(50,50)" accept="image/*"/></td>
+                                    }
                                     <td name="feature">
                                         <form method="delete" action="@routes.Features.deleteFeature(feature.id)">
                                             <a onclick="return deleteConfirmation()" href="@routes.Features.deleteFeature(feature.id)">
