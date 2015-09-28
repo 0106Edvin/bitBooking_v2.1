@@ -30,11 +30,10 @@
                                     <tr class="service">
                                         <td>@room.name</td>
                                         <td>@room.numberOfBeds</td>
-
-
+                                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                             <td>
                                                 <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                                    <button class="btn btn-danger" data-role = "delete" >Delete</button>
+                                                    <button class="btn btn-danger" data-role = "delete">Delete</button>
                                                 </a>
                                             </td>
                                             <td>
@@ -42,14 +41,12 @@
                                                     <button class="btn btn-primary" data-role = "edit">Edit</button>
                                                 </a>
                                             </td>
-
+}
                                         <td>
                                             <a href="@routes.Rooms.showRoom(room.id)">
-                                                <button class="btn btn-danger"  >View</button>
+                                                <button class="btn btn-danger">View</button>
                                             </a>
                                         </td>
-
-
                                     </tr>
                                 }
                             }

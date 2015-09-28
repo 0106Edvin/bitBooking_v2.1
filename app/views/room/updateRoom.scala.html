@@ -1,86 +1,93 @@
 @(room: Room)
 @import helper._
 @main {
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<div class="container">
+    <div class="row">
+        <div class="contact-caption clearfix">
+            <div class="contact-heading text-center">
+                <h2>UPDATE ROOM</h2>
+            </div>
+            <div class="col-md-5 contact-form">
+                <h3>room information</h3>
 
+                <div class="info-detail">
+                    @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
+                    <form class="form">
+                        <input name="name" class="name" type="text" placeholder="@room.name">
+                        <input name="numberOfBeds" class="phone" type="number" placeholder="@room.numberOfBeds">
 
-        <div class="container">
-            <div class="row">
-                <div class="contact-caption clearfix">
-                    <div class="contact-heading text-center">
-                        <h2>UPDATE ROOM</h2>
-                    </div>
-                    <div class="col-md-6 col-md-offset-1 contact-form">
-                        <h3>room information</h3>
+                        <textarea class="message" name="description" id="message" cols="30" rows="10"
+                                  style="resize : none" placeholder="@room.description"></textarea>
+
+                        <h3>Choose pictures for gallery: </h3>
+
+                        <div id="upload-file-container">
+                            <input type="file" name="image" class="form-control" multiple/>
+                        </div>
+                        <h3>Features</h3>
+
                         <div class="info-detail">
-                        @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
-                            <form class="form">
-                            <input name="name" class="name" type="text" value="@room.name">
-                            <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds">
-
-                            <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" value="@room.description"></textarea>
-                            <h3>Choose pictures for gallery: </h3>
-                            <div id="upload-file-container">
-                                <input type="file" name="image" class="form-control" multiple/>
-                            </div>
-                            <h3>Features</h3>
-                            <div class="info-detail">
                             @if(room.features.size()>0) {
-                                @for(feature <- room.features) {
-                                    <div>
+                            @for(feature <- room.features) {
+                            <div>
                                         <span>
-                                            <input type="checkbox" class="fa-check-circle" id="@feature.id" name="@feature.name"/>
+                                            <input type="checkbox" class="fa-check-circle" id="@feature.id"
+                                                   name="@feature.name"/>
                                             <label for="@feature.name">@feature.name</label>
                                         </span>
-                                    </div>
-                                }
-                            }
                             </div>
-                            <a href="#"> <input class="submit-btn" type="submit" value="SUBMIT" ></a>
-                            </form>
-                        }
-                        </div>
-
-                    </div>
-                    <div class="col-md-5  contact-form">
-
-                        @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
-                                <h3>Add price</h3>
-
-                                <div class="service">
-                                    <div class="form-group">
-                                        <h4>Set the price for room </h4>
-                                        <div class="form-group">
-                                            <h4 style="margin-bottom: 0%"> From</h4>
-                                            <input type="date" name="checkIn"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <h4 style="margin-bottom: 0%">To</h4>
-                                            <input type="date" name="checkOut"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <div>
-                                                <h4 style="margin-bottom: 0%">Price</h4>
-                                            </div>
-                                            <div>
-                                                <input type="text" name="cost" style="width : 100px">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button href="@routes.Prices.savePrice(room.id)">
-                                                Add Price
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                             }
-                    </div>
-
+                            }
+                        </div>
+                        <a href="#"> <input class="submit-btn" type="submit" value="SUBMIT"></a>
+                    </form>
+                    }
                 </div>
+
             </div>
+            <div class="col-md-5 col-md-offset-2 contact-form">
 
+                @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
+                <h3>Add price</h3>
+
+                <div class="info-detail">
+                    <div class="service">
+                        <div class="form-group">
+                            <h4>Set the price for room </h4>
+
+                            <div class="form-group">
+                                <h4 style="margin-bottom: 0%"> From</h4>
+                                <input type="date" name="checkIn"/>
+                            </div>
+                            <div class="form-group">
+                                <h4 style="margin-bottom: 0%">To</h4>
+                                <input type="date" name="checkOut"/>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <h4 style="margin-bottom: 0%">Price</h4>
+                                </div>
+                                <div>
+                                    <input type="text" name="cost" style="width : 100px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="edvin-button" href="@routes.Prices.savePrice(room.id)">
+                                    Add Price
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
         </div>
+    </div>
+</div>
 
-            <!-- end of contact section -->
+</div>
+
+<!-- end of contact section -->
 
 }

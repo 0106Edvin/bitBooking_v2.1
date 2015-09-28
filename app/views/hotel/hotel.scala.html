@@ -111,7 +111,7 @@
 
                         <h3>Comments</h3>
                         <div class="info-detail">
-                        @if(currentUser != null) {
+                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
                             <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
                                 <div class="form-group">
                                     <div>
@@ -167,9 +167,11 @@
                     @for(comment <- hotel.comments) {
                         <div class="service">
                             <font size="20" style="color:black">@comment.user.firstname</font>
-                            <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
-                                <button class="btn btn-danger" style="float: right;">Delete</button>
-                            </a>
+                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
+                                <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
+                                    <button class="btn btn-danger" style="float: right;">Delete</button>
+                                </a>
+                            }
                             <br>
                             <font size="5" style="color:black">@comment.title</font>
                             <p style="color:white" required>@comment.content</p>
