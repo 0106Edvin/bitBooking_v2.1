@@ -107,7 +107,7 @@ public class Hotels extends Controller {
         if(fileParts != null){
             for (Http.MultipartFormData.FilePart filePart1 : fileParts){
                 File file = filePart1.getFile();
-                Image image = Image.create(file,hotel.id,null,null);
+                Image image = Image.create(file,hotel.id,null,null,null);
                 hotel.images.add(image);
             }
         }

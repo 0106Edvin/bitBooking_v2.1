@@ -3,16 +3,15 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import controllers.routes;
-import models.AppUser;
-import models.Feature;
-import models.Hotel;
-import models.Room;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import views.html.room.*;
 import views.html.seller.*;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class Rooms extends Controller {
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
         if(room.numberOfBeds <= 0){
-            flash("error","Room can't have that number of beds!");
+            flash("error", "Room can't have that number of beds!");
             redirect(routes.Rooms.createRoom(hotelId));
         }
         Hotel hotel = Hotel.findHotelById(hotelId);
@@ -53,9 +52,19 @@ public class Rooms extends Controller {
         room.description = description;
         room.numberOfBeds = numberOfBeds;
 
+        Http.MultipartFormData body1 = request().body().asMultipartFormData();
+        List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
+        if(fileParts != null){
+            for (Http.MultipartFormData.FilePart filePart1 : fileParts){
+                File file = filePart1.getFile();
+                Image image = Image.create(file,null,null,null,room.id);
+                room.images.add(image);
+            }
+        }
+
         room.update();
 
-       return redirect(routes.Prices.savePrice(id));
+       return redirect(routes.Rooms.showRoom(id));
     }
     public Result deleteRoom(Integer id){
         Room room = Room.findRoomById(id);
