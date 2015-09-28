@@ -123,11 +123,11 @@
                                     <div class="service">
                                         <label for="usr">Title:</label>
                                     </div>
-                                    <input type="text" class="form-control" id="usr" name="title">
+                                    <input type="text" class="form-control" id="usr" name="title" required>
                                     <div class="service">
                                         <label for="comment">Comment:</label>
                                     </div>
-                                    <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content"></textarea>
+                                    <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content" required></textarea>
                                     <div class="service">
                                         <label for="rate">Rate hotel:</label>
                                     </div>
@@ -141,20 +141,19 @@
                                         </select>
 
                                 </div>
+
                                 @if(hasCommented) {
                                     <div style="text-align : right">
-                                        <h3>You already commented this hotel.</h3>
-                                        <button type="submit" class="btn btn-success" disabled>Post</button>
+                                        <font size="6"><i>You already commented this hotel.</i></font>
+                                        <hr>
                                     </div>
                                 } else {
                                     <div style="text-align : right">
                                         <button type="submit" class="btn btn-success">Post</button>
                                     </div>
+
                                 }
-
-
                             </form>
-
                         }
                         </div>
                     </div>
@@ -165,22 +164,21 @@
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
                     @for(comment <- hotel.comments) {
-                        <div class="row">
-                            <h3 style="color : #269abc">@comment.user.firstname</h3>
-                            <h4 style="color : #ac2925 ; text-align : center">@comment.title</h4>
-                            <p>@comment.content</p>
-                            <h5>This user rated hotel with: @comment.rating</h5>
-
-                            @if(currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
+                        <div class="service">
+                            <font size="20" style="color:black">@comment.user.firstname</font>
+                            <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
+                                <button class="btn btn-danger" style="float: right;">Delete</button>
+                            </a>
+                            <br>
+                            <font size="5" style="color:black">@comment.title</font>
+                            <p style="color:white" required>@comment.content</p>
+                            <font size ="5"><i>This user rated hotel with:</i> @comment.rating</font>
                                 <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
-                                    <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
-                                        <button class="btn btn-danger">Delete</button>
-                                    </a>
                                 </form>
+                            <hr>
                             }
 
                         </div>
-                    }
                     </div>
 
 
