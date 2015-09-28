@@ -27,6 +27,10 @@ public class Rooms extends Controller {
 
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
+        if(room.numberOfBeds <= 0){
+            flash("error","Room can't have that number of beds!");
+            redirect(routes.Rooms.createRoom(hotelId));
+        }
         Hotel hotel = Hotel.findHotelById(hotelId);
 
         room.hotel = hotel;
