@@ -35,6 +35,7 @@ public class Price extends Model {
     @ManyToOne
     public Room room;
 
+    public Price(){}
 
     public Price(Integer id, Date checkIn, Date checkOut, BigDecimal cost, Room room) {
         this.id = id;
