@@ -12,10 +12,26 @@
                     <div class="info-detail">
 
                         <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                        <div class="service">
-                            <p>Picture description</p>
-                        </div>
+
                         <hr/>
+                    </div>
+                    <div class="col-md-5">
+                        <h3>Reservation</h3>
+                        <div class="info-detail">
+
+                            <div class="service">
+                            <h4>From:</h4>
+                            </div>
+                            <input type="date"/>
+
+                            <div class="service">
+                                <h4>To:</h4>
+                            </div>
+                                <input type="date" />
+                        </div>
+                        <form>
+                            <input type="button"  class="edvin-button" value="Reserve">
+                        </form>
                     </div>
                 </div>
 
@@ -29,19 +45,25 @@
                     </div>
 
                     @*<div class="info-detail">*@
-                        @*<div class="service">*@
-                            @*<p>@room.features</p>*@
-                        @*</div>*@
+                    @*<div class="service">*@
+                    @*<p>@room.features</p>*@
+                    @*</div>*@
                     @*</div>*@
                     <div>
+
                     <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning">EDIT</button> </a>
+
                     </div>
 
                 </div>
 
+
             </div>
+
         </div>
     </div>
+
+
 
 }
 
