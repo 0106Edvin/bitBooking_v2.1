@@ -74,7 +74,7 @@ public class Rooms extends Controller {
     public Result showRooms(Integer hotelId) {
         List<Room> rooms = Room.finder.all();
         Hotel hotel = Hotel.findHotelById(hotelId);
-        return ok(showRooms.render(rooms, hotel));
+        return ok(showRooms.render(rooms, hotel, null));
     }
 
     public Result editRoom(Integer id) {

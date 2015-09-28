@@ -21,6 +21,16 @@ GET         /hotelmanager/hotels                            @controllers.Users.s
 GET         /hotelmanager/hotels/:id                        @controllers.Hotels.deleteHotel(id: Integer)
 GET         /hotels/search                                  @controllers.Hotels.search()
 
+#User
+GET         /user/register                                  @controllers.Users.registerUser()
+POST        /user/register/save                             @controllers.Users.saveUser()
+POST        /user/login                                     @controllers.Users.login()
+GET         /user/logout                                    @controllers.Users.logOut()
+
+GET         /user/update/:email                             @controllers.Users.editUser(email: String)
+POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
+
+POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
 
 #User
 GET         /user/register                                  @controllers.Users.registerUser()
@@ -30,8 +40,6 @@ GET         /user/logout                                    @controllers.Users.l
 GET         /user/update/:email                             @controllers.Users.editUser(email: String)
 POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
 POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
-
-
 
 #Admin
 
@@ -55,8 +63,6 @@ GET         /admin/adminhotels/:id                          @controllers.Hotels.
 GET         /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
 
 GET         /admin/adminfeatures/editFeature/:id            @controllers.Features.editfeature(id: Integer)
-
-GET         /admin/adminhotels/showhotel/:id                @controllers.Hotels.showHotel(id: Integer)
 
 #Seller
 GET         /seller/edithotel/:id                           @controllers.Hotels.editHotel(id: Integer)

@@ -1,8 +1,8 @@
 @import helpers.UserAccessLevel
 @import helpers.SessionsAndCookies
-@(rooms: List[Room])(hotel: Hotel)
-@main{
+@(rooms: List[Room])(hotel: Hotel)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 
+@main{
         <div class="container">
             <div class="row">
                 <div class="contact-caption clearfix">
@@ -31,17 +31,16 @@
                                         <td>@room.name</td>
                                         <td>@room.numberOfBeds</td>
 
-                                        <td>
-                                            <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                                <button class="btn btn-danger" data-role = "delete" >Delete</button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="@routes.Rooms.editRoom(room.id)">
-                                                <button class="btn btn-primary" data-role = "edit">Edit</button>
-                                            </a>
-                                        </td>
-
+                                            <td>
+                                                <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
+                                                    <button class="btn btn-danger" data-role = "delete" >Delete</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@routes.Rooms.editRoom(room.id)">
+                                                    <button class="btn btn-primary" data-role = "edit">Edit</button>
+                                                </a>
+                                            </td>
                                     </tr>
                                 }
                             }

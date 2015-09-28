@@ -1,7 +1,9 @@
 @import models.Comment
 @import java.lang.Boolean
 @import helpers.UserAccessLevel
-@(hotel: Hotel)(hasCommented: Boolean)
+@import helpers.SessionsAndCookies
+
+@(hotel: Hotel)(hasCommented: Boolean)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 @import helper._
 @main {
     <div class="container">
@@ -107,7 +109,7 @@
                     <div class="col-md-10 col-md-offset-0">
                         <h3>Comments</h3>
                         <div class="info-detail">
-                        @if(request().cookies().get("email") != null) {
+                        @if(currentUser != null) {
                             <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
                                 <div class="form-group">
                                     <div>
@@ -163,7 +165,7 @@
                             <p>@comment.content</p>
                             <h5>This user rated hotel with: @comment.rating</h5>
 
-                            @if(Integer.parseInt(request().cookies().get("userAccessLevel").value()) == UserAccessLevel.ADMIN) {
+                            @if(currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
                                 <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
                                     <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
                                         <button class="btn btn-danger">Delete</button>
