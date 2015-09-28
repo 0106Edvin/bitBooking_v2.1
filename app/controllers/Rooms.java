@@ -75,7 +75,11 @@ public class Rooms extends Controller {
     public Result showRooms(Integer hotelId) {
         List<Room> rooms = Room.finder.all();
         Hotel hotel = Hotel.findHotelById(hotelId);
-        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        AppUser user = null;
+        if (session("userId") != null) {
+           user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        }
+
         return ok(showRooms.render(rooms, hotel, user));
     }
 
