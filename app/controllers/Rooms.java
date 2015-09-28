@@ -32,7 +32,7 @@ public class Rooms extends Controller {
         room.hotel = hotel;
 
         Ebean.save(room);
-        return redirect(routes.Application.index());
+        return redirect(routes.Rooms.showRooms(hotel.id));
     }
 
     public Result updateRoom(Integer id) {
@@ -77,5 +77,9 @@ public class Rooms extends Controller {
         return ok(showRooms.render(rooms, hotel));
     }
 
+    public Result editRoom(Integer id) {
+        Room room = Room.findRoomById(id);
+        return ok(updateRoom.render(room));
+    }
 
 }

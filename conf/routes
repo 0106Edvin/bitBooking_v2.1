@@ -74,6 +74,7 @@ POST         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
 GET         /room/:id                                       @controllers.Rooms.showRoom(id: Integer)
 POST        /seller/saveroom/:hotelId                       @controllers.Rooms.saveRoom(hotelId: Integer)
+GET         /seller/updateroom/:id                          @controllers.Rooms.editRoom(id: Integer)
 POST        /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
 GET         /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
 
