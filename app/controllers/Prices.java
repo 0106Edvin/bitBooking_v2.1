@@ -41,8 +41,8 @@ public class Prices extends Controller {
         Room room = Room.findRoomById(roomId);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            price.checkIn = dtf.parse(checkin);
-            price.checkOut = dtf.parse(checkout);
+            price.dateFrom = dtf.parse(checkin);
+            price.dateTo = dtf.parse(checkout);
         }catch (ParseException e){
             System.out.println(e.getMessage());
         }

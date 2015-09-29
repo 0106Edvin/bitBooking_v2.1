@@ -52,6 +52,8 @@ public class AppUser extends Model {
     @OneToOne
     public Image profileImg;
 
+    @OneToMany
+    public List<Reservation> reservations;
     /**
      * Default constructor
      */
@@ -67,13 +69,14 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.profileImg = profileImg;
+        this.reservations = reservations;
     }
 
     /**

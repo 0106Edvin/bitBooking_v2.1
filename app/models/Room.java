@@ -38,11 +38,13 @@ public class Room extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<Image> images;
 
+    @OneToMany
+    public List<Reservation> reservations;
 
-    public Room(){
+    public Room(){}
 
-    }
-    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images){
+
+    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images, List<Reservation> reservations){
         this.id = id;
         this.description= description;
         this.features = features;
@@ -51,6 +53,7 @@ public class Room extends Model {
         this.numberOfBeds= numberOfBeds;
         this.prices = prices;
         this.images = images;
+        this.reservations = reservations;
     }
     public static Room findRoomById(Integer id) {
         Room room = finder.where().eq("id", id).findUnique();
