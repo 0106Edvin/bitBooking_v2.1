@@ -17,8 +17,8 @@
                         <table class="table">
                             <thead>
                                 <tr class="service">
-                                    <th>Name</th>
-                                    <th>Number of beds</th>
+                                    <th style="font-size: 30px;">Name</th>
+                                    <th style="font-size: 30px;">Number of beds</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -28,23 +28,23 @@
                             @for(room <- rooms) {
                                 @if(room.hotel == hotel) {
                                     <tr class="service">
-                                        <td>@room.name</td>
-                                        <td>@room.numberOfBeds</td>
+                                        <td style="font-size: 22px;">@room.name</td>
+                                        <td style="font-size: 22px;">@room.numberOfBeds</td>
                                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                             <td>
                                                 <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                                    <button class="btn btn-danger" data-role = "delete">Delete</button>
+                                                    <button class="btn btn-danger" data-role = "delete" style="font-size: 17px;">Delete</button>
                                                 </a>
                                             </td>
                                             <td>
                                                 <a href="@routes.Rooms.editRoom(room.id)">
-                                                    <button class="btn btn-primary" data-role = "edit">Edit</button>
+                                                    <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">Edit</button>
                                                 </a>
                                             </td>
 }
                                         <td>
                                             <a href="@routes.Rooms.showRoom(room.id)">
-                                                <button class="btn btn-danger">View</button>
+                                                <button class="btn btn-warning" style="font-size: 17px;">View</button>
                                             </a>
                                         </td>
                                     </tr>

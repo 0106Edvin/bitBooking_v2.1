@@ -246,6 +246,10 @@ li a.active{
   border-right: 35px solid transparent;
   border-bottom: 15px solid #fff;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> svega pomalo
 .gogo:after {
   content: "";
   position: absolute;
@@ -272,7 +276,7 @@ li a.active{
 	margin-top: 0;
 }
 .about-details p{
-	font-size: 13px;
+	font-size: 18px;
 	color: #fff;
 	font-family: 'Open Sans', sans-serif;
 	padding: 0 25px;
