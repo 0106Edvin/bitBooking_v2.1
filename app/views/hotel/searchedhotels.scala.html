@@ -6,25 +6,23 @@
             <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="single-about-detail clearfix">
-                        <div class="about-img">
+                        <div class="about-img" style="text-align: center">
                             @if(hotel.images.size() == 0) {
                                 <img class="img-responsive" src="http://placehold.it/360x300" alt="">
                             } else {
                                 <img src="@hotel.images.get(0).getSize(360, 300)"/>
                             }
                             <div class="about-details">
-                                <div class="pentagon-text">
-                                    <h1>bB</h1>
-
+                                <div class="gogo" style="background-image: url('http://res.cloudinary.com/dzkq8z522/image/upload/w_70,h_50/v1443185744/urssuhubmnnmr32hd8n0.png');background-repeat: no-repeat;font-size: 50px">
+                                    <h1>
+                                    @hotel.getRating()
+                                    </h1>
                                 </div>
-
                                 <h3>@hotel.name</h3>
                                 <p>Hotel address: <br>@hotel.location</p>
-
                                 <button name="" class="edvin-button" href="@routes.Hotels.showHotel(hotel.id)">
                                     VIEW HOTEL</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
