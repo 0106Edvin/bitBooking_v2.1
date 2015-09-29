@@ -88,7 +88,7 @@ public class Features extends Controller {
 
         feature.update();
 
-        return redirect(routes.Application.index());
+        return redirect(routes.Users.showAdminFeatures());
     }
 
 

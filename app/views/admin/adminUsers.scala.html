@@ -35,7 +35,7 @@
                     </a>
                 </div>
 
-                <table class="table table-responsive">
+                <table class="table table-responsive" style="font-size: 45px;">
                     <thead>
                         <tr class="service">
                             <th>Name</th>
@@ -52,33 +52,33 @@
                     @for(user <- users) {
                         @if(user.userAccessLevel != UserAccessLevel.ADMIN) {
                             <tr class="service">
-                                <td>@user.firstname</td>
-                                <td>@user.lastname</td>
-                                <td>@user.email</td>
+                                <td style="text-transform: capitalize; font-size: 22px;">@user.firstname</td>
+                                <td style="text-transform: capitalize; font-size: 22px;">@user.lastname</td>
+                                <td style="font-size: 22px;">@user.email</td>
                                 @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
-                                    <td>Hotel Manager</td>
+                                    <td style="font-size: 22px;">Hotel Manager</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                                    <td>Seller</td>
+                                    <td style="font-size: 22px;">Seller</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.BUYER) {
-                                    <td>Buyer</td>
+                                    <td style="font-size: 22px;">Buyer</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
-                                    <td>Admin</td>
+                                    <td style="font-size: 22px;">Admin</td>
                                 }
                                 <td></td>
                                 <form method="delete" action="@routes.Users.deleteUser(user.email)">
                                     <td>
                                         <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
-                                            <button data-role="delete" class="btn btn-danger">Delete</button>
+                                            <button data-role="delete" class="btn btn-danger" style="font-size: 18px;">Delete</button>
                                         </a>
 
                                     </td>
                                 </form>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
-                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" required >
+                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" style="font-size: 18px; height: 40px;" required>
                                             @if(user.userAccessLevel == UserAccessLevel.BUYER){
                                                 <option value="buyer" selected="true">Buyer</option>
                                                 <option value="seller">Seller</option>
@@ -100,7 +100,7 @@
                                         </select>
 
                                     </td>
-                                    <td><button class="edvin-button-role" type="submit">Change role</button></td>
+                                    <td><button class="edvin-button-role" type="submit" style="font-size: 20px;">Change role</button></td>
                                 </form>
                             </tr>
 

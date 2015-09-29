@@ -32,7 +32,7 @@
                                 <input type="date" />
                         </div>
                         <form>
-                            <input type="button"  class="edvin-button" value="Reserve">
+                            <input type="button"  class="edvin-button" value="Reserve" style="font-size: 28px;">
                         </form>
                     </div>
                 </div>
@@ -42,14 +42,12 @@
                     <h3>@room.name description</h3>
                     <div class="info-detail">
                         <div class="service">
-                            <p>@room.description</p>
+                            <p style="font-size: 25px;">@room.description</p>
                         </div>
                     </div>
 
                     <div>
-
-                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning">EDIT</button> </a>
-
+                        <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
                     </div>
 
                 </div>

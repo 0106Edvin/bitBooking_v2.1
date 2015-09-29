@@ -10,22 +10,22 @@
                 <table class="table ">
                     <thead>
                         <tr class="service">
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Description</th>
+                            <th style="font-size: 30px;">Name</th>
+                            <th style="font-size: 30px;">Location</th>
+                            <th style="font-size: 30px;">Description</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @for(hotel <- hotels) {
                             <tr class="service">
-                                <td>@hotel.name</td>
-                                <td>@hotel.location</td>
-                                <td>@hotel.description</td>
+                                <td style="font-size: 22px;">@hotel.name</td>
+                                <td style="font-size: 22px;">@hotel.location</td>
+                                <td style="font-size: 22px;">@hotel.description</td>
                                 <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
                                     <td>
                                         <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                            <button class="btn btn-danger">Delete</button>
+                                            <button class="btn btn-danger"  style="font-size: 17px;">Delete</button>
                                         </a>
                                     </td>
                                 </form>
@@ -35,7 +35,7 @@
                         <tr>
                             <td>
                                 <a href="@routes.Hotels.createHotel()">
-                                    <button class="btn btn-success">Add new hotel</button>
+                                    <button class="btn btn-success"  style="font-size: 17px;">Add new hotel</button>
                                 </a>
                             </td>
                         </tr>
