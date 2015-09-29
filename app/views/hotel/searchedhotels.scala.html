@@ -3,7 +3,6 @@
 @for(hotel <- hotels) {
     @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
         <div class="container">
-            <div class="row">
                 <div class="col-md-4 col-sm-6">
                     <div class="single-about-detail clearfix">
                         <div class="about-img">
@@ -28,7 +27,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         }
     }
