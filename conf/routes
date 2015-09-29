@@ -84,3 +84,6 @@ GET         /deleteroom/:roomId                             @controllers.Rooms.d
 
 #General routes
 
+GET         /weather                                        @controllers.ApiCommunicatior.test()
+GET         /weather/getweather                             @controllers.ApiCommunicatior.getWeather()
+

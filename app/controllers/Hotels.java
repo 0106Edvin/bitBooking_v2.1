@@ -12,7 +12,9 @@ import play.mvc.Security;
 import views.html.hotel.createhotel;
 import views.html.hotel.hotel;
 import views.html.hotel.updateHotel;
+import views.html.manager.managerHotels;
 import views.html.seller.sellerPanel;
+import views.html.user.profilePage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +34,6 @@ public class Hotels extends Controller {
         List<AppUser> users = AppUser.finder.all();
         return ok(createhotel.render(features, users));
     }
-
 
     /*   Saving hotel to data base*/
 
@@ -71,7 +72,10 @@ public class Hotels extends Controller {
         hotel.sellerId = sellerId;
 
         hotel.save();
-        return redirect(routes.Application.index());
+
+        List<Hotel> hotels = finder.all();
+        return ok(managerHotels.render(hotels));
+
 
     }
 
