@@ -23,12 +23,12 @@ public class Comment extends Model {
 
     public String title;
     public String content;
-    public Integer rating;
+    public Double rating;
 
     /*
      *Default constructor
      */
-    public Comment(Integer id, AppUser user, Hotel hotel, String title, String content, Integer rating) {
+    public Comment(Integer id, AppUser user, Hotel hotel, String title, String content, Double rating) {
         this.id = id;
         this.user = user;
         this.hotel = hotel;

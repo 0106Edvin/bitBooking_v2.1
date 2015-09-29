@@ -1,8 +1,11 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.Logger;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,7 @@ public class Hotel extends Model {
     public String coordinateX;
     public String coordinateY;
     public Integer sellerId;
+    private Double rating;
 
     @ManyToMany
     public List<Feature> features;
@@ -36,7 +40,8 @@ public class Hotel extends Model {
     @OneToMany
     public List<Comment> comments;
 
-    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId, List<Image> images) {
+
+    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
 
         this.id = id;
         this.name = name;
@@ -51,8 +56,7 @@ public class Hotel extends Model {
         this.images = images;
         this.rooms = rooms;
         this.comments = comments;
-
-
+        this.rating = 0.0;
     }
 
     //method that finds hotel by id
@@ -77,4 +81,18 @@ public class Hotel extends Model {
         return (id.toString() + " " + name + " " + location);
     }
 
+    public Double getRating(){
+        rating = 0.0;
+        if(comments != null && comments.size() > 0) {
+            Logger.info("Hellooooooooooooooooooooooooooooooo");
+
+            for (int i = 0; i < comments.size(); i++) {
+                rating += comments.get(i).rating;
+            }
+            rating = rating / comments.size();
+        }
+        DecimalFormat format = new DecimalFormat("0.0");
+        rating = Double.valueOf(format.format(rating));
+        return rating;
+    }
 }

@@ -23,7 +23,7 @@ create table comment (
   hotel_id                  integer,
   title                     varchar(255),
   content                   varchar(255),
-  rating                    integer,
+  rating                    double,
   constraint pk_comment primary key (id))
 ;
 
@@ -46,6 +46,7 @@ create table hotel (
   coordinate_x              varchar(255),
   coordinate_y              varchar(255),
   seller_id                 integer,
+  rating                    double,
   constraint pk_hotel primary key (id))
 ;
 
