@@ -19,6 +19,7 @@ public class Emails extends Controller {
 
         String user_name = mailForm.bindFromRequest().field("user_name").value();
         String mail = mailForm.bindFromRequest().field("mail").value();
+        String subject = mailForm.bindFromRequest().field("subject").value();
         String message = mailForm.bindFromRequest().field("message").value();
 
         SimpleEmail email = new SimpleEmail();
@@ -30,8 +31,8 @@ public class Emails extends Controller {
             email.setStartTLSEnabled(true);
             email.setDebug(true);
             email.addTo("bitBooking2015@gmail.com");
-            email.setSubject("subject");
-            email.setMsg(user_name + "\n" + mail + "\n" + message);
+            email.setSubject(subject);
+            email.setMsg(user_name + "\n" + mail + "\n\n"+subject +"\n" + message);
 
             email.send();
         } catch (EmailException e) {
