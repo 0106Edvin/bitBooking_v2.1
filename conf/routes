@@ -87,3 +87,5 @@ GET         /deleteroom/:roomId                             @controllers.Rooms.d
 GET         /weather                                        @controllers.ApiCommunicatior.test()
 GET         /weather/getweather                             @controllers.ApiCommunicatior.getWeather()
 
+
+POST        /user/sendMmail                                 @controllers.Emails.sendMail()

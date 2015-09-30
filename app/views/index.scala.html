@@ -1,5 +1,5 @@
 @(content: Html)
-@main  {
+@main {
 
     <section class="slider" id="home">
         <div class="container-fluid">
@@ -112,8 +112,7 @@
 
             </div>
         </div>
-    </section><!-- end of slider section -->
-
+    </section> <!-- end of slider section -->
 
 
     <!-- about section -->
@@ -127,63 +126,61 @@
 
             </div>
         </div>
-    </section><!-- end of about section -->
+    </section> <!-- end of about section -->
 
 
-<section class="">
-    <div class="" id="searchPanel">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>Search Hotels</h2>
-                </div>
+    <section class="">
+        <div class="" id="searchPanel">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>Search Hotels</h2>
+                    </div>
 
-                <div class="col-md-4 col-md-offset-3 contact-form">
-                    @* <h4>Search:</h4>*@
-                    <div class="info-detail">
-                        <form method="get" action="@routes.Hotels.search()">
-                        @*<div class="fa-search">*@
-                            @*<div class="form-group">*@
+                    <div class="col-md-4 col-md-offset-3 contact-form">
+                        @* <h4>Search:</h4>*@
+                        <div class="info-detail">
+                            <form method="get" action="@routes.Hotels.search()">
+                                @*<div class="fa-search">*@
+                                @*<div class="form-group">*@
 
                                 @*<select name="object" class="form-control" id="sel1">*@
-                                    @*<option>Hotel</option>*@
-                                    @*<option>Room</option>*@
+                                @*<option>Hotel</option>*@
+                                @*<option>Room</option>*@
 
-                                    @*</select>*@
+                                @*</select>*@
                                 @*</div>*@
 
-                            @*</div>*@
+                                @*</div>*@
 
+                                <div class="form-group">
+                                    <h3>Search By:</h3>
+                                    <select name="category" class="form-control" id="sel1" style="font-size : 18 px ; height : 50 px ;">
+                                        <option value="country" style="font-size : 18 px ;" type="text">Country</option>
+                                        <option value="city" style="font-size : 18 px ;">City</option>
+                                        <option value="price" style="font-size : 18 px ;">Price</option>
+                                        <option value="name" style="font-size : 18 px ;">Name</option>
+                                    </select>
 
-                        <div class="form-group">
-                            <h3>Search By:</h3>
-                            <select name="category" class="form-control" id="sel1" style="font-size: 18px; height: 50px;">
-                                <option value="country" style="font-size: 18px;" type="text">Country</option>
-                                <option value="city" style="font-size: 18px;">City</option>
-                                <option value="price" style="font-size: 18px;">Price</option>
-                                <option value="name" style="font-size: 18px;">Name</option>
-                            </select>
+                                </div>
+                                <div>
+                                    <h5> </h5>
+                                </div>
+                                    <!--input field for search-->
+                                <input type="text" id="search1" name = "search" style="font-size : 17 px ; height : 50 px ;" minlength="2" maxlength="32" required>
+
+                                    <!--submit button-->
+                                <input class="submit-btn" style="background-color : #204d74 ; border-radius : 5 px ; width : 80 px ; height : 40 px ;" type="submit" value="Search" style="font-size : 30 px ;">
+                            </form>
 
                         </div>
-                        <div>
-                            <h5> </h5>
-                        </div>
-                        <!--input field for search-->
-                        <input type="text" id="search1" name = "search" style="font-size: 17px; height: 50px;" minlength="2" maxlength="32" required>
-
-
-                        <!--submit button-->
-                        <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 40px;" type="submit" value="Search" style="font-size: 30px;">
-                    </form>
-
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
 
 
     <!-- team section -->
@@ -269,7 +266,7 @@
                 </div>
             </div>
         </div>
-    </section><!-- end of team section -->
+    </section> <!-- end of team section -->
 
     <!-- map section -->
     <section class="api-map" id="contact">
@@ -278,7 +275,7 @@
                 <div class="col-md-12 map" id="map"></div>
             </div>
         </div>
-    </section><!-- end of map section -->
+    </section> <!-- end of map section -->
 
     <!-- contact section starts here -->
     <section class="contact">
@@ -291,9 +288,11 @@
 
                     <div class="col-md-5 contact-info text-left">
                         <h3>contact information</h3>
-                        <div class="info-detail" style="font-size: 20px;">
-                            <ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span> 9:30 AM to 6:30 PM</li></ul>
-                            <ul><li><i class="fa fa-map-marker"></i><span>Address:</span> 123 Some Street , London, UK, CP 123</li></ul>
+                        <div class="info-detail" style="font-size : 20 px ;">
+                            <ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span>
+                                9:30 AM to 6:30 PM</li></ul>
+                            <ul><li><i class="fa fa-map-marker"></i><span>Address:</span>
+                                123 Some Street , London, UK, CP 123</li></ul>
                             <ul><li><i class="fa fa-phone"></i><span>Phone:</span> (032) 987-1235</li></ul>
                             <ul><li><i class="fa fa-fax"></i><span>Fax:</span> (123) 984-1234</li></ul>
                             <ul><li><i class="fa fa-envelope"></i><span>Email:</span> infcom</li></ul>
@@ -304,19 +303,19 @@
                     <div class="col-md-6 col-md-offset-1 contact-form">
                         <h3>leave us a message</h3>
 
-                        <form class="form">
-                            <input class="name" type="text" placeholder="Name">
-                            <input class="email" type="email" placeholder="Email">
-                            <input class="phone" type="text" placeholder="Phone No:">
+                        <form method="post" action="@routes.Emails.sendMail()">
+                            <input name="user_name" class="name" type="text" placeholder="Name">
+                            <input name="mail" class="email" type="email" placeholder="Emails">
                             <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-                            <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 90px;" type="submit" value="SUBMIT">
+                            <input href="@routes.Emails.sendMail()" class="submit-btn" type="submit" value="SUBMIT">
+
                         </form>
                     </div>
 
                 </div>
             </div>
         </div>
-    </section><!-- end of contact section -->
+    </section> <!-- end of contact section -->
 
     <!-- script tags
 	============================================================= -->
@@ -324,9 +323,6 @@
     <script src="@routes.Assets.versioned("http://maps.google.com/maps/api/js?sensor=true")"></script>
     <script src="@routes.Assets.versioned("javascripts/js/smoothscroll.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/js/custom.js")"></script>
-
-
-
 
 
 }
