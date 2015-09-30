@@ -39,13 +39,13 @@
                             <div class="col-md-9 col-md-offset-1 contact-form">
                                 <h3>Choose pictures for gallery: </h3>
                                 <div id="upload-file-container">
-                                    <input type="file" name="image" class="form-control" multiple/>
+                                    <input type="file" name="image" accept="image/*" class="form-control" multiple/>
                                 </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="col-md-6 col-md-offset-1 contact-form">
-                        <input class="submit-btn" type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)" style="font-size: 32px;">
+                        <input class="submit-btn"  type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)" style="font-size: 32px; background-color: #204d74; border-radius: 5px; ">
                         </div>
                     </form>
 

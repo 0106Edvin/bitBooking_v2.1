@@ -54,7 +54,7 @@
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 @helper.form(action = routes.Users.login()) {
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li><a class="menu active" href="" >Home</a></li>
+                                        <li><a class="menu active" href="@routes.Application.index()" >Home</a></li>
                                         <li><a class="menu" href="">hotels</a></li>
                                         <li><a class="menu" href="">our services </a></li>
                                         @if(currentUser == null) {

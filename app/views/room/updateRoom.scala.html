@@ -23,7 +23,7 @@
                         <h3>Choose pictures for gallery: </h3>
 
                         <div id="upload-file-container">
-                            <input type="file" name="image" class="form-control" multiple/>
+                            <input type="file" name="image" class="form-control" multiple accept="image/*"/>
                         </div>
                         <h3>Features</h3>
 
@@ -40,7 +40,7 @@
                             }
                             }
                         </div>
-                        <a href="#"> <input class="submit-btn" type="submit" value="SUBMIT"></a>
+                        <a href="#"> <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 45px;" type="submit" value="SUBMIT"></a>
                     </form>
                     }
                 </div>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button class="edvin-button" href="@routes.Prices.savePrice(room.id)">
+                                <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; width: 100px;" href="@routes.Prices.savePrice(room.id)">
                                     Add Price
                                 </button>
                             </div>
