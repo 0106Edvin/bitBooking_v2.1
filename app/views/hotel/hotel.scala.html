@@ -5,6 +5,7 @@
 @(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
 @main {
+    <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
@@ -29,15 +30,10 @@
 
 
                 <div class="col-md-5  text-left">
-
-                    <input id="gLat" name="coordinateX" value="@hotel.coordinateX" disabled>
-                    <input id="gLng" name="coordinateY" value="@hotel.coordinateY" disabled>
-
+                    <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
+                    <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
                     <div id="mapCanvas" class="shrinked-map"></div>
-                    <div id="infoPanel" style="display : none">
-                        <b>Marker status:</b>
-                        <div id="markerStatus"><i>Click and drag the marker.</i></div>
-                        <b>Current position:</b>
+                    <div id="infoPanel" style="display: none">
                         <div id="info"></div>
                     </div>
 

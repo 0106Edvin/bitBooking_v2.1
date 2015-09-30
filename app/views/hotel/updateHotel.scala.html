@@ -1,7 +1,6 @@
 @(hotel: Hotel)
 @import helper._
 @main {
-
     @helper.form(action = routes.Hotels.updateHotel(hotel.id), 'enctype -> "multipart/form-data") {
         <div class="container">
             <div class="row">
@@ -11,8 +10,10 @@
                     </div>
                     <form class="form">
                         <div class="col-md-5  text-left">
-                            <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
-                            <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
+
+
+                            <input id="gLat" name="coordinateX" value="@hotel.coordinateX" readonly>
+                            <input id="gLng" name="coordinateY" value="@hotel.coordinateY" readonly>
                             <div id="mapCanvas" class="shrinked-map"></div>
                             <div id="infoPanel" style="display : none">
                                 <b>Marker status:</b>
