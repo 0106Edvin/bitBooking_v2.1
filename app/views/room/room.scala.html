@@ -1,3 +1,4 @@
+@import helpers.UserAccessLevel
 @(room: Room)
 @main {
     <div class="container">
@@ -50,11 +51,11 @@
                             <p style="font-size: 25px;">@room.description</p>
                         </div>
                     </div>
-
-                    <div>
-                        <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
-                    </div>
-
+                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                        <div>
+                            <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
+                        </div>
+                    }
                 </div>
 
 
