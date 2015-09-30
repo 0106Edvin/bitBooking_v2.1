@@ -157,9 +157,8 @@
 
                         <div class="form-group">
                             <h3>Search By:</h3>
-                            <hr>
                             <select name="category" class="form-control" id="sel1" style="font-size: 18px; height: 50px;">
-                                <option value="country" style="font-size: 18px;">Country</option>
+                                <option value="country" style="font-size: 18px;" type="text">Country</option>
                                 <option value="city" style="font-size: 18px;">City</option>
                                 <option value="price" style="font-size: 18px;">Price</option>
                                 <option value="name" style="font-size: 18px;">Name</option>
@@ -170,7 +169,8 @@
                             <h5> </h5>
                         </div>
                         <!--input field for search-->
-                        <input type="text" id="search1" name = "search" style="font-size: 17px; height: 50px;" >
+                        <input type="text" id="search1" name = "search" style="font-size: 17px; height: 50px;" minlength="2" maxlength="32" required>
+
 
                         <!--submit button-->
                         <input class="submit-btn" type="submit" value="Search" style="font-size: 30px;">
