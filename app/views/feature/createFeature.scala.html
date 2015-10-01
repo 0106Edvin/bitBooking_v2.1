@@ -19,9 +19,10 @@
                             <input name="name" style="text-transform: capitalize;" type="text" placeholder="Feature Name" required>
                             <label>Set icon:</label>
                             <input type="file" name="image" class="form-control" accept="image/*" required/>
-                            <a href="@routes.Users.showAdminFeatures()"> <input class="submit-btn" style="font-size:25px; background-color : #0066FF ; border-radius : 5px; width: 80px; " type="button" value="BACK" ></a>
-                            <input name="name" style="background-color: #204d74; border-radius: 5px; width: 80px; margin-bottom: 0.2cm; float: left;" class="submit-btn " type="submit" value="ADD" onclick="@routes.Features.saveFeature()">
-                        </form>
+                            <input name="name" style="background-color: #204d74; border-radius: 5px; width: 80px; margin-bottom: 0.2cm; " class="submit-btn " type="submit" value="ADD" onclick="@routes.Features.saveFeature()">
+
+                            <a href="@routes.Users.showAdminFeatures()"> <input class="submit-btn" style="font-size:25px;float: left; background-color : #0066FF ; border-radius : 5px; width: 80px; " type="button" value="BACK" ></a>
+                         </form>
                     </div>
                     </div>
                 </div>
