@@ -1,3 +1,4 @@
+@import helpers.UserAccessLevel
 @(features: java.util.List[Feature])(users: java.util.List[AppUser])
 @import helper._
 @main {
@@ -42,15 +43,14 @@
                                         <br>
 
                                         @for(user <- users) {
-                                            @if(user.userAccessLevel == 3) {
-                                                <option class="useri" style="font-size : larger " value="@user.id">@user.email</option>
+                                            @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                                <option class="useri" style="font-size : larger" value="@user.id">@user.email</option>
                                             }
                                         }
                                     </select>
                                 </div>
                             </div>
                             <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 90px;" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
-
                         </div>
 
                     </div>
