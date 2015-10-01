@@ -28,21 +28,35 @@ public class Prices extends Controller {
     public Result savePrice(Integer roomId) {
         Form<Price> boundForm = priceForm.bindFromRequest();
         String cost = boundForm.bindFromRequest().field("cost").value();
+        if(cost.equals("") || cost==null){
+            flash("error","You must set room price!");
+            return redirect(routes.Rooms.editRoom(roomId));
+        }
         String checkin = boundForm.bindFromRequest().field("checkIn").value();
         String[] checkInParts = checkin.split("-");
-        checkin = checkInParts[2] +"/"+ checkInParts[1]+"/"+checkInParts[0];
-
         String checkout = boundForm.bindFromRequest().field("checkOut").value();
         String[] checkOutParts = checkout.split("-");
-        checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-
-        System.out.println(checkin);
         Price price = new Price();
+        try {
+            checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
+            checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
+        }catch (IndexOutOfBoundsException e){
+            flash("error","Wrong date format!");
+            return redirect(routes.Rooms.editRoom(roomId));
+        }
         Room room = Room.findRoomById(roomId);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
-            price.dateFrom = dtf.parse(checkin);
-            price.dateTo = dtf.parse(checkout);
+            Date firstDate = dtf.parse(checkin);
+            Date secondDate = dtf.parse(checkout);
+            if(firstDate.before(secondDate)){
+                price.dateFrom = firstDate;
+                price.dateTo = secondDate;
+            }else{
+                flash("error","First date can't be after second date!");
+                return redirect(routes.Rooms.editRoom(roomId));
+            }
         }catch (ParseException e){
             System.out.println(e.getMessage());
         }
