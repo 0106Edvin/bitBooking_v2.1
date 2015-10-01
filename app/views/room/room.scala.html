@@ -1,5 +1,5 @@
 @import helpers.UserAccessLevel
-@(room: Room)
+@(room: Room)(currentUser: AppUser)
 @main {
     <div class="container">
         <div class="row">
@@ -11,9 +11,9 @@
                 <div class="col-md-5 contact-info text-left">
                     <h3>contact information</h3>
                     <div class="info-detail">
-                        @if(room.images.size() != 0){
+                        @if(room.images.size() != 0) {
                                 <img src="@room.images.get(0).getSize(400,300)"/>
-                        }else {
+                        } else {
                             <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
                         }
                         <hr/>
