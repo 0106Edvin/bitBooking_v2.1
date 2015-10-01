@@ -93,11 +93,14 @@ POST        /user/sendMmail                                 @controllers.Emails.
 POST        /room/reservation                               @controllers.Reservations.saveReservation(roomId: Integer)
 
 #ApiFeatures
-GET         /api/admin/createFeature                           @controllers.ApiFeatures.createFeature()
-POST        /api/admin/saveFeature/:token                              @controllers.ApiFeatures.saveFeature(token: String)
-GET         /api/admin/updateFeature/:id                        @controllers.ApiFeatures.updateFeature(id: Integer)
-GET         /api/admin/adminfeatures/:id                        @controllers.ApiFeatures.deleteFeature(id: Integer)
+GET         /api/admin/createFeature                        @controllers.ApiFeatures.createFeature()
+POST        /api/admin/saveFeature/:token                   @controllers.ApiFeatures.saveFeature(token: String)
+GET         /api/admin/updateFeature/:id                    @controllers.ApiFeatures.updateFeature(id: Integer)
+GET         /api/admin/adminfeatures/:id                    @controllers.ApiFeatures.deleteFeature(id: Integer)
 
 
-GET         /api/admin/adminfeatures/editFeature/:id            @controllers.ApiFeatures.editfeature(id: Integer)
+GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
 POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
+
+
+GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)

@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.ReservationStatus;
 import models.AppUser;
+import models.Hotel;
 import models.Reservation;
 import models.Room;
 import play.data.Form;
@@ -77,4 +78,18 @@ public class Reservations extends Controller {
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
     }
+    public Result showBuyerReservations(Integer userId){
+        Reservation reservation = Reservation.findReservationByUserId(userId);
+        if(reservation!=null) {
+            Room room = reservation.room;
+            Hotel hotel = room.hotel;
+            AppUser user = AppUser.findUserById(userId);
+
+            return ok(views.html.user.buyerReservations.render(room, hotel, reservation,user));
+        }else{
+            return redirect(routes.Application.index());
+        }
+
+    }
+
 }
