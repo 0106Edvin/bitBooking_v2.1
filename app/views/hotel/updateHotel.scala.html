@@ -46,7 +46,10 @@
                         </div>
                         <hr/>
                         <div class="col-md-6 col-md-offset-1 contact-form">
-                        <input class="submit-btn"  type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)" style="font-size: 32px; background-color: #204d74; border-radius: 5px; ">
+                            <div>
+                            <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="font-size:32px; background-color : #0066FF ; border-radius : 5px; width: 100px; float: left;" type="button" value="BACK" ></a>
+                            <a href="@routes.Hotels.updateHotel(hotel.id)"> <input class="submit-btn"  style="font-size: 32px; background-color: #204d74; border-radius: 5px;  width: 100px; float: right; "  type="submit" value="UPDATE"></a>
+                            </div>
                         </div>
                     </form>
 

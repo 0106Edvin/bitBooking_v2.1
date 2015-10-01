@@ -64,7 +64,7 @@
 
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
-                                                <div class="dropdown-menu" style="width: 300px; height: 250px; background-color: transparent; border: 0px;">
+                                                <div class="dropdown-menu" style="width: 300px; height: 210px; background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
                                                         <div class="duplicate-email">
 @*//                                                            @if(flash.containsKey("error")) {*@
@@ -81,7 +81,7 @@
                                                         <div class="form-group">
                                                             <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px;">
                                                         </div>
-                                                        <input type="submit" class="submit" id="btnLogin" name="submit" value="Log in" class="btn btn-block" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin: auto;" />
+                                                        <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
                                                     </form>
                                                 </div>
                                             </li>
