@@ -1,7 +1,5 @@
 package helpers;
 
-import com.avaje.ebean.annotation.EnumValue;
-
 /**
  * Created by ajla.eltabari on 21/09/15.
  */
