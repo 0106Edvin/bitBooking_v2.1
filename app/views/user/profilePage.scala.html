@@ -106,26 +106,30 @@
                         @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
 
                             <div class="col-md-2 ">
-                                <a href="@routes.Users.showAdminPanel()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px;" onclick="@routes.Users.showAdminPanel()">
+                                <a href="@routes.Users.showAdminPanel()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showAdminPanel()">
                                     ADMIN PANEL</button></a>
                             </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                             <div class="col-md-2 ">
-                                <a href="@routes.Users.showManagerHotels()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px;" onclick="@routes.Users.showManagerHotels()">
+                                <a href="@routes.Users.showManagerHotels()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showManagerHotels()">
                                     MANAGER PANEL</button></a>
                             </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.SELLER) {
                             <div class="col-md-2">
 
-                                <a href="@routes.Hotels.showSellerHotels(user.id)"> <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px;" onclick="@routes.Hotels.showSellerHotels(user.id)">
+                                <a href="@routes.Hotels.showSellerHotels(user.id)"> <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Hotels.showSellerHotels(user.id)">
                                     YOUR HOTELS</button></a>
                             </div>
                         }
+
                         </div>
+
                 </div>
+
             </div>
+
         </div>
     </div>
 
