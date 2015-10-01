@@ -31,7 +31,6 @@ public class Comments extends Controller {
     }
 
 
-
     public Result deleteComment(Integer id) {
         Comment comment = Comment.findCommentById(id);
         comment.delete();

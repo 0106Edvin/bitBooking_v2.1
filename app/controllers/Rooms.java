@@ -2,16 +2,18 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import controllers.routes;
 import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import views.html.room.*;
-import views.html.seller.*;
+import views.html.hotel.hotel;
+import views.html.room.createRoom;
+import views.html.room.showRooms;
+import views.html.room.updateRoom;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +25,16 @@ public class Rooms extends Controller {
     public static Model.Finder<String, Room> finder = new Model.Finder<String, Room>(Room.class);
     public static Model.Finder<String, Feature> featureFinder = new Model.Finder<String, Feature>(Feature.class);
 
+    public Result hotelReservations(Integer id) {
+        return TODO;
+    }
+
+
     public Result saveRoom(Integer hotelId) {
 
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
-        if(room.numberOfBeds <= 0){
+        if (room.numberOfBeds <= 0) {
             flash("error", "Room can't have that number of beds!");
             redirect(routes.Rooms.createRoom(hotelId));
         }
@@ -54,19 +61,20 @@ public class Rooms extends Controller {
 
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
-        if(fileParts != null){
-            for (Http.MultipartFormData.FilePart filePart1 : fileParts){
+        if (fileParts != null) {
+            for (Http.MultipartFormData.FilePart filePart1 : fileParts) {
                 File file = filePart1.getFile();
-                Image image = Image.create(file,null,null,null,room.id);
+                Image image = Image.create(file, null, null, null, room.id);
                 room.images.add(image);
             }
         }
 
         room.update();
 
-       return redirect(routes.Rooms.showRoom(id));
+        return redirect(routes.Rooms.showRoom(id));
     }
-    public Result deleteRoom(Integer id){
+
+    public Result deleteRoom(Integer id) {
         Room room = Room.findRoomById(id);
 
         Ebean.delete(room);
@@ -74,7 +82,7 @@ public class Rooms extends Controller {
     }
 
 
-    public Result showRoom (Integer id) {
+    public Result showRoom(Integer id) {
         Room room = Room.findRoomById(id);
         AppUser user = null;
         if (session("userId") != null) {
@@ -83,8 +91,8 @@ public class Rooms extends Controller {
         return ok(views.html.room.room.render(room, user));
     }
 
-    public Result createRoom(Integer hotelId){
-            List<Feature> features = Feature.finder.all();
+    public Result createRoom(Integer hotelId) {
+        List<Feature> features = Feature.finder.all();
 
         return ok(createRoom.render(features, hotelId));
     }
@@ -94,7 +102,7 @@ public class Rooms extends Controller {
         Hotel hotel = Hotel.findHotelById(hotelId);
         AppUser user = null;
         if (session("userId") != null) {
-           user = AppUser.findUserById(Integer.parseInt(session("userId")));
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
         }
 
         return ok(showRooms.render(rooms, hotel, user));

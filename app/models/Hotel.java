@@ -1,11 +1,9 @@
 package models;
 
 import com.avaje.ebean.Model;
-import play.Logger;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,8 +82,6 @@ public class Hotel extends Model {
     public Double getRating(){
         rating = 0.0;
         if(comments != null && comments.size() > 0) {
-            Logger.info("Hellooooooooooooooooooooooooooooooo");
-
             for (int i = 0; i < comments.size(); i++) {
                 rating += comments.get(i).rating;
             }
