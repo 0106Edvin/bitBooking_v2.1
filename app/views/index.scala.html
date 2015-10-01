@@ -289,11 +289,8 @@
 
                     <div class="col-md-5 contact-info text-left">
                         <h3>contact information</h3>
-<<<<<<< Updated upstream
-                        <div class="info-detail" style="font-size : 20 px ;">
-=======
+
                         <div class="info-detail" style="font-size : 20px;">
->>>>>>> Stashed changes
                             <ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span>
                                 9:00 AM to 5:30 PM</li></ul>
                             <ul><li><i class="fa fa-map-marker"></i><span>Address:</span>
@@ -309,12 +306,7 @@
                         <h3>leave us a message</h3>
 
                         <form method="post" action="@routes.Emails.sendMail()">
-<<<<<<< Updated upstream
-                            <input name="user_name" class="name" type="text" placeholder="Name">
-                            <input name="mail" class="email" type="email" placeholder="Emails">
-                            <input name="subject" type="text" placeholder="Subject">
-                            <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea>
-=======
+
                             <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onblur="checkName()" onfocus="checkNameLength()">
                             <div style="font-size: 20px; color: red" id="name_error"></div>
                             <div style="font-size: 20px; color: red" id="namelength_error"></div>
@@ -334,7 +326,7 @@
                                 }
                             </div>
                             <div class="g-recaptcha" data-sitekey="6LfB5g0TAAAAAD3vjlDKc3MuTDGkZji-WiD_skWH"></div>
->>>>>>> Stashed changes
+
                             <input href="@routes.Emails.sendMail()" class="submit-btn" type="submit" value="SUBMIT">
 
                         </form>
