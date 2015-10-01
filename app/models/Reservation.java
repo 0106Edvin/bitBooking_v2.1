@@ -61,6 +61,10 @@ public class Reservation extends Model {
         Reservation reservation = finder.where().eq("id",id).findUnique();
         return reservation;
     }
+    public static Reservation findReservationByUserId(Integer id){
+        Reservation reservation = finder.where().eq("user_id", id).findUnique();
+        return reservation;
+    }
 
     public BigDecimal getCost() {
         cost = new BigDecimal(0);

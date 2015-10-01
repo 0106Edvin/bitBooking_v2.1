@@ -2,11 +2,11 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import helpers.*;
-import models.AppUser;
-import models.Feature;
-import models.Hotel;
-import models.Image;
+import helpers.Authenticators;
+import helpers.Constants;
+import helpers.SessionsAndCookies;
+import helpers.UserAccessLevel;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -276,4 +276,5 @@ public class Users extends Controller {
         return redirect(routes.Users.showAdminUsers());
 
     }
+
 }

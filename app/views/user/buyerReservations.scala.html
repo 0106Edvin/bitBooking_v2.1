@@ -1,0 +1,58 @@
+@import helpers.ReservationStatus
+@(room: Room)(hotel: Hotel)(reservation: Reservation)(user: AppUser)
+@main{
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>@hotel.name</h2>
+                </div>
+
+                <div class="col-md-0 col-md-offset-1 contact-form">
+                    <h3>@hotel.name reservations</h3>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr class="service">
+                                <th style="font-size : 30 px ;">Guest name</th>
+                                <th style="font-size : 30 px ;">Room type</th>
+                                <th style="font-size : 30 px ;">Check-in date</th>
+                                <th style="font-size : 30 px ;">Check-out date</th>
+                                <th style="font-size : 30 px ;">Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="font-size: 20px">
+                        @if(room != null) {
+                            @if(room.reservations != 0) {
+                                <tr class="service">
+                                    <td>@reservation.user.firstname</td>
+                                    <td>@room.numberOfBeds</td>
+                                    <td>@reservation.checkIn</td>
+                                    <td>@reservation.checkOut</td>
+
+                                    @if(reservation.status == 1) {
+                                        <td style="color : darkorange">PENDING</td>
+                                    }
+                                    @if(reservation.status == 2) {
+                                        <td style="color : lawngreen">APPROVED</td>
+                                    }
+                                    @if(reservation.status == 3) {
+                                        <td style="color : red">DECLINED</td>
+                                    }
+                                    <td></td>
+
+                                </tr>
+                            }
+                        }
+                        </tbody>
+
+                    </table>
+                    <a href="@routes.Users.updateUser(user.email)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
