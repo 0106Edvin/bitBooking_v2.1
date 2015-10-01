@@ -40,6 +40,7 @@ public class Reservations extends Controller {
         reservation.room = room;
         reservation.user = user;
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
@@ -78,6 +79,7 @@ public class Reservations extends Controller {
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
     }
+
     public Result showBuyerReservations(Integer userId){
         Reservation reservation = Reservation.findReservationByUserId(userId);
         if(reservation!=null) {

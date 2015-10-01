@@ -54,7 +54,7 @@
                             </tbody>
                         </table>
                         <br><br>
-                        @if(currentUser.userAccessLevel == UserAccessLevel.SELLER){
+                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER){
                         <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
                             <button class="btn btn-success" style="font-size : 17 px ;">Add Room</button>
                         </a>

@@ -33,73 +33,74 @@
 
                             </h1>
                         </div>
-                        <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
+                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                            <div>
+                                <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5 contact-info text-left">
-                        <h3>Make your reservation</h3>
-                        <div class="duplicate-email" style="font-size: 20px;color: red">
-                        @if(flash.containsKey("error")) {
-                            @flash.get("error")
-                        }
-                        </div>
-                        <form action="@routes.Reservations.saveReservation(room.id)" method="post">
-                            <div class="info-detail">
-                                <div class="col-md-5">
-                                    <div class="service">
-                                        <h4>From:</h4>
+                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
+                        <div class="col-md-5 contact-info text-left">
+                            <h3>Make your reservation</h3>
+                            <div class="duplicate-email" style="font-size: 20px;color: red">
+                            @if(flash.containsKey("error")) {
+                                @flash.get("error")
+                            }
+                            </div>
+                            <form action="@routes.Reservations.saveReservation(room.id)" method="post">
+                                <div class="info-detail">
+                                    <div class="col-md-5">
+                                        <div class="service">
+                                            <h4>From:</h4>
+                                        </div>
+                                        <input name="checkIn" type="date"/>
                                     </div>
-                                    <input name="checkIn" type="date"/>
+                                    <div class="col-md-5">
+                                        <div class="service">
+                                            <h4>To:</h4>
+                                        </div>
+                                        <input name="checkOut" type="date"/>
+                                    </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="service">
-                                        <h4>To:</h4>
-                                    </div>
-                                    <input name="checkOut" type="date"/>
+                                <input type="submit"  class="btn btn-primary" value="BOOK IT" style="font-size: 28px;margin-top: 1em;text-align: center" onclick="@routes.Reservations.saveReservation(room.id)">
+                            </form>
+                        </div>
+                        <div class="col-md-5 contact-info text-left">
+                            <h3>Prices</h3>
+                            <div class="info-detail">
+                                <div class="service">
+                                    <table class=" table table-stripped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Start date
+                                                </th>
+                                                <th>
+                                                    End date
+                                                </th>
+                                                <th>
+                                                    Price
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(room.prices.size()!=0){
+                                                @for(price <- room.prices){
+                                                    <tr>
+                                                        <td>@price.dateFrom</td>
+                                                        <td>@price.dateTo</td>
+                                                        <td>@price.cost $</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <input type="submit"  class="btn btn-primary" value="BOOK IT" style="font-size: 28px;margin-top: 1em;text-align: center" onclick="@routes.Reservations.saveReservation(room.id)">
-                        </form>
-                    </div>
-                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                        <div>
-                            <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
                         </div>
                     }
-                    <div class="col-md-5 contact-info text-left">
-                        <h3>Prices</h3>
-                        <div class="info-detail">
-                            <div class="service">
-                                <table class=" table table-stripped">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Start date
-                                            </th>
-                                            <th>
-                                                End date
-                                            </th>
-                                            <th>
-                                                Price
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(room.prices.size()!=0){
-                                            @for(price <- room.prices){
-                                                <tr>
-                                                    <td>@price.dateFrom</td>
-                                                    <td>@price.dateTo</td>
-                                                    <td>@price.cost $</td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

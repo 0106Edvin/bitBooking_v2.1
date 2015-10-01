@@ -124,9 +124,9 @@
                             </div>
                         }
 
-                        @if(user.userAccessLevel == UserAccessLevel.BUYER){
+                        @if(user.userAccessLevel == UserAccessLevel.BUYER) {
                             <div class="col-md-2">
-                                <a href="@routes.Reservations.showBuyerReservations(user.id)"><button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px;" onclick="@routes.Reservations.showBuyerReservations(user.id)">
+                                <a href="@routes.Reservations.showBuyerReservations(user.id)"><button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Reservations.showBuyerReservations(user.id)">
                                     YOUR RESERVATIONS</button></a>
                             </div>
                         }
