@@ -24,11 +24,11 @@ public class Price extends Model {
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     @Column(columnDefinition = "datetime")
-    public Date checkIn;
+    public Date dateFrom;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     @Column(columnDefinition = "datetime")
-    public Date checkOut;
+    public Date dateTo;
 
     public BigDecimal cost;
 
@@ -37,10 +37,10 @@ public class Price extends Model {
 
     public Price(){}
 
-    public Price(Integer id, Date checkIn, Date checkOut, BigDecimal cost, Room room) {
+    public Price(Integer id, Date dateFrom, Date dateTo, BigDecimal cost, Room room) {
         this.id = id;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
         this.cost = cost;
         this.room = room;
     }
@@ -52,7 +52,7 @@ public class Price extends Model {
     }
 
     public String toString() {
-        return checkIn + " " + checkOut + " " + cost.toString();
+        return dateFrom + " " + dateTo + " " + cost.toString();
     }
 
 }
