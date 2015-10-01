@@ -18,7 +18,10 @@ public class Hotel extends Model {
     public Integer id;
     public String name;
     public String location;
+
+    @Column(columnDefinition = "TEXT")
     public String description;
+
     public String city;
     public String country;
     public String coordinateX;

@@ -43,9 +43,9 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th></th>
-                            <th>Delete</th>
                             <th>Change Role</th>
                             <th>Submit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,14 +68,6 @@
                                     <td style="font-size: 22px;">Admin</td>
                                 }
                                 <td></td>
-                                <form method="delete" action="@routes.Users.deleteUser(user.email)">
-                                    <td>
-                                        <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
-                                            <button data-role="delete" class="btn btn-danger" style="font-size: 18px;">Delete</button>
-                                        </a>
-
-                                    </td>
-                                </form>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
                                         <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" style="font-size: 18px; height: 40px;" required>
@@ -94,13 +86,18 @@
                                                 <option value="seller" selected="true">Seller</option>
                                                 <option value="hotelmanager">Hotel Manager</option>
                                             }
-
-
-
                                         </select>
 
                                     </td>
                                     <td><button class="edvin-button-role" type="submit" style="font-size: 20px; background-color: #204d74; border-radius: 5px; width: 90px; height:40px;">Change role</button></td>
+                                </form>
+                                <form method="delete" action="@routes.Users.deleteUser(user.email)">
+                                    <td>
+                                        <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
+                                            <button data-role="delete" class="btn btn-danger" style="font-size: 18px;">Delete</button>
+                                        </a>
+
+                                    </td>
                                 </form>
                             </tr>
 

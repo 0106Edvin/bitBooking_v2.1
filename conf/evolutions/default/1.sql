@@ -40,7 +40,7 @@ create table hotel (
   id                        integer auto_increment not null,
   name                      varchar(255),
   location                  varchar(255),
-  description               varchar(255),
+  description               TEXT,
   city                      varchar(255),
   country                   varchar(255),
   coordinate_x              varchar(255),
@@ -84,7 +84,7 @@ create table reservation (
 
 create table room (
   id                        integer auto_increment not null,
-  description               varchar(255),
+  description               TEXT,
   number_of_beds            integer,
   name                      varchar(255),
   hotel_id                  integer,

@@ -16,6 +16,8 @@ public class Room extends Model {
 
     @Id
     public Integer id;
+
+    @Column(columnDefinition = "TEXT")
     public String description;
 
     @Digits(integer=3, fraction=0)
