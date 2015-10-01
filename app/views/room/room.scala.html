@@ -7,62 +7,98 @@
                 <div class="contact-heading text-center">
                     <h2>@room.name</h2>
                 </div>
-
-                <div class="col-md-5 contact-info text-left">
-                    <h3>contact information</h3>
-                    <div class="info-detail">
-                        @if(room.images.size() != 0) {
-                                <img src="@room.images.get(0).getSize(400,300)"/>
-                        } else {
-                            <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                        }
-                        <hr/>
-                    </div>
-                    <div class="col-md-5">
-                        <h3>Make your reservation</h3>
+                <div class="row">
+                    <div class="col-md-5 contact-info text-left">
+                        <h3>contact information</h3>
                         <div class="info-detail">
-
-                            <div class="service">
-                            <h4>From:</h4>
-                            </div>
-                            <input type="date"/>
-
-                            <div class="service">
-                                <h4>To:</h4>
-                            </div>
-                                <input type="date" />
+                            @if(room.images.size() != 0){
+                                <img src="@room.images.get(0).getSize(400,300)"/>
+                            }else {
+                                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                            }
+                            <hr/>
                         </div>
-                        <div>
-                            <h1>
+                    </div>
 
-                            </h1>
+
+                    <div class="col-md-6 col-md-offset-1 contact-form">
+                        <h3>@room.name description</h3>
+                        <div class="info-detail">
+                            <div class="service">
+                                <p style="font-size: 25px;">@room.description</p>
+                            </div>
                         </div>
                         <form>
                             <input type="button"  class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" value="Reserve" style="font-size: 28px;">
                         </form>
+                            <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
+                        </div>
                     </div>
                 </div>
-
-
-                <div class="col-md-6 col-md-offset-1 contact-form">
-                    <h3>@room.name description</h3>
-                    <div class="info-detail">
-                        <div class="service">
-                            <p style="font-size: 25px;">@room.description</p>
-                        </div>
+                <div class="row">
+                    <div class="col-md-5 contact-info text-left">
+                        <h3>Make your reservation</h3>
+                        <form action="@routes.Reservations.saveReservation(room.id)" method="post">
+                            <div class="info-detail">
+                                <div class="col-md-5">
+                                    <div class="service">
+                                        <h4>From:</h4>
+                                    </div>
+                                    <input name="checkIn" type="date"/>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="service">
+                                        <h4>To:</h4>
+                                    </div>
+                                    <input name="checkOut" type="date"/>
+                                </div>
+                            </div>
+                            <input type="submit"  class="edvin-button" value="Reserve" style="font-size: 28px;" onclick="@routes.Reservations.saveReservation(room.id)">
+                        </form>
                     </div>
                     @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                         <div>
                             <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
                         </div>
                     }
+                    <div class="col-md-5 contact-info text-left">
+                        <h3>Prices</h3>
+                        <div class="info-detail">
+                            <div class="service">
+                                <table class=" table table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Start date
+                                            </th>
+                                            <th>
+                                                End date
+                                            </th>
+                                            <th>
+                                                Price
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if(room.prices.size()!=0){
+                                            @for(price <- room.prices){
+                                                <tr>
+                                                    <td>@price.dateFrom</td>
+                                                    <td>@price.dateTo</td>
+                                                    <td>@price.cost $</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
 
             </div>
 
         </div>
-    </div>
 
 
 

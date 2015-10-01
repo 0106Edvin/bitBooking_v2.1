@@ -73,7 +73,7 @@ create table price (
 
 create table reservation (
   id                        integer auto_increment not null,
-  cost                      double,
+  cost                      decimal(38),
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,

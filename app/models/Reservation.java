@@ -1,13 +1,16 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.ning.http.util.DateUtils;
 import helpers.ReservationStatus;
+import play.Logger;
 import play.data.format.Formats;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -21,7 +24,7 @@ public class Reservation extends Model {
     @Id
     public Integer id;
 
-    public Double cost;
+    public BigDecimal cost;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     @Column(columnDefinition = "datetime")
@@ -39,7 +42,9 @@ public class Reservation extends Model {
     @ManyToOne
     public AppUser user;
 
-    public Reservation(Integer id, Double cost, Date checkIn, Date checkOut, Room room, AppUser user) {
+    public Reservation(){}
+
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
@@ -58,4 +63,22 @@ public class Reservation extends Model {
         Reservation reservation = finder.where().eq("id",id).findUnique();
         return reservation;
     }
+
+    public BigDecimal getCost() {
+        cost = new BigDecimal(0);
+        Date myDate = checkIn;
+        for(Price price: room.prices) {
+            while (myDate.compareTo(checkOut) <= 0 ) {
+                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) <= 0) {
+                    cost = cost.add(price.cost);
+                } else {
+                    break;
+                }
+                myDate = org.apache.commons.lang.time.DateUtils.addDays(myDate, 1);
+            }
+        }
+        return cost;
+    }
+
+
 }
