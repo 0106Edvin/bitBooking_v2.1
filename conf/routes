@@ -100,3 +100,4 @@ GET         /api/admin/adminfeatures/:id                        @controllers.Api
 
 
 GET         /api/admin/adminfeatures/editFeature/:id            @controllers.ApiFeatures.editfeature(id: Integer)
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)

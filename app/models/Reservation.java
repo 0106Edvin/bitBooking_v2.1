@@ -1,9 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.ning.http.util.DateUtils;
 import helpers.ReservationStatus;
-import play.Logger;
 import play.data.format.Formats;
 
 import javax.persistence.Column;
@@ -59,7 +57,7 @@ public class Reservation extends Model {
         return String.format("%s has reserved %s room from %s till %s for %s",user.firstname,room.name,checkIn,checkOut,cost);
     }
 
-    public Reservation findReservationById(Integer id){
+    public static Reservation findReservationById(Integer id){
         Reservation reservation = finder.where().eq("id",id).findUnique();
         return reservation;
     }
@@ -79,6 +77,5 @@ public class Reservation extends Model {
         }
         return cost;
     }
-
 
 }

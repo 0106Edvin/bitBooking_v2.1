@@ -26,7 +26,10 @@ public class Rooms extends Controller {
     public static Model.Finder<String, Feature> featureFinder = new Model.Finder<String, Feature>(Feature.class);
 
     public Result hotelReservations(Integer id) {
-        return TODO;
+        Hotel hotel = Hotel.findHotelById(id);
+        List<Room> rooms = hotel.rooms;
+        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        return ok(views.html.room.hotelReservations.render(rooms,hotel,user));
     }
 
 
