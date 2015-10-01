@@ -55,8 +55,11 @@
                         </table>
                         <br><br>
                         @if(currentUser.userAccessLevel == UserAccessLevel.SELLER){
+                        <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
+                            <button class="btn btn-success" style="font-size : 17 px ;">Add Room</button>
+                        </a>
                         <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
-                        }else{
+                        } else {
                             <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
 
                         }
