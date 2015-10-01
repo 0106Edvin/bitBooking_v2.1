@@ -76,7 +76,11 @@ public class Rooms extends Controller {
 
     public Result showRoom (Integer id) {
         Room room = Room.findRoomById(id);
-        return ok(views.html.room.room.render(room));
+        AppUser user = null;
+        if (session("userId") != null) {
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        }
+        return ok(views.html.room.room.render(room, user));
     }
 
     public Result createRoom(Integer hotelId){
