@@ -79,7 +79,7 @@ POST        /seller/saveroom/:hotelId                       @controllers.Rooms.s
 GET         /seller/updateroom/:id                          @controllers.Rooms.editRoom(id: Integer)
 POST        /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
 GET         /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
-
+GET         /seller/hotelreservations/:hotelId              @controllers.Rooms.hotelReservations(hotelId: Integer)
 
 
 #General routes
@@ -100,3 +100,4 @@ GET         /api/admin/adminfeatures/:id                        @controllers.Api
 
 
 GET         /api/admin/adminfeatures/editFeature/:id            @controllers.ApiFeatures.editfeature(id: Integer)
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)

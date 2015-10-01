@@ -1,0 +1,85 @@
+@import helpers.UserAccessLevel
+@import helpers.SessionsAndCookies
+@import helpers.ReservationStatus
+
+@(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
+
+@main {
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>@hotel.name</h2>
+                </div>
+
+                <div class="col-md-0 col-md-offset-1 contact-form">
+                    <h3>@hotel.name reservations</h3>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr class="service">
+                                <th style="font-size : 30 px ;">Guest name</th>
+                                <th style="font-size : 30 px ;">Room type</th>
+                                <th style="font-size : 30 px ;">Check-in date</th>
+                                <th style="font-size : 30 px ;">Check-out date</th>
+                                <th style="font-size : 30 px ;">Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="font-size: 20px">
+                            @if(rooms.size != 0){
+                                @for(room <- rooms){
+                                    @if(room.reservations != 0){
+                                        @for(reservation <- room.reservations){
+                                            <tr class="service">
+                                            <td>@reservation.user.firstname</td>
+                                            <td>@room.numberOfBeds</td>
+                                            <td>@reservation.checkIn</td>
+                                            <td>@reservation.checkOut</td>
+
+                                                @if(reservation.status == 1){
+                                                    <td style="color: darkorange">PENDING</td>
+                                                }
+                                                @if(reservation.status == 2){
+                                                    <td style="color: lawngreen">APPROVED</td>
+                                                }
+                                                @if(reservation.status == 3){
+                                                    <td style="color: red">DECLINED</td>
+                                                }
+                                            <td></td>
+                                            <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
+                                                <td>
+                                                    <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
+                                                        @if(reservation.status == ReservationStatus.PENDING){
+                                                            <option value="1" selected="true">Pending</option>
+                                                            <option value="2">Aproved</option>
+                                                            <option value="3">Declined</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.DECLINED){
+                                                            <option value="1">Pending</option>
+                                                            <option value="2">Aproved</option>
+                                                            <option value="3" selected="true">Declined</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.APROVED){
+                                                            <option value="1">Pending</option>
+                                                            <option value="2" selected="true">Aproved</option>
+                                                            <option value="3">Declined</option>
+                                                        }
+                                                    </select>
+
+                                                </td>
+                                                <td><button class="edvin-button-role" type="submit" style="font-size: 20px; background-color: #204d74; border-radius: 5px; width: 90px; height:40px;">Change role</button></td>
+                                            </form>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}

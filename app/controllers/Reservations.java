@@ -2,22 +2,14 @@ package controllers;
 
 import helpers.ReservationStatus;
 import models.AppUser;
-import models.Price;
 import models.Reservation;
 import models.Room;
-import org.apache.commons.lang.time.DateUtils;
-import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.LocalGregorianCalendar;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by gordan on 9/29/15.
@@ -63,5 +55,25 @@ public class Reservations extends Controller {
         reservation.status = ReservationStatus.PENDING;
         reservation.save();
         return redirect(routes.Application.index());
+    }
+
+    public Result setStatus(Integer id){
+        Form<Reservation> boundForm = reservationForm.bindFromRequest();
+        Reservation reservation = Reservation.findReservationById(id);
+
+        String status = boundForm.bindFromRequest().field("status").value();
+
+        if (status.equals("1")) {
+            reservation.status = ReservationStatus.PENDING;
+
+        } else if (status.equals("2")) {
+           reservation.status = ReservationStatus.APROVED;
+
+        } else if (status.equals("3")) {
+            reservation.status = ReservationStatus.DECLINED;
+        }
+        reservation.update();
+
+        return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
     }
 }
