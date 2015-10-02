@@ -1,5 +1,7 @@
 @import helpers.ReservationStatus
+@import helpers.CommonHelperMethods
 @(room: Room)(hotel: Hotel)(reservations: List[Reservation])(user: AppUser)
+
 @main{
     <div class="container">
         <div class="row">
@@ -23,7 +25,7 @@
                             </tr>
                         </thead>
 
-                        <tbody style="font-size: 20px">
+                        <tbody style="font-size:20px">
                             @for(reservation <- reservations) {
                                 @if(room != null) {
                                     @if(room.reservations != 0) {
@@ -33,21 +35,19 @@
                                             <td>@reservation.checkIn</td>
                                             <td>@reservation.checkOut</td>
 
-                                            @if(reservation.status == 1) {
-                                                <td style="color : darkorange">PENDING</td>
+                                            @if(reservation.status == ReservationStatus.PENDING) {
+                                            <td style="color : darkorange">PENDING</td>
                                             }
-                                            @if(reservation.status == 2) {
-                                                <td style="color : lawngreen">APPROVED</td>
+                                            @if(reservation.status == ReservationStatus.APPROVED) {
+                                            <td style="color : lawngreen">APPROVED</td>
                                             }
-                                            @if(reservation.status == 3) {
-                                                <td style="color : red">DECLINED</td>
+                                            @if(reservation.status == ReservationStatus.DECLINED) {
+                                            <td style="color : red">DECLINED</td>
                                             }
                                             <td></td>
-
                                         </tr>
                                     }
                                 }
-                            }
                         </tbody>
 
                     </table>

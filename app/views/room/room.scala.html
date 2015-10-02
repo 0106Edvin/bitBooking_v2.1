@@ -1,4 +1,5 @@
 @import helpers.UserAccessLevel
+@import helpers.CommonHelperMethods
 @(room: Room)(currentUser: AppUser)
 @main {
     <div class="container">
@@ -86,11 +87,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if(room.prices.size()!=0){
-                                                @for(price <- room.prices){
+                                            @if(room.prices.size() != 0) {
+                                                @for(price <- room.prices) {
                                                     <tr>
-                                                        <td>@price.dateFrom</td>
-                                                        <td>@price.dateTo</td>
+                                                        <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
+                                                        <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
                                                         <td>@price.cost $</td>
                                                     </tr>
                                                 }

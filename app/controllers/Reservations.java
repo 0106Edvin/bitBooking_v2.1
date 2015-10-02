@@ -58,7 +58,7 @@ public class Reservations extends Controller {
         }
         reservation.status = ReservationStatus.PENDING;
         reservation.save();
-        return redirect(routes.Application.index());
+        return redirect(routes.Reservations.showBuyerReservations(user.id));
     }
 
     public Result setStatus(Integer id){
@@ -71,7 +71,7 @@ public class Reservations extends Controller {
             reservation.status = ReservationStatus.PENDING;
 
         } else if (status.equals("2")) {
-           reservation.status = ReservationStatus.APROVED;
+           reservation.status = ReservationStatus.APPROVED;
 
         } else if (status.equals("3")) {
             reservation.status = ReservationStatus.DECLINED;
