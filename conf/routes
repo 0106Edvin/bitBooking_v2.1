@@ -5,7 +5,9 @@
 # Home page
 GET         /                                               @controllers.Application.index()
 
-GET         /showRooms/:hotelId                             @controllers.Rooms.showRoom(hotelId: Integer)
+GET         /hotel/showrooms/:hotelId                       @controllers.Rooms.showRooms(hotelId: Integer)
+GET         /room/showRoom/:hotelId                         @controllers.Rooms.showRoom(hotelId: Integer)
+GET         /hotel/showhotel/:hotelId                       @controllers.Hotels.showHotel(hotelId: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
@@ -19,8 +21,25 @@ GET         /hotelmanager/hotels                            @controllers.Users.s
 GET         /hotelmanager/hotels/:id                        @controllers.Hotels.deleteHotel(id: Integer)
 GET         /hotels/search                                  @controllers.Hotels.search()
 
+#User
+GET         /user/register                                  @controllers.Users.registerUser()
+POST        /user/register/save                             @controllers.Users.saveUser()
+POST        /user/login                                     @controllers.Users.login()
+GET         /user/logout                                    @controllers.Users.logOut()
 
+GET         /user/update/:email                             @controllers.Users.editUser(email: String)
+POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
 
+POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
+
+#User
+GET         /user/register                                  @controllers.Users.registerUser()
+POST        /user/register/save                             @controllers.Users.saveUser()
+POST        /user/login                                     @controllers.Users.login()
+GET         /user/logout                                    @controllers.Users.logOut()
+GET         /user/update/:email                             @controllers.Users.editUser(email: String)
+POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
+POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
 
 #Admin
 
@@ -41,26 +60,9 @@ GET         /admin/adminhotels                              @controllers.Users.s
 GET         /admin/adminusers                               @controllers.Users.showAdminUsers()
 
 GET         /admin/adminhotels/:id                          @controllers.Hotels.deleteHotelAdmin(id: Integer)
-
 GET         /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
 
 GET         /admin/adminfeatures/editFeature/:id            @controllers.Features.editfeature(id: Integer)
-
-GET         /admin/adminhotels/showhotel/:id                @controllers.Hotels.showHotel(id: Integer)
-
-
-#User
-GET         /user/register                                  @controllers.Users.registerUser()
-POST        /user/register/save                             @controllers.Users.saveUser()
-POST        /user/login                                     @controllers.Users.login()
-GET         /user/logout                                    @controllers.Users.logOut()
-
-GET         /user/update/:email                             @controllers.Users.editUser(email: String)
-POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
-
-POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
-
-GET         /user/showhotel/:hotelId                        @controllers.Hotels.showHotel(hotelId: Integer)
 
 #Seller
 GET         /seller/edithotel/:id                           @controllers.Hotels.editHotel(id: Integer)
@@ -68,13 +70,40 @@ POST        /seller/updatehotel/:id                         @controllers.Hotels.
 POST        /seller/updateroom/setprice/:roomId             @controllers.Prices.savePrice(roomId: Integer)
 GET         /seller/sellerPanel/:userId                     @controllers.Hotels.showSellerHotels(userId: Integer)
 GET         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.editHotel(hotelId: Integer)
-POST         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
+POST        /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
 
 #Room
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
 GET         /room/:id                                       @controllers.Rooms.showRoom(id: Integer)
 POST        /seller/saveroom/:hotelId                       @controllers.Rooms.saveRoom(hotelId: Integer)
+GET         /seller/updateroom/:id                          @controllers.Rooms.editRoom(id: Integer)
 POST        /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
 GET         /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
+GET         /seller/hotelreservations/:hotelId              @controllers.Rooms.hotelReservations(hotelId: Integer)
 
-GET         /seller/sellerpanel/showrooms/:hotelId          @controllers.Rooms.showRooms(hotelId: Integer)
+
+#General routes
+
+GET         /weather                                        @controllers.ApiCommunicatior.test()
+GET         /weather/getweather                             @controllers.ApiCommunicatior.getWeather()
+
+POST        /user/sendMmail                                 @controllers.Emails.sendMail()
+
+#Reservations
+POST        /room/reservation                               @controllers.Reservations.saveReservation(roomId: Integer)
+
+#ApiFeatures
+GET         /api/admin/createFeature                        @controllers.ApiFeatures.createFeature()
+POST        /api/admin/saveFeature/:token                   @controllers.ApiFeatures.saveFeature(token: String)
+GET         /api/admin/updateFeature/:id                    @controllers.ApiFeatures.updateFeature(id: Integer)
+GET         /api/admin/adminfeatures/:id                    @controllers.ApiFeatures.deleteFeature(id: Integer)
+
+
+GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
+
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
+
+GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
+
+GET         /api/admin/adminfeatures/editFeature/:id           @controllers.ApiFeatures.editfeature(id: Integer)
+POST        /seller/hotelreservations/:id                      @controllers.Reservations.setStatus(id: Integer)

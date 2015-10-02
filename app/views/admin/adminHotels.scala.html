@@ -9,7 +9,7 @@
                 <div class="col-md-4">
                     <br/>
                     <a href="@routes.Users.showAdminHotels()">
-                        <button id="hotelsbtn" class="btn-danger" style="width : 70% ; height : 100px ; font-size : 30px">
+                        <button id="hotelsbtn" class="btn-default" style="background-color:darkorange;color:white;width : 70% ; height : 100px ; font-size : 30px">
                             Hotels
                         </button>
                     </a>
@@ -38,21 +38,21 @@
                 <table class="table table-responsive">
                     <thead>
                         <tr class="service">
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Description</th>
+                            <th style="font-size: 30px;">Name</th>
+                            <th style="font-size: 30px;">Location</th>
+                            <th style="font-size: 30px;">Description</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     @for(hotel <- hotels) {
-                        <tr class="service">
-                            <td>@hotel.name</td>
-                            <td>@hotel.location</td>
-                            <td>@hotel.description</td>
+                        <tr class="service" >
+                            <td style="font-size: 22px;">@hotel.name</td>
+                            <td style="font-size: 22px;">@hotel.location</td>
+                            <td style="font-size: 22px;">@hotel.description</td>
                             <td>
                                 <a onclick=" return deleteConfirmation()" href="@routes.Hotels.deleteHotelAdmin(hotel.id)">
-                                    <button class="btn btn-danger" data-role = "delete" >Delete</button>
+                                    <button class="btn btn-danger" data-role = "delete"  style="font-size: 17px;">Delete</button>
                                 </a>
                             </td>
 
@@ -60,7 +60,8 @@
                     }
                     </tbody>
                 </table>
-</div>
+
+                </div>
             </div>
         </div>
     </div>

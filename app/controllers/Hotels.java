@@ -12,7 +12,9 @@ import play.mvc.Security;
 import views.html.hotel.createhotel;
 import views.html.hotel.hotel;
 import views.html.hotel.updateHotel;
+import views.html.manager.managerHotels;
 import views.html.seller.sellerPanel;
+import views.html.user.profilePage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +34,6 @@ public class Hotels extends Controller {
         List<AppUser> users = AppUser.finder.all();
         return ok(createhotel.render(features, users));
     }
-
 
     /*   Saving hotel to data base*/
 
@@ -71,7 +72,10 @@ public class Hotels extends Controller {
         hotel.sellerId = sellerId;
 
         hotel.save();
-        return redirect(routes.Application.index());
+
+        List<Hotel> hotels = finder.all();
+        return ok(managerHotels.render(hotels));
+
 
     }
 
@@ -107,7 +111,7 @@ public class Hotels extends Controller {
         if(fileParts != null){
             for (Http.MultipartFormData.FilePart filePart1 : fileParts){
                 File file = filePart1.getFile();
-                Image image = Image.create(file,hotel.id,null,null);
+                Image image = Image.create(file,hotel.id,null,null,null);
                 hotel.images.add(image);
             }
         }
@@ -127,10 +131,12 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        AppUser user = null;
         if (request().cookies().get("email") != null) {
-            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1)));
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
+            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), user));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, true));
+            return ok(views.html.hotel.hotel.render(hotel1, true, user));
         }
     }
 

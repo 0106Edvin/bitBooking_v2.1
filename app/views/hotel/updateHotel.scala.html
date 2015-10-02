@@ -1,7 +1,6 @@
 @(hotel: Hotel)
 @import helper._
 @main {
-
     @helper.form(action = routes.Hotels.updateHotel(hotel.id), 'enctype -> "multipart/form-data") {
         <div class="container">
             <div class="row">
@@ -11,8 +10,10 @@
                     </div>
                     <form class="form">
                         <div class="col-md-5  text-left">
-                            <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
-                            <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
+
+
+                            <input id="gLat" name="coordinateX" value="@hotel.coordinateX" readonly>
+                            <input id="gLng" name="coordinateY" value="@hotel.coordinateY" readonly>
                             <div id="mapCanvas" class="shrinked-map"></div>
                             <div id="infoPanel" style="display : none">
                                 <b>Marker status:</b>
@@ -27,10 +28,10 @@
                             <h3> Hotel information </h3>
 
 
-                            <input name="name" class="name" type="text" placeholder="Hotel Name" value="@hotel.name">
-                            <input name="location" class="email" type="text" placeholder="Location" value="@hotel.location">
-                            <input name="city" class="email" type="text" placeholder="Location" value="@hotel.city">
-                            <input name="country" class="email" type="text" placeholder="Location" value="@hotel.country">
+                            <input name="name" class="name" type="text" placeholder="Hotel Name" value="@hotel.name" required>
+                            <input name="location" class="email" type="text" placeholder="Location" value="@hotel.location" required>
+                            <input name="city" class="email" type="text" placeholder="Location" value="@hotel.city" required>
+                            <input name="country" class="email" type="text" placeholder="Location" value="@hotel.country" required>
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none" >@hotel.description</textarea>
 
                         </div>
@@ -39,13 +40,16 @@
                             <div class="col-md-9 col-md-offset-1 contact-form">
                                 <h3>Choose pictures for gallery: </h3>
                                 <div id="upload-file-container">
-                                    <input type="file" name="image" class="form-control" multiple/>
+                                    <input type="file" name="image" accept="image/*" class="form-control" multiple/>
                                 </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="col-md-6 col-md-offset-1 contact-form">
-                        <input class="submit-btn" type="submit" value="UPDATE" onclick="@routes.Hotels.updateHotel(hotel.id)">
+                            <div>
+                            <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="font-size:32px; background-color : #0066FF ; border-radius : 5px; width: 100px; float: left;" type="button" value="BACK" ></a>
+                            <a href="@routes.Hotels.updateHotel(hotel.id)"> <input class="submit-btn"  style="font-size: 32px; background-color: #204d74; border-radius: 5px;  width: 100px; float: right; "  type="submit" value="UPDATE"></a>
+                            </div>
                         </div>
                     </form>
 

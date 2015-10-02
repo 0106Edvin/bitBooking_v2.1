@@ -23,7 +23,7 @@ create table comment (
   hotel_id                  integer,
   title                     varchar(255),
   content                   varchar(255),
-  rating                    integer,
+  rating                    double,
   constraint pk_comment primary key (id))
 ;
 
@@ -40,12 +40,13 @@ create table hotel (
   id                        integer auto_increment not null,
   name                      varchar(255),
   location                  varchar(255),
-  description               varchar(255),
+  description               TEXT,
   city                      varchar(255),
   country                   varchar(255),
   coordinate_x              varchar(255),
   coordinate_y              varchar(255),
   seller_id                 integer,
+  rating                    double,
   constraint pk_hotel primary key (id))
 ;
 
@@ -55,6 +56,7 @@ create table image (
   image_url                 varchar(255),
   secret_image_url          varchar(255),
   hotel_id                  integer,
+  room_id                   integer,
   feature_id                integer,
   constraint uq_image_feature_id unique (feature_id),
   constraint pk_image primary key (id))
@@ -62,16 +64,27 @@ create table image (
 
 create table price (
   id                        integer auto_increment not null,
-  check_in                  datetime,
-  check_out                 datetime,
+  date_from                 datetime,
+  date_to                   datetime,
   cost                      decimal(38),
   room_id                   integer,
   constraint pk_price primary key (id))
 ;
 
+create table reservation (
+  id                        integer auto_increment not null,
+  cost                      decimal(38),
+  check_in                  datetime,
+  check_out                 datetime,
+  status                    integer,
+  room_id                   integer,
+  user_id                   integer,
+  constraint pk_reservation primary key (id))
+;
+
 create table room (
   id                        integer auto_increment not null,
-  description               varchar(255),
+  description               TEXT,
   number_of_beds            integer,
   name                      varchar(255),
   hotel_id                  integer,
@@ -100,12 +113,18 @@ alter table feature add constraint fk_feature_icon_4 foreign key (icon_id) refer
 create index ix_feature_icon_4 on feature (icon_id);
 alter table image add constraint fk_image_hotel_5 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_image_hotel_5 on image (hotel_id);
-alter table image add constraint fk_image_feature_6 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
-create index ix_image_feature_6 on image (feature_id);
-alter table price add constraint fk_price_room_7 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_price_room_7 on price (room_id);
-alter table room add constraint fk_room_hotel_8 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_8 on room (hotel_id);
+alter table image add constraint fk_image_room_6 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_image_room_6 on image (room_id);
+alter table image add constraint fk_image_feature_7 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
+create index ix_image_feature_7 on image (feature_id);
+alter table price add constraint fk_price_room_8 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_8 on price (room_id);
+alter table reservation add constraint fk_reservation_room_9 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_reservation_room_9 on reservation (room_id);
+alter table reservation add constraint fk_reservation_user_10 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
+create index ix_reservation_user_10 on reservation (user_id);
+alter table room add constraint fk_room_hotel_11 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_11 on room (hotel_id);
 
 
 
@@ -134,6 +153,8 @@ drop table hotel;
 drop table image;
 
 drop table price;
+
+drop table reservation;
 
 drop table room;
 

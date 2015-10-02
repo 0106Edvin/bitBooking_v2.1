@@ -2,16 +2,18 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import controllers.routes;
-import models.Feature;
-import models.Hotel;
-import models.Room;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
-import views.html.room.*;
-import views.html.seller.*;
+import views.html.hotel.hotel;
+import views.html.room.createRoom;
+import views.html.room.showRooms;
+import views.html.room.updateRoom;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,16 +25,28 @@ public class Rooms extends Controller {
     public static Model.Finder<String, Room> finder = new Model.Finder<String, Room>(Room.class);
     public static Model.Finder<String, Feature> featureFinder = new Model.Finder<String, Feature>(Feature.class);
 
+    public Result hotelReservations(Integer id) {
+        Hotel hotel = Hotel.findHotelById(id);
+        List<Room> rooms = hotel.rooms;
+        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        return ok(views.html.room.hotelReservations.render(rooms,hotel,user));
+    }
+
+
     public Result saveRoom(Integer hotelId) {
 
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
+        if (room.numberOfBeds <= 0) {
+            flash("error", "Room can't have that number of beds!");
+            redirect(routes.Rooms.createRoom(hotelId));
+        }
         Hotel hotel = Hotel.findHotelById(hotelId);
 
         room.hotel = hotel;
 
         Ebean.save(room);
-        return redirect(routes.Application.index());
+        return redirect(routes.Rooms.showRooms(hotel.id));
     }
 
     public Result updateRoom(Integer id) {
@@ -48,25 +62,40 @@ public class Rooms extends Controller {
         room.description = description;
         room.numberOfBeds = numberOfBeds;
 
+        Http.MultipartFormData body1 = request().body().asMultipartFormData();
+        List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
+        if (fileParts != null) {
+            for (Http.MultipartFormData.FilePart filePart1 : fileParts) {
+                File file = filePart1.getFile();
+                Image image = Image.create(file, null, null, null, room.id);
+                room.images.add(image);
+            }
+        }
+
         room.update();
 
-       return redirect(routes.Prices.savePrice(id));
+        return redirect(routes.Rooms.showRoom(id));
     }
-    public Result deleteRoom(Integer id){
+
+    public Result deleteRoom(Integer id) {
         Room room = Room.findRoomById(id);
 
         Ebean.delete(room);
-        return redirect(routes.Application.index());
+        return redirect(routes.Rooms.showRooms(room.hotel.id));
     }
 
 
-    public Result showRoom (Integer id) {
+    public Result showRoom(Integer id) {
         Room room = Room.findRoomById(id);
-        return ok(views.html.room.room.render(room));
+        AppUser user = null;
+        if (session("userId") != null) {
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        }
+        return ok(views.html.room.room.render(room, user));
     }
 
-    public Result createRoom(Integer hotelId){
-            List<Feature> features = Feature.finder.all();
+    public Result createRoom(Integer hotelId) {
+        List<Feature> features = Feature.finder.all();
 
         return ok(createRoom.render(features, hotelId));
     }
@@ -74,8 +103,17 @@ public class Rooms extends Controller {
     public Result showRooms(Integer hotelId) {
         List<Room> rooms = Room.finder.all();
         Hotel hotel = Hotel.findHotelById(hotelId);
-        return ok(showRooms.render(rooms, hotel));
+        AppUser user = null;
+        if (session("userId") != null) {
+            user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        }
+
+        return ok(showRooms.render(rooms, hotel, user));
     }
 
+    public Result editRoom(Integer id) {
+        Room room = Room.findRoomById(id);
+        return ok(updateRoom.render(room));
+    }
 
 }
