@@ -44,7 +44,7 @@
 
                                         @for(user <- users) {
                                             @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                                                <option class="useri" style="font-size : larger" value="@user.id">@user.email</option>
+                                                <option class="useri" style="font-size : larger" value="@user.id" >@user.email</option>
                                             }
                                         }
                                     </select>
