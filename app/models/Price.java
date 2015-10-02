@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -54,5 +55,4 @@ public class Price extends Model {
     public String toString() {
         return dateFrom + " " + dateTo + " " + cost.toString();
     }
-
 }

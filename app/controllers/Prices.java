@@ -2,6 +2,7 @@ package controllers;
 
 import models.Price;
 import models.Room;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -53,7 +54,7 @@ public class Prices extends Controller {
             if(firstDate.before(secondDate)){
                 price.dateFrom = firstDate;
                 price.dateTo = secondDate;
-            }else{
+            } else {
                 flash("error","First date can't be after second date!");
                 return redirect(routes.Rooms.editRoom(roomId));
             }
