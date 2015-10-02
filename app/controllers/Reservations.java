@@ -12,6 +12,7 @@ import play.mvc.Result;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by gordan on 9/29/15.
@@ -80,18 +81,19 @@ public class Reservations extends Controller {
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
     }
 
-    public Result showBuyerReservations(Integer userId){
-        Reservation reservation = Reservation.findReservationByUserId(userId);
-        if(reservation!=null) {
-            Room room = reservation.room;
-            Hotel hotel = room.hotel;
-            AppUser user = AppUser.findUserById(userId);
+    public Result showBuyerReservations(Integer userId) {
+        List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
+        for (Reservation reservation : reservationList) {
+            if (reservation != null) {
+                Room room = reservation.room;
+                Hotel hotel = room.hotel;
+                AppUser user = AppUser.findUserById(userId);
 
-            return ok(views.html.user.buyerReservations.render(room, hotel, reservation,user));
-        }else{
-            return redirect(routes.Application.index());
+                return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
+            } else
+                return redirect(routes.Application.index());
         }
-
+        return redirect(routes.Application.index());
     }
 
 }

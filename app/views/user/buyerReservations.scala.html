@@ -1,5 +1,5 @@
 @import helpers.ReservationStatus
-@(room: Room)(hotel: Hotel)(reservation: Reservation)(user: AppUser)
+@(room: Room)(hotel: Hotel)(reservations: List[Reservation])(user: AppUser)
 @main{
     <div class="container">
         <div class="row">
@@ -15,37 +15,39 @@
                     <table class="table">
                         <thead>
                             <tr class="service">
-                                <th style="font-size : 30 px ;">Guest name</th>
-                                <th style="font-size : 30 px ;">Room type</th>
-                                <th style="font-size : 30 px ;">Check-in date</th>
-                                <th style="font-size : 30 px ;">Check-out date</th>
-                                <th style="font-size : 30 px ;">Status</th>
+                                <th style="font-size : 30px ;">Guest name</th>
+                                <th style="font-size : 30px ;">Room type</th>
+                                <th style="font-size : 30px ;">Check-in date</th>
+                                <th style="font-size : 30px ;">Check-out date</th>
+                                <th style="font-size : 30px ;">Status</th>
                             </tr>
                         </thead>
 
                         <tbody style="font-size: 20px">
-                        @if(room != null) {
-                            @if(room.reservations != 0) {
-                                <tr class="service">
-                                    <td>@reservation.user.firstname</td>
-                                    <td>@room.numberOfBeds</td>
-                                    <td>@reservation.checkIn</td>
-                                    <td>@reservation.checkOut</td>
+                            @for(reservation <- reservations) {
+                                @if(room != null) {
+                                    @if(room.reservations != 0) {
+                                        <tr class="service">
+                                            <td>@reservation.user.firstname</td>
+                                            <td>@room.numberOfBeds</td>
+                                            <td>@reservation.checkIn</td>
+                                            <td>@reservation.checkOut</td>
 
-                                    @if(reservation.status == 1) {
-                                        <td style="color : darkorange">PENDING</td>
-                                    }
-                                    @if(reservation.status == 2) {
-                                        <td style="color : lawngreen">APPROVED</td>
-                                    }
-                                    @if(reservation.status == 3) {
-                                        <td style="color : red">DECLINED</td>
-                                    }
-                                    <td></td>
+                                            @if(reservation.status == 1) {
+                                                <td style="color : darkorange">PENDING</td>
+                                            }
+                                            @if(reservation.status == 2) {
+                                                <td style="color : lawngreen">APPROVED</td>
+                                            }
+                                            @if(reservation.status == 3) {
+                                                <td style="color : red">DECLINED</td>
+                                            }
+                                            <td></td>
 
-                                </tr>
+                                        </tr>
+                                    }
+                                }
                             }
-                        }
                         </tbody>
 
                     </table>

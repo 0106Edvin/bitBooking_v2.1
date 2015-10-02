@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by gordan on 9/29/15.
@@ -61,9 +62,9 @@ public class Reservation extends Model {
         Reservation reservation = finder.where().eq("id",id).findUnique();
         return reservation;
     }
-    public static Reservation findReservationByUserId(Integer id){
-        Reservation reservation = finder.where().eq("user_id", id).findUnique();
-        return reservation;
+    public static List<Reservation> findReservationByUserId(Integer id){
+        List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
+        return reservationList;
     }
 
     public BigDecimal getCost() {
