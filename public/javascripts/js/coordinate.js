@@ -45,7 +45,31 @@ function initialize() {
     position: latLng,
     title: 'Click here to zoom',
     map: map,
+    animation: google.maps.Animation.BOUNCE,
     draggable: true
+  });
+
+  google.maps.event.addListener(marker,'click',function() {
+    map.setZoom(16);
+    map.setCenter(marker.getPosition());
+    infowindow.open(map,marker);
+  });
+
+  //create circle options
+  var circleOptions = {
+    fillColor: 'white',
+    map: map,
+    center: latLng,
+    radius: 1000
+  };
+
+  //create circle
+  myCircle = new google.maps.Circle(circleOptions);
+
+  //when marker has completed the drag event
+  //recenter the circle on the marker.
+  google.maps.event.addListener(marker, 'dragend', function(){
+    myCircle.setCenter(this.position);
   });
 
   // Update current position info.

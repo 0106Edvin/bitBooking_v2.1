@@ -7,8 +7,9 @@
 <html lang="en">
     <head>
         <title></title>
-
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/style.css")">
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -21,7 +22,6 @@
         <script src='@routes.Assets.versioned("javascripts/js/coordinate.js")'></script>
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/coordinate.css")">
 
-        <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/style.css")">
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700' rel='stylesheet' type='text/css'>
@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-xs-5 header-logo">
                         <br>
-                        <a href="@routes.Application.index()"><img src= "@routes.Assets.versioned("img/BitBooking2.png")" alt="" class="img-responsive logo"></a>
+                        <a href="@routes.Application.index()"><img src= "@routes.Assets.versioned("img/logo.png")" alt="" class="img-responsive logo"></a>
                     </div>
 
                     <div class="col-md-7">
@@ -54,43 +54,55 @@
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 @helper.form(action = routes.Users.login()) {
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li><a class="menu active" href="" >Home</a></li>
-                                        <li><a class="menu" href="">hotels</a></li>
-                                        <li><a class="menu" href="">our services </a></li>
+                                        <li><a class="menu active" href="@routes.Application.index()" >Home</a></li>
                                         @if(currentUser == null) {
                                             <li><a class="menu" href="@routes.Users.registerUser">register</a></li>
 
                                             <li class="menu">
+
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
-                                                <div class="dropdown-menu">
+                                                <div class="dropdown-menu" style="width: 300px; height: 210px; background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
                                                         <div class="duplicate-email">
-                                                            @if(flash.containsKey("error")) {
-                                                                @flash.get("error")
-                                                            }
+@*//                                                            @if(flash.containsKey("error")) {*@
+@*//                                                                @flash.get("error")*@
+@*//                                                            }*@
+                                                            <div>
+                                                                <h1></h1>
+                                                            </div>
                                                         </div>
                                                         <br>
                                                         <div class="form-group">
-                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="">
+                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px;">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="">
+                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px;">
                                                         </div>
-                                                        <input type="submit" class="submit" id="btnLogin" name="submit" value="Log in" class="btn btn-block" onclick="@routes.Users.login()" />
+                                                        <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
                                                     </form>
                                                 </div>
                                             </li>
                                         } else {
-                                            <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
+
                                         <li><a class="menu my-profile" href="@routes.Users.editUser(currentUser.email)">@currentUser.email</a></li>
+                                            <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
                                         }
 
                                     </ul>
                                 }
+
                                 </div><!-- /navbar-collapse -->
+
+
                             </div><!-- / .container-fluid -->
+
                         </nav>
+                        <div style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("error")) {
+                            @flash.get("error")
+                        }
+                        </div>
                     </div>
                 </div>
             </div>

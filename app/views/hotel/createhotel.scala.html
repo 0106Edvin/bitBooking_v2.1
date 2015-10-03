@@ -1,3 +1,4 @@
+@import helpers.UserAccessLevel
 @(features: java.util.List[Feature])(users: java.util.List[AppUser])
 @import helper._
 @main {
@@ -14,9 +15,9 @@
                             <h3> Hotel information </h3>
 
                             <input name="name" class="name" type="text" placeholder="Hotel Name" required>
-                            <input name="location" class="email" type="text" placeholder="Address">
-                            <input name="city" class="email" type="text" placeholder="City">
-                            <input name="country" class="email" type="text" placeholder="Country">
+                            <input name="location" class="email" type="text" placeholder="Address" required>
+                            <input name="city" class="email" type="text" placeholder="City" required>
+                            <input name="country" class="email" type="text" placeholder="Country" required>
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
 
 
@@ -25,9 +26,9 @@
                                 <h3>Features</h3>
                                 <div class="info-detail ">
                                 @for(feature <- features) {
-
-                                    <input type="checkbox" name="@feature.name" value="@feature.name"> @feature.name <br>
-
+                            <div style="text-transform: capitalize; font-size: 22px; color:#FFFFFF;">
+                                    <input type="checkbox" name="@feature.name" value="@feature.name" style="width: 16px; height: 16px;"><td>  @feature.name</td><br>
+                                </div>
                                         @*<img src="@feature.icon.getSize(30,30)"/>*@
 
                                     }
@@ -38,18 +39,21 @@
 
                                 <h3>Select the owner</h3>
                                 <div class="info-detail">
-                                    <select id="ddlsellers" name="seller">
+                                    <select id="ddlsellers" name="seller" required>
                                         <br>
 
                                         @for(user <- users) {
-                                            @if(user.userAccessLevel == 3) {
-                                                <option class="useri" style="font-size : larger " value="@user.id">@user.email</option>
+                                            @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                                <option class="useri" style="font-size : larger" value="@user.id" >@user.email</option>
                                             }
                                         }
                                     </select>
                                 </div>
                             </div>
-                            <input class="submit-btn" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
+                            <br>
+                            <a href="@routes.Users.showManagerHotels()"> <input class="submit-btn" style="font-size:25px; float: left; background-color : #0066FF ; border-radius : 5px; width: 90px; " type="button" value="BACK" ></a>
+
+                            <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 90px; " type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
 
                         </div>
 

@@ -1,8 +1,8 @@
 @import helpers.UserAccessLevel
 @import helpers.SessionsAndCookies
-@(rooms: List[Room])(hotel: Hotel)
-@main{
+@(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
 
+@main{
         <div class="container">
             <div class="row">
                 <div class="contact-caption clearfix">
@@ -17,8 +17,8 @@
                         <table class="table">
                             <thead>
                                 <tr class="service">
-                                    <th>Name</th>
-                                    <th>Number of beds</th>
+                                    <th style="font-size: 30px;">Name</th>
+                                    <th style="font-size: 30px;">Number of beds</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -28,31 +28,50 @@
                             @for(room <- rooms) {
                                 @if(room.hotel == hotel) {
                                     <tr class="service">
-                                        <td>@room.name</td>
-                                        <td>@room.numberOfBeds</td>
-
+                                        <td style="font-size: 22px;">@room.name</td>
+                                        <td style="font-size: 22px;">@room.numberOfBeds</td>
+                                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                            <td>
+                                                <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
+                                                    <button class="btn btn-danger" data-role = "delete" style="font-size: 17px;">Delete</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@routes.Rooms.editRoom(room.id)">
+                                                    <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">Edit</button>
+                                                </a>
+                                            </td>
+}
                                         <td>
-                                            <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                                <button class="btn btn-danger" data-role = "delete" >Delete</button>
+                                            <a href="@routes.Rooms.showRoom(room.id)">
+                                                <button class="btn btn-warning" style="font-size: 17px;">View</button>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href="@routes.Rooms.updateRoom(room.id)">
-                                                <button class="btn btn-primary" data-role = "edit">Edit</button>
-                                            </a>
-                                        </td>
-
                                     </tr>
                                 }
                             }
 
                             </tbody>
                         </table>
+                        <br><br>
+                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER){
+                        <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
+                            <button class="btn btn-success" style="font-size : 17 px ;">Add Room</button>
+                        </a>
+                        <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
+                        } else {
+                            <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
 
+                        }
+
+
+                    </div>
+                    <div>
 
                     </div>
 
                 </div>
+
             </div>
         </div>
 

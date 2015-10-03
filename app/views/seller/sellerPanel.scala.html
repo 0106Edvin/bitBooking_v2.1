@@ -14,8 +14,8 @@
                     <table class="table">
                         <thead>
                             <tr class="service">
-                                <th>Hotel name</th>
-                                <th>Address</th>
+                                <th style="font-size : 28 px ;">Hotel name</th>
+                                <th style="font-size : 28 px ;">Address</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -25,18 +25,21 @@
                             @if(hotel.sellerId == Integer.parseInt(request().cookies().get("userId").value())) {
                                 <tr class="service">
 
-                                    <td>@hotel.name</td>
-                                    <td>@hotel.location</td>
+                                    <td style="font-size: 22px;">@hotel.name</td>
+                                    <td style="font-size: 22px;">@hotel.location</td>
 
                                     <td>
                                         <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
-                                            <button class="btn btn-danger">Add Room</button>
+                                            <button class="btn btn-success" style="font-size: 17px;">Add Room</button>
                                         </a>
                                         <a onclick="" href="@routes.Rooms.showRooms(hotel.id)">
-                                            <button class="btn btn-warning">View rooms</button>
+                                            <button class="btn btn-warning" style="font-size: 17px;">View rooms</button>
                                         </a>
                                         <a onclick="" href="@routes.Hotels.editHotel(hotel.id)">
-                                            <button class="btn btn-warning">Update hotel</button>
+                                            <button class="btn btn-warning" style="font-size: 17px;">Edit hotel</button>
+                                        </a>
+                                        <a onclick="" href="@routes.Rooms.hotelReservations(hotel.id)">
+                                            <button class="btn btn-warning" style="font-size: 17px;">View reservations</button>
                                         </a>
                                     </td>
                                 </tr>

@@ -21,7 +21,15 @@ public class SessionsAndCookies extends Security.Authenticator {
      */
     public static void setCookies(AppUser user) {
         response().setCookie("email", user.email);
-        response().setCookie("name", user.firstname);
+
+        String firstname = "";
+        String[] name = user.firstname.split(" ");
+
+        for (String s : name) {
+            firstname += s;
+        }
+
+        response().setCookie("name", firstname);
         response().setCookie("userAccessLevel", user.userAccessLevel.toString());
         response().setCookie("userId", user.id.toString());
     }
@@ -43,7 +51,15 @@ public class SessionsAndCookies extends Security.Authenticator {
      */
     public static void setUserSessionSata(AppUser user) {
         session("email", user.email);
-        session("name", user.firstname);
+
+        String firstname = "";
+        String[] name = user.firstname.split(" ");
+
+        for (String s : name) {
+            firstname += s;
+        }
+
+        session("name", firstname);
         session("userAccessLevel", user.userAccessLevel.toString());
         session("userId", user.id.toString());
     }

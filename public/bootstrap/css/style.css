@@ -1,4 +1,6 @@
-
+.edvin-class{
+	margin-top: 20%;
+}
 body{
 	margin: 0;
 	padding: 0;
@@ -213,8 +215,8 @@ li a.active{
 .single-about-detail{
 	position: relative;
 }
-.pentagon-text h1{
-	font-size: 60px;
+.gogo h1{
+	font-size: 30px;
 	color: #383838;
 	margin-top: 0;
 	transition: all .7s ease 0s;
@@ -225,9 +227,9 @@ li a.active{
 	position: absolute;
 	  left: 15%;
 	  width: 50px;
-	  top: -6%;
+	  top: 25%;
 }
-.pentagon-text {
+.gogo {
   width: 70px;
   height: 52px;
   background: #fff;
@@ -235,7 +237,7 @@ li a.active{
    top: -30px;
   left: 43%;
 }
-.pentagon-text:before {
+.gogo:before {
   content: "";
   position: absolute;
   top: -15px;
@@ -246,7 +248,11 @@ li a.active{
   border-right: 35px solid transparent;
   border-bottom: 15px solid #fff;
 }
-.pentagon-text:after {
+<<<<<<< HEAD
+=======
+
+>>>>>>> svega pomalo
+.gogo:after {
   content: "";
   position: absolute;
   bottom: -15px;
@@ -272,7 +278,7 @@ li a.active{
 	margin-top: 0;
 }
 .about-details p{
-	font-size: 13px;
+	font-size: 18px;
 	color: #fff;
 	font-family: 'Open Sans', sans-serif;
 	padding: 0 25px;
@@ -302,7 +308,7 @@ li a.active{
 	font-size: 24px;
 	color: #fff;
 	margin-top: 0;
-	margin-bottom: 70px;
+	margin-bottom: 10px;
 	display: block;
 }
 .service label  {

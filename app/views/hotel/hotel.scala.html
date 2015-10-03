@@ -1,9 +1,11 @@
 @import models.Comment
 @import java.lang.Boolean
 @import helpers.UserAccessLevel
-@(hotel: Hotel)(hasCommented: Boolean)
+
+@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
 @main {
+    <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
@@ -28,15 +30,10 @@
 
 
                 <div class="col-md-5  text-left">
-
-                    <input id="gLat" name="coordinateX" value="43.8534183" disabled>
-                    <input id="gLng" name="coordinateY" value="18.37808399999" disabled>
-
+                    <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
+                    <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
                     <div id="mapCanvas" class="shrinked-map"></div>
-                    <div id="infoPanel" style="display : none">
-                        <b>Marker status:</b>
-                        <div id="markerStatus"><i>Click and drag the marker.</i></div>
-                        <b>Current position:</b>
+                    <div id="infoPanel" style="display: none">
                         <div id="info"></div>
                     </div>
 
@@ -68,15 +65,16 @@
                         <h3>Feature</h3>
                         <div class="info-detail">
                             <ul>
-                                <div class="service">
+                                <div class="service" style="text-transform: capitalize;">
 
                                 @if(hotel.features.size() != 0) {
                                     @for(feature <- hotel.features) {
 
-                                        <li>
+                                        <li style="font-size: 16px;">
                                             @feature.name
                                             <img src="@feature.icon.getSize(30, 30)"/>
                                         </li>
+
                                     }
                                 }
 
@@ -96,18 +94,20 @@
                                     <img src="@image.getSize(300, 200)"/>
                                 }
                             }
-                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning">
+                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning" style="font-size: 18px;">
                                 View rooms</button></a>
                         </div>
                     </div>
                 </div>
 
 
+
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
+
                         <h3>Comments</h3>
                         <div class="info-detail">
-                        @if(request().cookies().get("email") != null) {
+                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
                             <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
                                 <div class="form-group">
                                     <div>
@@ -120,58 +120,64 @@
                                     <div class="service">
                                         <label for="usr">Title:</label>
                                     </div>
-                                    <input type="text" class="form-control" id="usr" name="title">
+                                    <input type="text" class="form-control" style="font-size: 17px;" id="usr" name="title" required>
                                     <div class="service">
                                         <label for="comment">Comment:</label>
                                     </div>
-                                    <textarea class="form-control" rows="5" id="comment" style="resize : none" name="content"></textarea>
+                                    <textarea class="form-control" rows="5" id="comment" style="resize : none; font-size: 18px;" name="content" required></textarea>
                                     <div class="service">
                                         <label for="rate">Rate hotel:</label>
                                     </div>
-                                    <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+
+                                        <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+
                                 </div>
+
                                 @if(hasCommented) {
                                     <div style="text-align : right">
-                                        <h3>You already commented this hotel.</h3>
-                                        <button type="submit" class="btn btn-success" disabled>Post</button>
+                                        <font size="6"><i>You already commented this hotel.</i></font>
+                                        <hr>
                                     </div>
                                 } else {
                                     <div style="text-align : right">
-                                        <button type="submit" class="btn btn-success">Post</button>
+                                        <button type="submit" class="edvin-button" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 40px;">Post</button>
                                     </div>
+
                                 }
-
-
                             </form>
-
                         }
                         </div>
                     </div>
                 </div>
+               
+
+
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
                     @for(comment <- hotel.comments) {
-                        <div class="row">
-                            <h3 style="color : #269abc">@comment.user.firstname</h3>
-                            <h4 style="color : #ac2925 ; text-align : center">@comment.title</h4>
-                            <p>@comment.content</p>
-                            <h5>This user rated hotel with: @comment.rating</h5>
-
-                            @if(Integer.parseInt(request().cookies().get("userAccessLevel").value()) == UserAccessLevel.ADMIN) {
-                                <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
-                                    <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
-                                        <button class="btn btn-danger">Delete</button>
-                                    </a>
-                                </form>
+                        <div class="service">
+                            <font size="20" style="color:black">@comment.user.firstname</font>
+                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
+                                <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
+                                    <button class="btn btn-danger" style="float: right;">Delete</button>
+                                </a>
                             }
+                            <br>
+                            <font size="5" style="color:black">@comment.title</font>
+                            <p style="color:white" required>@comment.content</p>
+                            <font size ="5"><i>This user rated hotel with:</i> @comment.rating</font>
+                                <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
+                                </form>
+                            <hr>
+                            }
+
                         </div>
-                    }
                     </div>
 
 

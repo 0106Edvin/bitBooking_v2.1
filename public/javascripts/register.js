@@ -12,11 +12,9 @@ function checkEmail() {
 
     if (!filter.test(email.value)) {
         document.getElementById('email_error').innerHTML = "Please provide a valid email adress!";
-        document.getElementById('submit').disable="true";
         return false;
     }else{
         document.getElementById('email_error').innerHTML = "";
-        document.getElementById('submit').disable="false";
         return true;
     }
 }
@@ -30,11 +28,9 @@ function checkPasswordLength() {
 
     if(pass1.length < 6){
         document.getElementById('password_error').innerHTML="Password must be at least 6 characters long!";
-        document.getElementById('submit').disable="true";
         return false;
     }else {
         document.getElementById('password_error').innerHTML="";
-        document.getElementById('submit').disable="false";
             return true;
     }
 
@@ -49,12 +45,9 @@ function checkPasswordMatch() {
     if (pass1 != pass2) {
 
         document.getElementById('password2_error').innerHTML="Passwords do not match";
-
-        document.getElementById('submit').disable="true";
         return false;
     }else {
         document.getElementById('password2_error').innerHTML= "";
-        document.getElementById('submit').disable="false";
         return true;
     }
 
@@ -70,14 +63,12 @@ function checkName(){
 
     if(name.value.match(letters) ) {
         document.getElementById('name_error').innerHTML="";
-        document.getElementById('submit').disable="false";
 
         return true;
     } else  {
 
-        document.getElementById('name_error').innerHTML="Name must have letters only!";
+        ddocument.getElementById('name_error').innerHTML="Invalid name. Name must start with a letter. Allowed characters are a-z! ";
 
-        document.getElementById('submit').disable="true";
         return false;
     }
 
@@ -92,13 +83,10 @@ function checkLastname(){
     if(lastname.value.match(letters)) {
 
         document.getElementById('lastname_error').innerHTML="";
-        document.getElementById('submit').disable="false";
         return true;
     } else  {
 
         document.getElementById('lastname_error').innerHTML="Last Name must have letters only!";
-
-        document.getElementById('submit').disable="true";
         return false;
     }
 
@@ -113,11 +101,9 @@ function checkNameLength(){
 
     if(name.length > 1){
         document.getElementById('namelength_error').innerHTML="";
-        document.getElementById('submit').disable="false";
         return true;
     }else{
        document.getElementById('namelength_error').innerHTML="Name must contain at least 2 letters!";
-        document.getElementById('submit').disable="true";
         return false;
     }
 }
@@ -130,11 +116,9 @@ function checkLastnameLength(){
 
     if(lastname.length > 1){
         document.getElementById('lastnamelength_error').innerHTML="";
-        document.getElementById('submit').disable="false";
         return true;
     }else{
         document.getElementById('lastnamelength_error').innerHTML="Lastname must contain at least 2 letters!";
-        document.getElementById('submit').disable="true";
         return false;
     }
 }
@@ -146,11 +130,9 @@ function numberLength(){
 
     if(number.length < 16 && number.value < 0){
         document.getElementById('numberlength_error').innerHTML="";
-        document.getElementById('submit').disable="false";
         return true;
     }else{
         document.getElementById('numberlength_error').innerHTML="Number can have 15 digits max!";
-        document.getElementById('submit').disable="true";
         return false;
     }
 }
@@ -164,11 +146,9 @@ function isNumber(){
     if(/\D/.test(number) ){
 
         document.getElementById('number_error').innerHTML="Number can contain only digits(0-9)!";
-        document.getElementById('submit').disable="true";
         return false;
     }
     document.getElementById('number_error').innerHTML="";
-    document.getElementById('submit').disable="false";
     return true;
 }
 
@@ -188,3 +168,26 @@ function call() {
 function lastname(){
 
 }
+
+function checkSubject(){
+  var letters = /^[A-Za-z\s]+$/;
+  var name = document.getElementById("subject");
+  if(name.value.match(letters) ) {
+          document.getElementById('subject_error').innerHTML = "";
+          return true;
+      } else{
+          document.getElementById('subject_error').innerHTML="Invalid subject. Subject must start with a letter. Allowed characters are a-z!";
+          return false;
+      }
+
+  }
+function checkSubjectLength(){
+        var name = document.getElementById("subject").value;
+        if(name.length > 1){
+               document.getElementById('subjectlength_error').innerHTML="";
+               return true;
+           }else{
+               document.getElementById('subjectlength_error').innerHTML="Subject must contain at least 2 letters!";
+               return false;
+           }
+    }

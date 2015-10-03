@@ -47,7 +47,7 @@ public class Features extends Controller {
             Http.MultipartFormData.FilePart filePart = body.getFile("image");
             if(filePart != null){
                 File file = filePart.getFile();
-                Image icon1 = Image.create(file,null,null,feature.id);
+                Image icon1 = Image.create(file,null,null,feature.id,null);
                 icon1.save();
                 feature.icon = icon1;
 
@@ -88,7 +88,7 @@ public class Features extends Controller {
 
         feature.update();
 
-        return redirect(routes.Application.index());
+        return redirect(routes.Users.showAdminFeatures());
     }
 
 

@@ -1,3 +1,5 @@
+@import helpers.UserAccessLevel
+
 @(users: java.util.List[AppUser])
 @main {
     <div class="container">
@@ -10,7 +12,7 @@
                 <div class="col-md-4">
                     <br/>
                     <a href="@routes.Users.showAdminHotels()">
-                        <button id="hotelsbtn" class="btn-danger" style="width : 70% ; height : 100px ; font-size : 30px">
+                        <button id="hotelsbtn" class="btn-default" style="background-color:darkorange;color:white;width : 70% ; height : 100px ; font-size : 30px">
                             Hotels
                         </button>
                     </a>
@@ -33,7 +35,7 @@
                     </a>
                 </div>
 
-                <table class="table table-responsive">
+                <table class="table table-responsive" style="font-size: 45px;">
                     <thead>
                         <tr class="service">
                             <th>Name</th>
@@ -41,49 +43,61 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th></th>
-                            <th>Delete</th>
                             <th>Change Role</th>
                             <th>Submit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
                     @for(user <- users) {
-                        @if(user.userAccessLevel != 1) {
+                        @if(user.userAccessLevel != UserAccessLevel.ADMIN) {
                             <tr class="service">
-                                <td>@user.firstname</td>
-                                <td>@user.lastname</td>
-                                <td>@user.email</td>
-                                @if(user.userAccessLevel == 4) {
-                                    <td>Hotel Manager</td>
+                                <td style="text-transform: capitalize; font-size: 22px;">@user.firstname</td>
+                                <td style="text-transform: capitalize; font-size: 22px;">@user.lastname</td>
+                                <td style="font-size: 22px;">@user.email</td>
+                                @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
+                                    <td style="font-size: 22px;">Hotel Manager</td>
                                 }
-                                @if(user.userAccessLevel == 3) {
-                                    <td>Seller</td>
+                                @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                    <td style="font-size: 22px;">Seller</td>
                                 }
-                                @if(user.userAccessLevel == 2) {
-                                    <td>Buyer</td>
+                                @if(user.userAccessLevel == UserAccessLevel.BUYER) {
+                                    <td style="font-size: 22px;">Buyer</td>
                                 }
-                                @if(user.userAccessLevel == 1) {
-                                    <td>Admin</td>
+                                @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
+                                    <td style="font-size: 22px;">Admin</td>
                                 }
                                 <td></td>
-                                <form method="delete" action="@routes.Users.deleteUser(user.email)">
-                                    <td>
-                                        <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
-                                            <button data-role="delete" class="btn btn-danger">Delete</button>
-                                        </a>
-
-                                    </td>
-                                </form>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
-                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" >
-                                            <option value="buyer">Buyer</option>
-                                            <option value="seller">Seller</option>
-                                            <option value="hotelmanager">Hotel Manager</option>
+                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" style="font-size: 18px; height: 40px;" required>
+                                            @if(user.userAccessLevel == UserAccessLevel.BUYER){
+                                                <option value="buyer" selected="true">Buyer</option>
+                                                <option value="seller">Seller</option>
+                                                <option value="hotelmanager">Hotel Manager</option>
+                                            }
+                                            @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER){
+                                                <option value="buyer">Buyer</option>
+                                                <option value="seller">Seller</option>
+                                                <option value="hotelmanager" selected="true">Hotel Manager</option>
+                                            }
+                                            @if(user.userAccessLevel == UserAccessLevel.SELLER){
+                                                <option value="buyer">Buyer</option>
+                                                <option value="seller" selected="true">Seller</option>
+                                                <option value="hotelmanager">Hotel Manager</option>
+                                            }
                                         </select>
 
                                     </td>
-                                    <td><button class="edvin-button-role" type="submit">Change role</button></td>
+                                    <td><button class="edvin-button-role" type="submit" style="font-size: 20px; background-color: #204d74; border-radius: 5px; width: 90px; height:40px;">Change role</button></td>
+                                </form>
+                                <form method="delete" action="@routes.Users.deleteUser(user.email)">
+                                    <td>
+                                        <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
+                                            <button data-role="delete" class="btn btn-danger" style="font-size: 18px;">Delete</button>
+                                        </a>
+
+                                    </td>
                                 </form>
                             </tr>
 
@@ -91,7 +105,6 @@
                     }
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

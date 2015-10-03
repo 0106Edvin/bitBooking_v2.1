@@ -16,6 +16,8 @@ public class Room extends Model {
 
     @Id
     public Integer id;
+
+    @Column(columnDefinition = "TEXT")
     public String description;
 
     @Digits(integer=3, fraction=0)
@@ -32,25 +34,31 @@ public class Room extends Model {
     @ManyToOne
     public Hotel hotel;
 
-//    @OneToMany
-//    public List<Price> prices;
+    @OneToMany
+    public List<Price> prices;
 
-    public Room(){
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Image> images;
 
-    }
-    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds){//, List<Price> prices
+    @OneToMany
+    public List<Reservation> reservations;
+
+    public Room(){}
+
+
+    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images, List<Reservation> reservations){
         this.id = id;
         this.description= description;
         this.features = features;
         this.name = name;
         this.hotel = hotel;
         this.numberOfBeds= numberOfBeds;
-//        this.prices = prices;
+        this.prices = prices;
+        this.images = images;
+        this.reservations = reservations;
     }
     public static Room findRoomById(Integer id) {
         Room room = finder.where().eq("id", id).findUnique();
-
         return room;
-
     }
 }

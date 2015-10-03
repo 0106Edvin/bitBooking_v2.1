@@ -2,11 +2,11 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import helpers.*;
-import models.AppUser;
-import models.Feature;
-import models.Hotel;
-import models.Image;
+import helpers.Authenticators;
+import helpers.Constants;
+import helpers.SessionsAndCookies;
+import helpers.UserAccessLevel;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -185,9 +185,11 @@ public class Users extends Controller {
     }
 
     @Security.Authenticated(Authenticators.isUserLogged.class)
-    public Result updateUser (String email){
+    public Result updateUser (String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
-        AppUser user = AppUser.getUserByEmail(email);
+
+        AppUser currentUser = AppUser.getUserByEmail(session("email"));
+
         //getting the values from the fields
         String pass1 = boundForm.bindFromRequest().field("password").value();
         String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
@@ -199,49 +201,49 @@ public class Users extends Controller {
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
         if(filePart != null){
             File file = filePart.getFile();
-            Image profileImage = Image.create(file,null,user.id,null);
-            user.profileImg = profileImage;
+            Image profileImage = Image.create(file, null, currentUser.id, null, null);
+            currentUser.profileImg = profileImage;
         }
 
         if (!pass1.equals(pass2)) {
             flash("error", "Passwords don't match");
-            return ok(profilePage.render(user));
+            return ok(profilePage.render(currentUser));
 
         } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
             flash("error", "Name and last name must contain letters only");
-            return ok(profilePage.render(user));
+            return ok(profilePage.render(currentUser));
 
         } else if (name.length() < 2 || lastname.length() < 2) {
             flash("error", "Name and last name must be at least 2 letters long");
-            return ok(profilePage.render(user));
+            return ok(profilePage.render(currentUser));
 
         } else if (phone.length() > 15) {
             flash("error", "Phone number can't be more than 15 digits long");
-            return ok(profilePage.render(user));
+            return ok(profilePage.render(currentUser));
 
         } else if (phone.matches("^[a-zA-Z]+$")) {
             flash("error", "Phone number must contain digits only");
-            return ok(profilePage.render(user));
+            return ok(profilePage.render(currentUser));
 
         } else {
 
             try {
-                user.firstname = name;
-                user.lastname = lastname;
+                currentUser.firstname = name;
+                currentUser.lastname = lastname;
                if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
-                   user.password = pass1;
-                   user.hashPass();
+                   currentUser.password = pass1;
+                   currentUser.hashPass();
                }
-                user.phoneNumber = phone;
+                currentUser.phoneNumber = phone;
 
-                user.update();
+                currentUser.update();
 
                 flash("success", "Your data was updated");
-                return redirect(routes.Users.updateUser(user.email));
+                return redirect(routes.Users.updateUser(currentUser.email));
 
             } catch (Exception e) {
                 flash("error", "You didn't fill the form correctly, please try again\n" + e.getMessage());
-                return ok(profilePage.render(user));
+                return ok(profilePage.render(currentUser));
             }
         }
     }
@@ -274,4 +276,5 @@ public class Users extends Controller {
         return redirect(routes.Users.showAdminUsers());
 
     }
+
 }

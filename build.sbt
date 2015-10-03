@@ -13,7 +13,8 @@ libraryDependencies ++= Seq(
   filters,
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.mindrot" % "jbcrypt" % "0.3m",
-  "com.cloudinary" % "cloudinary" % "1.0.14"
+  "com.cloudinary" % "cloudinary" % "1.0.14",
+  "org.apache.commons" % "commons-email" % "1.3.3"
 
 )
 

@@ -40,7 +40,7 @@
                         <div class="service">
                             <p>Upload a profile photo...</p>
                         </div>
-                        <input type="file" name="image" class="form-control"/>
+                        <input type="file" name="image" class="form-control" accept="image/*"/>
                     </div>
                     <div class="col-md-6 col-md-offset-1 contact-form">
                         <div class="form-group">
@@ -94,7 +94,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
-                                <input class="submit-btn" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
+                                <input class="submit-btn" style="font-size: 32px; background-color: #204d74; border-radius: 5px;" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
                             </div>
                         </div>
                     </div>
@@ -106,26 +106,37 @@
                         @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
 
                             <div class="col-md-2 ">
-                                <a href="@routes.Users.showAdminPanel()">  <button class="edvin-button" onclick="@routes.Users.showAdminPanel()">
+                                <a href="@routes.Users.showAdminPanel()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showAdminPanel()">
                                     ADMIN PANEL</button></a>
                             </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                             <div class="col-md-2 ">
-                                <a href="@routes.Users.showManagerHotels()">  <button class="edvin-button" onclick="@routes.Users.showManagerHotels()">
+                                <a href="@routes.Users.showManagerHotels()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showManagerHotels()">
                                     MANAGER PANEL</button></a>
                             </div>
                         }
                         @if(user.userAccessLevel == UserAccessLevel.SELLER) {
                             <div class="col-md-2">
 
-                                <a href="@routes.Hotels.showSellerHotels(user.id)"> <button class="edvin-button" onclick="@routes.Hotels.showSellerHotels(user.id)">
+                                <a href="@routes.Hotels.showSellerHotels(user.id)"> <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Hotels.showSellerHotels(user.id)">
                                     YOUR HOTELS</button></a>
                             </div>
                         }
+
+                        @if(user.userAccessLevel == UserAccessLevel.BUYER) {
+                            <div class="col-md-2">
+                                <a href="@routes.Reservations.showBuyerReservations(user.id)"><button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Reservations.showBuyerReservations(user.id)">
+                                    YOUR RESERVATIONS</button></a>
+                            </div>
+                        }
+
                         </div>
+
                 </div>
+
             </div>
+
         </div>
     </div>
 
