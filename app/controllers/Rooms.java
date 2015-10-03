@@ -54,9 +54,9 @@ public class Rooms extends Controller {
         Room room = Room.findRoomById(id);
         Form<Room> roomForm1 = roomForm.bindFromRequest();
 
-        String name = roomForm1.bindFromRequest().field("name").value();
-        String description = roomForm1.bindFromRequest().field("description").value();
-        Integer numberOfBeds = Integer.parseInt(roomForm1.bindFromRequest().field("numberOfBeds").value());
+        String name = roomForm1.field("name").value();
+        String description = roomForm1.field("description").value();
+        Integer numberOfBeds = Integer.parseInt(roomForm1.field("numberOfBeds").value());
 
         room.name = name;
         room.description = description;

@@ -23,9 +23,9 @@ public class Reservations extends Controller {
     public Result saveReservation(Integer roomId) {
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        String checkin = boundForm.bindFromRequest().field("checkIn").value();
+        String checkin = boundForm.field("checkIn").value();
         String[] checkInParts = checkin.split("-");
-        String checkout = boundForm.bindFromRequest().field("checkOut").value();
+        String checkout = boundForm.field("checkOut").value();
         String[] checkOutParts = checkout.split("-");
 
         try {
@@ -65,7 +65,7 @@ public class Reservations extends Controller {
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         Reservation reservation = Reservation.findReservationById(id);
 
-        String status = boundForm.bindFromRequest().field("status").value();
+        String status = boundForm.field("status").value();
 
         if (status.equals("1")) {
             reservation.status = ReservationStatus.PENDING;
