@@ -53,11 +53,11 @@ public class Users extends Controller {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         //getting the values from the fields
-        String pass1 = boundForm.bindFromRequest().field("password").value();
-        String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
-        String name = boundForm.bindFromRequest().field("firstname").value();
-        String lastname = boundForm.bindFromRequest().field("lastname").value();
-        String phone = boundForm.bindFromRequest().field("phoneNumber").value();
+        String pass1 = boundForm.field("password").value();
+        String pass2 = boundForm.field("passwordretype").value();
+        String name = boundForm.field("firstname").value();
+        String lastname = boundForm.field("lastname").value();
+        String phone = boundForm.field("phoneNumber").value();
 
 
         //validation of the form
@@ -78,8 +78,8 @@ public class Users extends Controller {
             flash("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH) {
-            flash("error", "Phone number can't be more than 15 digits long!");
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
+            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
             return ok(register.render(boundForm));
 
         } else if (phone.matches("^[a-zA-Z]+$")) {
@@ -92,6 +92,8 @@ public class Users extends Controller {
                 user = boundForm.get();
                 user.hashPass();
                 user.save();
+                SessionsAndCookies.setUserSessionSata(user);
+                SessionsAndCookies.setCookies(user);
                 return redirect(routes.Application.index());
             } catch (Exception e) {
                 flash("error", "Email allready exists in our database, please try again!");
@@ -111,8 +113,8 @@ public class Users extends Controller {
 
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
-        String email = boundForm.bindFromRequest().field("email").value();
-        String password = boundForm.bindFromRequest().field("password").value();
+        String email = boundForm.field("email").value();
+        String password = boundForm.field("password").value();
 
         AppUser user = AppUser.authenticate(email, password);
 
@@ -191,11 +193,11 @@ public class Users extends Controller {
         AppUser currentUser = AppUser.getUserByEmail(session("email"));
 
         //getting the values from the fields
-        String pass1 = boundForm.bindFromRequest().field("password").value();
-        String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
-        String name = boundForm.bindFromRequest().field("firstname").value();
-        String lastname = boundForm.bindFromRequest().field("lastname").value();
-        String phone = boundForm.bindFromRequest().field("phoneNumber").value();
+        String pass1 = boundForm.field("password").value();
+        String pass2 = boundForm.field("passwordretype").value();
+        String name = boundForm.field("firstname").value();
+        String lastname = boundForm.field("lastname").value();
+        String phone = boundForm.field("phoneNumber").value();
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
@@ -217,8 +219,8 @@ public class Users extends Controller {
             flash("error", "Name and last name must be at least 2 letters long");
             return ok(profilePage.render(currentUser));
 
-        } else if (phone.length() > 15) {
-            flash("error", "Phone number can't be more than 15 digits long");
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
+            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
             return ok(profilePage.render(currentUser));
 
         } else if (phone.matches("^[a-zA-Z]+$")) {
@@ -260,7 +262,7 @@ public class Users extends Controller {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         AppUser user = AppUser.getUserByEmail(email);
-        String userType = boundForm.bindFromRequest().field("usertype").value();
+        String userType = boundForm.field("usertype").value();
 
         if (userType.equals("buyer")) {
             user.userAccessLevel = UserAccessLevel.BUYER;
