@@ -92,8 +92,6 @@ public class Users extends Controller {
                 user = boundForm.get();
                 user.hashPass();
                 user.save();
-                SessionsAndCookies.setUserSessionSata(user);
-                SessionsAndCookies.setCookies(user);
                 return redirect(routes.Application.index());
             } catch (Exception e) {
                 flash("error", "Email allready exists in our database, please try again!");
