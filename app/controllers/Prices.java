@@ -28,14 +28,14 @@ public class Prices extends Controller {
 
     public Result savePrice(Integer roomId) {
         Form<Price> boundForm = priceForm.bindFromRequest();
-        String cost = boundForm.bindFromRequest().field("cost").value();
+        String cost = boundForm.field("cost").value();
         if(cost.equals("") || cost==null){
             flash("error","You must set room price!");
             return redirect(routes.Rooms.editRoom(roomId));
         }
-        String checkin = boundForm.bindFromRequest().field("checkIn").value();
+        String checkin = boundForm.field("checkIn").value();
         String[] checkInParts = checkin.split("-");
-        String checkout = boundForm.bindFromRequest().field("checkOut").value();
+        String checkout = boundForm.field("checkOut").value();
         String[] checkOutParts = checkout.split("-");
         Price price = new Price();
         try {

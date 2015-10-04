@@ -82,7 +82,7 @@ public class Features extends Controller {
         Form<Feature> boundForm = featureForm.bindFromRequest();
         Feature feature = Feature.findFeatureById(id);
 
-        String name = boundForm.bindFromRequest().field("name").value();
+        String name = boundForm.field("name").value();
 
         feature.name = name;
 

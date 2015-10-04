@@ -47,7 +47,7 @@ public class Hotels extends Controller {
         //Getting values from checkboxes
         List<String> checkBoxValues = new ArrayList<>();
         for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.bindFromRequest().field(features.get(i).name).value();
+            String feature = boundForm.field(features.get(i).name).value();
 
             if (feature != null) {
                 checkBoxValues.add(feature);
@@ -67,7 +67,7 @@ public class Hotels extends Controller {
         }
 
         hotel.features = featuresForHotel;
-        Integer sellerId = Integer.parseInt(boundForm.bindFromRequest().field("seller").value());
+        Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
 
@@ -85,11 +85,11 @@ public class Hotels extends Controller {
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
 
-        String name = hotelForm1.bindFromRequest().field("name").value();
-        String city = hotelForm1.bindFromRequest().field("city").value();
-        String country = hotelForm1.bindFromRequest().field("country").value();
-        String location = hotelForm1.bindFromRequest().field("location").value();
-        String description = hotelForm1.bindFromRequest().field("description").value();
+        String name = hotelForm1.field("name").value();
+        String city = hotelForm1.field("city").value();
+        String country = hotelForm1.field("country").value();
+        String location = hotelForm1.field("location").value();
+        String description = hotelForm1.field("description").value();
 
 
         hotel.name = name;
@@ -179,8 +179,8 @@ public class Hotels extends Controller {
 
     public Result search(){
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
-        String category = hotelForm1.bindFromRequest().field("category").value();
-        String searchWhat = hotelForm1.bindFromRequest().field("search").value();
+        String category = hotelForm1.field("category").value();
+        String searchWhat = hotelForm1.field("search").value();
         List<Hotel> hotels = new ArrayList<>();
         if(category.equals("name")){
             hotels = Hotel.findHotelsByName(searchWhat);
