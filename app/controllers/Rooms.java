@@ -2,11 +2,13 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
+import helpers.Authenticators;
 import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.hotel.hotel;
 import views.html.room.createRoom;
 import views.html.room.showRooms;
@@ -25,6 +27,7 @@ public class Rooms extends Controller {
     public static Model.Finder<String, Room> finder = new Model.Finder<String, Room>(Room.class);
     public static Model.Finder<String, Feature> featureFinder = new Model.Finder<String, Feature>(Feature.class);
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result hotelReservations(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
         List<Room> rooms = hotel.rooms;
@@ -32,9 +35,8 @@ public class Rooms extends Controller {
         return ok(views.html.room.hotelReservations.render(rooms,hotel,user));
     }
 
-
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result saveRoom(Integer hotelId) {
-
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
         if (room.numberOfBeds <= 0) {
@@ -49,6 +51,7 @@ public class Rooms extends Controller {
         return redirect(routes.Rooms.showRooms(hotel.id));
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateRoom(Integer id) {
 
         Room room = Room.findRoomById(id);
@@ -77,6 +80,7 @@ public class Rooms extends Controller {
         return redirect(routes.Rooms.showRoom(id));
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result deleteRoom(Integer id) {
         Room room = Room.findRoomById(id);
 
@@ -94,6 +98,7 @@ public class Rooms extends Controller {
         return ok(views.html.room.room.render(room, user));
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result createRoom(Integer hotelId) {
         List<Feature> features = Feature.finder.all();
 
@@ -111,6 +116,7 @@ public class Rooms extends Controller {
         return ok(showRooms.render(rooms, hotel, user));
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editRoom(Integer id) {
         Room room = Room.findRoomById(id);
         return ok(updateRoom.render(room));
