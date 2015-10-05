@@ -29,14 +29,14 @@ public class Reservations extends Controller {
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
-        String[] checkInParts = checkin.split("-");
+        //String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
-        String[] checkOutParts = checkout.split("-");
+        //String[] checkOutParts = checkout.split("-");
 
         try {
-            checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-        } catch (IndexOutOfBoundsException e){
+            //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
+            //checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
+        }catch (IndexOutOfBoundsException e){
             flash("error","Wrong date format!");
             return redirect(routes.Rooms.showRoom(roomId));
         }

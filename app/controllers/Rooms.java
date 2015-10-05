@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.Authenticators;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -39,6 +40,12 @@ public class Rooms extends Controller {
     public Result saveRoom(Integer hotelId) {
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
+
+        if(!Room.checkRoomName(room.name, hotelId)) {
+            flash("error", "You already have room with that name!");
+            return redirect(routes.Rooms.createRoom(hotelId));
+        }
+
         if (room.numberOfBeds <= 0) {
             flash("error", "Room can't have that number of beds!");
             redirect(routes.Rooms.createRoom(hotelId));
