@@ -54,33 +54,24 @@
                     @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
                         <form class="form">
                             <div class="service">
-                                @*<h4>Set the price for room </h4>*@
                                 <div class="duplicate-email" style="font-size: 20px;color: red">
                                 @if(flash.containsKey("error")) {
                                     @flash.get("error")
                                 }
                                 </div>
-                                @*<div class="form-group">*@
                                 <h4 style="margin-bottom: 0%"> From</h4>
                                 <input type="date" name="checkIn"/>
-                                @*</div>*@
-                                @*<div class="form-group">*@
                                 <h4 style="margin-bottom: 0%">To</h4>
                                 <input type="date" name="checkOut"/>
-                                @*</div>*@
-                                @*<div class="form-group">*@
                                 <div>
                                     <h4 style="margin-bottom: 0%">Price</h4>
                                 </div>
                                 <div>
                                     <input name="cost" class="phone" type="number" value="2" min="1" max="500000" required>
                                 </div>
-                                @*</div>*@
-                                @*<div class="form-group">*@
                                 <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; width: 100px; float: right" href="@routes.Prices.savePrice(room.id)">
                                     Add Price
                                 </button>
-                                @*</div>*@
                             </div>
                         </form>
                     </div>
