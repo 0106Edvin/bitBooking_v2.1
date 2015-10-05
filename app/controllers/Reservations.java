@@ -90,9 +90,9 @@ public class Reservations extends Controller {
                 AppUser user = AppUser.findUserById(userId);
 
                 return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
-            } else
-                return redirect(routes.Application.index());
+            }
         }
+        flash("info", "You have no reservations.");
         return redirect(routes.Application.index());
     }
 
