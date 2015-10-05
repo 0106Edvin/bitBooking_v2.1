@@ -45,7 +45,7 @@ public class Prices extends Controller {
             checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
             checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
         }catch (IndexOutOfBoundsException e){
-            flash("error","Wrong date format!");
+            flash("error","Set date period and choose price for that period!");
             return redirect(routes.Rooms.editRoom(roomId));
         }
         Room room = Room.findRoomById(roomId);
