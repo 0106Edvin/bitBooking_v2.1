@@ -19,9 +19,12 @@
         <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
 
         <script src='@routes.Assets.versioned("javascripts/deleteConfirmation.js")'></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery-ui.min.js")"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")"/>
 
         <script src='@routes.Assets.versioned("javascripts/js/coordinate.js")'></script>
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/coordinate.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/buttons.css")">
 
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
@@ -144,6 +147,14 @@
             </div>
         </footer>
 
+        <script type="text/javascript">
+          $(function () {
+             $('#date').datepicker({ minDate: 0 });
+          });
+          $(function () {
+             $('#date2').datepicker({ minDate: 1 });
+          });
+        </script>
     </body>
 
 </html>

@@ -56,13 +56,13 @@
                                         <div class="service">
                                             <h4>From:</h4>
                                         </div>
-                                        <input name="checkIn" type="date"/>
+                                        <input name="checkIn" id="date" placeholder="select date"/>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="service">
                                             <h4>To:</h4>
                                         </div>
-                                        <input name="checkOut" type="date"/>
+                                        <input name="checkOut" id="date2" placeholder="select date"/>
                                     </div>
                                 </div>
                                 <input type="submit"  class="btn btn-primary" value="BOOK IT" style="font-size: 28px;margin-top: 1em;text-align: center" onclick="@routes.Reservations.saveReservation(room.id)">
