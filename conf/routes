@@ -24,8 +24,10 @@ GET         /hotels/search                                  @controllers.Hotels.
 #User
 GET         /user/register                                  @controllers.Users.registerUser()
 POST        /user/register/save                             @controllers.Users.saveUser()
+GET         /user/login                                     @controllers.Users.login()
 POST        /user/login                                     @controllers.Users.login()
 GET         /user/logout                                    @controllers.Users.logOut()
+
 
 GET         /user/update/:email                             @controllers.Users.editUser(email: String)
 POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
@@ -105,5 +107,5 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 
 GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 
-GET         /api/admin/adminfeatures/editFeature/:id           @controllers.ApiFeatures.editfeature(id: Integer)
-POST        /seller/hotelreservations/:id                      @controllers.Reservations.setStatus(id: Integer)
+GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)

@@ -21,6 +21,7 @@ import views.html.list;
 import views.html.manager.managerHotels;
 import views.html.user.profilePage;
 import views.html.user.register;
+import views.html.user.login;
 
 import java.io.File;
 import java.util.List;
@@ -118,7 +119,7 @@ public class Users extends Controller {
 
         if (user == null) {
             flash("login-error", "Incorrect email or password! Try again.");
-            return badRequest(list.render(hotels));
+            return badRequest(login.render(userForm));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
