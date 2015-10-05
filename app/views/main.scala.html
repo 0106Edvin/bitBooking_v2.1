@@ -1,5 +1,6 @@
 @import helpers.SessionsAndCookies
 
+@import helpers.UserAccessLevel
 @(content: Html)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 
 <!DOCTYPE html>
@@ -54,7 +55,7 @@
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 @helper.form(action = routes.Users.login()) {
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li><a class="menu active" href="@routes.Application.index()">Home</a></li>
+                                        <li><a class="menu active" href="@routes.Application.index()" >Home</a></li>
                                         @if(currentUser == null) {
                                             <li><a class="menu" href="@routes.Users.registerUser">register</a></li>
 
@@ -62,31 +63,52 @@
 
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
-                                                <div class="dropdown-menu" style="background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
+                                                <div class="dropdown-menu" style="width: 350px; height: 230px; background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
-                                                        <h1></h1>
+                                                        <div class="duplicate-email">
+@*//                                                            @if(flash.containsKey("error")) {*@
+@*//                                                                @flash.get("error")*@
+@*//                                                            }*@
+                                                            <div>
+                                                                <h1></h1>
+                                                            </div>
+                                                        </div>
                                                         <br>
-
                                                         <div class="form-group">
-                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
+                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px;">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
-                                                        </div>
-                                                        <div class="form-group" style="font-size: 20px; color: red; margin-left: 10px;">
-                                                            @if(flash.containsKey("login-error")) {
-                                                                @flash.get("login-error")
-                                                            }
+                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px;">
                                                         </div>
                                                         <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
-
                                                     </form>
                                                 </div>
                                             </li>
                                         } else {
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)) {
+                                                <li><a class="menu" href="@routes.Users.showAdminPanel()" >Admin panel</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.HOTEL_MANAGER)) {
+                                                <li><a class="menu" href="@routes.Users.showManagerHotels()" >Manager panel</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
+                                                <li><a class="menu" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations</a></li>
+                                            }
+                                            <ul class="nav navbar-nav">
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                                        @currentUser.firstname <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a class="menu my-profile" href="@routes.Users.editUser(currentUser.email)">Edit profile</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
 
-                                            <li><a class="menu my-profile" href="@routes.Users.editUser(currentUser.email)">@currentUser.email</a></li>
-                                            <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
                                         }
 
                                     </ul>
@@ -98,7 +120,16 @@
                             </div><!-- / .container-fluid -->
 
                         </nav>
-
+                        <div style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("error")) {
+                            @flash.get("error")
+                        }
+                        </div>
+                        <div style="font-size: 20px; color: dodgerblue; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("info")) {
+                            @flash.get("info")
+                        }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,7 +141,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 footer-para">
-                        <p>&copy;rockIT All right reserved</p>
+                        <p>&copy;rockIT All rights reserved</p>
                     </div>
 
                     <div class="col-xs-6 text-right">
