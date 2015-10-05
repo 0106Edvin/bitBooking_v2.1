@@ -117,7 +117,7 @@ public class Users extends Controller {
         AppUser user = AppUser.authenticate(email, password);
 
         if (user == null) {
-            flash("error", "Incorrect email or password! Please try again!");
+            flash("login-error", "Incorrect email or password! Try again.");
             return badRequest(list.render(hotels));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
             SessionsAndCookies.setUserSessionSata(user);
@@ -130,7 +130,7 @@ public class Users extends Controller {
         }
     }
 
-   @Security.Authenticated(Authenticators.isUserLogged.class)
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
@@ -230,10 +230,10 @@ public class Users extends Controller {
             try {
                 currentUser.firstname = name;
                 currentUser.lastname = lastname;
-               if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
-                   currentUser.password = pass1;
-                   currentUser.hashPass();
-               }
+                if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
+                    currentUser.password = pass1;
+                    currentUser.hashPass();
+                }
                 currentUser.phoneNumber = phone;
 
                 currentUser.update();
