@@ -12,12 +12,16 @@
                     <h3>room information</h3>
                     <div class="info-detail">
                     @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
-                        <form class="form">
-                            <input name="name" class="name" type="text" value="@room.name" required>
-                            <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
 
-                            <textarea class="message" name="description" id="message" cols="30" rows="10"
-                            style="resize : none" required>@room.description</textarea>
+                    <form class="form">
+
+                        <label for="name" style="font-size: 20px; color:white">Room name</label>
+                        <input name="name" class="name" type="text" value="@room.name" required>
+                        <label for="numberOfBeds" style="font-size: 20px; color:white">Number of beds</label>
+                        <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
+                        <label for="description" style="font-size: 20px; color:white">Description</label>
+                        <textarea class="message" name="description" id="message" cols="30" rows="10"
+                                  style="resize : none" required>@room.description</textarea>
 
                             <h3>Choose pictures for gallery: </h3>
 
