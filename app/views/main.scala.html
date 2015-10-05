@@ -125,6 +125,11 @@
                             @flash.get("error")
                         }
                         </div>
+                        <div style="font-size: 20px; color: dodgerblue; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("info")) {
+                            @flash.get("info")
+                        }
+                        </div>
                     </div>
                 </div>
             </div>

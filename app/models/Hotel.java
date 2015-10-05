@@ -41,6 +41,11 @@ public class Hotel extends Model {
     @OneToMany
     public List<Comment> comments;
 
+    /**
+     * Default empty constructor for Ebean user
+     */
+    public Hotel() {};
+
 
     public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
 

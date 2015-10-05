@@ -126,7 +126,7 @@ public class Users extends Controller {
         } else {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
-            return redirect(routes.Users.editUser(user.email));
+            return redirect(routes.Application.index());
         }
     }
 
