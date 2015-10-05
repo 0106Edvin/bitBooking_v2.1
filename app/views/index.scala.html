@@ -173,7 +173,7 @@
                                 <input type="text" id="search1" name = "search" style="font-size: 17px; height: 50px;" minlength="2" maxlength="32" required>
 
                                     <!--submit button-->
-                                <input class="submit-btn" style="background-color : #204d74; border-radius : 5px;  width : 80px; height : 40px;" type="submit" value="Search" style="font-size: 30px;">
+                                <input class="submit-btn" id="search-hotels" type="submit" value="SEARCH">
                             </form>
 
                         </div>
@@ -321,7 +321,7 @@
                             </div>
                             <div class="g-recaptcha" data-sitekey="6LfB5g0TAAAAAD3vjlDKc3MuTDGkZji-WiD_skWH"></div>
 
-                            <input href="@routes.Emails.sendMail()" class="submit-btn"  type="submit" value="SUBMIT">
+                            <input href="@routes.Emails.sendMail()" class="submit-btn" id="contact-us" type="submit" value="SUBMIT">
 
                         </form>
                     </div>
@@ -332,7 +332,6 @@
 
     <!-- script tags
 	============================================================= -->
-    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/buttons.css")">
     <script src="@routes.Assets.versioned("javascripts/js/jquery-2.1.1.js")"></script>
     <script src="@routes.Assets.versioned("http://maps.google.com/maps/api/js?sensor=true")"></script>
     <script src="@routes.Assets.versioned("javascripts/js/smoothscroll.js")"></script>
