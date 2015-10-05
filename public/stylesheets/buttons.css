@@ -1,0 +1,112 @@
+#contact-us {
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#search-hotels {
+    background-color : #204d74;
+    border-radius : 5px;
+    width : 90px;
+    font-size: 25px;
+}
+
+#save-profile-updates {
+    font-size : 30px;
+    background-color : #204d74 ;
+    border-radius : 5px;
+}
+
+#admin-change-role {
+    font-size: 18px;
+    height: 40px;
+}
+
+#admin-add-feature{
+    font-size: 28px;
+    background-color: #204d74;
+    border-radius: 5px;
+}
+
+#update-feature{
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    margin-bottom: 0.2cm;
+}
+
+#back-feature{
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 80px;
+    margin-bottom: 0.2cm;
+    float: right;
+}
+
+#hotel-register{
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#hotel-back{
+    font-size:25px;
+    float: left;
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#add-room{
+    font-size: 17px;
+}
+
+#room-back{
+    background-color: #0066FF;
+    border-radius : 5px;
+    width: 90px;
+    margin-left: 9.2cm;
+}
+
+#add-room-submit{
+    background-color: #204d74;
+    border-radius : 5px;
+    width: 90px;
+}
+
+#add-room-back{
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 90px;
+    float: left;
+}
+
+#edit-room-submit{
+background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    height: 45px;
+}
+
+#edit-room-back{
+    font-size:22px;
+    background-color: #0066FF;
+    border-radius : 5px;
+    width: 80px;
+    float: left;
+}
+
+#edit-room-add-price{
+    background-color: #204d74;
+    border-radius: 5px;
+    height: 45px;
+    width: 100px;
+}
+
+#post-comment{
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 0.2cm;
+}

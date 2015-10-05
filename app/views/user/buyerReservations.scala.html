@@ -36,19 +36,18 @@
                                             <td>@reservation.checkOut</td>
 
                                             @if(reservation.status == ReservationStatus.PENDING) {
-                                            <td style="color : darkorange">PENDING</td>
+                                                <td style="color : darkorange">PENDING</td>
                                             }
                                             @if(reservation.status == ReservationStatus.APPROVED) {
-                                            <td style="color : lawngreen">APPROVED</td>
+                                                <td style="color : lawngreen">APPROVED</td>
                                             }
                                             @if(reservation.status == ReservationStatus.DECLINED) {
-                                            <td style="color : red">DECLINED</td>
+                                                <td style="color : red">DECLINED</td>
                                             }
                                             <td></td>
                                         </tr>
                                     }
                                 }
-
                             }
                         </tbody>
 
