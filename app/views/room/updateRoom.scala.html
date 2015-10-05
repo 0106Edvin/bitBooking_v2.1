@@ -19,7 +19,9 @@
                         <input name="name" class="name" type="text" value="@room.name" required>
                         <label for="numberOfBeds" style="font-size: 20px; color:white">Number of beds</label>
                         <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
+
                         <label for="description" style="font-size: 20px; color:white">Description</label>
+                        <input name="roomType" type="number"  min="0"  required>
                         <textarea class="message" name="description" id="message" cols="30" rows="10"
                                   style="resize : none" required>@room.description</textarea>
 

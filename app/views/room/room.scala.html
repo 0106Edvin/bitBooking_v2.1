@@ -14,8 +14,14 @@
                         <div class="info-detail">
                             @if(room.images.size() != 0){
                                 <img src="@room.images.get(0).getSize(400,300)"/>
+
                             }else {
                                 <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                            }
+                            @if(room.roomType != 0){
+                                <label style="color: lawngreen; font-size: 20px">THERE ARE @room.roomType ROOM(S) OF THIS TYPE AVAILABLE</label>
+                            }else{
+                                <label style="color : red">NOT AVAILABLE</label>
                             }
                             <hr/>
                         </div>

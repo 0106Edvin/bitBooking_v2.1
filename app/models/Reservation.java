@@ -67,6 +67,11 @@ public class Reservation extends Model {
         return reservationList;
     }
 
+    public static Room findRoomByReservation(Reservation reservation){
+        Room room = reservation.room;
+        return room;
+    }
+
     public BigDecimal getCost() {
         cost = new BigDecimal(0);
         Date myDate = checkIn;

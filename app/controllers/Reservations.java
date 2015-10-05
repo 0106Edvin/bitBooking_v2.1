@@ -70,6 +70,7 @@ public class Reservations extends Controller {
     public Result setStatus(Integer id) {
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         Reservation reservation = Reservation.findReservationById(id);
+        Room room = Reservation.findRoomByReservation(reservation);
 
         String status = boundForm.field("status").value();
 
@@ -78,10 +79,17 @@ public class Reservations extends Controller {
 
         } else if (status.equals(ReservationStatus.APPROVED.toString())) {
            reservation.status = ReservationStatus.APPROVED;
+            if(room.roomType > 0){
+                room.roomType = room.roomType -1;
+            }else{
+                reservation.status = ReservationStatus.PENDING;
+                flash("error", "All rooms of this type are booked");
+            }
 
         } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
         }
+        room.update();
         reservation.update();
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
