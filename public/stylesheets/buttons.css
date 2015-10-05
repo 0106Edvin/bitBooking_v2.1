@@ -22,20 +22,20 @@
     height: 40px;
 }
 
-#admin-add-feature{
+#admin-add-feature {
     font-size: 28px;
     background-color: #204d74;
     border-radius: 5px;
 }
 
-#update-feature{
+#update-feature {
     background-color: #204d74;
     border-radius: 5px;
     width: 80px;
     margin-bottom: 0.2cm;
 }
 
-#back-feature{
+#back-feature {
     background-color: #0066FF;
     border-radius: 5px;
     width: 80px;
@@ -43,13 +43,13 @@
     float: right;
 }
 
-#hotel-register{
+#hotel-register {
     background-color: #204d74;
     border-radius: 5px;
     width: 90px;
 }
 
-#hotel-back{
+#hotel-back {
     font-size:25px;
     float: left;
     background-color: #0066FF;
@@ -57,38 +57,38 @@
     width: 90px;
 }
 
-#add-room{
+#add-room {
     font-size: 17px;
 }
 
-#room-back{
+#room-back {
     background-color: #0066FF;
     border-radius : 5px;
     width: 90px;
     margin-left: 9.2cm;
 }
 
-#add-room-submit{
+#add-room-submit {
     background-color: #204d74;
     border-radius : 5px;
     width: 90px;
 }
 
-#add-room-back{
+#add-room-back {
     background-color: #0066FF;
     border-radius: 5px;
     width: 90px;
     float: left;
 }
 
-#edit-room-submit{
+#edit-room-submit {
 background-color: #204d74;
     border-radius: 5px;
     width: 80px;
     height: 45px;
 }
 
-#edit-room-back{
+#edit-room-back {
     font-size:22px;
     background-color: #0066FF;
     border-radius : 5px;
@@ -96,17 +96,21 @@ background-color: #204d74;
     float: left;
 }
 
-#edit-room-add-price{
+#edit-room-add-price {
     background-color: #204d74;
     border-radius: 5px;
     height: 45px;
     width: 100px;
 }
 
-#post-comment{
+#post-comment {
     background-color: #204d74;
     border-radius: 5px;
     width: 80px;
     height: 40px;
     margin-bottom: 0.2cm;
+}
+
+.nav-ddl-font17 {
+    font-size: 17px;
 }
