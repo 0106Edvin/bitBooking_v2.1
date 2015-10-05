@@ -55,4 +55,5 @@ public class Price extends Model {
     public String toString() {
         return dateFrom + " " + dateTo + " " + cost.toString();
     }
+
 }

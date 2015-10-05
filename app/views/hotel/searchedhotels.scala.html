@@ -2,6 +2,7 @@
 @main {
 
     <div class="container">
+
             @for(hotel <- hotels) {
                 <div class="edvin-class">
                 <div class="col-md-4 col-sm-0">
@@ -33,6 +34,17 @@
                 </div>
                 </div>
              }
+
+        <div class="edvin-class">
+            <div class="col-md-4 col-sm-0">
+            @if(hotels.size == 0) {
+                <h2>Nothing found!</h2>
+                <a href="@routes.Hotels.advancedSearch()"><h3>Try our advanced search</h3></a>
+                <br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br>
+                }
+            </div>
+        </div>
 
 
 

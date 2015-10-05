@@ -47,6 +47,7 @@ create table hotel (
   coordinate_y              varchar(255),
   seller_id                 integer,
   rating                    double,
+  stars                     integer(1),
   constraint pk_hotel primary key (id))
 ;
 

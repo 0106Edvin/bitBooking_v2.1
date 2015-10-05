@@ -1,9 +1,12 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.Logger;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ public class Hotel extends Model {
     public Integer sellerId;
     private Double rating;
 
+    @Column(name="stars", length = 1)
+    public Integer stars;
+
     @ManyToMany
     public List<Feature> features;
 
@@ -42,12 +48,12 @@ public class Hotel extends Model {
     public List<Comment> comments;
 
     /**
-     * Default empty constructor for Ebean user
+     * Default empty constructor for Ebean use
      */
     public Hotel() {};
 
 
-    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
+    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
 
         this.id = id;
         this.name = name;
@@ -62,6 +68,7 @@ public class Hotel extends Model {
         this.images = images;
         this.rooms = rooms;
         this.comments = comments;
+        this.stars = stars;
         this.rating = 0.0;
     }
 
@@ -73,13 +80,31 @@ public class Hotel extends Model {
     }
 
     public static List<Hotel> findHotelsByName(String name){
-        return finder.where().eq("name",name).findList();
+        return finder.where().contains("name", name).findList();
     }
     public static List<Hotel> findHotelsByCountry(String name){
-        return finder.where().eq("country",name).findList();
+        return finder.where().contains("country",name).findList();
     }
     public static List<Hotel> findHotelsByCity(String name){
-        return finder.where().eq("city",name).findList();
+        return finder.where().contains("city", name).findList();
+    }
+
+    public static List<Hotel> findHotelsByStars(String name){
+        return finder.where().contains("stars", name).findList();
+    }
+
+    public static List<Hotel> findHotelsByPrice(String name) {
+        List<Hotel> foundHotels = new ArrayList<>();
+        List<Hotel> hotels = new ArrayList<>();
+        hotels = finder.all();
+        for (Hotel h : hotels) {
+            for (int i = 0; i < h.rooms.size(); i++) {
+                if (h.rooms.get(i).prices.contains(BigDecimal.valueOf(Double.parseDouble(name)))) {
+                    foundHotels.add(h);
+                }
+            }
+        }
+        return foundHotels;
     }
 
     @Override
@@ -99,4 +124,5 @@ public class Hotel extends Model {
         rating = Double.valueOf(format.format(rating));
         return rating;
     }
+
 }
