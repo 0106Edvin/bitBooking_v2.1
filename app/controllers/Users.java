@@ -117,7 +117,7 @@ public class Users extends Controller {
         AppUser user = AppUser.authenticate(email, password);
 
         if (user == null) {
-            flash("login-error", "Incorrect email or password! Try again.");
+            flash("error", "Incorrect email or password! Please try again!");
             return badRequest(list.render(hotels));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
             SessionsAndCookies.setUserSessionSata(user);

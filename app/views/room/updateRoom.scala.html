@@ -1,97 +1,97 @@
 @(room: Room)
 @import helper._
 @main {
-    <meta charset="UTF-8">
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>UPDATE ROOM</h2>
-                </div>
-                <div class="col-md-5 contact-form">
-                    <h3>room information</h3>
-                    <div class="info-detail">
+<meta charset="UTF-8">
+<div class="container">
+    <div class="row">
+        <div class="contact-caption clearfix">
+            <div class="contact-heading text-center">
+                <h2>UPDATE ROOM</h2>
+            </div>
+            <div class="col-md-5 contact-form">
+                <h3>room information</h3>
+                <div class="info-detail">
                     @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
-                        <form class="form">
-                            <input name="name" class="name" type="text" value="@room.name" required>
-                            <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
+                    <form class="form">
+                        <input name="name" class="name" type="text" value="@room.name" required>
+                        <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
 
-                            <textarea class="message" name="description" id="message" cols="30" rows="10"
-                            style="resize : none" required>@room.description</textarea>
+                        <textarea class="message" name="description" id="message" cols="30" rows="10"
+                                  style="resize : none" required>@room.description</textarea>
 
-                            <h3>Choose pictures for gallery: </h3>
+                        <h3>Choose pictures for gallery: </h3>
 
-                            <div id="upload-file-container">
-                                <input type="file" name="image" class="form-control" multiple accept="image/*"/>
-                            </div>
-                            <h3>Features</h3>
+                        <div id="upload-file-container">
+                            <input type="file" name="image" class="form-control" multiple accept="image/*"/>
+                        </div>
+                        <h3>Features</h3>
 
-                            <div class="info-detail">
+                        <div class="info-detail">
                             @if(room.features.size()>0) {
-                                @for(feature <- room.features) {
-                                    <div>
+                            @for(feature <- room.features) {
+                            <div>
                                         <span>
                                             <input type="checkbox" class="fa-check-circle" id="@feature.id"
-                                            name="@feature.name"/>
+                                                   name="@feature.name"/>
                                             <label for="@feature.name">@feature.name</label>
                                         </span>
-                                    </div>
-                                }
+                            </div>
+                            }
+                            }
+                        </div>
+                        <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" style="font-size:22px; background-color : #0066FF ; border-radius : 5px; width: 80px; float: left;" type="button" value="BACK" ></a>
+                        <a href="#"> <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 45px;" type="submit" value="SUBMIT"></a>
+                    </form>
+                    }
+                </div>
+
+            </div>
+            <div class="col-md-5 col-md-offset-2 contact-form">
+
+                @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
+                <h3>Add price</h3>
+
+                <div class="info-detail">
+                    <div class="service">
+                        <div class="form-group">
+                            <h4>Set the price for room </h4>
+                            <div class="duplicate-email" style="font-size: 20px;color: red">
+                            @if(flash.containsKey("error")) {
+                                @flash.get("error")
                             }
                             </div>
-                            <div>
-                                <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" style="font-size:22px; background-color : #0066FF ; border-radius : 5px; width: 80px; float: left;" type="button" value="BACK" ></a>
-                                <a href="#"> <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 45px;" type="submit" value="SUBMIT"></a>
-                            </div>
-                        </form>
-                    }
-                    </div>
-
-                </div>
-                <div class="col-md-5 col-md-offset-1 contact-form">
-                    <h3>Add price</h3>
-                    <div class="info-detail">
-                    @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
-                        <form class="form">
-                            <div class="service">
-                                @*<h4>Set the price for room </h4>*@
-                                <div class="duplicate-email" style="font-size: 20px;color: red">
-                                @if(flash.containsKey("error")) {
-                                    @flash.get("error")
-                                }
-                                </div>
-                                @*<div class="form-group">*@
+                            <div class="form-group">
                                 <h4 style="margin-bottom: 0%"> From</h4>
                                 <input type="date" name="checkIn"/>
-                                @*</div>*@
-                                @*<div class="form-group">*@
+                            </div>
+                            <div class="form-group">
                                 <h4 style="margin-bottom: 0%">To</h4>
                                 <input type="date" name="checkOut"/>
-                                @*</div>*@
-                                @*<div class="form-group">*@
+                            </div>
+                            <div class="form-group">
                                 <div>
                                     <h4 style="margin-bottom: 0%">Price</h4>
                                 </div>
                                 <div>
-                                    <input name="cost" class="phone" type="number" value="2" min="1" max="500000" required>
+                                    <input type="text" name="cost" style="width : 100px">
                                 </div>
-                                @*</div>*@
-                                @*<div class="form-group">*@
-                                <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; width: 100px; float: right" href="@routes.Prices.savePrice(room.id)">
+                            </div>
+                            <div class="form-group">
+                                <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; width: 100px;" href="@routes.Prices.savePrice(room.id)">
                                     Add Price
                                 </button>
-                                @*</div>*@
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    }
                 </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
+</div>
 
-
-    <!-- end of contact section -->
+<!-- end of contact section -->
 
 }
