@@ -25,7 +25,6 @@ public class Hotels extends Controller {
     private Form<Hotel> hotelForm = Form.form(Hotel.class);
     private Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
-//    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
@@ -35,7 +34,7 @@ public class Hotels extends Controller {
         return ok(createhotel.render(features, users));
     }
 
-    /*   Saving hotel to data base*/
+    /* Saving hotel to data base */
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
@@ -171,25 +170,26 @@ public class Hotels extends Controller {
         return hotels;
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result showSellerHotels(Integer userId) {
         List<Hotel> hotels = finder.all();
         return ok(sellerPanel.render(hotels));
 
     }
 
-    public Result search(){
+    public Result search() {
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
         String category = hotelForm1.field("category").value();
         String searchWhat = hotelForm1.field("search").value();
         List<Hotel> hotels = new ArrayList<>();
-        if(category.equals("name")){
+        if (category.equals("name")) {
             hotels = Hotel.findHotelsByName(searchWhat);
-        }else if(category.equals("country")){
+        } else if(category.equals("country")) {
             hotels = Hotel.findHotelsByCountry(searchWhat);
-        }else if(category.equals("city")){
+        } else if(category.equals("city")) {
             hotels = Hotel.findHotelsByCity(searchWhat);
         }
-        Logger.debug(hotels.size()+"");
+        Logger.debug(hotels.size() + "");
 //        else if(category.equals("price")){
 //            List<Hotel> hotels = Room.findHotelByPrice(category);
 //        }
