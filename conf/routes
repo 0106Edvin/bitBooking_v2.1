@@ -24,24 +24,12 @@ GET         /hotels/search                                  @controllers.Hotels.
 #User
 GET         /user/register                                  @controllers.Users.registerUser()
 POST        /user/register/save                             @controllers.Users.saveUser()
-GET         /user/login                                     @controllers.Users.login()
-POST        /user/login                                     @controllers.Users.login()
-GET         /user/logout                                    @controllers.Users.logOut()
-
-
-GET         /user/update/:email                             @controllers.Users.editUser(email: String)
-POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
-
-POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
-
-#User
-GET         /user/register                                  @controllers.Users.registerUser()
-POST        /user/register/save                             @controllers.Users.saveUser()
 POST        /user/login                                     @controllers.Users.login()
 GET         /user/logout                                    @controllers.Users.logOut()
 GET         /user/update/:email                             @controllers.Users.editUser(email: String)
 POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
 POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
+
 
 #Admin
 
