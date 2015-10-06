@@ -17,6 +17,7 @@
                 <h3>@hotel.name reservations</h3>
 
 
+<<<<<<< HEAD
                 <table class="table">
                     <thead>
                     <tr class="service">
@@ -29,6 +30,49 @@
                         <th class="text-align" style="font-size: 30px ;">Status</th>
                     </tr>
                     </thead>
+=======
+                                            @if(reservation.status == 1) {
+                                                <td style="color : darkorange">PENDING</td>
+                                            }
+                                            @if(reservation.status == 2) {
+                                                <td style="color : lawngreen">APPROVED</td>
+                                            }
+                                            @if(reservation.status == 3) {
+                                                <td style="color : red">DECLINED</td>
+                                            }
+                                            @if(reservation.status == 4){
+                                                <td style="color : papayawhip ">COMPLETED</td>
+                                            }
+                                            <td></td>
+                                            <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
+                                                <td>
+                                                    <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
+                                                        @if(reservation.status == ReservationStatus.PENDING) {
+                                                            <option value="1" selected="true">Pending</option>
+                                                            <option value="2">Aproved</option>
+                                                            <option value="3">Declined</option>
+                                                            <option value="4">Completed</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.DECLINED) {
+                                                            <option value="1">Pending</option>
+                                                            <option value="2">Aproved</option>
+                                                            <option value="3" selected="true">Declined</option>
+                                                            <option value="4">Completed</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.APPROVED) {
+                                                            <option value="1">Pending</option>
+                                                            <option value="2" selected="true">Approved</option>
+                                                            <option value="3">Declined</option>
+                                                            <option value="4">Completed</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.COMPLETED){
+                                                            <option value="1">Pending</option>
+                                                            <option value="2">Approved</option>
+                                                            <option value="3">Declined</option>
+                                                            <option value="4" selected="true">Completed</option>
+                                                        }
+                                                    </select>
+>>>>>>> reservations fixed
 
                     <tbody style="font-size : 20px">
                     @if(rooms.size != 0) {
