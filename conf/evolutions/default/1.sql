@@ -88,7 +88,6 @@ create table room (
   number_of_beds            integer,
   name                      varchar(255),
   room_type                 integer,
-  is_room_available         tinyint(1) default 0,
   hotel_id                  integer,
   constraint pk_room primary key (id))
 ;

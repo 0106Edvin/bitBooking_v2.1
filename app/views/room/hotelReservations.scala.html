@@ -48,6 +48,9 @@
                                             @if(reservation.status == 3) {
                                                 <td style="color : red">DECLINED</td>
                                             }
+                                            @if(reservation.status == 4){
+                                                <td style="color : papayawhip ">COMPLETED</td>
+                                            }
                                             <td></td>
                                             <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
                                                 <td>
@@ -56,16 +59,25 @@
                                                             <option value="1" selected="true">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3">Declined</option>
+                                                            <option value="4">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.DECLINED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3" selected="true">Declined</option>
+                                                            <option value="4">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.APPROVED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2" selected="true">Approved</option>
                                                             <option value="3">Declined</option>
+                                                            <option value="4">Completed</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.COMPLETED){
+                                                            <option value="1">Pending</option>
+                                                            <option value="2">Approved</option>
+                                                            <option value="3">Declined</option>
+                                                            <option value="4" selected="true">Completed</option>
                                                         }
                                                     </select>
 

@@ -88,6 +88,9 @@ public class Reservations extends Controller {
 
         } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
+        }else if (status.equals(ReservationStatus.COMPLETED.toString())){
+            reservation.status = ReservationStatus.COMPLETED;
+            room.roomType = room.roomType + 1;
         }
         room.update();
         reservation.update();

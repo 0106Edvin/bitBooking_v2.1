@@ -18,7 +18,8 @@
                         <thead>
                             <tr class="service">
                                 <th style="font-size : 30px ;">Guest name</th>
-                                <th style="font-size : 30px ;">Room type</th>
+                                <th style="font-size : 30px ;">Hotel name</th>
+                                <th style="font-size : 30px ;">Number of beds</th>
                                 <th style="font-size : 30px ;">Check-in date</th>
                                 <th style="font-size : 30px ;">Check-out date</th>
                                 <th style="font-size : 30px ;">Status</th>
@@ -31,6 +32,7 @@
                                     @if(room.reservations != 0) {
                                         <tr class="service">
                                             <td>@reservation.user.firstname</td>
+                                            <td>@hotel.name</td>
                                             <td>@room.numberOfBeds</td>
                                             <td>@reservation.checkIn</td>
                                             <td>@reservation.checkOut</td>
@@ -43,6 +45,9 @@
                                             }
                                             @if(reservation.status == ReservationStatus.DECLINED) {
                                                 <td style="color : red">DECLINED</td>
+                                            }
+                                            @if(reservation.status == ReservationStatus.COMPLETED){
+                                                <td style="color: papayawhip">COMPLETED</td>
                                             }
                                             <td></td>
                                         </tr>

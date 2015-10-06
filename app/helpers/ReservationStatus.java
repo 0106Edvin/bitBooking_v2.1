@@ -7,4 +7,5 @@ public class ReservationStatus {
     public static final Integer PENDING = 1;
     public static final Integer APPROVED = 2;
     public static final Integer DECLINED = 3;
+    public static final Integer COMPLETED = 4;
 }
