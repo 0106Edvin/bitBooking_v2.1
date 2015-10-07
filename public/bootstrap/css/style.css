@@ -1,7 +1,9 @@
 .edvin-class{
 	margin-top: 20%;
 }
-
+.text-align {
+	 text-align: center;
+ }
 body{
 	margin: 0;
 	padding: 0;
