@@ -61,25 +61,25 @@
                                                             <option value="1" selected="true">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3">Declined</option>
-                                                            <option value="4">Completed</option>
+                                                            <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.DECLINED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3" selected="true">Declined</option>
-                                                            <option value="4">Completed</option>
+                                                            <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.APPROVED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2" selected="true">Approved</option>
                                                             <option value="3">Declined</option>
-                                                            <option value="4">Completed</option>
+                                                            <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.COMPLETED){
                                                             <option value="1">Pending</option>
                                                             <option value="2">Approved</option>
                                                             <option value="3">Declined</option>
-                                                            <option value="4" selected="true">Completed</option>
+                                                            <option value="6" selected="true">Completed</option>
                                                         }
                                                     </select>
 
