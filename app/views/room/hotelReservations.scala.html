@@ -42,16 +42,16 @@
                                             <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
                                             <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
                                             <td class="text-align">@reservation.timeOfReservation</td>
-                                            @if(reservation.status == 1) {
+                                            @if(reservation.status == ReservationStatus.PENDING) {
                                                 <td class="text-align" style="color : darkorange">PENDING</td>
                                             }
-                                            @if(reservation.status == 2) {
+                                            @if(reservation.status == ReservationStatus.APPROVED) {
                                                 <td class="text-align" style="color : lawngreen">APPROVED</td>
                                             }
-                                            @if(reservation.status == 3) {
+                                            @if(reservation.status == ReservationStatus.DECLINED) {
                                                 <td class="text-align" style="color : red">DECLINED</td>
                                             }
-                                            @if(reservation.status == 4){
+                                            @if(reservation.status == ReservationStatus.COMPLETED){
                                                 <td class="text-align" style="color : papayawhip ">COMPLETED</td>
                                             }
                                             <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
