@@ -81,6 +81,7 @@ create table reservation (
   notification              integer(1),
   room_id                   integer,
   user_id                   integer,
+  time_of_reservation       datetime,
   constraint pk_reservation primary key (id))
 ;
 
@@ -89,6 +90,7 @@ create table room (
   description               TEXT,
   number_of_beds            integer,
   name                      varchar(255),
+  room_type                 integer,
   hotel_id                  integer,
   constraint pk_room primary key (id))
 ;

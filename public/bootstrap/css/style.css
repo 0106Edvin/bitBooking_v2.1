@@ -1,6 +1,11 @@
 .edvin-class{
 	margin-top: 20%;
 }
+
+.text-align {
+	 text-align: center;
+ }
+
 body{
 	margin: 0;
 	padding: 0;
@@ -248,10 +253,7 @@ li a.active{
   border-right: 35px solid transparent;
   border-bottom: 15px solid #fff;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> svega pomalo
 .gogo:after {
   content: "";
   position: absolute;
