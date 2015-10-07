@@ -42,7 +42,7 @@ public class Rooms extends Controller {
         Room room = boundForm.get();
 
         if(!Room.checkRoomName(room.name, hotelId)) {
-            flash("error", "You already have room with that name!");
+            flash("error-search", "You already have room with that name!");
             return redirect(routes.Rooms.createRoom(hotelId));
         }
 

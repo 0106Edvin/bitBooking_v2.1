@@ -100,4 +100,7 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 
 
 GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
+GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
+
+
 

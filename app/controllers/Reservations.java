@@ -29,18 +29,7 @@ public class Reservations extends Controller {
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
-        //String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
-        //String[] checkOutParts = checkout.split("-");
-
-        try {
-            //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            //checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-        }catch (IndexOutOfBoundsException e){
-            flash("error","Wrong date format!");
-            return redirect(routes.Rooms.showRoom(roomId));
-        }
-
         Room room = Room.findRoomById(roomId);
         Reservation reservation = new Reservation();
         reservation.room = room;
@@ -77,10 +66,12 @@ public class Reservations extends Controller {
             reservation.status = ReservationStatus.PENDING;
 
         } else if (status.equals(ReservationStatus.APPROVED.toString())) {
-           reservation.status = ReservationStatus.APPROVED;
+            reservation.status = ReservationStatus.APPROVED;
+            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
 
         } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
+            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
         }
         reservation.update();
 
@@ -92,6 +83,8 @@ public class Reservations extends Controller {
         List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
         for (Reservation reservation : reservationList) {
             if (reservation != null) {
+                reservation.notification = ReservationStatus.READ_NOTIFICATION;
+                reservation.update();
                 Room room = reservation.room;
                 Hotel hotel = room.hotel;
                 AppUser user = AppUser.findUserById(userId);

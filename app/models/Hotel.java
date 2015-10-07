@@ -97,12 +97,16 @@ public class Hotel extends Model {
         List<Hotel> foundHotels = new ArrayList<>();
         List<Hotel> hotels = new ArrayList<>();
         hotels = finder.all();
-        for (Hotel h : hotels) {
-            for (int i = 0; i < h.rooms.size(); i++) {
-                if (h.rooms.get(i).prices.contains(BigDecimal.valueOf(Double.parseDouble(name)))) {
-                    foundHotels.add(h);
+        try {
+            for (Hotel h : hotels) {
+                for (int i = 0; i < h.rooms.size(); i++) {
+                    if (h.rooms.get(i).prices.contains(BigDecimal.valueOf(Double.parseDouble(name)))) {
+                        foundHotels.add(h);
+                    }
                 }
             }
+        } catch (NumberFormatException e) {
+            Logger.error("Could't parse given string", e.getCause());
         }
         return foundHotels;
     }

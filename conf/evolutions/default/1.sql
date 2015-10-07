@@ -78,6 +78,7 @@ create table reservation (
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,
+  notification              integer(1),
   room_id                   integer,
   user_id                   integer,
   constraint pk_reservation primary key (id))

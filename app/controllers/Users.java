@@ -2,10 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import helpers.Authenticators;
-import helpers.Constants;
-import helpers.SessionsAndCookies;
-import helpers.UserAccessLevel;
+import helpers.*;
 import models.*;
 import play.data.Form;
 import play.mvc.Controller;
@@ -17,11 +14,10 @@ import views.html.admin.adminHotels;
 import views.html.admin.adminPanel;
 import views.html.admin.adminUsers;
 import views.html.hotel.createhotel;
-import views.html.list;
 import views.html.manager.managerHotels;
+import views.html.user.login;
 import views.html.user.profilePage;
 import views.html.user.register;
-import views.html.user.login;
 
 import java.io.File;
 import java.util.List;
@@ -158,7 +154,7 @@ public class Users extends Controller {
 
     /*shows the list of features to admin*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminFeatures () {
+    public Result showAdminFeatures() {
         List<Feature> features = featureFinder.all();
         return ok(adminFeatures.render(features));
 
@@ -166,27 +162,27 @@ public class Users extends Controller {
 
     /*shows the list of hotels to hotel manager*/
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-    public Result showManagerHotels () {
+    public Result showManagerHotels() {
         List<Hotel> hotels = finder.all();
         return ok(managerHotels.render(hotels));
     }
 
     /*shows the list of hotels to hotel manager*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminPanel () {
+    public Result showAdminPanel() {
         return ok(adminPanel.render());
     }
 
     /*This method allows admin to delete user*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result deleteUser (String email){
+    public Result deleteUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         Ebean.delete(user);
         return redirect(routes.Users.showAdminUsers());
     }
 
     @Security.Authenticated(Authenticators.isUserLogged.class)
-    public Result updateUser (String email) {
+    public Result updateUser(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         AppUser currentUser = AppUser.getUserByEmail(session("email"));
@@ -200,7 +196,7 @@ public class Users extends Controller {
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
-        if(filePart != null){
+        if (filePart != null) {
             File file = filePart.getFile();
             Image profileImage = Image.create(file, null, currentUser.id, null, null);
             currentUser.profileImg = profileImage;
@@ -231,7 +227,7 @@ public class Users extends Controller {
             try {
                 currentUser.firstname = name;
                 currentUser.lastname = lastname;
-                if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
+                if (pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
                     currentUser.password = pass1;
                     currentUser.hashPass();
                 }
@@ -250,14 +246,14 @@ public class Users extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result getSellers () {
+    public Result getSellers() {
         List<AppUser> users = AppUser.getUsersByUserTypeId(5);
         List<Feature> features = Feature.finder.all();
         return ok(createhotel.render(features, users));
     }
 
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result setRole (String email){
+    public Result setRole(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         AppUser user = AppUser.getUserByEmail(email);
@@ -276,6 +272,19 @@ public class Users extends Controller {
 
         return redirect(routes.Users.showAdminUsers());
 
+    }
+
+    /**
+     * Checks if buyer have any pending reservations status changed.
+     *
+     * @return <code>int</code> type value of number of new notification
+     * is sent to ajax function. Notification is shown as badge in main view.
+     */
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result reservationApprovedNotification() {
+        AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
+        int notification = Reservation.finder.where().eq("user_id", temp.id).eq("notification", ReservationStatus.NEW_NOTIFICATION).findRowCount();
+        return ok(String.valueOf(notification));
     }
 
 }

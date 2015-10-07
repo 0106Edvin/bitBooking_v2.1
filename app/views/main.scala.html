@@ -104,7 +104,7 @@
                                                 <li><a class="menu" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
-                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations</a></li>
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations <span class="info badge" id="notify"></span></a></li>
                                             }
                                             <ul class="nav navbar-nav">
                                                 <li class="dropdown">
@@ -170,8 +170,8 @@
           $(function () {
              $('#date2').datepicker({ minDate: 1 });
           });
-
         </script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
     </body>
 
 </html>

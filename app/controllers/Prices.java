@@ -37,17 +37,8 @@ public class Prices extends Controller {
             return redirect(routes.Rooms.editRoom(roomId));
         }
         String checkin = boundForm.field("checkIn").value();
-        String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
-        String[] checkOutParts = checkout.split("-");
         Price price = new Price();
-        try {
-            checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-        }catch (IndexOutOfBoundsException e){
-            flash("error","Set date period and choose price for that period!");
-            return redirect(routes.Rooms.editRoom(roomId));
-        }
         Room room = Room.findRoomById(roomId);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -67,6 +58,7 @@ public class Prices extends Controller {
         price.room = room;
         price.cost = new BigDecimal(Long.parseLong(cost));
         price.save();
+        flash("info", "Successfully added price.");
         return ok(views.html.room.updateRoom.render(room));
     }
 

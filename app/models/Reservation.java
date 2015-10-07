@@ -35,6 +35,9 @@ public class Reservation extends Model {
 
     public Integer status;
 
+    @Column(name = "notification", length = 1)
+    public Integer notification;
+
     @ManyToOne
     public Room room;
 
