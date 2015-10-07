@@ -97,3 +97,7 @@ GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reserva
 
 GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
 POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
+
+
+GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
+

@@ -3,6 +3,8 @@ package helpers;
 import models.AppUser;
 import models.Hotel;
 
+import java.util.Random;
+
 /**
  * Created by boris.tomic on 05/10/15.
  */
@@ -105,11 +107,13 @@ public class FillDatabase {
     }
 
     public static void createHotels() {
+        Random rand = new Random();
         for (int i = 0; i < NAME_HOTEL.length; i++) {
             Hotel hotel = new Hotel();
             hotel.name = NAME_HOTEL[i];
             hotel.location = "Default adresa";
             hotel.description = "Auto generated hotel";
+            hotel.stars = rand.nextInt(5) + 1;
             if (i < 7) {
                 hotel.city = "Sarajevo";
                 hotel.country = "Bosna i Hercegovina";
