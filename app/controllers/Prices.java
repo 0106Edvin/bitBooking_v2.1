@@ -3,18 +3,17 @@ package controllers;
 import helpers.Authenticators;
 import models.Price;
 import models.Room;
-import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.addPrice;
-import views.html.room.updateRoom;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -67,11 +66,25 @@ public class Prices extends Controller {
         price.room = room;
         price.cost = new BigDecimal(Long.parseLong(cost));
         price.save();
-        return ok(views.html.room.updateRoom.render(room));
+        List<Price> prices = Price.getRoomPrices(room);
+        return ok(views.html.room.updateRoom.render(room, prices));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result insertPrice(Integer roomId){
         return ok(addPrice.render(roomId));
+    }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result delete(Integer id){
+
+        Price price = Price.findPriceById(id);
+        price.delete();
+
+        Room room = Room.findRoomById(price.room.id);
+        List<Price> prices = Price.getRoomPrices(room);
+
+
+        return ok(views.html.room.updateRoom.render(room, prices));
     }
 }
