@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.data.format.Formats;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,7 +28,9 @@ public class Restaurant extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<Image> images;
 
-    public String timestamp;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    @Column(columnDefinition = "datetime")
+    public Date timestamp;
 
     public Restaurant(Integer id, String name, String type, String description, Hotel hotel, List<Image> images) {
         this.id = id;
@@ -36,7 +39,7 @@ public class Restaurant extends Model {
         this.description = description;
         this.hotel = hotel;
         this.images = images;
-        this.timestamp = new Date().toString();
+        this.timestamp = new Date();
     }
 
     //method that finds restaurant by hotel_id
