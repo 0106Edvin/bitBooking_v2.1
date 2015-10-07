@@ -11,8 +11,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,16 +29,32 @@ public class Reservations extends Controller {
 
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result saveReservation(Integer roomId) {
+
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
+        //String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
+        //String[] checkOutParts = checkout.split("-");
+
+        Calendar c = Calendar.getInstance();
+
+
+        try {
+            //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
+            //checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
+        }catch (IndexOutOfBoundsException e){
+            flash("error","Wrong date format!");
+            return redirect(routes.Rooms.showRoom(roomId));
+        }
+
         Room room = Room.findRoomById(roomId);
         Reservation reservation = new Reservation();
         reservation.room = room;
         reservation.user = user;
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        reservation.timeOfReservation = c.getTime();
 
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
@@ -59,6 +78,7 @@ public class Reservations extends Controller {
     public Result setStatus(Integer id) {
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         Reservation reservation = Reservation.findReservationById(id);
+        Room room = Reservation.findRoomByReservation(reservation);
 
         String status = boundForm.field("status").value();
 
@@ -68,11 +88,21 @@ public class Reservations extends Controller {
         } else if (status.equals(ReservationStatus.APPROVED.toString())) {
             reservation.status = ReservationStatus.APPROVED;
             reservation.notification = ReservationStatus.NEW_NOTIFICATION;
+            if(room.roomType > 0){
+                room.roomType = room.roomType -1;
+            }else{
+                reservation.status = ReservationStatus.PENDING;
+                flash("error", "All rooms of this type are booked");
+            }
 
         } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
             reservation.notification = ReservationStatus.NEW_NOTIFICATION;
+        }else if (status.equals(ReservationStatus.COMPLETED.toString())){
+            reservation.status = ReservationStatus.COMPLETED;
+            room.roomType = room.roomType + 1;
         }
+        room.update();
         reservation.update();
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));

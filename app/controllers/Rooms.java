@@ -50,8 +50,8 @@ public class Rooms extends Controller {
             flash("error", "Room can't have that number of beds!");
             redirect(routes.Rooms.createRoom(hotelId));
         }
-        Hotel hotel = Hotel.findHotelById(hotelId);
 
+        Hotel hotel = Hotel.findHotelById(hotelId);
         room.hotel = hotel;
 
         Ebean.save(room);
@@ -67,10 +67,12 @@ public class Rooms extends Controller {
         String name = roomForm1.field("name").value();
         String description = roomForm1.field("description").value();
         Integer numberOfBeds = Integer.parseInt(roomForm1.field("numberOfBeds").value());
+        Integer roomType = Integer.parseInt(roomForm1.field("roomType").value());
 
         room.name = name;
         room.description = description;
         room.numberOfBeds = numberOfBeds;
+        room.roomType = roomType;
 
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
@@ -81,6 +83,7 @@ public class Rooms extends Controller {
                 room.images.add(image);
             }
         }
+
 
         room.update();
 

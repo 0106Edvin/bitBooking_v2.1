@@ -44,9 +44,13 @@ public class Reservation extends Model {
     @ManyToOne
     public AppUser user;
 
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    @Column(columnDefinition = "datetime")
+    public Date timeOfReservation;
+
     public Reservation(){}
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
@@ -54,6 +58,7 @@ public class Reservation extends Model {
         this.status = ReservationStatus.PENDING;
         this.room = room;
         this.user = user;
+        this.timeOfReservation = timeOfReservation;
     }
 
     @Override
@@ -68,6 +73,11 @@ public class Reservation extends Model {
     public static List<Reservation> findReservationByUserId(Integer id){
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;
+    }
+
+    public static Room findRoomByReservation(Reservation reservation){
+        Room room = reservation.room;
+        return room;
     }
 
     public BigDecimal getCost() {
