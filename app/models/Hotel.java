@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import helpers.Constants;
 
 /**
  * Created by Edvin Mulabdic on 9/6/2015.
@@ -52,7 +53,6 @@ public class Hotel extends Model {
      */
     public Hotel() {};
 
-
     public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
 
         this.id = id;
@@ -69,7 +69,7 @@ public class Hotel extends Model {
         this.rooms = rooms;
         this.comments = comments;
         this.stars = stars;
-        this.rating = 0.0;
+        this.rating = Constants.INITIAL_RATING;
     }
 
     //method that finds hotel by id
@@ -116,15 +116,15 @@ public class Hotel extends Model {
         return (id.toString() + " " + name + " " + location);
     }
 
-    public Double getRating(){
-        rating = 0.0;
+    public Double getRating() {
+        rating = Constants.INITIAL_RATING;
         if(comments != null && comments.size() > 0) {
             for (int i = 0; i < comments.size(); i++) {
                 rating += comments.get(i).rating;
             }
             rating = rating / comments.size();
         }
-        DecimalFormat format = new DecimalFormat("0.0");
+        DecimalFormat format = new DecimalFormat(Constants.INITIAL_RATING.toString());
         rating = Double.valueOf(format.format(rating));
         return rating;
     }

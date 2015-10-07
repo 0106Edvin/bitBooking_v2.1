@@ -70,6 +70,7 @@ public class Reservation extends Model {
         Reservation reservation = finder.where().eq("id",id).findUnique();
         return reservation;
     }
+    
     public static List<Reservation> findReservationByUserId(Integer id){
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;

@@ -39,13 +39,16 @@ public class Image extends Model {
     @OneToOne
     public Feature feature;
 
+    @ManyToOne
+    public Restaurant restaurant;
+
 
     public static Cloudinary cloudinary;
 
 
     public static Finder<Integer, Image> find = new Finder<Integer, Image>(Image.class);
 
-    public static Image createImage(String public_id, String image_url, String secret_image_url, Hotel hotel,Room room, Feature feature, AppUser user) {
+    public static Image createImage(String public_id, String image_url, String secret_image_url, Hotel hotel,Room room, Feature feature, Restaurant restaurant, AppUser user) {
         Image i = new Image();
         i.public_id = public_id;
         i.image_url = image_url;
@@ -54,6 +57,7 @@ public class Image extends Model {
         i.room = room;
         i.user = user;
         i.feature = feature;
+        i.restaurant = restaurant;
         i.save();
         return i;
     }
@@ -87,13 +91,13 @@ public class Image extends Model {
         Logger.debug(i.image_url);
         i.secret_image_url = (String) uploadResult.get("secure_url");
         Logger.debug(i.secret_image_url);
-        if(hotelId != null){
+        if(hotelId != null) {
             i.hotel = Hotel.findHotelById(hotelId);
-        }else if(userId != null){
+        } else if(userId != null) {
             i.user = AppUser.findUserById(userId);
-        }else if (featureId != null){
+        } else if (featureId != null) {
             i.feature = Feature.findFeatureById(featureId);
-        }else if (roomId != null){
+        } else if (roomId != null) {
             i.room = Room.findRoomById(roomId);
         }
         i.save();
