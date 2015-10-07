@@ -20,10 +20,11 @@
                     <table class="table">
                         <thead>
                             <tr class="service">
-                                <th style="font-size : 30 px ;">Guest name</th>
-                                <th style="font-size : 30 px ;">Room type</th>
+                                <th style="font-size: 30px ;">Guest name</th>
+                                <th style="font-size: 30px ;">Beds</th>
                                 <th style="font-size : 30 px ;">Check-in date</th>
-                                <th style="font-size : 30 px ;">Check-out date</th>
+                                <th style="font-size : 30px ;">Check-out date</th>
+                                <th style="font-size: 30px ;">Reservation date</th>
                                 <th style="font-size : 30 px ;">Status</th>
                             </tr>
                         </thead>
@@ -38,7 +39,7 @@
                                             <td>@room.numberOfBeds</td>
                                             <td>@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
                                             <td>@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-
+                                            <td>@reservation.timeOfReservation</td>
                                             @if(reservation.status == 1) {
                                                 <td style="color : darkorange">PENDING</td>
                                             }

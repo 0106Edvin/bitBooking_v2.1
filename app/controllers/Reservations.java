@@ -11,8 +11,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,12 +29,16 @@ public class Reservations extends Controller {
 
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result saveReservation(Integer roomId) {
+
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
         //String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
         //String[] checkOutParts = checkout.split("-");
+
+        Calendar c = Calendar.getInstance();
+
 
         try {
             //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
@@ -45,8 +52,9 @@ public class Reservations extends Controller {
         Reservation reservation = new Reservation();
         reservation.room = room;
         reservation.user = user;
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        reservation.timeOfReservation = c.getTime();
 
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
