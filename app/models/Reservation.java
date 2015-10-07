@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by gordan on 9/29/15.
+ * Created by gordan on 9/29/15. 
  */
 @Entity
 public class Reservation extends Model {

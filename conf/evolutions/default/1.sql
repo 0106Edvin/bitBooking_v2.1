@@ -75,12 +75,15 @@ create table price (
 create table reservation (
   id                        integer auto_increment not null,
   cost                      decimal(38),
-  check_in                  datetime,
-  check_out                 datetime,
   status                    integer,
   notification              integer(1),
   room_id                   integer,
   user_id                   integer,
+<<<<<<< HEAD
+=======
+  check_in                  datetime,
+  check_out                 datetime,
+>>>>>>> reservations fixed
   time_of_reservation       datetime,
   constraint pk_reservation primary key (id))
 ;
