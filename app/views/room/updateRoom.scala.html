@@ -73,15 +73,19 @@
                                     <input name="cost" class="phone" type="number" value="2" min="1" max="500000" required>
                                 </div>
 
-                            </div>
-                            <div class="form-group">
-                                <button class="edvin-button pull-right" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
+                                <button class="edvin-button pull-right" style="margin-bottom: 75px" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
                                     Add Price
                                 </button>
                             </div>
                         </form>
                     </div>
                     }
+                    @if(flash.containsKey("success")) {
+                        <span style="background-color: green; color: white; font-size: 20px; padding: 0px 5px 0px 5px;">
+                            @flash.get("success")
+                        </span>
+                    }
+
                     <div>
                         <table class="table " style="font-size: 20px; color: white">
                             <thead>

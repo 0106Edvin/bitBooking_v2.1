@@ -66,6 +66,7 @@ public class Prices extends Controller {
         price.room = room;
         price.cost = new BigDecimal(Long.parseLong(cost));
         price.save();
+        flash("success", " Price successfully added. ");
         List<Price> prices = Price.getRoomPrices(room);
         return ok(views.html.room.updateRoom.render(room, prices));
     }
