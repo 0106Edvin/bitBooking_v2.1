@@ -79,7 +79,7 @@ public class Rooms extends Controller {
         if (fileParts != null) {
             for (Http.MultipartFormData.FilePart filePart1 : fileParts) {
                 File file = filePart1.getFile();
-                Image image = Image.create(file, null, null, null, room.id);
+                Image image = Image.create(file, null, null, null, room.id, null);
                 room.images.add(image);
             }
         }
