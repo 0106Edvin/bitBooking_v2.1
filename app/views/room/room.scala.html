@@ -58,7 +58,7 @@
                             }
                             </div>
                             <form action="@routes.Reservations.saveReservation(room.id)" method="post">
-                                <div class="info-detail">
+                                <div class="info-detail" >
                                     <div class="col-md-5">
                                         <div class="service">
                                             <h4>From:</h4>
@@ -72,8 +72,10 @@
                                         <input name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
                                     </div>
                                 </div>
-                                <input type="submit"  class="btn btn-primary" value="BOOK IT" style="font-size: 28px;margin-top: 1em;text-align: center" onclick="@routes.Reservations.saveReservation(room.id)">
+
+                                <input type="submit"  class="btn btn-primary" value="BOOK IT" id="bookit" onclick="@routes.Reservations.saveReservation(room.id)">
                                 <span class="font-size-20" id="price-for-period"></span>
+
                             </form>
                         </div>
                         <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>

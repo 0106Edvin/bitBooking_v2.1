@@ -15,7 +15,7 @@
 
                                 <input name="name" class="name" type="text" placeholder="Room Name" required>
                                 <input name="numberOfBeds" class="phone" type="number" placeholder="Number of beds" min="1" max="5" required>
-                                <input name="roomType" type="number" min="1" placeholder="Room Type">
+                                <input name="roomType" type="number" min="1" placeholder="Number of rooms">
                                 <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description" required></textarea>
                                     <a href="@routes.Rooms.saveRoom(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
                                      <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>
