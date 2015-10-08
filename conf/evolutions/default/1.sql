@@ -90,9 +90,11 @@ create table restaurant (
   id                        integer auto_increment not null,
   name                      varchar(255),
   type                      varchar(255),
+  capacity                  integer,
+  working_hours             varchar(255),
   description               TEXT,
   hotel_id                  integer,
-  timestamp                 varchar(255),
+  timestamp                 datetime,
   constraint uq_restaurant_hotel_id unique (hotel_id),
   constraint pk_restaurant primary key (id))
 ;

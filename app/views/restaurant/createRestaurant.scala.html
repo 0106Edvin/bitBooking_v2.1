@@ -1,0 +1,29 @@
+@(hotelId: Integer)
+@import helper._
+@main {
+@helper.form(action = routes.Restaurants.saveRestaurant(hotelId)) {
+<form class="form">
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>CREATE REASTAURANT</h2>
+                </div>
+                <div class="col-md-6 col-md-offset-1 contact-form">
+                    <h3>restaurant information</h3>
+                    <div class="info-detail">
+                        <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
+                        <input name="type" class="name" type="text" placeholder="Restaurant Type (italian, mexican,...)" required>
+                        <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
+                        <input name="workingHours" class="name" type="text" min="10" placeholder="Working hours" required>
+                        <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description" required></textarea>
+                        <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-restaurant-submit"  type="submit" value="SUBMIT" ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+}
+}
