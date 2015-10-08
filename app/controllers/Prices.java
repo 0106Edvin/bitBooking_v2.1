@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -58,12 +59,25 @@ public class Prices extends Controller {
         price.room = room;
         price.cost = new BigDecimal(Long.parseLong(cost));
         price.save();
-        flash("info", "Successfully added price.");
-        return ok(views.html.room.updateRoom.render(room));
+        flash("success", " Price successfully added. ");
+        List<Price> prices = Price.getRoomPrices(room);
+        return ok(views.html.room.updateRoom.render(room, prices));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result insertPrice(Integer roomId){
         return ok(addPrice.render(roomId));
+    }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result delete(Integer id){
+
+        Price price = Price.findPriceById(id);
+        Room room = Room.findRoomById(price.room.id);
+        price.delete();
+
+        List<Price> prices = Price.getRoomPrices(room);
+
+        return ok(views.html.room.updateRoom.render(room, prices));
     }
 }

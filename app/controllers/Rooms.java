@@ -129,7 +129,9 @@ public class Rooms extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editRoom(Integer id) {
         Room room = Room.findRoomById(id);
-        return ok(updateRoom.render(room));
+
+        List<Price> prices = Price.getRoomPrices(room);
+        return ok(updateRoom.render(room, prices));
     }
 
 }

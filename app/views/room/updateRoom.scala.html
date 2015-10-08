@@ -1,5 +1,6 @@
-@(room: Room)
+@(room: Room)(prices: java.util.List[Price])
 @import helper._
+@import helpers.CommonHelperMethods
 @main {
     <meta charset="UTF-8">
     <div class="container">
@@ -75,16 +76,44 @@
                                     <input name="cost" class="phone" type="number" min="1" max="500000" required>
                                 </div>
 
-                            </div>
-                            <div class="form-group">
-                                <button class="edvin-button" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
+                                <button class="edvin-button pull-right" style="margin-bottom: 75px" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
                                     Add Price
                                 </button>
                             </div>
                         </form>
                     </div>
                     }
+                    @if(flash.containsKey("success")) {
+                        <span style="background-color: green; color: white; font-size: 20px; padding: 0px 5px 0px 5px;">
+                            @flash.get("success")
+                        </span>
+                    }
+
+                    <div>
+                        <table class="table " style="font-size: 20px; color: white">
+                            <thead>
+                                <tr>
+                                    <th>From date</th>
+                                    <th>To date</th>
+                                    <th>Price</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(price <- prices) {
+                                    <tr>
+                                        <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
+                                        <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
+                                        <td>@price.cost $</td>
+                                        <td><a href="@routes.Prices.delete(price.id)" role="button"  data-role="delete" data-delete-parent="tr"><i class="glyphicon glyphicon-trash"></i></a></td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
