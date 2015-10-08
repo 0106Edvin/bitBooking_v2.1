@@ -69,12 +69,14 @@
                                         <div class="service">
                                             <h4>To:</h4>
                                         </div>
-                                        <input name="checkOut" id="date2" placeholder="select date"/>
+                                        <input name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
                                     </div>
                                 </div>
                                 <input type="submit"  class="btn btn-primary" value="BOOK IT" style="font-size: 28px;margin-top: 1em;text-align: center" onclick="@routes.Reservations.saveReservation(room.id)">
+                                <span class="font-size-20" id="price-for-period"></span>
                             </form>
                         </div>
+                        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
                     }
                         <div class="col-md-5 contact-info text-left">
                             <h3>Prices</h3>

@@ -63,8 +63,8 @@ GET         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.
 POST        /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
 
 #Restaurant
-GET          /seller/createrestaurant/:hotelId              @controllers.Restaurants.createRestaurant(hotelId: Integer)
-POST         /seller/saverestaurant/:hotelId                @controllers.Restaurants.saveRestaurant(hotelId: Integer)
+GET         /seller/createrestaurant/:hotelId               @controllers.Restaurants.createRestaurant(hotelId: Integer)
+POST        /seller/saverestaurant/:hotelId                 @controllers.Restaurants.saveRestaurant(hotelId: Integer)
 
 GET         /seller/editrestaurant/:id                      @controllers.Restaurants.editRestaurant(id: Integer)
 POST        /seller/updaterestaurant/:id                    @controllers.Restaurants.updateRestaurant(id: Integer)
@@ -109,6 +109,4 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 
 GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
 GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
-
-
-
+POST        /priceselection                                 @controllers.Reservations.getPrice()

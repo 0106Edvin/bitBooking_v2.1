@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table app_user (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   firstname                 varchar(255),
   lastname                  varchar(255),
   email                     varchar(255),
@@ -18,7 +18,7 @@ create table app_user (
 ;
 
 create table comment (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   user_id                   integer,
   hotel_id                  integer,
   title                     varchar(255),
@@ -28,7 +28,7 @@ create table comment (
 ;
 
 create table feature (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   name                      varchar(255),
   icon_id                   integer,
   constraint uq_feature_name unique (name),
@@ -37,7 +37,7 @@ create table feature (
 ;
 
 create table hotel (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   name                      varchar(255),
   location                  varchar(255),
   description               TEXT,
@@ -52,7 +52,7 @@ create table hotel (
 ;
 
 create table image (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   public_id                 varchar(255),
   image_url                 varchar(255),
   secret_image_url          varchar(255),
@@ -65,7 +65,7 @@ create table image (
 ;
 
 create table price (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   date_from                 datetime,
   date_to                   datetime,
   cost                      decimal(38),
@@ -74,7 +74,7 @@ create table price (
 ;
 
 create table reservation (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   cost                      decimal(38),
   check_in                  datetime,
   check_out                 datetime,
@@ -87,7 +87,7 @@ create table reservation (
 ;
 
 create table restaurant (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   name                      varchar(255),
   restauran_type            varchar(255),
   capacity                  integer,
@@ -100,7 +100,7 @@ create table restaurant (
 ;
 
 create table room (
-  id                        integer not null,
+  id                        integer auto_increment not null,
   description               TEXT,
   number_of_beds            integer,
   name                      varchar(255),
@@ -121,24 +121,6 @@ create table room_feature (
   feature_id                     integer not null,
   constraint pk_room_feature primary key (room_id, feature_id))
 ;
-create sequence app_user_seq;
-
-create sequence comment_seq;
-
-create sequence feature_seq;
-
-create sequence hotel_seq;
-
-create sequence image_seq;
-
-create sequence price_seq;
-
-create sequence reservation_seq;
-
-create sequence restaurant_seq;
-
-create sequence room_seq;
-
 alter table app_user add constraint fk_app_user_profileImg_1 foreign key (profile_img_id) references image (id) on delete restrict on update restrict;
 create index ix_app_user_profileImg_1 on app_user (profile_img_id);
 alter table comment add constraint fk_comment_user_2 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
@@ -178,47 +160,29 @@ alter table room_feature add constraint fk_room_feature_feature_02 foreign key (
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists app_user;
+drop table app_user;
 
-drop table if exists comment;
+drop table comment;
 
-drop table if exists feature;
+drop table feature;
 
-drop table if exists hotel_feature;
+drop table hotel_feature;
 
-drop table if exists hotel;
+drop table hotel;
 
-drop table if exists image;
+drop table image;
 
-drop table if exists price;
+drop table price;
 
-drop table if exists reservation;
+drop table reservation;
 
-drop table if exists restaurant;
+drop table restaurant;
 
-drop table if exists room;
+drop table room;
 
-drop table if exists room_feature;
+drop table room_feature;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists app_user_seq;
-
-drop sequence if exists comment_seq;
-
-drop sequence if exists feature_seq;
-
-drop sequence if exists hotel_seq;
-
-drop sequence if exists image_seq;
-
-drop sequence if exists price_seq;
-
-drop sequence if exists reservation_seq;
-
-drop sequence if exists restaurant_seq;
-
-drop sequence if exists room_seq;
+SET FOREIGN_KEY_CHECKS=1;
 

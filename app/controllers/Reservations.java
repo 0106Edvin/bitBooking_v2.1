@@ -6,11 +6,14 @@ import models.AppUser;
 import models.Hotel;
 import models.Reservation;
 import models.Room;
+import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -124,6 +127,38 @@ public class Reservations extends Controller {
         }
         flash("info", "You have no reservations.");
         return redirect(routes.Application.index());
+    }
+
+    /**
+     * Checks price for selected period and returns value as String.
+     * Ajax calls this method when date on reservation is selected.
+     *
+     * @return
+     */
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result getPrice() {
+        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        DynamicForm form = Form.form().bindFromRequest();
+        String checkin = form.field("date").value();
+        String checkout = form.field("date2").value();
+        String roomId = form.field("room").value();
+        Room room = Room.findRoomById(Integer.parseInt(roomId));
+        Reservation reservation = new Reservation();
+        reservation.room = room;
+        reservation.user = user;
+
+        BigDecimal price = null;
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date firstDate = dtf.parse(checkin);
+            Date secondDate = dtf.parse(checkout);
+            reservation.checkIn = firstDate;
+            reservation.checkOut = secondDate;
+            price = reservation.getCost();
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return ok(price.toString());
     }
 
 }
