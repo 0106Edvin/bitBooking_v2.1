@@ -66,6 +66,9 @@ POST        /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.
 GET          /seller/createrestaurant/:hotelId              @controllers.Restaurants.createRestaurant(hotelId: Integer)
 POST         /seller/saverestaurant/:hotelId                @controllers.Restaurants.saveRestaurant(hotelId: Integer)
 
+GET         /seller/editrestaurant/:id                      @controllers.Restaurants.editRestaurant(id: Integer)
+POST        /seller/updaterestaurant/:id                    @controllers.Restaurants.updateRestaurant(id: Integer)
+
 #Room
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
 GET         /room/:id                                       @controllers.Rooms.showRoom(id: Integer)

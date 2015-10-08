@@ -17,6 +17,10 @@ body {
 
 }
 
+.update-label {
+    font-size: 20px;
+    color:white;
+}
 #hotelsbtn {
     margin-left: 60px;
 }

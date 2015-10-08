@@ -89,7 +89,7 @@ create table reservation (
 create table restaurant (
   id                        integer not null,
   name                      varchar(255),
-  type                      varchar(255),
+  restauran_type            varchar(255),
   capacity                  integer,
   working_hours             varchar(255),
   description               TEXT,

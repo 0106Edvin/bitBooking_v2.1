@@ -17,7 +17,7 @@ public class Restaurant extends Model {
     @Id
     public Integer id;
     public String name;
-    public String type;
+    public String restauranType;
     public Integer capacity;
     public String workingHours;
 
@@ -34,10 +34,10 @@ public class Restaurant extends Model {
     @Column(columnDefinition = "datetime")
     public Date timestamp;
 
-    public Restaurant(Integer id, String name, String type, Integer capacity, String workingHours, String description, Hotel hotel, List<Image> images, Date timestamp) {
+    public Restaurant(Integer id, String name, String restauranType, Integer capacity, String workingHours, String description, Hotel hotel, List<Image> images, Date timestamp) {
         this.id = id;
         this.name = name;
-        this.type = type;
+        this.restauranType = restauranType;
         this.capacity = capacity;
         this.workingHours = workingHours;
         this.description = description;
@@ -49,6 +49,13 @@ public class Restaurant extends Model {
     //method that finds restaurant by hotel_id
     public static Restaurant findRestaurantByHotelId(Integer hotelId) {
         Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
+
+        return restaurant;
+    }
+
+    //method that finds restaurant by id
+    public static Restaurant findRestaurantById(Integer restaurantId) {
+        Restaurant restaurant = finder.where().eq("id", restaurantId).findUnique();
 
         return restaurant;
     }

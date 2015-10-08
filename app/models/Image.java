@@ -48,7 +48,7 @@ public class Image extends Model {
 
     public static Finder<Integer, Image> find = new Finder<Integer, Image>(Image.class);
 
-    public static Image createImage(String public_id, String image_url, String secret_image_url, Hotel hotel,Room room, Feature feature, Restaurant restaurant, AppUser user) {
+    public static Image createImage(String public_id, String image_url, String secret_image_url, Hotel hotel, Room room, Feature feature, Restaurant restaurant, AppUser user) {
         Image i = new Image();
         i.public_id = public_id;
         i.image_url = image_url;
@@ -71,18 +71,18 @@ public class Image extends Model {
         return i;
     }
 
-    public static Image create(File image,Integer hotelId, Integer userId, Integer featureId, Integer roomId) {
+    public static Image create(File image,Integer hotelId, Integer userId, Integer featureId, Integer roomId, Integer restaurantId) {
         Map result;
         try {
             result = cloudinary.uploader().upload(image, null);
-            return create(result, hotelId,userId,featureId,roomId);
+            return create(result, hotelId, userId, featureId, roomId, restaurantId);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static Image create(Map uploadResult, Integer hotelId, Integer userId, Integer featureId, Integer roomId) {
+    public static Image create(Map uploadResult, Integer hotelId, Integer userId, Integer featureId, Integer roomId, Integer restaurantId) {
         Image i = new Image();
 
         i.public_id = (String) uploadResult.get("public_id");
@@ -99,6 +99,8 @@ public class Image extends Model {
             i.feature = Feature.findFeatureById(featureId);
         } else if (roomId != null) {
             i.room = Room.findRoomById(roomId);
+        } else if (restaurantId != null) {
+            i.restaurant = Restaurant.findRestaurantById(restaurantId);
         }
         i.save();
         return i;
