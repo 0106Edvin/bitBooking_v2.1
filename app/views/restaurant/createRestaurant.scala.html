@@ -12,6 +12,11 @@
                 <div class="col-md-6 col-md-offset-1 contact-form">
                     <h3>restaurant information</h3>
                     <div class="info-detail">
+                        <div class="duplicate-email">
+                            @if(flash.containsKey("error")) {
+                            @flash.get("error")
+                            }
+                        </div>
                         <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
                         <input name="restauranType" class="name" type="text" placeholder="Restaurant Type (italian, mexican,...)" required>
                         <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>

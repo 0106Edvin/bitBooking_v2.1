@@ -24,6 +24,7 @@ public class Restaurants extends Controller {
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result saveRestaurant(Integer hotelId) {
+
         Form<Restaurant> boundForm = restaurantForm.bindFromRequest();
         Restaurant restaurant = boundForm.get();
 
@@ -32,11 +33,19 @@ public class Restaurants extends Controller {
 
         Calendar c = Calendar.getInstance();
         restaurant.timestamp = c.getTime();
-        
         restaurant.save();
 
+
+        if (!Restaurant.existsInDB(hotelId)) {
+
+        } else {        flash("error", "There is already added restaurant for selected hotel.");
+            return ok(createRestaurant.render(hotelId));
+        }
+        
+
+
         // PROMIJENITI OVU RUTU!!!!!!!!!!
-        return redirect(routes.Rooms.showRooms(hotel.id));
+        return redirect(routes.Rooms.showRooms(hotelId));
 
     }
 
