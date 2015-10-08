@@ -80,11 +80,10 @@ public class Prices extends Controller {
     public Result delete(Integer id){
 
         Price price = Price.findPriceById(id);
+        Room room = Room.findRoomById(price.room.id);
         price.delete();
 
-        Room room = Room.findRoomById(price.room.id);
         List<Price> prices = Price.getRoomPrices(room);
-
 
         return ok(views.html.room.updateRoom.render(room, prices));
     }
