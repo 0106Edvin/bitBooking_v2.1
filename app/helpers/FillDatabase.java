@@ -42,6 +42,8 @@ public class FillDatabase {
             "Europe", "President", "Courtyard by Marriott Belgrade", "Hotel Moskva", "Belgrade Art Hotel",
             "Hotel Dubrovnik", "Esplanade Zagreb Hotel", "Sheraton Zagreb Hotel", "The Westin Zagreb" };
 
+    //private static final String[] ROOM
+
     /**
      * Creates a specific <code>AppUser</code>.
      * Input is taken from array of Strings depending which <code>AppUser</code>
@@ -119,16 +121,19 @@ public class FillDatabase {
                 hotel.country = "Bosna i Hercegovina";
                 hotel.coordinateX = "43.8534183";
                 hotel.coordinateY = "18.37808399999";
+                hotel.sellerId = 10;
             } else if (i >= 7 && i < 10) {
                 hotel.city = "Beograd";
                 hotel.country = "Srbija";
                 hotel.coordinateX = "44.80188569365082";
                 hotel.coordinateY = "20.45552998387666";
+                hotel.sellerId = 11;
             } else if (i >= 10) {
                 hotel.city = "Zagreb";
                 hotel.country = "Hrvatska";
                 hotel.coordinateX = "45.8116424954304";
                 hotel.coordinateY = "15.963151749013377";
+                hotel.sellerId = 12;
             }
             hotel.save();
         }

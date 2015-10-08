@@ -2,11 +2,11 @@
 @main {
 
     <div class="container">
-        <div class="edvin-class">
-            <table id="sort" class="table table-condensed table-hover">
+        <div class="edvin-class font-size-20">
+            <table id="sort" class="table">
                 <thead>
-                    <tr>
-                        <th>Name</th>
+                    <tr class="service">
+                        <th>Hotel name</th>
                         <th>Country</th>
                         <th>City</th>
                         <th>Stars</th>
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     @for(hotel <- hotels) {
-                        <tr>
+                        <tr class="service">
                             <td>@hotel.name</td>
                             <td>@hotel.country</td>
                             <td>@hotel.city</td>
