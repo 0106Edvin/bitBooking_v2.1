@@ -29,6 +29,11 @@
                                     <tr class="service">
                                         <td style="font-size: 22px;">@room.name</td>
                                         <td style="font-size: 22px;">@room.numberOfBeds</td>
+                                        <td>
+                                            <a href="@routes.Rooms.showRoom(room.id)">
+                                                <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">View room</button>
+                                            </a>
+                                        </td>
                                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                             <td>
                                                 <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
@@ -46,6 +51,8 @@
                                                 <button class="btn btn-warning" style="font-size: 17px;">Create reservation</button>
                                             </a>
                                         </td>
+
+
                                     </tr>
                                 }
                             }
