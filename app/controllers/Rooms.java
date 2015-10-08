@@ -42,7 +42,7 @@ public class Rooms extends Controller {
         Room room = boundForm.get();
 
         if(!Room.checkRoomName(room.name, hotelId)) {
-            flash("error", "You already have room with that name!");
+            flash("error-search", "You already have room with that name!");
             return redirect(routes.Rooms.createRoom(hotelId));
         }
 
@@ -50,8 +50,8 @@ public class Rooms extends Controller {
             flash("error", "Room can't have that number of beds!");
             redirect(routes.Rooms.createRoom(hotelId));
         }
-        Hotel hotel = Hotel.findHotelById(hotelId);
 
+        Hotel hotel = Hotel.findHotelById(hotelId);
         room.hotel = hotel;
 
         Ebean.save(room);
@@ -67,20 +67,23 @@ public class Rooms extends Controller {
         String name = roomForm1.field("name").value();
         String description = roomForm1.field("description").value();
         Integer numberOfBeds = Integer.parseInt(roomForm1.field("numberOfBeds").value());
+        Integer roomType = Integer.parseInt(roomForm1.field("roomType").value());
 
         room.name = name;
         room.description = description;
         room.numberOfBeds = numberOfBeds;
+        room.roomType = roomType;
 
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
         if (fileParts != null) {
             for (Http.MultipartFormData.FilePart filePart1 : fileParts) {
                 File file = filePart1.getFile();
-                Image image = Image.create(file, null, null, null, room.id);
+                Image image = Image.create(file, null, null, null, room.id, null);
                 room.images.add(image);
             }
         }
+
 
         room.update();
 

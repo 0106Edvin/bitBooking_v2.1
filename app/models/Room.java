@@ -28,6 +28,8 @@ public class Room extends Model {
 
     public String name;
 
+    public Integer roomType;
+
     @ManyToMany
     public List<Feature> features;
 
@@ -47,7 +49,8 @@ public class Room extends Model {
     }
 
 
-    public Room(Integer id, String description, String name, List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices, List<Image> images, List<Reservation> reservations) {
+    public Room(Integer id, String description, String name,Integer roomType,List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images, List<Reservation> reservations){
+
         this.id = id;
         this.description = description;
         this.features = features;
@@ -57,6 +60,7 @@ public class Room extends Model {
         this.prices = prices;
         this.images = images;
         this.reservations = reservations;
+        this.roomType= roomType;
     }
 
     public static Room findRoomById(Integer id) {

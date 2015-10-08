@@ -3,11 +3,13 @@ package controllers;
 import helpers.Authenticators;
 import models.Price;
 import models.Room;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.addPrice;
+import views.html.room.updateRoom;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -36,17 +38,8 @@ public class Prices extends Controller {
             return redirect(routes.Rooms.editRoom(roomId));
         }
         String checkin = boundForm.field("checkIn").value();
-        String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
-        String[] checkOutParts = checkout.split("-");
         Price price = new Price();
-        try {
-            checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-        }catch (IndexOutOfBoundsException e){
-            flash("error","Set date period and choose price for that period!");
-            return redirect(routes.Rooms.editRoom(roomId));
-        }
         Room room = Room.findRoomById(roomId);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
 

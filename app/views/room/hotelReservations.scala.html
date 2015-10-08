@@ -13,42 +13,47 @@
                     <h2>@hotel.name</h2>
                 </div>
 
-                <div class="col-md-0 col-md-offset-1 contact-form">
+                <div class="col-md-0 contact-form">
                     <h3>@hotel.name reservations</h3>
 
 
                     <table class="table">
                         <thead>
                             <tr class="service">
-                                <th style="font-size : 30 px ;">Guest name</th>
-                                <th style="font-size : 30 px ;">Room type</th>
-                                <th style="font-size : 30 px ;">Check-in date</th>
-                                <th style="font-size : 30 px ;">Check-out date</th>
-                                <th style="font-size : 30 px ;">Status</th>
+                                <th class="text-align" style="font-size: 30px ;">Guest name</th>
+                                <th class="text-align" style="font-size: 30px ;">Room</th>
+                                <th class="text-align"  style="font-size: 30px ;">Beds</th>
+                                <th class="text-align" style="font-size: 30px ;">Check-in date</th>
+                                <th class="text-align" style="font-size: 30px ;">Check-out date</th>
+                                <th class="text-align" style="font-size: 30px ;">Reservation date</th>
+                                <th class="text-align" style="font-size: 30px ;">Status</th>
                             </tr>
                         </thead>
 
-                        <tbody style="font-size : 20 px">
+                        <tbody style="font-size : 20px">
                         @if(rooms.size != 0) {
                             @for(room <- rooms) {
                                 @if(room.reservations != 0) {
                                     @for(reservation <- room.reservations) {
                                         <tr class="service">
-                                            <td>@reservation.user.firstname</td>
-                                            <td>@room.numberOfBeds</td>
-                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
-                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-
-                                            @if(reservation.status == 1) {
-                                                <td style="color : darkorange">PENDING</td>
+                                            <td class="text-align">@reservation.user.firstname</td>
+                                            <td class="text-align">@room.name</td>
+                                            <td class="text-align">@room.numberOfBeds</td>
+                                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                                            <td class="text-align">@reservation.timeOfReservation</td>
+                                            @if(reservation.status == ReservationStatus.PENDING) {
+                                                <td class="text-align" style="color : darkorange">PENDING</td>
                                             }
-                                            @if(reservation.status == 2) {
-                                                <td style="color : lawngreen">APPROVED</td>
+                                            @if(reservation.status == ReservationStatus.APPROVED) {
+                                                <td class="text-align" style="color : lawngreen">APPROVED</td>
                                             }
-                                            @if(reservation.status == 3) {
-                                                <td style="color : red">DECLINED</td>
+                                            @if(reservation.status == ReservationStatus.DECLINED) {
+                                                <td class="text-align" style="color : red">DECLINED</td>
                                             }
-                                            <td></td>
+                                            @if(reservation.status == ReservationStatus.COMPLETED){
+                                                <td class="text-align" style="color : papayawhip ">COMPLETED</td>
+                                            }
                                             <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
                                                 <td>
                                                     <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
@@ -56,16 +61,25 @@
                                                             <option value="1" selected="true">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3">Declined</option>
+                                                            <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.DECLINED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2">Aproved</option>
                                                             <option value="3" selected="true">Declined</option>
+                                                            <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.APPROVED) {
                                                             <option value="1">Pending</option>
                                                             <option value="2" selected="true">Approved</option>
                                                             <option value="3">Declined</option>
+                                                            <option value="6">Completed</option>
+                                                        }
+                                                        @if(reservation.status == ReservationStatus.COMPLETED){
+                                                            <option value="1">Pending</option>
+                                                            <option value="2">Approved</option>
+                                                            <option value="3">Declined</option>
+                                                            <option value="6" selected="true">Completed</option>
                                                         }
                                                     </select>
 
@@ -76,11 +90,11 @@
                                     }
                                 }
                             }
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                    }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 }

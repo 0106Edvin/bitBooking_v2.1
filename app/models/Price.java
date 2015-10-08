@@ -60,4 +60,5 @@ public class Price extends Model {
         List<Price> prices = finder.where().eq("room", room).findList();
         return prices;
     }
+
 }
