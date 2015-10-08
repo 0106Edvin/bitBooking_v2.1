@@ -18,6 +18,8 @@ public class Restaurant extends Model {
     public Integer id;
     public String name;
     public String type;
+    public Integer capacity;
+    public String workingHours;
 
     @Column(columnDefinition = "TEXT")
     public String description;
@@ -32,14 +34,16 @@ public class Restaurant extends Model {
     @Column(columnDefinition = "datetime")
     public Date timestamp;
 
-    public Restaurant(Integer id, String name, String type, String description, Hotel hotel, List<Image> images) {
+    public Restaurant(Integer id, String name, String type, Integer capacity, String workingHours, String description, Hotel hotel, List<Image> images, Date timestamp) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.capacity = capacity;
+        this.workingHours = workingHours;
         this.description = description;
         this.hotel = hotel;
         this.images = images;
-        this.timestamp = new Date();
+        this.timestamp = timestamp;
     }
 
     //method that finds restaurant by hotel_id
