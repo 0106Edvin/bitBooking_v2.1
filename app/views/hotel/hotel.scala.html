@@ -88,7 +88,7 @@
                     <div class="contact-info ">
                         <div class="col-md-10 col-md-offset-0">
                             <div>
-                               <a href="" onclick="ShowHideRestaurantInfo()"> <h3>RESTAURANT</h3></a>
+                               <h3 style="cursor: pointer;" id="restaurantOpen">RESTAURANT</h3>
                                 <div id="restaurantDiv" class="info-detail" hidden>
                                     <div class="service">
                                         <p>
@@ -226,13 +226,14 @@
 }
 
 <script>
-    function ShowHideRestaurantInfo() {
+$(document).ready(function(){
+    $('#restaurantOpen').click(function() {
        if ($('#restaurantDiv').is(':hidden')) {
             $('#restaurantDiv').show();
-        }
-        else {
+        } else {
             $('#restaurantDiv').hide();
         }
-    }
+    });
+});
 </script>
 

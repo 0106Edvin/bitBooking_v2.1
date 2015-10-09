@@ -81,6 +81,7 @@ public class Hotels extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
 
+        Logger.debug("Usao u update!!!!!!!!!!!!!!!!");
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
 
