@@ -59,4 +59,15 @@ public class Restaurant extends Model {
 
         return restaurant;
     }
+
+    /**
+     * Checks if restaurant with provided hotelId exists in database.
+     *
+     * @param hotelId
+     * @returns true if restaurant exists, and false if it doesn't.
+     */
+    public static Boolean existsInDB(Integer hotelId) {
+        Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
+        return (restaurant == null) ? false : true;
+    }
 }

@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+@(restaurant: Restaurant)
+@import helper._
+@main {
+<!-- restaurant info -->
+<div class="contact-info ">
+    <div class="col-md-10 col-md-offset-0">
+        <div>
+            <h3>Name</h3>
+            <div class="info-detail">
+                <div class="service">
+                    <p>
+                        @restaurant.name
+                    </p>
+                    <p>
+                        @restaurant.restauranType
+                    </p>
+                    <p>
+                        @restaurant.capacity
+                    </p>
+                    <p>
+                        @restaurant.workingHours
+                    </p>
+                    <p>
+                        @restaurant.description
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+<div class="contact-info ">
+    <div class="col-md-10 col-md-offset-0">
+        <h3>Restaurant Gallery</h3>
+        <div class="info-detail">
+            @if(restaurant.images.size() != 0) {
+                @for(image <- restaurant.images) {
+                    <img src="@image.getSize(300, 200)"/>
+                }
+            }
+        </div>
+    </div>
+</div>
+}
