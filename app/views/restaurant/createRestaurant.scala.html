@@ -9,10 +9,10 @@
                 <div class="contact-heading text-center">
                     <h2>CREATE REASTAURANT</h2>
                 </div>
-                <div class="col-md-6 col-md-offset-1 contact-form">
+                <div class="col-md-6 col-md-offset-3 contact-form">
                     <h3>restaurant information</h3>
                     <div class="info-detail">
-                        <div class="duplicate-email">
+                        <div class="duplicate-email" style="font-size: 20px; color: red">
                             @if(flash.containsKey("error")) {
                             @flash.get("error")
                             }
@@ -21,8 +21,9 @@
                         <input name="restauranType" class="name" type="text" placeholder="Restaurant Type (italian, mexican,...)" required>
                         <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
                         <input name="workingHours" class="name" type="text" min="10" placeholder="Working hours" required>
-                        <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description" required></textarea>
-                        <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-restaurant-submit"  type="submit" value="SUBMIT" ></a>
+                        <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description"></textarea>
+                        <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
+                        <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>
                     </div>
                 </div>
             </div>

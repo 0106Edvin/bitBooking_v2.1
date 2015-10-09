@@ -4,6 +4,7 @@ import helpers.Authenticators;
 import models.Hotel;
 import models.Image;
 import models.Restaurant;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -25,20 +26,17 @@ public class Restaurants extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result saveRestaurant(Integer hotelId) {
 
-        Form<Restaurant> boundForm = restaurantForm.bindFromRequest();
-        Restaurant restaurant = boundForm.get();
-
-        Hotel hotel = Hotel.findHotelById(hotelId);
-        restaurant.hotel = hotel;
-
-        Calendar c = Calendar.getInstance();
-        restaurant.timestamp = c.getTime();
-        restaurant.save();
-
-
         if (!Restaurant.existsInDB(hotelId)) {
+            Form<Restaurant> boundForm = restaurantForm.bindFromRequest();
+            Restaurant restaurant = boundForm.get();
 
-        } else {        flash("error", "There is already added restaurant for selected hotel.");
+            Hotel hotel = Hotel.findHotelById(hotelId);
+            restaurant.hotel = hotel;
+
+            Calendar c = Calendar.getInstance();
+            restaurant.timestamp = c.getTime();
+            restaurant.save();
+        } else { flash("error", "There is already added restaurant for selected hotel.");
             return ok(createRestaurant.render(hotelId));
         }
         
@@ -51,7 +49,13 @@ public class Restaurants extends Controller {
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result createRestaurant(Integer hotelId) {
-        return ok(createRestaurant.render(hotelId));
+
+        if (Restaurant.existsInDB(hotelId)) {
+            Restaurant restaurant = Restaurant.findRestaurantByHotelId(hotelId);
+            return ok(updateRestaurant.render(restaurant));
+        } else {
+            return ok(createRestaurant.render(hotelId));
+        }
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
@@ -96,4 +100,21 @@ public class Restaurants extends Controller {
         Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
         return ok(updateRestaurant.render(restaurant));
     }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result deleteRestaurant(Integer restaurantId) {
+
+        if (session("userId") != null) {
+            Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+            restaurant.delete();
+            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
+        } else {
+            return redirect(routes.Application.index());
+        }
+    }
+
+//    public Result viewRestaurant(Integer restaurantId) {
+//       Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+//       return ok(viewRestaurant(restaurant));
+//    }
 }

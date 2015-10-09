@@ -68,11 +68,6 @@ public class Restaurant extends Model {
      */
     public static Boolean existsInDB(Integer hotelId) {
         Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
-
-        if (restaurant == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return (restaurant == null) ? false : true;
     }
 }
