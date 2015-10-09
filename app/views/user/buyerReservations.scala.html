@@ -37,8 +37,8 @@
                             <td class="text-align">@reservation.user.firstname</td>
                             <td class="text-align">@hotel.name</td>
                             <td class="text-align">@room.numberOfBeds</td>
-                            <td class="text-align">@reservation.checkIn</td>
-                            <td class="text-align">@reservation.checkOut</td>
+                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
                             <td class="text-align">@reservation.timeOfReservation</td>
                             <td class="text-align">@reservation.cost</td>
 
