@@ -36,13 +36,11 @@ public class Restaurants extends Controller {
             Calendar c = Calendar.getInstance();
             restaurant.timestamp = c.getTime();
             restaurant.save();
+
         } else { flash("error", "There is already added restaurant for selected hotel.");
             return ok(createRestaurant.render(hotelId));
         }
-        
 
-
-        // PROMIJENITI OVU RUTU!!!!!!!!!!
         return redirect(routes.Rooms.showRooms(hotelId));
 
     }
