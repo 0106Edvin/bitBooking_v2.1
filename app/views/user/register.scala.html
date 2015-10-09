@@ -15,7 +15,7 @@
                     <div class="info-detail">
                     @helper.form(action = routes.Users.saveUser()) {
                     <form>
-                        <div class="duplicate-email">
+                        <div class="duplicate-email" style="font-size: 18px; color: red;">
                             @if(flash.containsKey("error")) {
                             @flash.get("error")
                             }

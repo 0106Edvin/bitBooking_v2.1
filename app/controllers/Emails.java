@@ -55,7 +55,7 @@ public class Emails extends Controller {
             }
             return redirect(routes.Application.index());
         } else {
-            flash("error", "Not validated");
+            flash("error", "Not validated!");
             return redirect(routes.Application.index());
         }
     }
