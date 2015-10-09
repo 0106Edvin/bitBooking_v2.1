@@ -41,7 +41,11 @@ public class Restaurants extends Controller {
             return ok(createRestaurant.render(hotelId));
         }
 
-        return redirect(routes.Rooms.showRooms(hotelId));
+        if (session("userId") != null) {
+            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
+        } else {
+            return redirect(routes.Application.index());
+        }
 
     }
 
@@ -88,9 +92,11 @@ public class Restaurants extends Controller {
 
         restaurant.update();
 
-        // PROMIJENITI OVU RUTU!!!!!!!!!!!!
-        return redirect(routes.Hotels.showHotel(restaurant.id));
-        //return redirect(routes.Application.index());
+        if (session("userId") != null) {
+            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
+        } else {
+            return redirect(routes.Application.index());
+        }
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
