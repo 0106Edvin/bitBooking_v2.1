@@ -25,7 +25,6 @@ public class Hotels extends Controller {
     private Form<Hotel> hotelForm = Form.form(Hotel.class);
     private Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
-//    public static Model.Finder<String, Room> roomFinder = new Model.Finder<String, Room>(Room.class);
 
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
@@ -35,7 +34,7 @@ public class Hotels extends Controller {
         return ok(createhotel.render(features, users));
     }
 
-    /*   Saving hotel to data base*/
+    /* Saving hotel to data base */
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
@@ -47,7 +46,7 @@ public class Hotels extends Controller {
         //Getting values from checkboxes
         List<String> checkBoxValues = new ArrayList<>();
         for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.bindFromRequest().field(features.get(i).name).value();
+            String feature = boundForm.field(features.get(i).name).value();
 
             if (feature != null) {
                 checkBoxValues.add(feature);
@@ -67,7 +66,7 @@ public class Hotels extends Controller {
         }
 
         hotel.features = featuresForHotel;
-        Integer sellerId = Integer.parseInt(boundForm.bindFromRequest().field("seller").value());
+        Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
 
@@ -82,14 +81,15 @@ public class Hotels extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
 
+        Logger.debug("Usao u update!!!!!!!!!!!!!!!!");
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
 
-        String name = hotelForm1.bindFromRequest().field("name").value();
-        String city = hotelForm1.bindFromRequest().field("city").value();
-        String country = hotelForm1.bindFromRequest().field("country").value();
-        String location = hotelForm1.bindFromRequest().field("location").value();
-        String description = hotelForm1.bindFromRequest().field("description").value();
+        String name = hotelForm1.field("name").value();
+        String city = hotelForm1.field("city").value();
+        String country = hotelForm1.field("country").value();
+        String location = hotelForm1.field("location").value();
+        String description = hotelForm1.field("description").value();
 
 
         hotel.name = name;
@@ -111,7 +111,7 @@ public class Hotels extends Controller {
         if(fileParts != null){
             for (Http.MultipartFormData.FilePart filePart1 : fileParts){
                 File file = filePart1.getFile();
-                Image image = Image.create(file,hotel.id,null,null,null);
+                Image image = Image.create(file, hotel.id, null, null, null, null);
                 hotel.images.add(image);
             }
         }
@@ -171,28 +171,47 @@ public class Hotels extends Controller {
         return hotels;
     }
 
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result showSellerHotels(Integer userId) {
         List<Hotel> hotels = finder.all();
         return ok(sellerPanel.render(hotels));
 
     }
 
-    public Result search(){
+    public Result search() {
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
-        String category = hotelForm1.bindFromRequest().field("category").value();
-        String searchWhat = hotelForm1.bindFromRequest().field("search").value();
+        String category = hotelForm1.field("category").value();
+        String searchWhat = hotelForm1.field("search").value();
         List<Hotel> hotels = new ArrayList<>();
-        if(category.equals("name")){
+        if (category.equals("name")) {
             hotels = Hotel.findHotelsByName(searchWhat);
-        }else if(category.equals("country")){
+        } else if(category.equals("country")) {
             hotels = Hotel.findHotelsByCountry(searchWhat);
-        }else if(category.equals("city")){
+        } else if(category.equals("city")) {
             hotels = Hotel.findHotelsByCity(searchWhat);
+        } else if(category.equals("stars")) {
+            try {
+                if (searchWhat.length() > 1) {
+                    flash("error-search", "Try searching by entering a number of stars from one to seven.");
+                    return redirect(routes.Application.index());
+                }
+                Integer.parseInt(searchWhat);
+            } catch (NumberFormatException e) {
+                flash("error-search", "Try searching by entering a number of stars from one to seven.");
+                return redirect(routes.Application.index());
+            }
+            hotels = Hotel.findHotelsByStars(searchWhat);
+        } else if (category.equals("price")) {
+            hotels = Hotel.findHotelsByPrice(searchWhat);
         }
-        Logger.debug(hotels.size()+"");
+        Logger.debug(hotels.size() + "");
 //        else if(category.equals("price")){
 //            List<Hotel> hotels = Room.findHotelByPrice(category);
 //        }
         return ok(views.html.hotel.searchedhotels.render(hotels));
+    }
+
+    public Result advancedSearch() {
+        return ok(views.html.hotel.advancedSearch.render(Hotel.finder.all()));
     }
 }

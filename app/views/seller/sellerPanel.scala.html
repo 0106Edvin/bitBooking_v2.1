@@ -30,16 +30,27 @@
 
                                     <td>
                                         <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
-                                            <button class="btn btn-success" style="font-size: 17px;">Add Room</button>
+                                            <button class="btn btn-success" id="middlebuttons">ADD ROOM</button>
                                         </a>
-                                        <a onclick="" href="@routes.Rooms.showRooms(hotel.id)">
-                                            <button class="btn btn-warning" style="font-size: 17px;">View rooms</button>
+                                    </td>
+                                    <td>
+                                        <a onclick="" href="@routes.Restaurants.createRestaurant(hotel.id)">
+                                            <button class="btn btn-success" id="middlebuttons">RESTAURANT</button>
                                         </a>
-                                        <a onclick="" href="@routes.Hotels.editHotel(hotel.id)">
-                                            <button class="btn btn-warning" style="font-size: 17px;">Edit hotel</button>
-                                        </a>
+                                    </td>
+                                    <td>
                                         <a onclick="" href="@routes.Rooms.hotelReservations(hotel.id)">
-                                            <button class="btn btn-warning" style="font-size: 17px;">View reservations</button>
+                                            <button class="btn btn-warning" id="middlebuttons">RESERVATIONS</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a onclick="" href="@routes.Rooms.showRooms(hotel.id)">
+                                            <button class="btn btn-warning" id="middlebuttons">ROOMS</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a onclick="" href="@routes.Hotels.editHotel(hotel.id)">
+                                            <button class="btn btn-warning" id="middlebuttons">EDIT</button>
                                         </a>
                                     </td>
                                 </tr>

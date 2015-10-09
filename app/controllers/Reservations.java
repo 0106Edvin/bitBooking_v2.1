@@ -1,16 +1,24 @@
 package controllers;
 
+import helpers.Authenticators;
 import helpers.ReservationStatus;
 import models.AppUser;
 import models.Hotel;
 import models.Reservation;
 import models.Room;
+import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,17 +28,24 @@ import java.util.List;
 public class Reservations extends Controller {
 
     private Form<Reservation> reservationForm = Form.form(Reservation.class);
+
+
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result saveReservation(Integer roomId) {
+
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        String checkin = boundForm.bindFromRequest().field("checkIn").value();
-        String[] checkInParts = checkin.split("-");
-        String checkout = boundForm.bindFromRequest().field("checkOut").value();
-        String[] checkOutParts = checkout.split("-");
+        String checkin = boundForm.field("checkIn").value();
+        //String[] checkInParts = checkin.split("-");
+        String checkout = boundForm.field("checkOut").value();
+        //String[] checkOutParts = checkout.split("-");
+
+        Calendar c = Calendar.getInstance();
+
 
         try {
-            checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
+            //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
+            //checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
         }catch (IndexOutOfBoundsException e){
             flash("error","Wrong date format!");
             return redirect(routes.Rooms.showRoom(roomId));
@@ -40,20 +55,21 @@ public class Reservations extends Controller {
         Reservation reservation = new Reservation();
         reservation.room = room;
         reservation.user = user;
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        reservation.timeOfReservation = c.getTime();
 
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
-            if(firstDate.before(secondDate)){
+            if(firstDate.before(secondDate)) {
                 reservation.checkIn = firstDate;
                 reservation.checkOut = secondDate;
                 reservation.cost =reservation.getCost();
-            }else {
+            } else {
                 flash("error","Check in date can't be after check out date!");
                 return redirect(routes.Rooms.showRoom(roomId));
             }
-        }catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
         reservation.status = ReservationStatus.PENDING;
@@ -61,39 +77,88 @@ public class Reservations extends Controller {
         return redirect(routes.Reservations.showBuyerReservations(user.id));
     }
 
-    public Result setStatus(Integer id){
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result setStatus(Integer id) {
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         Reservation reservation = Reservation.findReservationById(id);
+        Room room = Reservation.findRoomByReservation(reservation);
 
-        String status = boundForm.bindFromRequest().field("status").value();
+        String status = boundForm.field("status").value();
 
-        if (status.equals("1")) {
+        if (status.equals(ReservationStatus.PENDING.toString())) {
             reservation.status = ReservationStatus.PENDING;
 
-        } else if (status.equals("2")) {
-           reservation.status = ReservationStatus.APPROVED;
+        } else if (status.equals(ReservationStatus.APPROVED.toString())) {
+            reservation.status = ReservationStatus.APPROVED;
+            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
+            if(room.roomType > 0){
+                room.roomType = room.roomType -1;
+            }else{
+                reservation.status = ReservationStatus.PENDING;
+                flash("error", "All rooms of this type are booked");
+            }
 
-        } else if (status.equals("3")) {
+        } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
+            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
+        }else if (status.equals(ReservationStatus.COMPLETED.toString())){
+            reservation.status = ReservationStatus.COMPLETED;
+            room.roomType = room.roomType + 1;
         }
+        room.update();
         reservation.update();
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
     }
 
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result showBuyerReservations(Integer userId) {
         List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
         for (Reservation reservation : reservationList) {
             if (reservation != null) {
+                reservation.notification = ReservationStatus.READ_NOTIFICATION;
+                reservation.update();
                 Room room = reservation.room;
                 Hotel hotel = room.hotel;
                 AppUser user = AppUser.findUserById(userId);
 
                 return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
-            } else
-                return redirect(routes.Application.index());
+            }
         }
+        flash("info", "You have no reservations.");
         return redirect(routes.Application.index());
+    }
+
+    /**
+     * Checks price for selected period and returns value as String.
+     * Ajax calls this method when date on reservation is selected.
+     *
+     * @return
+     */
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result getPrice() {
+        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+        DynamicForm form = Form.form().bindFromRequest();
+        String checkin = form.field("date").value();
+        String checkout = form.field("date2").value();
+        String roomId = form.field("room").value();
+        Room room = Room.findRoomById(Integer.parseInt(roomId));
+        Reservation reservation = new Reservation();
+        reservation.room = room;
+        reservation.user = user;
+
+        BigDecimal price = null;
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date firstDate = dtf.parse(checkin);
+            Date secondDate = dtf.parse(checkout);
+            reservation.checkIn = firstDate;
+            reservation.checkOut = secondDate;
+            price = reservation.getCost();
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return ok(price.toString());
     }
 
 }

@@ -1,0 +1,43 @@
+@(restaurant: Restaurant)
+@import helper._
+@main {
+@helper.form(action = routes.Restaurants.updateRestaurant(restaurant.id), 'enctype -> "multipart/form-data") {
+<form class="form">
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>UPDATE REASTAURANT</h2>
+                </div>
+                <div class="col-md-6 col-md-offset-3 contact-form">
+                    <a onclick="return deleteConfirmation()" href="@routes.Restaurants.deleteRestaurant(restaurant.id)"> <input class="btn btn-danger"
+                        style="background-color : #FA1919 ; border-radius : 5px; width: 90px; color: white;" type="button" value="DELETE" ></a>
+                    <h3>restaurant information</h3>
+                    <div class="info-detail">
+                        <label for="name" class="update-label">Name</label>
+                        <input name="name" class="name" type="text" value="@restaurant.name" required>
+                        <label for="restauranType" class="update-label">Type</label>
+                        <input name="restauranType" class="name" type="text" value="@restaurant.restauranType" required>
+                        <label for="capacity" class="update-label">Capacity</label>
+                        <input name="capacity" class="phone" type="number" value="@restaurant.capacity" min="10" required>
+                        <label for="workingHours" class="update-label">Working hours</label>
+                        <input name="workingHours" class="name" type="text" min="10" value="@restaurant.workingHours" required>
+                        <label for="description" class="update-label">Description</label>
+                        <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none">@restaurant.description</textarea>
+
+                        <h3>Choose pictures for gallery: </h3>
+                        <div id="upload-file-container">
+                            <input type="file" name="image" accept="image/*" class="form-control" multiple/>
+                        </div>
+
+                        <a href="@routes.Restaurants.updateRestaurant(restaurant.id)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
+                        <a href="@routes.Hotels.showSellerHotels(restaurant.hotel.id)"> <input class="submit-btn" id="add-room-back" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+}
+}

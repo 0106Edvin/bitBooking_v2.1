@@ -15,7 +15,7 @@
                     <div class="info-detail">
                     @helper.form(action = routes.Users.saveUser()) {
                     <form>
-                        <div class="duplicate-email">
+                        <div class="duplicate-email" style="font-size: 18px; color: red;">
                             @if(flash.containsKey("error")) {
                             @flash.get("error")
                             }
@@ -24,7 +24,7 @@
                         <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">
                         <div style="font-size: 20px; color: red" id="email_error"></div>
                         <!--input field for password-->
-                        <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="min 6 characters" required onblur="checkPasswordLength();">
+                        <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="Password(min 6 characters)" required onblur="checkPasswordLength();">
                         <div style="font-size: 20px; color: red" id="password_error"></div>
                         <!--input field for password confirmation-->
                         <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onblur="checkPasswordMatch();" >

@@ -1,0 +1,43 @@
+@(hotels: List[Hotel])
+@main {
+
+    <div class="container">
+        <div class="edvin-class font-size-20">
+            <table id="sort" class="table">
+                <thead>
+                    <tr class="service">
+                        <th>Hotel name</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Stars</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(hotel <- hotels) {
+                        <tr class="service">
+                            <td>@hotel.name</td>
+                            <td>@hotel.country</td>
+                            <td>@hotel.city</td>
+                            <td>@hotel.stars</td>
+                            <td>@for(room <- hotel.rooms) {
+                                @for(price <- room.prices) {
+                                    @price.cost
+                                }
+                            }</td>
+                            <th>@hotel.getRating</th>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#sort').DataTable();
+        });
+    </script>
+}

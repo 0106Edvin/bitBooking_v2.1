@@ -25,7 +25,7 @@
                                 <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
                                     <td>
                                         <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                            <button class="btn btn-danger"  style="font-size: 17px;">Delete</button>
+                                            <button class="btn btn-danger"  id="middlebuttons">DELETE</button>
                                         </a>
                                     </td>
                                 </form>
@@ -35,7 +35,7 @@
                         <tr>
                             <td>
                                 <a href="@routes.Hotels.createHotel()">
-                                    <button class="btn btn-success"  style="font-size: 19px;">Add new hotel</button>
+                                    <button class="btn btn-success"  id="middlebuttons">ADD NEW HOTEL</button>
                                 </a>
                             </td>
                         </tr>

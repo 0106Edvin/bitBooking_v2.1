@@ -42,7 +42,7 @@ public class Comment extends Model {
         return comment;
     }
 
-    public static boolean userAlreadyCommentedThisHotel(String email, Hotel hotel) {
+        public static boolean userAlreadyCommentedThisHotel(String email, Hotel hotel) {
         AppUser user = AppUser.getUserByEmail(email);
         Comment comment = finder.where().eq("user_id", user.id).where().eq("hotel_id", hotel.id).findUnique();
         if (comment != null) {

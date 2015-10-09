@@ -8,6 +8,8 @@ public class Constants {
 
     public static final Integer MIN_PASSWORD_LENGTH = 6;
     public static final Integer MIN_NAME_LENGTH = 2;
+    public static final Integer MIN_PHONE_NUMBER_LENGTH = 9;
     public static final Integer MAX_PHONE_NUMBER_LENGTH = 15;
     public static final String EMAIL = "bitBooking@gmail.com";
+    public static final Double INITIAL_RATING = 0.0;
 }
