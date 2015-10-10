@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -105,7 +106,6 @@ public class Users extends Controller {
      * @return
      */
     public Result login() {
-
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         String email = boundForm.field("email").value();

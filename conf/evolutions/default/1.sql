@@ -140,6 +140,18 @@ create table room (
   constraint pk_room primary key (id))
 ;
 
+create table site_stats (
+  id                        integer auto_increment not null,
+  ip_address                varchar(40),
+  overall_visits            integer,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_site_stats_ip_address unique (ip_address),
+  constraint pk_site_stats primary key (id))
+;
+
 
 create table hotel_feature (
   hotel_id                       integer not null,
@@ -214,6 +226,8 @@ drop table restaurant;
 drop table room;
 
 drop table room_feature;
+
+drop table site_stats;
 
 SET FOREIGN_KEY_CHECKS=1;
 
