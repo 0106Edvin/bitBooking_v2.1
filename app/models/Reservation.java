@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.ReservationStatus;
+import helpers.SessionsAndCookies;
 import play.data.format.Formats;
 
 import javax.persistence.Column;
@@ -38,15 +39,21 @@ public class Reservation extends Model {
     @Column(name = "notification", length = 1)
     public Integer notification;
 
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
     @ManyToOne
     public Room room;
 
     @ManyToOne
     public AppUser user;
 
-    @Formats.DateTime(pattern = "dd/MM/yyyy")
-    @Column(columnDefinition = "datetime")
-    public Date timeOfReservation;
 
     public Reservation(){}
 
@@ -58,7 +65,6 @@ public class Reservation extends Model {
         this.status = ReservationStatus.PENDING;
         this.room = room;
         this.user = user;
-        this.timeOfReservation = timeOfReservation;
     }
 
     @Override
@@ -97,4 +103,18 @@ public class Reservation extends Model {
         return cost;
     }
 
+
+    public void setCreatedBy(String firstName, String lastName) {
+        this.createdBy = firstName + " " + lastName;
+    }
+
+    public void setUpdatedBy(String firstName, String lastName) {
+        this.updatedBy = firstName + " " + lastName;
+    }
+
+    @Override
+    public void update() {
+        updateDate = new Date();
+        super.update();
+    }
 }

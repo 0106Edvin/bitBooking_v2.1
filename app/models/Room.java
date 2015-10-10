@@ -5,6 +5,7 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,15 @@ public class Room extends Model {
     public String name;
 
     public Integer roomType;
+
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
 
     @ManyToMany
     public List<Feature> features;

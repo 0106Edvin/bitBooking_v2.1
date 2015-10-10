@@ -2,9 +2,11 @@ package models;
 
 import com.avaje.ebean.Model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 
 @Entity
@@ -24,6 +26,17 @@ public class Comment extends Model {
     public String title;
     public String content;
     public Double rating;
+
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
+
 
     /*
      *Default constructor

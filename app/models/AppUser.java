@@ -5,6 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 import helpers.*;
@@ -44,6 +45,15 @@ public class AppUser extends Model {
     @Constraints.MaxLength(15)
     @Constraints.Pattern(value = "\\d+", message = "Phone number can contain digits only!")
     public String phoneNumber;
+
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
 
     public Integer userAccessLevel = UserAccessLevel.BUYER;
 

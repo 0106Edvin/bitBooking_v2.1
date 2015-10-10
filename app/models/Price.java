@@ -33,6 +33,15 @@ public class Price extends Model {
 
     public BigDecimal cost;
 
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
     @ManyToOne
     public Room room;
 

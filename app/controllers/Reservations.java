@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.Authenticators;
 import helpers.ReservationStatus;
+import helpers.SessionsAndCookies;
 import models.AppUser;
 import models.Hotel;
 import models.Reservation;
@@ -36,26 +37,13 @@ public class Reservations extends Controller {
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
-        //String[] checkInParts = checkin.split("-");
         String checkout = boundForm.field("checkOut").value();
-        //String[] checkOutParts = checkout.split("-");
-
-        Calendar c = Calendar.getInstance();
-
-
-        try {
-            //checkin = checkInParts[2] + "/" + checkInParts[1] + "/" + checkInParts[0];
-            //checkout = checkOutParts[2] +"/"+ checkOutParts[1]+"/"+checkOutParts[0];
-        }catch (IndexOutOfBoundsException e){
-            flash("error","Wrong date format!");
-            return redirect(routes.Rooms.showRoom(roomId));
-        }
 
         Room room = Room.findRoomById(roomId);
         Reservation reservation = new Reservation();
         reservation.room = room;
         reservation.user = user;
-        reservation.timeOfReservation = c.getTime();
+        reservation.setCreatedBy(user.firstname, user.lastname);
 
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -79,6 +67,7 @@ public class Reservations extends Controller {
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result setStatus(Integer id) {
+        AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         Reservation reservation = Reservation.findReservationById(id);
         Room room = Reservation.findRoomByReservation(reservation);
@@ -106,6 +95,7 @@ public class Reservations extends Controller {
             room.roomType = room.roomType + 1;
         }
         room.update();
+        reservation.setUpdatedBy(temp.firstname, temp.lastname);
         reservation.update();
 
         return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
@@ -113,20 +103,22 @@ public class Reservations extends Controller {
 
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result showBuyerReservations(Integer userId) {
+        AppUser user = AppUser.findUserById(userId);
         List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
+        Room room = null;
+        Hotel hotel = null;
         for (Reservation reservation : reservationList) {
-            if (reservation != null) {
-                reservation.notification = ReservationStatus.READ_NOTIFICATION;
-                reservation.update();
-                Room room = reservation.room;
-                Hotel hotel = room.hotel;
-                AppUser user = AppUser.findUserById(userId);
-
-                return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
+            if (reservation == null) {
+                flash("info", "You have no reservations.");
+                return redirect(routes.Application.index());
             }
+            reservation.notification = ReservationStatus.READ_NOTIFICATION;
+            reservation.setUpdatedBy(user.firstname, user.lastname);
+            reservation.update();
+            room = reservation.room;
+            hotel = room.hotel;
         }
-        flash("info", "You have no reservations.");
-        return redirect(routes.Application.index());
+        return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
     }
 
     /**
