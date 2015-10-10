@@ -47,6 +47,7 @@ create table hotel (
   coordinate_y              varchar(255),
   seller_id                 integer,
   rating                    double,
+  stars                     integer(1),
   constraint pk_hotel primary key (id))
 ;
 
@@ -58,6 +59,7 @@ create table image (
   hotel_id                  integer,
   room_id                   integer,
   feature_id                integer,
+  restaurant_id             integer,
   constraint uq_image_feature_id unique (feature_id),
   constraint pk_image primary key (id))
 ;
@@ -77,9 +79,24 @@ create table reservation (
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,
+  notification              integer(1),
   room_id                   integer,
   user_id                   integer,
+  time_of_reservation       datetime,
   constraint pk_reservation primary key (id))
+;
+
+create table restaurant (
+  id                        integer auto_increment not null,
+  name                      varchar(255),
+  restauran_type            varchar(255),
+  capacity                  integer,
+  working_hours             varchar(255),
+  description               TEXT,
+  hotel_id                  integer,
+  timestamp                 datetime,
+  constraint uq_restaurant_hotel_id unique (hotel_id),
+  constraint pk_restaurant primary key (id))
 ;
 
 create table room (
@@ -87,6 +104,7 @@ create table room (
   description               TEXT,
   number_of_beds            integer,
   name                      varchar(255),
+  room_type                 integer,
   hotel_id                  integer,
   constraint pk_room primary key (id))
 ;
@@ -117,14 +135,18 @@ alter table image add constraint fk_image_room_6 foreign key (room_id) reference
 create index ix_image_room_6 on image (room_id);
 alter table image add constraint fk_image_feature_7 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
 create index ix_image_feature_7 on image (feature_id);
-alter table price add constraint fk_price_room_8 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_price_room_8 on price (room_id);
-alter table reservation add constraint fk_reservation_room_9 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_reservation_room_9 on reservation (room_id);
-alter table reservation add constraint fk_reservation_user_10 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
-create index ix_reservation_user_10 on reservation (user_id);
-alter table room add constraint fk_room_hotel_11 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_11 on room (hotel_id);
+alter table image add constraint fk_image_restaurant_8 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_image_restaurant_8 on image (restaurant_id);
+alter table price add constraint fk_price_room_9 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_9 on price (room_id);
+alter table reservation add constraint fk_reservation_room_10 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_reservation_room_10 on reservation (room_id);
+alter table reservation add constraint fk_reservation_user_11 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
+create index ix_reservation_user_11 on reservation (user_id);
+alter table restaurant add constraint fk_restaurant_hotel_12 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_restaurant_hotel_12 on restaurant (hotel_id);
+alter table room add constraint fk_room_hotel_13 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_13 on room (hotel_id);
 
 
 
@@ -155,6 +177,8 @@ drop table image;
 drop table price;
 
 drop table reservation;
+
+drop table restaurant;
 
 drop table room;
 

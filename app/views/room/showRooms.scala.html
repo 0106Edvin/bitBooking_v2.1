@@ -16,10 +16,12 @@
 
                         <table class="table">
                             <thead>
-                                <tr class="service">
-                                    <th style="font-size: 30px;">Name</th>
-                                    <th style="font-size: 30px;">Number of beds</th>
-                                    <th></th>
+
+                                <tr class="service" >
+                                    <th id="textcenter" style="font-size: 30px;">Name</th>
+                                    <th id="textcenter" style="font-size: 30px;">Beds</th>
+
+
                                 </tr>
                             </thead>
 
@@ -27,26 +29,33 @@
 
                             @for(room <- rooms) {
                                 @if(room.hotel == hotel) {
-                                    <tr class="service">
+                                    <tr class="service" id="textcenter">
                                         <td style="font-size: 22px;">@room.name</td>
                                         <td style="font-size: 22px;">@room.numberOfBeds</td>
+                                        <td>
+                                            <a href="@routes.Rooms.showRoom(room.id)">
+                                                <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">View room</button>
+                                            </a>
+                                        </td>
                                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                             <td>
                                                 <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
-                                                    <button class="btn btn-danger" data-role = "delete" style="font-size: 17px;">Delete</button>
+                                                        <button class="btn btn-danger" data-role = "delete" id="middlebuttons">DELETE</button>
                                                 </a>
                                             </td>
                                             <td>
                                                 <a href="@routes.Rooms.editRoom(room.id)">
-                                                    <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">Edit</button>
+                                                    <button class="btn btn-warning" data-role = "edit" id="middlebuttons">EDIT</button>
                                                 </a>
                                             </td>
 }
                                         <td>
                                             <a href="@routes.Rooms.showRoom(room.id)">
-                                                <button class="btn btn-warning" style="font-size: 17px;">View</button>
+                                                <button class="btn btn-warning" id="middlebuttons">CREATE RESERVATION</button>
                                             </a>
                                         </td>
+
+
                                     </tr>
                                 }
                             }
@@ -56,11 +65,11 @@
                         <br><br>
                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER){
                         <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
-                            <button class="btn btn-success" style="font-size : 17 px ;">Add Room</button>
+                            <button class="btn btn-success" id="add-room" >ADD ROOM</button>
                         </a>
-                        <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
+                        <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
                         } else {
-                            <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" style="background-color : #0066FF ; border-radius : 5px; width: 90px; margin-left: 9.2cm;" type="button" value="BACK" ></a>
+                            <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
 
                         }
 

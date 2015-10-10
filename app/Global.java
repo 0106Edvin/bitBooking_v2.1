@@ -1,4 +1,7 @@
 import com.cloudinary.Cloudinary;
+import helpers.FillDatabase;
+import models.AppUser;
+import models.Hotel;
 import models.Image;
 import play.GlobalSettings;
 import play.Play;
@@ -33,6 +36,13 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application application) {
       Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
+
+//        if(AppUser.finder.findRowCount() == 0) {
+//            FillDatabase.createUsers();
+//        }
+//        if (Hotel.finder.findRowCount() == 0) {
+//            FillDatabase.createHotels();
+//        }
     }
 
 //    @Override

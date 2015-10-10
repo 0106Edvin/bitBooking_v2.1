@@ -27,11 +27,17 @@
                         <div class="col-md-6 col-md-offset-1 contact-form">
                             <h3> Hotel information </h3>
 
-
+                            <label for="name" style="font-size: 20px; color:white">Hotel name</label>
                             <input name="name" class="name" type="text" placeholder="Hotel Name" value="@hotel.name" required>
+                            <label for="location" style="font-size: 20px; color:white">Location</label>
                             <input name="location" class="email" type="text" placeholder="Location" value="@hotel.location" required>
+                            <label for="city" style="font-size: 20px; color:white">City</label>
                             <input name="city" class="email" type="text" placeholder="Location" value="@hotel.city" required>
+                            <label for="country" style="font-size: 20px; color:white">Country</label>
                             <input name="country" class="email" type="text" placeholder="Location" value="@hotel.country" required>
+                            <label for="country" style="font-size: 20px; color:white">Hotel stars</label>
+                            <input name="stars" type="number" min="1" max="7" placeholder="Hotel stars 1-7" value="@hotel.stars"/>
+                            <label for="description" style="font-size: 20px; color:white">Description</label>
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none" >@hotel.description</textarea>
 
                         </div>
@@ -47,8 +53,8 @@
                         <hr/>
                         <div class="col-md-6 col-md-offset-1 contact-form">
                             <div>
-                            <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" style="font-size:32px; background-color : #0066FF ; border-radius : 5px; width: 100px; float: left;" type="button" value="BACK" ></a>
-                            <a href="@routes.Hotels.updateHotel(hotel.id)"> <input class="submit-btn"  style="font-size: 32px; background-color: #204d74; border-radius: 5px;  width: 100px; float: right; "  type="submit" value="UPDATE"></a>
+                            <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn"  id="room-back" type="button" value="BACK" ></a>
+                            <a href="@routes.Hotels.updateHotel(hotel.id)"> <input class="submit-btn"  id="add-room-submit" type="submit" value="UPDATE"></a>
                             </div>
                         </div>
                     </form>

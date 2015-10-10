@@ -1,5 +1,6 @@
 @import helpers.SessionsAndCookies
 
+@import helpers.UserAccessLevel
 @(content: Html)(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 
 <!DOCTYPE html>
@@ -9,18 +10,27 @@
         <title></title>
         <script src='https://www.google.com/recaptcha/api.js'></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")"/>
+
         <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/style.css")">
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+
         <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
 
         <script src='@routes.Assets.versioned("javascripts/deleteConfirmation.js")'></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery-ui.min.js")"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 
         <script src='@routes.Assets.versioned("javascripts/js/coordinate.js")'></script>
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/coordinate.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/buttons.css")">
 
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
@@ -62,31 +72,53 @@
 
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
-                                                <div class="dropdown-menu" style="width: 300px; height: 210px; background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
+                                                <div class="dropdown-menu" style="background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
-                                                        <div class="duplicate-email">
-@*//                                                            @if(flash.containsKey("error")) {*@
-@*//                                                                @flash.get("error")*@
-@*//                                                            }*@
-                                                            <div>
-                                                                <h1></h1>
-                                                            </div>
-                                                        </div>
+                                                        <h1></h1>
                                                         <br>
+
                                                         <div class="form-group">
-                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px;">
+                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px;">
+                                                            <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
+                                                        </div>
+                                                        <div class="form-group" style="font-size: 20px; color: red; margin-left: 10px;">
+                                                        @if(flash.containsKey("login-error")) {
+                                                            @flash.get("login-error")
+                                                        }
                                                         </div>
                                                         <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
+
                                                     </form>
                                                 </div>
                                             </li>
                                         } else {
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)) {
+                                                <li><a class="menu" href="@routes.Users.showAdminPanel()" >Admin panel</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.HOTEL_MANAGER)) {
+                                                <li><a class="menu" href="@routes.Users.showManagerHotels()" >Manager panel</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
+                                                <li><a class="menu" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
+                                            }
+                                            @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations <span class="info badge" id="notify"></span></a></li>
+                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
+                                            }
+                                            <ul class="nav navbar-nav">
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                                        @currentUser.firstname <span class="caret"></span></a>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a class="menu my-profile nav-ddl-font17" href="@routes.Users.editUser(currentUser.email)">Edit profile</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a class="menu nav-ddl-font17" href="@routes.Users.logOut()">Log out</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
 
-                                        <li><a class="menu my-profile" href="@routes.Users.editUser(currentUser.email)">@currentUser.email</a></li>
-                                            <li><a class="menu" href="@routes.Users.logOut()">Log out</a></li>
                                         }
 
                                     </ul>
@@ -98,11 +130,17 @@
                             </div><!-- / .container-fluid -->
 
                         </nav>
-                        <div style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
-                        @if(flash.containsKey("error")) {
-                            @flash.get("error")
+                        <div  style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("error-search")) {
+                            @flash.get("error-search")
                         }
                         </div>
+                        <div  style="font-size: 20px; color: dodgerblue; margin-right: 1.8cm;" align="right">
+                        @if(flash.containsKey("info")) {
+                            @flash.get("info")
+                        }
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -114,7 +152,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-6 footer-para">
-                        <p>&copy;rockIT All right reserved</p>
+                        <p>&copy;rockIT All rights reserved</p>
                     </div>
 
                     <div class="col-xs-6 text-right">
@@ -125,6 +163,15 @@
                 </div>
             </div>
         </footer>
+
+        <script type="text/javascript">
+          $(function () {
+             $('#date').datepicker({ minDate: 0 });
+          });
+          $(function () {
+             $('#date2').datepicker({ minDate: 1 });
+          });
+        </script>
 
     </body>
 

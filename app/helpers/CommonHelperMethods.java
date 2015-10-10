@@ -9,6 +9,9 @@ import java.util.Date;
 public class CommonHelperMethods {
 
     public static String getDateAsString(Date date){
+        if (date == null) {
+            return "Unknown date";
+        }
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
         String myDate = dtf.format(date);
         return myDate;

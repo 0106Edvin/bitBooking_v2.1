@@ -2,10 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
-import helpers.Authenticators;
-import helpers.Constants;
-import helpers.SessionsAndCookies;
-import helpers.UserAccessLevel;
+import helpers.*;
 import models.*;
 import play.data.Form;
 import play.mvc.Controller;
@@ -17,8 +14,8 @@ import views.html.admin.adminHotels;
 import views.html.admin.adminPanel;
 import views.html.admin.adminUsers;
 import views.html.hotel.createhotel;
-import views.html.list;
 import views.html.manager.managerHotels;
+import views.html.user.login;
 import views.html.user.profilePage;
 import views.html.user.register;
 
@@ -53,11 +50,11 @@ public class Users extends Controller {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         //getting the values from the fields
-        String pass1 = boundForm.bindFromRequest().field("password").value();
-        String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
-        String name = boundForm.bindFromRequest().field("firstname").value();
-        String lastname = boundForm.bindFromRequest().field("lastname").value();
-        String phone = boundForm.bindFromRequest().field("phoneNumber").value();
+        String pass1 = boundForm.field("password").value();
+        String pass2 = boundForm.field("passwordretype").value();
+        String name = boundForm.field("firstname").value();
+        String lastname = boundForm.field("lastname").value();
+        String phone = boundForm.field("phoneNumber").value();
 
 
         //validation of the form
@@ -78,8 +75,8 @@ public class Users extends Controller {
             flash("error", "Name and last name must be at least 2 letters long!");
             return ok(register.render(boundForm));
 
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH) {
-            flash("error", "Phone number can't be more than 15 digits long!");
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
+            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
             return ok(register.render(boundForm));
 
         } else if (phone.matches("^[a-zA-Z]+$")) {
@@ -111,14 +108,14 @@ public class Users extends Controller {
 
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
-        String email = boundForm.bindFromRequest().field("email").value();
-        String password = boundForm.bindFromRequest().field("password").value();
+        String email = boundForm.field("email").value();
+        String password = boundForm.field("password").value();
 
         AppUser user = AppUser.authenticate(email, password);
 
         if (user == null) {
-            flash("error", "Incorrect email or password! Please try again!");
-            return badRequest(list.render(hotels));
+            flash("login-error", "Incorrect email or password! Try again.");
+            return badRequest(login.render(userForm));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
@@ -126,11 +123,11 @@ public class Users extends Controller {
         } else {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
-            return redirect(routes.Users.editUser(user.email));
+            return redirect(routes.Application.index());
         }
     }
 
-   @Security.Authenticated(Authenticators.isUserLogged.class)
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
@@ -157,7 +154,7 @@ public class Users extends Controller {
 
     /*shows the list of features to admin*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminFeatures () {
+    public Result showAdminFeatures() {
         List<Feature> features = featureFinder.all();
         return ok(adminFeatures.render(features));
 
@@ -165,43 +162,43 @@ public class Users extends Controller {
 
     /*shows the list of hotels to hotel manager*/
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
-    public Result showManagerHotels () {
+    public Result showManagerHotels() {
         List<Hotel> hotels = finder.all();
         return ok(managerHotels.render(hotels));
     }
 
     /*shows the list of hotels to hotel manager*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result showAdminPanel () {
+    public Result showAdminPanel() {
         return ok(adminPanel.render());
     }
 
     /*This method allows admin to delete user*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result deleteUser (String email){
+    public Result deleteUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         Ebean.delete(user);
         return redirect(routes.Users.showAdminUsers());
     }
 
     @Security.Authenticated(Authenticators.isUserLogged.class)
-    public Result updateUser (String email) {
+    public Result updateUser(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         AppUser currentUser = AppUser.getUserByEmail(session("email"));
 
         //getting the values from the fields
-        String pass1 = boundForm.bindFromRequest().field("password").value();
-        String pass2 = boundForm.bindFromRequest().field("passwordretype").value();
-        String name = boundForm.bindFromRequest().field("firstname").value();
-        String lastname = boundForm.bindFromRequest().field("lastname").value();
-        String phone = boundForm.bindFromRequest().field("phoneNumber").value();
+        String pass1 = boundForm.field("password").value();
+        String pass2 = boundForm.field("passwordretype").value();
+        String name = boundForm.field("firstname").value();
+        String lastname = boundForm.field("lastname").value();
+        String phone = boundForm.field("phoneNumber").value();
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
-        if(filePart != null){
+        if (filePart != null) {
             File file = filePart.getFile();
-            Image profileImage = Image.create(file, null, currentUser.id, null, null);
+            Image profileImage = Image.create(file, null, currentUser.id, null, null, null);
             currentUser.profileImg = profileImage;
         }
 
@@ -217,8 +214,8 @@ public class Users extends Controller {
             flash("error", "Name and last name must be at least 2 letters long");
             return ok(profilePage.render(currentUser));
 
-        } else if (phone.length() > 15) {
-            flash("error", "Phone number can't be more than 15 digits long");
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
+            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
             return ok(profilePage.render(currentUser));
 
         } else if (phone.matches("^[a-zA-Z]+$")) {
@@ -230,10 +227,10 @@ public class Users extends Controller {
             try {
                 currentUser.firstname = name;
                 currentUser.lastname = lastname;
-               if(pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
-                   currentUser.password = pass1;
-                   currentUser.hashPass();
-               }
+                if (pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
+                    currentUser.password = pass1;
+                    currentUser.hashPass();
+                }
                 currentUser.phoneNumber = phone;
 
                 currentUser.update();
@@ -249,18 +246,18 @@ public class Users extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result getSellers () {
+    public Result getSellers() {
         List<AppUser> users = AppUser.getUsersByUserTypeId(5);
         List<Feature> features = Feature.finder.all();
         return ok(createhotel.render(features, users));
     }
 
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result setRole (String email){
+    public Result setRole(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         AppUser user = AppUser.getUserByEmail(email);
-        String userType = boundForm.bindFromRequest().field("usertype").value();
+        String userType = boundForm.field("usertype").value();
 
         if (userType.equals("buyer")) {
             user.userAccessLevel = UserAccessLevel.BUYER;
@@ -276,5 +273,20 @@ public class Users extends Controller {
         return redirect(routes.Users.showAdminUsers());
 
     }
+
+    /**
+     * Checks if buyer have any pending reservations status changed.
+     *
+     * @return <code>int</code> type value of number of new notification
+     * is sent to ajax function. Notification is shown as badge in main view.
+     */
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result reservationApprovedNotification() {
+        AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
+        int notification = Reservation.finder.where().eq("user_id", temp.id).eq("notification", ReservationStatus.NEW_NOTIFICATION).findRowCount();
+        return ok(String.valueOf(notification));
+    }
+
+
 
 }

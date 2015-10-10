@@ -1,6 +1,7 @@
 @import models.Comment
 @import java.lang.Boolean
 @import helpers.UserAccessLevel
+@import models.Restaurant
 
 @(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
@@ -23,7 +24,6 @@
                             } else {
                                 <img src="@hotel.images.get(0).getSize(400, 300)"/>
                             }
-                            <h4 style="text-align : center">Picture description</h4>
                         </div>
                     </div>
                 </div>
@@ -84,6 +84,43 @@
 
                     </div>
                 </div>
+                @if(Restaurant.findRestaurantByHotelId(hotel.id) != null) {
+                    <div class="contact-info ">
+                        <div class="col-md-10 col-md-offset-0">
+                            <div>
+                               <h3 style="cursor: pointer;" id="restaurantOpen">RESTAURANT</h3>
+                                <div id="restaurantDiv" class="info-detail" hidden>
+                                    <div class="service">
+                                        <p>
+                                           NAME: @Restaurant.findRestaurantByHotelId(hotel.id).name
+                                        </p>
+                                        <p>
+                                           TYPE/MANU: @Restaurant.findRestaurantByHotelId(hotel.id).restauranType
+                                        </p>
+                                        <p>
+                                           CAPACITY/NUMBER OF SEATS: @Restaurant.findRestaurantByHotelId(hotel.id).capacity
+                                        </p>
+                                        <p>
+                                           WORKING HOURS: @Restaurant.findRestaurantByHotelId(hotel.id).workingHours
+                                        </p>
+                                        <p>
+                                           DESCRIPTION @Restaurant.findRestaurantByHotelId(hotel.id).description
+                                        </p>
+
+                                        <p>RESTAURANT GALLERY:</p>
+                                        <div class="info-detail">
+                                            @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
+                                            @for(image <- Restaurant.findRestaurantByHotelId(hotel.id).images) {
+                                            <img src="@image.getSize(300, 200)"/>
+                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
@@ -94,8 +131,8 @@
                                     <img src="@image.getSize(300, 200)"/>
                                 }
                             }
-                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning" style="font-size: 18px;">
-                                View rooms</button></a>
+                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning" id="middlebuttons">
+                                VIEW ROOMS</button></a>
                         </div>
                     </div>
                 </div>
@@ -146,7 +183,7 @@
                                     </div>
                                 } else {
                                     <div style="text-align : right">
-                                        <button type="submit" class="edvin-button" style="background-color: #204d74; border-radius: 5px; width: 80px; height: 40px;">Post</button>
+                                        <button type="submit" id="post-comment" class="edvin-button">POST</button>
                                     </div>
 
                                 }
@@ -188,4 +225,15 @@
 
 }
 
+<script>
+$(document).ready(function(){
+    $('#restaurantOpen').click(function() {
+       if ($('#restaurantDiv').is(':hidden')) {
+            $('#restaurantDiv').show();
+        } else {
+            $('#restaurantDiv').hide();
+        }
+    });
+});
+</script>
 

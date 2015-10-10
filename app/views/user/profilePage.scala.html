@@ -1,6 +1,4 @@
-@import helpers.UserAccessLevel
 @(user: AppUser)
-@import helper._
 @main {
     <div class="container">
         <div class="row">
@@ -32,112 +30,84 @@
                 <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="@routes.Users.updateUser(user.email)">
 
                     <div class="col-md-5 contact-info text-left">
-                        @if(user.profileImg == null) {
-                            <img class="avatar img-circle img-thumbnail" src="http://www.dreveterinary.com/lib/img/placeholder_small.png" alt=""/>
-                        } else {
-                            <img src="@user.profileImg.getThumbnail"/>
-                        }
-                        <div class="service">
-                            <p>Upload a profile photo...</p>
-                        </div>
-                        <input type="file" name="image" class="form-control" accept="image/*"/>
-                    </div>
-                    <div class="col-md-6 col-md-offset-1 contact-form">
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-lg-3 control-label">First name:</label>
-                            </div>
-                            <div class="col-lg-8">
-                                <input class="form-control" name="firstname" required placeholder="Name" type="text" value="@user.firstname">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-lg-3 control-label">Last name:</label>
-                            </div>
-                            <div class="col-lg-8">
-                                <input class="form-control" name="lastname" required placeholder="Last name" type="text" value="@user.lastname">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-lg-3 control-label">Email:</label>
-                            </div>
-                            <div class="col-lg-8">
-                                <input class="form-control" name="email" required placeholder="example&#example.com" type="text" value="@user.email" onfocus="this.blur()" readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-md-3 control-label">Password:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input class="form-control" name="password" placeholder="Password" type="password" value="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-md-3 control-label">Confirm password:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input class="form-control" name="passwordretype" placeholder="Retype password" type="password" value="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="service">
-                                <label class="col-md-3 control-label">Phone number:</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input class="form-control" name="phoneNumber" required placeholder="+12345678910" type="text" value="@user.phoneNumber">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label"></label>
-                            <div class="col-md-8">
-                                <input class="submit-btn" style="font-size: 32px; background-color: #204d74; border-radius: 5px;" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
-                            </div>
-                        </div>
-                    </div>
+                    @if(user.profileImg == null) {
+                        <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
+                        background-image : url(http://www.dreveterinary.com/lib/img/placeholder_small.png)"></div>
 
-                </form>
-
-                <div class=" contact-info text-left">
-                    <div class=" pannel-button">
-                        @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
-
-                            <div class="col-md-2 ">
-                                <a href="@routes.Users.showAdminPanel()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showAdminPanel()">
-                                    ADMIN PANEL</button></a>
-                            </div>
-                        }
-                        @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
-                            <div class="col-md-2 ">
-                                <a href="@routes.Users.showManagerHotels()">  <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Users.showManagerHotels()">
-                                    MANAGER PANEL</button></a>
-                            </div>
-                        }
-                        @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                            <div class="col-md-2">
-
-                                <a href="@routes.Hotels.showSellerHotels(user.id)"> <button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Hotels.showSellerHotels(user.id)">
-                                    YOUR HOTELS</button></a>
-                            </div>
-                        }
-
-                        @if(user.userAccessLevel == UserAccessLevel.BUYER) {
-                            <div class="col-md-2">
-                                <a href="@routes.Reservations.showBuyerReservations(user.id)"><button class="edvin-button" style="background-color: #204d74; border-radius: 5px; height: 45px; margin-bottom: 0.3cm;" onclick="@routes.Reservations.showBuyerReservations(user.id)">
-                                    YOUR RESERVATIONS</button></a>
-                            </div>
-                        }
-
-                        </div>
-
-                </div>
-
+                    } else {
+                    <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
+                    background-image : url(@user.profileImg.getThumbnail)"></div>
+            }
+            <div class="service">
+                <p class="btn btn-link btn-file">Upload a profile photo...<input type="file" name="image" class="form-control" accept="image/*" id="upload-img"/></p>
             </div>
 
         </div>
+        <div class="col-md-6 col-md-offset-1 contact-form">
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-lg-3 control-label">First name:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input class="form-control" name="firstname" required placeholder="Name" type="text" value="@user.firstname">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input class="form-control" name="lastname" required placeholder="Last name" type="text" value="@user.lastname">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-lg-3 control-label">Email:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input class="form-control" name="email" required placeholder="example&#example.com" type="text" value="@user.email" onfocus="this.blur()" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-md-3 control-label">Password:</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="form-control" name="password" placeholder="Password" type="password" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-md-3 control-label">Confirm password:</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="form-control" name="passwordretype" placeholder="Retype password" type="password" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="service">
+                    <label class="col-md-3 control-label">Phone number:</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="form-control" name="phoneNumber" required placeholder="+12345678910" type="text" value="@user.phoneNumber">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-8">
+                    <input class="submit-btn" id="save-profile-updates" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
+                </div>
+            </div>
+        </div>
+
+        </form>
+
+
     </div>
 
+    </div>
+    </div>
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/showPicture.css")" />
+    <script src="@routes.Assets.versioned("javascripts/showPicture.js")"></script>
 }

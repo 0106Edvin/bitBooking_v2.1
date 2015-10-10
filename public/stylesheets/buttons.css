@@ -1,0 +1,153 @@
+#contact-us {
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#search-hotels {
+    background-color : #204d74;
+    border-radius : 5px;
+    width : 90px;
+    font-size: 24px;
+}
+
+#save-profile-updates {
+    font-size : 30px;
+    background-color : #204d74 ;
+    border-radius : 5px;
+}
+
+#admin-change-role {
+    font-size: 18px;
+    height: 40px;
+}
+
+#admin-add-feature {
+    font-size: 24px;
+    background-color: #204d74;
+    border-radius: 5px;
+}
+
+#update-feature {
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    margin-bottom: 0.2cm;
+}
+
+#back-feature {
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 80px;
+    margin-bottom: 0.2cm;
+    float: right;
+}
+
+#hotel-register {
+    background-color: #204d74;
+    font-size:24px;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#hotel-back {
+    font-size:24px;
+    float: left;
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 90px;
+}
+
+#add-room {
+    font-size: 24px;
+    float: right;
+    border-radius : 5px;
+}
+
+#room-back {
+    background-color: #0066FF;
+    border-radius : 5px;
+    width: 90px;
+    float: left;
+}
+
+#add-room-submit {
+    background-color: #204d74;
+    border-radius : 5px;
+    width: 90px;
+}
+
+#add-room-back {
+    background-color: #0066FF;
+    border-radius: 5px;
+    width: 90px;
+    float: left;
+}
+
+#edit-room-submit {
+
+    font-size:24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    height: 45px;
+}
+
+#edit-room-back {
+    font-size:24px;
+    background-color: #0066FF;
+    border-radius : 5px;
+    width: 80px;
+    float: left;
+}
+
+#edit-room-add-price {
+    background-color: #204d74;
+    border-radius: 5px;
+    height: 45px;
+    width: 100px;
+    float: right;
+    margin-right: 15px;
+}
+
+#post-comment {
+
+    font-size:24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    margin-bottom: 0.2cm;
+}
+
+.nav-ddl-font17 {
+    font-size: 17px;
+}
+#middlebuttons{
+    font-size: 20px;
+}
+#textcenter{
+    text-align: center;
+}
+#updatehotel{
+    font-size:24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 80px;
+    height: 45px;
+    float: right;
+
+}
+#bookit{
+    font-size: 24px;
+    margin-top: 1em;
+    text-align: center;
+    float: left;
+}
+#back{
+    background-color : #0066FF ;
+    border-radius : 5px;
+    width: 90px;
+    margin-left: 20px;
+    float: left;
+}

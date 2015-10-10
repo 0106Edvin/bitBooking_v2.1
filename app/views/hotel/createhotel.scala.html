@@ -18,6 +18,7 @@
                             <input name="location" class="email" type="text" placeholder="Address" required>
                             <input name="city" class="email" type="text" placeholder="City" required>
                             <input name="country" class="email" type="text" placeholder="Country" required>
+                            <input name="stars" type="number" min="1" max="7" placeholder="Hotel stars 1-7"/>
                             <textarea class="message" name="description" id="message" placeholder="Description" style="resize : none"></textarea>
 
 
@@ -51,9 +52,9 @@
                                 </div>
                             </div>
                             <br>
-                            <a href="@routes.Users.showManagerHotels()"> <input class="submit-btn" style="font-size:25px; float: left; background-color : #0066FF ; border-radius : 5px; width: 90px; " type="button" value="BACK" ></a>
+                            <a href="@routes.Users.showManagerHotels()"> <input class="submit-btn" id="hotel-back" type="button" value="BACK" ></a>
 
-                            <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; width: 90px; " type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
+                            <input class="submit-btn" id="hotel-register" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
 
                         </div>
 

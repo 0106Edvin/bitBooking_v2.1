@@ -44,7 +44,7 @@ public class ApiFeatures extends Controller {
                 Http.MultipartFormData.FilePart filePart = body.getFile("image");
                 if (filePart != null) {
                     File file = filePart.getFile();
-                    Image icon1 = Image.create(file, null, null, feature.id, null);
+                    Image icon1 = Image.create(file, null, null, feature.id, null, null);
                     icon1.save();
                     feature.icon = icon1;
 

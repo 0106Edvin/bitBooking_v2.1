@@ -1,0 +1,44 @@
+@(userForm: Form[AppUser])
+@import helper._
+@main   {
+
+  <div class="container">
+    <div class="row">
+      <div class="contact-caption clearfix">
+        <div class="contact-heading text-center">
+          <h2>Log in</h2>
+        </div>
+
+        <div class="col-md-6 col-md-offset-3 contact-form">
+          <h3>Please enter valid data</h3>
+          <div class="info-detail">
+          @helper.form(action = routes.Users.login()) {
+            <form>
+              <div class="duplicate-email">
+              @if(flash.containsKey("error")) {
+                @flash.get("error")
+              }
+              </div>
+                <!--input field for email-->
+              <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onblur="checkEmail();">
+              <div style="font-size: 20px; color: red" id="email_error"></div>
+                <!--input field for password-->
+              <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="password" required>
+              <div style="font-size: 20px; color: red" id="password_error"></div>
+              <div class="form-group" style="font-size: 20px; color: red;">
+              @if(flash.containsKey("login-error")) {
+                @flash.get("login-error")
+              }
+              </div>
+
+                <!--submit button-->
+              <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" type="submit" value="LOG IN">
+            </form>
+          }
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+}

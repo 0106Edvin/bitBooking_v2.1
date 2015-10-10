@@ -70,7 +70,7 @@
                                 <td></td>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
-                                        <select name="usertype" class="form-control" onchange="@routes.Users.setRole(user.email)" style="font-size: 18px; height: 40px;" required>
+                                        <select name="usertype" id="admin-change-role" class="form-control" onchange="@routes.Users.setRole(user.email)" required>
                                             @if(user.userAccessLevel == UserAccessLevel.BUYER){
                                                 <option value="buyer" selected="true">Buyer</option>
                                                 <option value="seller">Seller</option>

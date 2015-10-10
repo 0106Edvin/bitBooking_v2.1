@@ -26,20 +26,10 @@ GET         /user/register                                  @controllers.Users.r
 POST        /user/register/save                             @controllers.Users.saveUser()
 POST        /user/login                                     @controllers.Users.login()
 GET         /user/logout                                    @controllers.Users.logOut()
-
-GET         /user/update/:email                             @controllers.Users.editUser(email: String)
-POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
-
-POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
-
-#User
-GET         /user/register                                  @controllers.Users.registerUser()
-POST        /user/register/save                             @controllers.Users.saveUser()
-POST        /user/login                                     @controllers.Users.login()
-GET         /user/logout                                    @controllers.Users.logOut()
 GET         /user/update/:email                             @controllers.Users.editUser(email: String)
 POST        /user/update/:email                             @controllers.Users.updateUser(email: String)
 POST        /user/hotel/:hotelId                            @controllers.Comments.insertComment(hotelId: Integer)
+
 
 #Admin
 
@@ -72,12 +62,23 @@ GET         /seller/sellerPanel/:userId                     @controllers.Hotels.
 GET         /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.editHotel(hotelId: Integer)
 POST        /seller/sellerPanel/updatehotel/:hotelId        @controllers.Hotels.updateHotel(hotelId: Integer)
 
+#Restaurant
+GET         /seller/createrestaurant/:hotelId               @controllers.Restaurants.createRestaurant(hotelId: Integer)
+POST        /seller/saverestaurant/:hotelId                 @controllers.Restaurants.saveRestaurant(hotelId: Integer)
+
+GET         /seller/editrestaurant/:id                      @controllers.Restaurants.editRestaurant(id: Integer)
+POST        /seller/updaterestaurant/:id                    @controllers.Restaurants.updateRestaurant(id: Integer)
+
+GET         /seller/deleterestaurant/:id                    @controllers.Restaurants.deleteRestaurant(id: Integer)
+#GET         /seller/viewrestaurant/:restaurant              @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
+
 #Room
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
 GET         /room/:id                                       @controllers.Rooms.showRoom(id: Integer)
 POST        /seller/saveroom/:hotelId                       @controllers.Rooms.saveRoom(hotelId: Integer)
 GET         /seller/updateroom/:id                          @controllers.Rooms.editRoom(id: Integer)
 POST        /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
+GET         /seller/updateroom/delete/:id                   @controllers.Prices.delete(id: Integer)
 GET         /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
 GET         /seller/hotelreservations/:hotelId              @controllers.Rooms.hotelReservations(hotelId: Integer)
 
@@ -105,5 +106,10 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 
 GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 
-GET         /api/admin/adminfeatures/editFeature/:id           @controllers.ApiFeatures.editfeature(id: Integer)
-POST        /seller/hotelreservations/:id                      @controllers.Reservations.setStatus(id: Integer)
+GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
+
+
+GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
+GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
+POST        /priceselection                                 @controllers.Reservations.getPrice()
