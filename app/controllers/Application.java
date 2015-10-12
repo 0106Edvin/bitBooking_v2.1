@@ -21,7 +21,6 @@ public class Application extends Controller {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         SiteStats stats = new SiteStats();
         stats.ipAddress = ipAddress;
-        stats.pageVisited = SiteStats.INDEX_PAGE;
         if (temp != null) {
             stats.setCreatedBy(temp.firstname, temp.lastname);
             if (tempStat != null) {

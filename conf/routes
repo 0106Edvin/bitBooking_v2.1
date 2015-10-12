@@ -113,4 +113,4 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
 GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
 POST        /priceselection                                 @controllers.Reservations.getPrice()
-GET         /hotelmanager/statistics                        @controllers.user.HotelManager.statistics()
+GET         /seller/statistics                              @controllers.user.Seller.statistics()

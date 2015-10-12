@@ -59,6 +59,7 @@ create table hotel (
   coordinate_y              varchar(255),
   seller_id                 integer,
   rating                    double,
+  page_visits               integer,
   stars                     integer(1),
   updated_by                varchar(50),
   update_date               datetime,

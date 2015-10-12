@@ -1,8 +1,14 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
+import helpers.ReservationStatus;
+import helpers.UserAccessLevel;
+import scala.App;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,10 +19,7 @@ import java.util.List;
 @Table(name = "site_stats")
 public class SiteStats extends Model {
 
-    public static final String INDEX_PAGE = "index";
-    public static final String HOTEL_PAGE = "hotel";
-
-    private static final Integer INCREMENT_BY_ONE = 1;
+    public static final Integer INCREMENT_BY_ONE = 1;
 
     public static Finder<Integer, SiteStats> finder = new Finder<>(SiteStats.class);
     @Id
@@ -40,6 +43,7 @@ public class SiteStats extends Model {
     @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
     public Date createDate = new Date();
 
+
     /**
      * Empty constructor for Ebean use.
      */
@@ -48,12 +52,20 @@ public class SiteStats extends Model {
     }
 
     /**
+     *
+     * @return
+     */
+    public static Integer getUniquePageVisits() {
+        return SiteStats.finder.findRowCount();
+    }
+
+    /**
      * Goes tru all stats and calculates overall visits to index page.
      *
      * @return <code>Integer</code> type value of overall visits to index page,
      * if not stats are found 0 is returned.
      */
-    public Integer getTotalOfPageVisits() {
+    public static Integer getTotalOfPageVisits() {
         List<SiteStats> stats = finder.all();
         Integer total = 0;
         for (SiteStats stat : stats) {
@@ -61,6 +73,51 @@ public class SiteStats extends Model {
         }
         return total;
     }
+
+    /**
+     * Users overall
+     *
+     * @return
+     */
+    public static Integer getNumberOfUsers() {
+        return AppUser.finder.findRowCount();
+    }
+
+    /**
+     *
+     * @param role
+     * @return
+     */
+    public static Integer getNumberOfUsersByRole(Integer role) {
+        return AppUser.finder.where().eq("user_access_level", role).findRowCount();
+    }
+
+    public static List<Hotel> getManagersHotels(Integer seller) {
+        return Hotel.finder.where().eq("seller_id", seller).findList();
+    }
+
+    public static Integer getNumberOfVisitsPerHotel(Hotel hotel) {
+        Integer visits = 0;
+        List<Room> rooms = hotel.rooms;
+        for (Room room : rooms) {
+            List<Reservation> reservations = room.reservations;
+            for (Reservation res : reservations) {
+                if (res.status.equals(ReservationStatus.COMPLETED)) {
+                    visits++;
+                }
+            }
+        }
+        return visits;
+    }
+
+    public static Integer getNumberOfHotelFeatures(Hotel hotel) {
+        return hotel.features.size();
+    }
+
+
+
+
+
 
     /**
      * Method used to set createdBy <code>String</code> type value with creator name and surname.
@@ -99,3 +156,4 @@ public class SiteStats extends Model {
 
 
 }
+
