@@ -16,7 +16,6 @@ public class Application extends Controller {
 
     public Result index() {
         String ipAddress = request().remoteAddress();
-        Logger.debug(ipAddress);
         SiteStats tempStat = SiteStats.finder.where().eq("ip_address", ipAddress).findUnique();
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         SiteStats stats = new SiteStats();
