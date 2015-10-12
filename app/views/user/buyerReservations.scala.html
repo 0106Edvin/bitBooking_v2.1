@@ -7,12 +7,10 @@
     <div class="row">
         <div class="contact-caption clearfix">
             <div class="contact-heading text-center">
-                <h2>@hotel.name</h2>
+                <h2> RESERVATIONS </h2>
             </div>
 
             <div class="col-md-0 contact-form">
-                <h3>@hotel.name reservations</h3>
-
 
                 <table class="table">
                     <thead>
@@ -25,6 +23,8 @@
                         <th class="text-align" style="font-size : 30px ;">Reservation date</th>
                         <th class="text-align" style="font-size : 30px ;">Price</th>
                         <th class="text-align" style="font-size : 30px ;">Status</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
 
@@ -53,8 +53,26 @@
                             }
                             @if(reservation.status == ReservationStatus.COMPLETED){
                             <td class="text-align" style="color: papayawhip">COMPLETED</td>
-
                             }
+                            @if(reservation.status == ReservationStatus.CANCELED) {
+                                <td class="text-align" style="color : red">CANCELED</td>
+                            }
+
+
+                            <form method="post" action="@routes.Reservations.setStatusByUser(reservation.id)" >
+
+                                @if(reservation.status == ReservationStatus.PENDING) {
+                                <td>
+                                    <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
+                                        <option value="1" selected="true">Pending</option>
+                                        <option value="7">Cancel</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="edvin-button-role" type="submit" style="font-size : 20px ; background-color : #204d74 ; border-radius : 5px ; width : 90px ; height : 40px ;">Confirm</button>
+                                </td>
+                                }
+                            </form>
                         </div>
                     </tr>
                     }

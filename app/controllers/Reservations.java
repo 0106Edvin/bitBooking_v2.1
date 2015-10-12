@@ -153,4 +153,30 @@ public class Reservations extends Controller {
         return ok(price.toString());
     }
 
+
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result setStatusByUser(Integer id) {
+        AppUser user = SessionsAndCookies.getCurrentUser(ctx());
+        Form<Reservation> boundForm = reservationForm.bindFromRequest();
+        Reservation reservation = Reservation.findReservationById(id);
+        Room room = Reservation.findRoomByReservation(reservation);
+
+        String status = boundForm.field("status").value();
+
+        if (status.equals(ReservationStatus.PENDING.toString())) {
+            reservation.status = ReservationStatus.PENDING;
+        } else if(status.equals(ReservationStatus.CANCELED.toString())){
+            reservation.status = ReservationStatus.CANCELED;
+        }
+
+        room.update();
+        reservation.setUpdatedBy(user.firstname, user.lastname);
+        reservation.update();
+
+        List<Reservation> reservationList = Reservation.findReservationByUserId(user.id);
+        Hotel hotel = room.hotel;
+        return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
+
+    }
+
 }
