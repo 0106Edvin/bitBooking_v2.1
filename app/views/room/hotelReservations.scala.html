@@ -20,7 +20,7 @@
                     <table class="table">
                         <thead>
                             <tr class="service">
-                                <th class="text-align" style="font-size: 30px ;">Guest name</th>
+                                <th class="text-align" style="font-size: 30px ;">Guest </th>
                                 <th class="text-align" style="font-size: 30px ;">Room</th>
                                 <th class="text-align"  style="font-size: 30px ;">Beds</th>
                                 <th class="text-align" style="font-size: 30px ;">Check-in date</th>
@@ -59,13 +59,13 @@
                                                     <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
                                                         @if(reservation.status == ReservationStatus.PENDING) {
                                                             <option value="1" selected="true">Pending</option>
-                                                            <option value="2">Aproved</option>
+                                                            <option value="2">Approved</option>
                                                             <option value="3">Declined</option>
                                                             <option value="6">Completed</option>
                                                         }
                                                         @if(reservation.status == ReservationStatus.DECLINED) {
                                                             <option value="1">Pending</option>
-                                                            <option value="2">Aproved</option>
+                                                            <option value="2">Approved</option>
                                                             <option value="3" selected="true">Declined</option>
                                                             <option value="6">Completed</option>
                                                         }

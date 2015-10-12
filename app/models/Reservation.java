@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.ReservationStatus;
-import helpers.SessionsAndCookies;
 import play.data.format.Formats;
 
 import javax.persistence.Column;
@@ -77,14 +76,20 @@ public class Reservation extends Model {
         return reservation;
     }
     
-    public static List<Reservation> findReservationByUserId(Integer id){
+    public static List<Reservation> findReservationByUserId(Integer id) {
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;
     }
 
-    public static Room findRoomByReservation(Reservation reservation){
+    public static Room findRoomByReservation(Reservation reservation) {
         Room room = reservation.room;
         return room;
+    }
+    public static String findHotelNameByReservation(Reservation reservation) {
+        return reservation.room.hotel.name;
+    }
+    public static Integer findNumberOfBedsByReservation(Reservation reservation) {
+        return reservation.room.numberOfBeds;
     }
 
     public BigDecimal getCost() {
@@ -117,4 +122,5 @@ public class Reservation extends Model {
         updateDate = new Date();
         super.update();
     }
+
 }

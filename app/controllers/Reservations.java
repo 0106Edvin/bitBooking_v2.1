@@ -66,10 +66,10 @@ public class Reservations extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result setStatus(Integer id) {
+    public Result setStatus(Integer reservationId) {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        Reservation reservation = Reservation.findReservationById(id);
+        Reservation reservation = Reservation.findReservationById(reservationId);
         Room room = Reservation.findRoomByReservation(reservation);
 
         String status = boundForm.field("status").value();
@@ -81,8 +81,8 @@ public class Reservations extends Controller {
             reservation.status = ReservationStatus.APPROVED;
             reservation.notification = ReservationStatus.NEW_NOTIFICATION;
             if(room.roomType > 0){
-                room.roomType = room.roomType -1;
-            }else{
+                room.roomType = room.roomType - 1;
+            } else {
                 reservation.status = ReservationStatus.PENDING;
                 flash("error", "All rooms of this type are booked");
             }
@@ -90,7 +90,7 @@ public class Reservations extends Controller {
         } else if (status.equals(ReservationStatus.DECLINED.toString())) {
             reservation.status = ReservationStatus.DECLINED;
             reservation.notification = ReservationStatus.NEW_NOTIFICATION;
-        }else if (status.equals(ReservationStatus.COMPLETED.toString())){
+        } else if (status.equals(ReservationStatus.COMPLETED.toString())) {
             reservation.status = ReservationStatus.COMPLETED;
             room.roomType = room.roomType + 1;
         }

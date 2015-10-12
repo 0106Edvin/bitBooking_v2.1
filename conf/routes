@@ -113,3 +113,6 @@ POST        /seller/hotelreservations/:id                   @controllers.Reserva
 GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
 GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
 POST        /priceselection                                 @controllers.Reservations.getPrice()
+
+#PayPal
+#POST        /hotel/room/reservation                         @controllers.PayPal.payPal()

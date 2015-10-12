@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.cloudinary" % "cloudinary" % "1.0.14",
   "org.apache.commons" % "commons-email" % "1.3.3",
-  "org.easytesting" % "fest-assert" % "1.4" % Test
+  "org.easytesting" % "fest-assert" % "1.4" % Test,
+  "com.paypal.sdk" % "rest-api-sdk" % "1.2.0"
 )
 
 lazy val myProject = (project in file("."))

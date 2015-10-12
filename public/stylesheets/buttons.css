@@ -151,3 +151,13 @@
     margin-left: 20px;
     float: left;
 }
+#available{
+    color: lawngreen;
+    font-size: 20px;
+    text-align: center;
+}
+#not-available{
+    color : red;
+    font-size: 20px;
+    text-align: center;
+}
