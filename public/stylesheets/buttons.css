@@ -151,7 +151,6 @@
     margin-left: 20px;
     float: left;
 }
-
 #modal-button-blue {
     background-color: #204d74;
     border-radius: 5px;
@@ -170,4 +169,14 @@
     margin-right: 15px;
     border: 1px solid darkgray;
     color: black;
+}
+#available{
+    color: lawngreen;
+    font-size: 20px;
+    text-align: center;
+}
+#not-available{
+    color : red;
+    font-size: 20px;
+    text-align: center;
 }

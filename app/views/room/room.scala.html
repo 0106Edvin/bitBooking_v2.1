@@ -19,10 +19,10 @@
                                 <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
                             }
                             @if(room.roomType != 0){
-                            <label style="color: lawngreen; font-size: 20px; text-align: center ">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
+                            <label id="available">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
 
                             } else {
-                            <label style="color : red; font-size: 20px; text-align: center ">NOT AVAILABLE</label>
+                            <label id="not-available">NOT AVAILABLE</label>
                             }
                             <hr/>
                         </div>
@@ -63,13 +63,13 @@
                                         <div class="service">
                                             <h4>From:</h4>
                                         </div>
-                                        <input name="checkIn" id="date" placeholder="select date"/>
+                                        <input class="date-class" name="checkIn" id="date" placeholder="select date"/>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="service">
                                             <h4>To:</h4>
                                         </div>
-                                        <input name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
+                                        <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
                                     </div>
                                 </div>
 

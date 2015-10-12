@@ -125,3 +125,6 @@ GET         /seller/pdf                                     @controllers.user.Se
 #Email verification
 GET         /validate/:token                                @controllers.Users.emailValidation(token: String)
 
+=======
+#PayPal
+#POST        /hotel/room/reservation                         @controllers.PayPal.payPal()
