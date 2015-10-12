@@ -144,6 +144,8 @@ create table site_stats (
   id                        integer auto_increment not null,
   ip_address                varchar(40),
   overall_visits            integer,
+  page_visited              varchar(5),
+  hotel_id                  integer,
   updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),

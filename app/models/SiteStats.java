@@ -13,6 +13,9 @@ import java.util.List;
 @Table(name = "site_stats")
 public class SiteStats extends Model {
 
+    public static final String INDEX_PAGE = "index";
+    public static final String HOTEL_PAGE = "hotel";
+
     private static final Integer INCREMENT_BY_ONE = 1;
 
     public static Finder<Integer, SiteStats> finder = new Finder<>(SiteStats.class);
@@ -24,6 +27,10 @@ public class SiteStats extends Model {
     public String ipAddress;
     @Column(name = "overall_visits")
     public Integer overallVisits = 1;
+    @Column(name = "page_visited", length = 5, updatable = false)
+    public String pageVisited;
+    @Column(name = "hotel_id")
+    public Integer hotelId;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
@@ -46,7 +53,7 @@ public class SiteStats extends Model {
      * @return <code>Integer</code> type value of overall visits to index page,
      * if not stats are found 0 is returned.
      */
-    public static Integer getTotalOfPageVisits() {
+    public Integer getTotalOfPageVisits() {
         List<SiteStats> stats = finder.all();
         Integer total = 0;
         for (SiteStats stat : stats) {
@@ -89,4 +96,6 @@ public class SiteStats extends Model {
         updateDate = new Date();
         super.update();
     }
+
+
 }

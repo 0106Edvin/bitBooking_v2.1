@@ -5,6 +5,7 @@ import models.AppUser;
 import models.Hotel;
 import models.SiteStats;
 import play.Logger;
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.list;
@@ -20,6 +21,7 @@ public class Application extends Controller {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         SiteStats stats = new SiteStats();
         stats.ipAddress = ipAddress;
+        stats.pageVisited = SiteStats.INDEX_PAGE;
         if (temp != null) {
             stats.setCreatedBy(temp.firstname, temp.lastname);
             if (tempStat != null) {
