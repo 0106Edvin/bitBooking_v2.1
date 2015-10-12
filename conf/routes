@@ -104,7 +104,8 @@ GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeat
 
 POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
 
-GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
+GET         /buyer/showbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
+POST        /buyer/showbuyerreservations/:id               @controllers.Reservations.setStatusByUser(id: Integer)
 
 GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
 POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)

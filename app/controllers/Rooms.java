@@ -33,7 +33,7 @@ public class Rooms extends Controller {
         Hotel hotel = Hotel.findHotelById(id);
         List<Room> rooms = hotel.rooms;
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
-        return ok(views.html.room.hotelReservations.render(rooms,hotel,user));
+        return ok(views.html.seller.hotelReservations.render(rooms,hotel,user));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
