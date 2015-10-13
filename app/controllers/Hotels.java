@@ -131,6 +131,9 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        if(hotel1 != null) {
+            hotel1.update();
+        }
         AppUser user = null;
         if (request().cookies().get("email") != null) {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));

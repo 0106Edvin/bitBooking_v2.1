@@ -1,0 +1,218 @@
+@import helpers.UserAccessLevel
+@(user: AppUser)
+@main {
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/numberOfUniqueVisits.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/numberOfOverallVisits.js")"></script>
+
+
+    <script>
+        $(document).ready(function(){
+            $('#tabs a:first').tab('show');
+            $('#sort').DataTable();
+        });
+    </script>
+
+    <br> <br> <br> <br> <br> <br>
+    <div class="container">
+        <div class="text-center">
+            <h2>Site stats</h2>
+
+            <ul class="nav nav-tabs font-size-20" id="tabs">
+                <li><a href="#1" data-toggle="tab">Site <i class="fa fa-globe"></i></a>
+                </li>
+
+                <li><a href="#2" data-toggle="tab">Users <i class="fa fa-user"></i></a>
+                </li>
+
+                <li><a href="#3" data-toggle="tab">Hotels <i class="fa fa-home"></i></a>
+                </li>
+
+                <li><a href="#4" data-toggle="tab">Rooms <i class="fa fa-key"></i></a>
+                </li>
+
+                <li><a href="#5" data-toggle="tab">Reservations <i class="fa fa-money"></i></a></li>
+
+            </ul>
+
+            <!-- SITE TAB -->
+            <div class="tab-content">
+                <div class="tab-pane" id="1">
+                    <br>
+                    <div class="text-center">
+                    <table class="table">
+                        <thead class="alert-info">
+                            <tr>
+                                <th class="font-size-20 text-center">Unique site visits</th>
+                                <th class="font-size-20 text-center">Total site visits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-size-18"><span id="unique" class="badge alert-info font-size-20"></span></td>
+                                <td class="font-size-18"><span id="overall" class="badge alert-info font-size-20"></span></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <br>
+                    <script type="text/javascript">
+                          google.load("visualization", "1", {packages:["geochart"]});
+                          google.setOnLoadCallback(drawRegionsMap);
+
+                          function drawRegionsMap() {
+
+                            var data = google.visualization.arrayToDataTable([
+                              ['Country', 'Number of hotels'],
+                              @for(country <- SiteStats.getHotelCountries(user.id)){
+                              ['@country', @SiteStats.getNumberOfHotelsByCountry(user.id, country)],
+                              }
+                            ]);
+
+                            var options = {
+                                width: 825,
+                                height: 510,
+                                region: '150',
+                                backgroundColor: '#95B8DB',
+                                datalessRegionColor: '#C7C7C7'
+                            };
+
+                            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                            chart.draw(data, options);
+                          }
+                        </script>
+                    <div class="center-block">
+                        <p class="font-size-20"><a href="#3" data-toggle="tab">MY HOTELS</a></p>
+
+                        <div class="col-md-offset-2" id="regions_div"></div>
+                    </div>
+                    </div>
+                </div>
+                <!-- END OF SITE TAB -->
+
+
+                <!-- USERS TAB -->
+                <div class="tab-pane" id="2">
+                    <div class="col-lg-5 table-responsive">
+                        <br>
+                        <table class="table table-condensed table-bordered table-striped volumes ">
+                            <thead class="alert-info">
+                                <tr>
+                                    <th class="font-size-20 text-center">USERS</th>
+                                    <th class="font-size-20 text-center">NUMBERS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-size-18"><strong>Active users</strong></td>
+                                    <td class="font-size-18">@SiteStats.getNumberOfUsers</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-size-18"><strong>Registered hotel managers</strong></td>
+                                    <td class="font-size-18">@SiteStats.getNumberOfUsersByRole(UserAccessLevel.HOTEL_MANAGER)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-size-18"><strong>Registered sellers</strong></td>
+                                    <td class="font-size-18">@SiteStats.getNumberOfUsersByRole(UserAccessLevel.SELLER)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-size-18"><strong>Registered Buyers</strong></td>
+                                    <td class="font-size-18">@SiteStats.getNumberOfUsersByRole(UserAccessLevel.BUYER)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <script type="text/javascript">
+                        google.load("visualization", "1", {packages:["corechart"]});
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                                ['User type', 'Number of users'],
+                                ['Hotel managers', @SiteStats.getNumberOfUsersByRole(UserAccessLevel.HOTEL_MANAGER)],
+                                ['Sellers', @SiteStats.getNumberOfUsersByRole(UserAccessLevel.SELLER)],
+                                ['Buyers', @SiteStats.getNumberOfUsersByRole(UserAccessLevel.BUYER)],
+                            ]);
+
+                            var options = {
+                                title: 'Registered users on site',
+                                is3D: true,
+                                forceIFrame: true,
+                                width: 700,
+                                height: 400,
+                                pieSliceText: 'percentage',
+                                pieSliceTextStyle: {
+                                    color: "black",
+                                    fontSize: 16
+                                }
+                            };
+
+                            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+
+                    <div class="col-lg-5 embed-responsive-item">
+                        <div id="piechart_3d"></div>
+                    </div>
+                </div>
+                <!-- END OF USERS TAB -->
+
+
+                <!-- HOTELS TAB -->
+                <div class="tab-pane" id="3">
+                    <br>
+                    <div class="font-size-15">
+                        <table id="sort" class="table table-condensed table-bordered table-striped volumes">
+                            <thead class="alert-info">
+                                <tr>
+                                    <th class="font-size-20 text-center">HOTEL</th>
+                                    <th class="font-size-20 text-center">CITY</th>
+                                    <th class="font-size-20 text-center">STARS</th>
+                                    <th class="font-size-20 text-center">FEATURES</th>
+                                    <th class="font-size-20 text-center">RATING</th>
+                                    <th class="font-size-20 text-center">NUMBER OF HOTEL PAGE VISITS</th>
+                                    <th class="font-size-20 text-center">NUMBER OF HOTEL VISITS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                                    <tr>
+                                        <td class="font-size-18"><strong>@hotel.name</strong></td>
+                                        <td class="font-size-18">@hotel.city</td>
+                                        <td class="font-size-18">@hotel.stars</td>
+                                        <td class="font-size-18">@SiteStats.getNumberOfHotelFeatures(hotel)</td>
+                                        <td class="font-size-18">@hotel.getRating</td>
+                                        <td class="font-size-18">@hotel.hotelPageVisits</td>
+                                        <td class="font-size-18">@SiteStats.getNumberOfVisitsPerHotel(hotel)</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <!-- END OF HOTELS TAB -->
+
+
+                <!-- ROOMS TAB -->
+                <div class="tab-pane" id="4">
+
+                </div>
+                <!-- END OF ROOMS TAB -->
+
+
+                <!-- RESERVATIONS TAB -->
+                <div class="tab-pane" id="5">
+
+
+                </div>
+                <!-- END OF RESERVATIONS TAB -->
+
+            </div>
+        </div>
+    </div>
+
+}
