@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
+import org.slf4j.LoggerFactory;
 import play.Logger;
 import play.Play;
 import play.data.Form;
@@ -122,7 +123,10 @@ public class Users extends Controller {
 
         AppUser user = AppUser.authenticate(email, password);
 
-        if (user == null) {
+        if (!user.validated) {
+            flash("login-error", "You need to verify your email first. Check your email, please.");
+            return badRequest(login.render(userForm));
+        } else if (user == null) {
             flash("login-error", "Incorrect email or password! Try again.");
             return badRequest(login.render(userForm));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
@@ -296,6 +300,20 @@ public class Users extends Controller {
         return ok(String.valueOf(notification));
     }
 
-
+    public Result emailValidation(String token) {
+        try {
+            AppUser user = AppUser.findUserByToken(token);
+            if (token == null) {
+                return redirect(routes.Application.index());
+            }
+            if (AppUser.validateUser(user)) {
+                return redirect(routes.Application.index());
+            } else {
+                return redirect(routes.Application.index());
+            }
+        } catch (Exception e) {
+            return redirect(routes.Application.index());
+        }
+    }
 
 }
