@@ -15,7 +15,10 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "com.cloudinary" % "cloudinary" % "1.0.14",
   "org.apache.commons" % "commons-email" % "1.3.3",
-  "org.easytesting" % "fest-assert" % "1.4" % Test
+  "org.easytesting" % "fest-assert" % "1.4" % Test,
+  "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.0.8",
+  "org.xhtmlrenderer" % "core-renderer" % "R8pre2",
+  "com.lowagie" % "itext" % "4.2.2"
 )
 
 lazy val myProject = (project in file("."))
