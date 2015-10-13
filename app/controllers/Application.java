@@ -35,7 +35,9 @@ public class Application extends Controller {
         try {
             stats.save();
         } catch (PersistenceException e) {
-            tempStat.update();
+            if(tempStat != null) {
+                tempStat.update();
+            }
         }
         List<Hotel> hotels = Hotel.finder.all();
         return ok(list.render(hotels));
