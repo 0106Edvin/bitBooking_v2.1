@@ -62,6 +62,11 @@ public class AppUser extends Model {
 
     @OneToMany
     public List<Reservation> reservations;
+
+    @Column(unique = true)
+    public String token;
+    public boolean validated = false;
+
     /**
      * Default constructor
      */
@@ -77,7 +82,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -85,6 +90,7 @@ public class AppUser extends Model {
         this.phoneNumber = phoneNumber;
         this.profileImg = profileImg;
         this.reservations = reservations;
+        this.token = token;
     }
 
     /**
@@ -156,6 +162,30 @@ public class AppUser extends Model {
     public static AppUser findUserById(Integer id){
         AppUser user = finder.where().eq("id",id).findUnique();
         return user;
+    }
+
+    /**
+     * Retreives user from database with provided token
+     * @param token
+     * @return
+     */
+    public static AppUser findUserByToken(String token) {
+        return finder.where().eq("token", token).findUnique();
+    }
+
+    /**
+     * Validates user
+     * @param user
+     * @return
+     */
+    public static boolean validateUser(AppUser user) {
+        if (user == null) {
+            return false;
+        }
+        user.token = null;
+        user.validated = true;
+        user.update();
+        return true;
     }
 }
 

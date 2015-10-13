@@ -16,8 +16,11 @@ create table app_user (
   create_date               datetime,
   user_access_level         integer,
   profile_img_id            integer,
+  token                     varchar(255),
+  validated                 tinyint(1) default 0,
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
+  constraint uq_app_user_token unique (token),
   constraint pk_app_user primary key (id))
 ;
 

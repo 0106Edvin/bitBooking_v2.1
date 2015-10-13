@@ -5,6 +5,7 @@ import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
 import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -22,6 +23,7 @@ import views.html.user.register;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -89,10 +91,17 @@ public class Users extends Controller {
             try {
                 user = boundForm.get();
                 user.hashPass();
+
+                user.token = UUID.randomUUID().toString();
                 user.save();
+
+                // Sending Email To user
+                String host = Play.application().configuration().getString("url") + "validate/" + user.token;
+                MailHelper.send(user.email, host);
+
                 return redirect(routes.Application.index());
             } catch (Exception e) {
-                flash("error", "Email allready exists in our database, please try again!");
+                flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
             }
         }
