@@ -41,4 +41,6 @@ public class Application extends Controller {
         return ok(list.render(hotels));
     }
 
+
+
 }

@@ -114,3 +114,7 @@ GET         /hotel/search/advanced                          @controllers.Hotels.
 GET         /approfednotif                                  @controllers.Users.reservationApprovedNotification()
 POST        /priceselection                                 @controllers.Reservations.getPrice()
 GET         /seller/statistics                              @controllers.user.Seller.statistics()
+GET         /seller/uniquevisits                            @controllers.user.Seller.uniqueIndexVisits()
+GET         /seller/overallvisits                           @controllers.user.Seller.overallIndexVisits()
+
+

@@ -114,6 +114,21 @@ public class SiteStats extends Model {
         return hotel.features.size();
     }
 
+    public static List<String> getHotelCountries(Integer seller) {
+        List<String> countries = new ArrayList<>();
+        List<Hotel> hotels = getManagersHotels(seller);
+        for (Hotel hotel : hotels) {
+            if(!countries.contains(hotel.country)) {
+                countries.add(hotel.country);
+            }
+        }
+        return countries;
+    }
+
+    public static Integer getNumberOfHotelsByCountry(Integer seller, String country) {
+        return Hotel.finder.where().eq("seller_id", seller).eq("country", country).findRowCount();
+    }
+
 
 
 

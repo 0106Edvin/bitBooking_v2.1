@@ -2,8 +2,13 @@
 @(user: AppUser)
 @main {
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/numberOfUniqueVisits.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/numberOfOverallVisits.js")"></script>
+
+
     <script>
         $(document).ready(function(){
+            $('#tabs a:first').tab('show');
             $('#sort').DataTable();
         });
     </script>
@@ -12,7 +17,6 @@
     <div class="container">
         <div class="text-center">
             <h2>Site stats</h2>
-            <h3> Total site visits <span class="badge alert-success">@SiteStats.getTotalOfPageVisits</span></h3>
 
             <ul class="nav nav-tabs font-size-20" id="tabs">
                 <li><a href="#1" data-toggle="tab">Site <i class="fa fa-globe"></i></a>
@@ -35,24 +39,56 @@
             <div class="tab-content">
                 <div class="tab-pane" id="1">
                     <br>
-                    <table class="table table-condensed table-bordered table-striped volumes">
+                    <div class="text-center">
+                    <table class="table">
                         <thead class="alert-info">
                             <tr>
-                                <th class="font-size-20 text-center">SITE</th>
-                                <th class="font-size-20 text-center">NUMBERS</th>
+                                <th class="font-size-20 text-center">Unique site visits</th>
+                                <th class="font-size-20 text-center">Total site visits</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="font-size-18"><strong>Unique site visits</strong></td>
-                                <td class="font-size-18">@SiteStats.getUniquePageVisits</td>
-                            </tr>
-                            <tr>
-                                <td class="font-size-18"><strong>Total site visits</strong></td>
-                                <td class="font-size-18"><span class="badge alert-success">@SiteStats.getTotalOfPageVisits</span></td>
+                                <td class="font-size-18"><span id="unique" class="badge alert-info font-size-20"></span></td>
+                                <td class="font-size-18"><span id="overall" class="badge alert-info font-size-20"></span></td>
                             </tr>
                         </tbody>
+
                     </table>
+
+                    <br>
+                    <script type="text/javascript">
+                          google.load("visualization", "1", {packages:["geochart"]});
+                          google.setOnLoadCallback(drawRegionsMap);
+
+                          function drawRegionsMap() {
+
+                            var data = google.visualization.arrayToDataTable([
+                              ['Country', 'Number of hotels'],
+                              @for(country <- SiteStats.getHotelCountries(user.id)){
+                              ['@country', @SiteStats.getNumberOfHotelsByCountry(user.id, country)],
+                              }
+                            ]);
+
+                            var options = {
+                                width: 825,
+                                height: 510,
+                                region: '150',
+                                backgroundColor: '#95B8DB',
+                                datalessRegionColor: '#C7C7C7'
+                            };
+
+                            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                            chart.draw(data, options);
+                          }
+                        </script>
+                    <div class="center-block">
+                        <p class="font-size-20"><a href="#3" data-toggle="tab">MY HOTELS</a></p>
+
+                        <div class="col-md-offset-2" id="regions_div"></div>
+                    </div>
+                    </div>
                 </div>
                 <!-- END OF SITE TAB -->
 
@@ -155,34 +191,7 @@
 
                             </tbody>
                         </table>
-                        <br> <br>
-                        <script type="text/javascript">
-                          google.load("visualization", "1", {packages:["geochart"]});
-                          google.setOnLoadCallback(drawRegionsMap);
 
-                          function drawRegionsMap() {
-
-                            var data = google.visualization.arrayToDataTable([
-                              ['Country', 'Number of visits'],
-                              @for(hotel <- SiteStats.getManagersHotels(user.id)){
-                              ['@hotel.country', @hotel.hotelPageVisits],
-                              }
-                            ]);
-
-                            var options = {
-                                width: 825,
-                                height: 510,
-                                region: '039',
-                                backgroundColor: '#95B8DB',
-                                datalessRegionColor: '#C7C7C7'
-                            };
-
-                            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-                            chart.draw(data, options);
-                          }
-                        </script>
-                            <div id="regions_div"></div>
                     </div>
                 </div>
                 <!-- END OF HOTELS TAB -->
@@ -206,10 +215,4 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function(){
-            $('#tabs a:first').tab('show');
-        });
-    </script>
 }
-@import helpers.SessionsAndCookies
