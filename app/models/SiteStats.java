@@ -1,16 +1,16 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.CommonHelperMethods;
 import helpers.Constants;
 import helpers.ReservationStatus;
 import helpers.UserAccessLevel;
+import play.Logger;
 import scala.App;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by boris on 10/10/15.
@@ -110,6 +110,28 @@ public class SiteStats extends Model {
         return visits;
     }
 
+    public static Integer getNumberOfVisitsPerRoom(Room room) {
+        Integer visits = 0;
+        List<Reservation> reservations = room.reservations;
+        for (Reservation res : reservations) {
+            if (res.status.equals(ReservationStatus.COMPLETED)) {
+                visits++;
+            }
+        }
+        return visits;
+    }
+
+    public static Room getMostVisitedRoom(List<Room> hRooms) {
+        Collections.sort(hRooms, new Comparator<Room>() {
+            public int compare(Room o1, Room o2) {
+                return o1.reservations.size() - (o2.reservations.size());
+            }
+        });
+        return hRooms.get(0);
+    }
+
+
+
     public static Integer getNumberOfHotelFeatures(Hotel hotel) {
         return hotel.features.size();
     }
@@ -129,8 +151,19 @@ public class SiteStats extends Model {
         return Hotel.finder.where().eq("seller_id", seller).eq("country", country).findRowCount();
     }
 
-
-
+    public static BigDecimal getTotalAmountPerHotel(Hotel hotel) {
+        BigDecimal total = new BigDecimal(0);
+        List<Room> rooms = hotel.rooms;
+        for (Room room : rooms) {
+            List<Reservation> reservations = room.reservations;
+            for (Reservation res : reservations) {
+                if (res.status.equals(ReservationStatus.COMPLETED)) {
+                    total = total.add(res.getCost());
+                }
+            }
+        }
+        return total;
+    }
 
 
 

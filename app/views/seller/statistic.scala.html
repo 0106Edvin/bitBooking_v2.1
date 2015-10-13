@@ -31,7 +31,7 @@
                 <li><a href="#4" data-toggle="tab">Rooms <i class="fa fa-key"></i></a>
                 </li>
 
-                <li><a href="#5" data-toggle="tab">Reservations <i class="fa fa-money"></i></a></li>
+                <li><a href="#5" data-toggle="tab">Money <i class="fa fa-money"></i></a></li>
 
             </ul>
 
@@ -192,6 +192,82 @@
                             </tbody>
                         </table>
 
+                        <div class="col-md-6 text-center">
+                            <script type="text/javascript">
+                                google.load('visualization', '1', {packages: ['corechart', 'bar']});
+                                google.setOnLoadCallback(drawBasic);
+
+                                function drawBasic() {
+
+                                      var data = google.visualization.arrayToDataTable([
+                                        ['Hotel', 'Hotel visits',],
+                                        @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                                        ['@hotel.name', @SiteStats.getNumberOfVisitsPerHotel(hotel)],
+                                        }
+                                      ]);
+
+                                      var options = {
+                                        bar: {groupWidth: "40%"},
+                                        width: 500,
+                                        height: 350,
+                                        colors: ['#24D68C'],
+                                        title: 'Number of hotel visits per hotel',
+                                        chartArea: {width: '60%'},
+                                        hAxis: {
+                                          title: 'Total visits',
+                                          minValue: 0
+                                        },
+                                        vAxis: {
+                                          title: ''
+                                        }
+                                      };
+
+                                      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+                                      chart.draw(data, options);
+                                    }
+                            </script>
+                            <div id="chart_div"></div>
+                        </div>
+
+                        <div class="col-md-6 text-center">
+                            <script type="text/javascript">
+                                google.load('visualization', '1', {packages: ['corechart', 'bar']});
+                                google.setOnLoadCallback(drawBasic);
+
+                                function drawBasic() {
+
+                                      var data = google.visualization.arrayToDataTable([
+                                        ['Hotel', 'Site clicks',],
+                                        @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                                        ['@hotel.name', @hotel.hotelPageVisits],
+                                        }
+                                      ]);
+
+                                      var options = {
+                                        bar: {groupWidth: "30%"},
+                                        width: 500,
+                                        height: 350,
+                                        colors: ['#C3C9C7'],
+                                        title: 'Number of hotel page visits per hotel',
+                                        chartArea: {width: '60%'},
+                                        hAxis: {
+                                          title: 'Total page clicks',
+                                          minValue: 0
+                                        },
+                                        vAxis: {
+                                          title: ''
+                                        }
+                                      };
+
+                                      var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+
+                                      chart.draw(data, options);
+                                    }
+                            </script>
+                            <div id="chart_div2"></div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- END OF HOTELS TAB -->
@@ -199,13 +275,72 @@
 
                 <!-- ROOMS TAB -->
                 <div class="tab-pane" id="4">
+                    <script type="text/javascript">
+                        google.load("visualization", "1", {packages:["corechart"]});
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                                ['Hotel - Room', 'Number of visits'],
+                                @for(hotel <- SiteStats.getManagersHotels(user.id)){
+                                    ['@hotel.name - @SiteStats.getMostVisitedRoom(hotel.rooms).name', @SiteStats.getNumberOfVisitsPerRoom(SiteStats.getMostVisitedRoom(hotel.rooms))],
+                                }
+                            ]);
 
+                            var options = {
+                                title: 'Popular rooms per hotel',
+                                is3D: true,
+                                forceIFrame: true,
+                                width: 900,
+                                height: 600,
+                                pieSliceText: 'percentage',
+                                pieSliceTextStyle: {
+                                    fontSize: 14
+                                }
+                            };
+
+                            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d2'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+                    <div id="piechart_3d2"></div>
                 </div>
                 <!-- END OF ROOMS TAB -->
 
 
                 <!-- RESERVATIONS TAB -->
                 <div class="tab-pane" id="5">
+                    <script type="text/javascript">
+                      google.load("visualization", "1", {packages:["corechart"]});
+                      google.setOnLoadCallback(drawChart);
+                      function drawChart() {
+                        var data = google.visualization.arrayToDataTable([
+                          ['Hotel', 'Total earnings'],
+                          @for(hotel <- SiteStats.getManagersHotels(user.id)){
+                          ['@hotel.name', @SiteStats.getTotalAmountPerHotel(hotel)],
+                          }
+                        ]);
+
+                        var formatter = new google.visualization.NumberFormat({
+                            prefix: '$'
+                        });
+                        formatter.format(data, 1);
+
+                        var options = {
+                          height:600,
+                          width: 900,
+                          title: 'Total earnings per hotel',
+                          forceIFrame: true,
+                          pieHole: 0.4,
+                          pieSliceText: 'value'
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('totalmoney'));
+                        chart.draw(data, options);
+                      }
+                    </script>
+                    <div id="totalmoney"></div>
+
+
 
 
                 </div>
