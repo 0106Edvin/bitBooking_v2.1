@@ -318,13 +318,22 @@
                             @if(flash.containsKey("error")) {
                                 <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
                                 @flash.get("error")
-
-
                             }
                             </div>
+
+                            <div style="font-size: 20px; color: #33FF00" class="duplicate-email" >
+                            @if(flash.containsKey("success")){
+                                <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                                    @flash.get("success")
+                                }
+
+                            </div>
+
                             <div class="g-recaptcha" data-sitekey="6LfB5g0TAAAAAD3vjlDKc3MuTDGkZji-WiD_skWH"></div>
 
                             <input href="@routes.Emails.sendMail()" class="submit-btn" id="contact-us" type="submit" value="SUBMIT">
+
+
 
                         </form>
                     </div>

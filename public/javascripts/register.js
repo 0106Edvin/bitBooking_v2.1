@@ -128,13 +128,13 @@ function checkLastnameLength(){
 function numberLength(){
     var number = document.getElementById("phone-number").value;
 
-    if(number.length < 16 && number.value < 0){
+    if(number.length < 16 && number.length > 8 && number.value < 0){
         document.getElementById('numberlength_error').innerHTML="";
         return true;
-    }else{
-        document.getElementById('numberlength_error').innerHTML="Number can have 15 digits max!";
-        return false;
     }
+        document.getElementById('numberlength_error').innerHTML="Number can have min 9 and max 15 digits!";
+        return false;
+
 }
 
 //a function that checks if number contains only digits

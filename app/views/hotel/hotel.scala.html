@@ -84,7 +84,43 @@
 
                     </div>
                 </div>
+                @if(Restaurant.findRestaurantByHotelId(hotel.id) != null) {
+                    <div class="contact-info ">
+                        <div class="col-md-10 col-md-offset-0">
+                            <div>
+                               <h3 style="cursor: pointer;" id="restaurantOpen">RESTAURANT</h3>
+                                <div id="restaurantDiv" class="info-detail" hidden>
+                                    <div class="service">
+                                        <p>
+                                           NAME: @Restaurant.findRestaurantByHotelId(hotel.id).name
+                                        </p>
+                                        <p>
+                                           CUISINE/MENU: @Restaurant.findRestaurantByHotelId(hotel.id).restauranType
+                                        </p>
+                                        <p>
+                                           CAPACITY/NUMBER OF SEATS: @Restaurant.findRestaurantByHotelId(hotel.id).capacity
+                                        </p>
+                                        <p>
+                                           WORKING HOURS: @Restaurant.findRestaurantByHotelId(hotel.id).workingHours
+                                        </p>
+                                        <p>
+                                           DESCRIPTION @Restaurant.findRestaurantByHotelId(hotel.id).description
+                                        </p>
 
+                                        <p>RESTAURANT GALLERY:</p>
+                                        <div class="info-detail">
+                                            @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
+                                            @for(image <- Restaurant.findRestaurantByHotelId(hotel.id).images) {
+                                            <img src="@image.getSize(300, 200)"/>
+                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
                         <h3>Gallery</h3>
