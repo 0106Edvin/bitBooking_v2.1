@@ -151,3 +151,23 @@
     margin-left: 20px;
     float: left;
 }
+
+#modal-button-blue {
+    background-color: #204d74;
+    border-radius: 5px;
+    height: 45px;
+    width: 100px;
+    float: right;
+    margin-right: 15px;
+}
+
+#modal-button-white {
+    background-color: white;
+    border-radius: 5px;
+    height: 45px;
+    width: 100px;
+    float: right;
+    margin-right: 15px;
+    border: 1px solid darkgray;
+    color: black;
+}
