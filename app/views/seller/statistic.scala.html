@@ -270,6 +270,37 @@
                             <div id="chart_div2"></div>
                         </div>
 
+                        <div class="col-md-12">
+                            <script type="text/javascript">
+                                google.load("visualization", "1.1", {packages:["corechart"]});
+                                google.setOnLoadCallback(drawChart);
+                                      function drawChart() {
+                                        var data = google.visualization.arrayToDataTable([
+                                          ['Hotel',  'Features', 'Visits'],
+                                          @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                                            ['@hotel.name', @SiteStats.getNumberOfHotelFeatures(hotel), @SiteStats.getNumberOfVisitsPerHotel(hotel)],
+                                          }
+                                        ]);
+
+                                        var options = {
+                                            width: 1200,
+                                            height: 400,
+                                          title: 'Number of features compared to visits',
+                                          vAxis: {title: ''},
+                                          isStacked: true
+                                        };
+
+                                        var chart = new google.visualization.SteppedAreaChart(document.getElementById('stepchart'));
+
+                                        chart.draw(data, options);
+                                      }
+                            </script>
+                            <div id="stepchart"></div>
+                        </div>
+
+
+
+
                     </div>
                 </div>
                 <!-- END OF HOTELS TAB -->
