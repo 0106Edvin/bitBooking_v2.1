@@ -100,7 +100,8 @@ public class Users extends Controller {
                 String host = Play.application().configuration().getString("url") + "validate/" + user.token;
                 MailHelper.send(user.email, host);
 
-                return redirect(routes.Application.index());
+                flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                return badRequest(login.render(userForm));
             } catch (Exception e) {
                 flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
@@ -123,7 +124,7 @@ public class Users extends Controller {
 
         AppUser user = AppUser.authenticate(email, password);
 
-        if (!user.validated) {
+        if (user != null && !user.validated) {
             flash("login-error", "You need to verify your email first. Check your email, please.");
             return badRequest(login.render(userForm));
         } else if (user == null) {
@@ -307,7 +308,8 @@ public class Users extends Controller {
                 return redirect(routes.Application.index());
             }
             if (AppUser.validateUser(user)) {
-                return redirect(routes.Application.index());
+                flash("registration-msg", "Thank you for joining us. Your email has been verified. Please continue by logging in and enjoy searching some of the best places in the world.");
+                return badRequest(login.render(userForm));
             } else {
                 return redirect(routes.Application.index());
             }
