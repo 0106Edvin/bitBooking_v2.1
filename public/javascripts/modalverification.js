@@ -3,13 +3,19 @@
  */
 
 function validatePrice(){
-    var price = document.getElementById("modal-price").value;
-    var save = document.getElementById("modal-button-blue");
+    var price = document.getElementById('modal-price').value;
+    var save = document.getElementById('modal-button-blue');
+    var s = document.getElementById('price-missing');
 
-    save.isDisabled = true;
-    var input = document.getElementById("modal-price");
+    save.disabled = true;
 
-    input.background = "red";
-    input.borderColor = "red";
+    if(price == ""){
+        s.innerHTML = 'Please, set room price value and then save.';
+    }
+
+    if(price != ""){
+        save.disabled = false;
+    }
 
 }
+

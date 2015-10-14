@@ -90,12 +90,15 @@ public class Prices extends Controller {
         // price in Price model => BigDecimal cost
         String cost = boundForm.field("cost").value();
         if(cost.equals("") || cost == null) {
-            flash("missing-price", "Please, set room price value.");
+            flash("missing-price", "Please, set room price value and then save.");
+            // here I should render just modal .. this way msg is shown when u open modal again
+            return redirect(routes.Rooms.updateRoom(room.id));
         }
-        price.cost = new BigDecimal(Long.parseLong(cost));
-        price.save();
+            price.cost = new BigDecimal(Long.parseLong(cost));
+            price.save();
 
-        List<Price> prices = Price.getRoomPrices(room);
-        return redirect(routes.Rooms.updateRoom(room.id));
+            List<Price> prices = Price.getRoomPrices(room);
+            return redirect(routes.Rooms.updateRoom(room.id));
+
     }
 }

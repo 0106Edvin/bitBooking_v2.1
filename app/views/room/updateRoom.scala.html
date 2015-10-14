@@ -124,6 +124,12 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div id="info-container" style="color: #204d74; font-size: 20px">
+                                                            @if(flash.containsKey("missing-price")) {
+                                                                <span id="price-missing" style="font-size: 20px; color: red">
+                                                                @flash.get("missing-price")
+                                                                </span>
+                                                            }
+                                                        <span id="price-missing" style="font-size: 20px; color: red"></span>
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                             <label>From date:</label>
@@ -137,14 +143,14 @@
                                                         </div>
                                                         <div  class="col-md-3">
                                                             <p>Insert price: </p>
-                                                            <input type="number" id="modal-price" name="cost" min="1" max="500000" style="border:1px solid #204d74" placeholder="1000"/>
+                                                            <input type="number" id="modal-price" name="cost" min="1" max="500000" style="border:1px solid #204d74" placeholder="1000" oninput="validatePrice()"/>
                                                         </div>
                                                         </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="close" class="edvin-button" id="modal-button-white" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="edvin-button" id="modal-button-blue">Save</button>
+                                                        <button type="submit" class="edvin-button" id="modal-button-blue" onclick="validatePrice()">Save</button>
                                                     </div>
                                                 </div>
                                             </form>
