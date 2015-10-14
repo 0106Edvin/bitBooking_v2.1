@@ -7,10 +7,10 @@
         <div class="row">
             <div class="contact-caption clearfix">
                 <div class="contact-heading text-center">
-                    <h2>CREATE REASTAURANT</h2>
+                    <h2>CREATE RESTAURANT</h2>
                 </div>
                 <div class="col-md-6 col-md-offset-3 contact-form">
-                    <h3>restaurant information</h3>
+                    <h3>Restaurant information</h3>
                     <div class="info-detail">
                         <div class="duplicate-email" style="font-size: 20px; color: red">
                             @if(flash.containsKey("error")) {
@@ -18,7 +18,7 @@
                             }
                         </div>
                         <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
-                        <input name="restauranType" class="name" type="text" placeholder="Restaurant Type (italian, mexican,...)" required>
+                        <input name="restauranType" class="name" type="text" placeholder="Cuisine (italian, mexican,...)" required>
                         <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
                         <input name="workingHours" class="name" type="text" min="10" placeholder="Working hours" required>
                         <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description"></textarea>
