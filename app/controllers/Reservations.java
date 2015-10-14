@@ -113,6 +113,7 @@ public class Reservations extends Controller {
                reservation.payment_id = id;
                reservation.status = ReservationStatus.APPROVED;
                reservation.save();
+
            Iterator<Links> it = madePayments.getLinks().iterator();
            while (it.hasNext()) {
                Links link = it.next();

@@ -10,13 +10,15 @@
                 <div class="contact-heading text-center">
                     <h2>Hotels</h2>
                 </div>
+                <div id="success" style="font-size: 25px; color: greenyellow"></div>
+                <div id="error" style="font-size: 25px; color: red"></div>
                 <table class="table ">
                     <thead>
                         <tr class="service">
                             <th style="font-size: 30px;">Hotel</th>
-                            <th style="font-size: 30px;">Seller</th>
                             <th style="font-size: 30px;">Location</th>
                             <th style="font-size: 30px;">Description</th>
+                            <th style="font-size: 30px;">Seller</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -24,37 +26,41 @@
                         @for(hotel <- hotels) {
                                 <tr class="service">
                                     <td style="font-size : 22px ;">@hotel.name</td>
+                                    <td style="font-size : 22px ;">@hotel.location</td>
+                                    <td style="font-size : 22px ;">@hotel.description</td>
                                     <td>
-                                        <select class="ddlsellers">
+                                        <form method="post" action="@routes.Users.changeSeller(hotel.id)">
+                                        <select name="selleremail"  class="ddlsellers" onchange="@routes.Users.changeSeller(hotel.id)">
                                             @for(user <- users) {
                                                 @if(user.userAccessLevel == UserAccessLevel.SELLER) {
                                                     @if(hotel.sellerId == user.id) {
                                                         <option selected="true">
-                                                            @user.firstname @user.lastname
+                                                            @user.email
                                                         </option>
                                                     }else{
                                                         <option>
-                                                            @user.firstname @user.lastname
+                                                            @user.email
                                                         </option>
+
                                                     }
                                                  }
                                             }
-                                        </select>
+
+                                    </select>
+                                    <td> <button onclick="return changeSeller()" type="submit" class="btn btn-danger" id="middlebuttons">CHANGE SELLER</button></td>
+                                    </form>
                                     </td>
-                                    <td style="font-size : 22px ;">@hotel.location</td>
-                                    <td style="font-size : 22px ;">@hotel.description</td>
+
+
+
                                     <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
-                                        <td>
-                                            <a href="@routes.Hotels.deleteHotel(hotel.id)">
-                                                <button class="btn btn-danger" id="middlebuttons">CHANGE SELLER</button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
+                                      <td>
+                                          <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
                                                 <button class="btn btn-danger" id="middlebuttons">DELETE</button>
                                             </a>
                                         </td>
                                     </form>
+
 
                                 </tr>
 
