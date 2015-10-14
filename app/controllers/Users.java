@@ -4,6 +4,9 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
+import org.slf4j.LoggerFactory;
+import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -21,6 +24,7 @@ import views.html.user.register;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -88,10 +92,17 @@ public class Users extends Controller {
             try {
                 user = boundForm.get();
                 user.hashPass();
+
+                user.token = UUID.randomUUID().toString();
                 user.save();
+
+                // Sending Email To user
+                String host = Play.application().configuration().getString("url") + "validate/" + user.token;
+                MailHelper.send(user.email, host);
+
                 return redirect(routes.Application.index());
             } catch (Exception e) {
-                flash("error", "Email allready exists in our database, please try again!");
+                flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
             }
         }
@@ -105,7 +116,6 @@ public class Users extends Controller {
      * @return
      */
     public Result login() {
-
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         String email = boundForm.field("email").value();
@@ -113,7 +123,10 @@ public class Users extends Controller {
 
         AppUser user = AppUser.authenticate(email, password);
 
-        if (user == null) {
+        if (!user.validated) {
+            flash("login-error", "You need to verify your email first. Check your email, please.");
+            return badRequest(login.render(userForm));
+        } else if (user == null) {
             flash("login-error", "Incorrect email or password! Try again.");
             return badRequest(login.render(userForm));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
@@ -287,6 +300,20 @@ public class Users extends Controller {
         return ok(String.valueOf(notification));
     }
 
-
+    public Result emailValidation(String token) {
+        try {
+            AppUser user = AppUser.findUserByToken(token);
+            if (token == null) {
+                return redirect(routes.Application.index());
+            }
+            if (AppUser.validateUser(user)) {
+                return redirect(routes.Application.index());
+            } else {
+                return redirect(routes.Application.index());
+            }
+        } catch (Exception e) {
+            return redirect(routes.Application.index());
+        }
+    }
 
 }

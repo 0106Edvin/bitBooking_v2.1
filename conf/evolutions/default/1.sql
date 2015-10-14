@@ -16,8 +16,11 @@ create table app_user (
   create_date               datetime,
   user_access_level         integer,
   profile_img_id            integer,
+  token                     varchar(255),
+  validated                 tinyint(1) default 0,
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
+  constraint uq_app_user_token unique (token),
   constraint pk_app_user primary key (id))
 ;
 
@@ -59,6 +62,7 @@ create table hotel (
   coordinate_y              varchar(255),
   seller_id                 integer,
   rating                    double,
+  page_visits               integer,
   stars                     integer(1),
   updated_by                varchar(50),
   update_date               datetime,
@@ -140,6 +144,20 @@ create table room (
   constraint pk_room primary key (id))
 ;
 
+create table site_stats (
+  id                        integer auto_increment not null,
+  ip_address                varchar(40),
+  overall_visits            integer,
+  page_visited              varchar(5),
+  hotel_id                  integer,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_site_stats_ip_address unique (ip_address),
+  constraint pk_site_stats primary key (id))
+;
+
 
 create table hotel_feature (
   hotel_id                       integer not null,
@@ -214,6 +232,8 @@ drop table restaurant;
 drop table room;
 
 drop table room_feature;
+
+drop table site_stats;
 
 SET FOREIGN_KEY_CHECKS=1;
 

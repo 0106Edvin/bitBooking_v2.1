@@ -34,9 +34,10 @@ public class Hotel extends Model {
     public Integer sellerId;
     private Double rating;
 
+    @Column(name = "page_visits")
+    public Integer hotelPageVisits = 0;
     @Column(name="stars", length = 1)
     public Integer stars;
-
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
@@ -139,4 +140,10 @@ public class Hotel extends Model {
         return rating;
     }
 
+    @Override
+    public void update() {
+        updateDate = new Date();
+        hotelPageVisits += SiteStats.INCREMENT_BY_ONE;
+        super.update();
+    }
 }
