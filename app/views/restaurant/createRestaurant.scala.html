@@ -20,7 +20,13 @@
                         <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
                         <input name="restauranType" class="name" type="text" placeholder="Cuisine (italian, mexican,...)" required>
                         <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
-                        <input name="workingHours" class="name" type="text" min="10" placeholder="Working hours" required>
+                        <div class="" style="display: inline">
+                            <label style="color: white; font-size: 20px; margin-left: 0cm; padding-right: 5px;">Opens at: </label>
+                            <input type="time" style="width: 190px; font-size: 15px;" name="restOpen" required>
+                            <label style="color: white; font-size: 20px; padding-right: 5px; padding-left: 23px;"> Closes at:  </label>
+                            <input type="time" style="width: 190px; font-size: 15px;" name="restClose" required>
+                        </div>
+
                         <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description"></textarea>
                         <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
                         <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>

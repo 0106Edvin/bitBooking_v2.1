@@ -1,5 +1,6 @@
 @(restaurant: Restaurant)
 @import helper._
+@import models.Restaurant
 @main {
 @helper.form(action = routes.Restaurants.updateRestaurant(restaurant.id), 'enctype -> "multipart/form-data") {
 <form class="form">
@@ -20,8 +21,15 @@
                         <input name="restauranType" class="name" type="text" value="@restaurant.restauranType" required>
                         <label for="capacity" class="update-label">Capacity</label>
                         <input name="capacity" class="phone" type="number" value="@restaurant.capacity" min="10" required>
+                        <div>
                         <label for="workingHours" class="update-label">Working hours</label>
-                        <input name="workingHours" class="name" type="text" min="10" value="@restaurant.workingHours" required>
+                            </div>
+                        <div class="" style="display: inline">
+                            <label style="color: white; font-size: 20px; margin-left: 0cm; padding-right: 5px;">Opens at: </label>
+                            <input type="time" style="width: 190px; font-size: 15px;" name="restOpen" value="@Restaurant.startsAt(restaurant.id)" required>
+                            <label style="color: white; font-size: 20px; padding-right: 5px; padding-left: 23px;"> Closes at:  </label>
+                            <input type="time" style="width: 190px; font-size: 15px;" name="restClose" value="@Restaurant.closesAt(restaurant.id)" required>
+                        </div>
                         <label for="description" class="update-label">Description</label>
                         <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none">@restaurant.description</textarea>
 
