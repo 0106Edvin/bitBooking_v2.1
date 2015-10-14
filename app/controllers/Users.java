@@ -289,15 +289,15 @@ public class Users extends Controller {
     }
 
     /**
-     * Checks if buyer have any pending reservations status changed.
+     * Checks if seller have any approved reservations.
      *
-     * @return <code>int</code> type value of number of new notification
+     * @return <code>Integer</code> type value of number of new notification
      * is sent to ajax function. Notification is shown as badge in main view.
      */
-    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result reservationApprovedNotification() {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
-        int notification = Reservation.finder.where().eq("user_id", temp.id).eq("notification", ReservationStatus.NEW_NOTIFICATION).findRowCount();
+        Integer notification = Reservation.getNumberOfPayedReservations(temp.id);
         return ok(String.valueOf(notification));
     }
 

@@ -7,7 +7,8 @@ $(document).ready(setInterval(function(){
         url: "approfednotif"
     }).success(function(response) {
         if("0"!=response){
-            $('#notify').html(response + " New");
+            $("#changeVisibility").css("display","");
+            $('#notify').html(response);
         }
     })
 }, 2000));
