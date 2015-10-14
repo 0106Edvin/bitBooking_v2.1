@@ -128,7 +128,7 @@ function checkLastnameLength(){
 function numberLength(){
     var number = document.getElementById("phone-number").value;
 
-    if(number.length < 16 && number.length > 8  && number.value < 0){
+    if(number.length < 16 && number.length > 8){
         document.getElementById('numberlength_error').innerHTML="";
         return true;
     }else{

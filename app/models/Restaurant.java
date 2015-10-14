@@ -55,6 +55,10 @@ public class Restaurant extends Model {
         this.timestamp = timestamp;
     }
 
+    public Restaurant(){
+
+    }
+
     //method that finds restaurant by hotel_id
     public static Restaurant findRestaurantByHotelId(Integer hotelId) {
         Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
@@ -78,5 +82,21 @@ public class Restaurant extends Model {
     public static Boolean existsInDB(Integer hotelId) {
         Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
         return (restaurant == null) ? false : true;
+    }
+
+    public static String startsAt(Integer restaurantId){
+        Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+
+        String[] res = restaurant.workingHours.split(" - ");
+        String open = res[0];
+        return open;
+    }
+
+    public static String closesAt(Integer restaurantId){
+        Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+
+        String[] res = restaurant.workingHours.split(" - ");
+        String close = res[1];
+        return close;
     }
 }
