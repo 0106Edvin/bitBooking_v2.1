@@ -7,7 +7,7 @@
         <div class="row">
             <div class="contact-caption clearfix">
                 <div class="contact-heading text-center">
-                    <h2>UPDATE REASTAURANT</h2>
+                    <h2>UPDATE RESTAURANT</h2>
                 </div>
                 <div class="col-md-6 col-md-offset-3 contact-form">
                     <a onclick="return deleteConfirmation()" href="@routes.Restaurants.deleteRestaurant(restaurant.id)"> <input class="btn btn-danger"
@@ -16,7 +16,7 @@
                     <div class="info-detail">
                         <label for="name" class="update-label">Name</label>
                         <input name="name" class="name" type="text" value="@restaurant.name" required>
-                        <label for="restauranType" class="update-label">Type</label>
+                        <label for="restauranType" class="update-label">Cuisine</label>
                         <input name="restauranType" class="name" type="text" value="@restaurant.restauranType" required>
                         <label for="capacity" class="update-label">Capacity</label>
                         <input name="capacity" class="phone" type="number" value="@restaurant.capacity" min="10" required>

@@ -53,6 +53,7 @@ public class Emails extends Controller {
             } catch (EmailException e) {
                 e.printStackTrace();
             }
+            flash("success", "Your message was sent! Thank You for contacting us!");
             return redirect(routes.Application.index());
         } else {
             flash("error", "Not validated!");

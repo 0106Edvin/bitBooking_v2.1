@@ -39,7 +39,7 @@
                         <div style="font-size: 20px; color: red" id="lastname_error"></div>
                         <div style="font-size: 20px; color: red" id="lastnamelength_error"></div>
                         <!--input for lastname-->
-                        <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onblur="isNumber();">
+                        <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onblur="isNumber();" onfocusout="numberLength()">
                         <div style="font-size: 20px; color: red" id="numberlength_error"></div>
                         <div style="font-size: 20px; color: red" id="number_error"></div>
 
