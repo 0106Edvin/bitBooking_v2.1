@@ -23,6 +23,8 @@ public class Reservation extends Model {
     @Id
     public Integer id;
 
+    public String payment_id;
+
     public BigDecimal cost;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
@@ -56,7 +58,7 @@ public class Reservation extends Model {
 
     public Reservation(){}
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation, String payment_id) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
@@ -64,6 +66,7 @@ public class Reservation extends Model {
         this.status = ReservationStatus.APPROVED;
         this.room = room;
         this.user = user;
+        this.payment_id = payment_id;
     }
 
     @Override

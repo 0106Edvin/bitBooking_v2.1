@@ -37,6 +37,7 @@ public class Reservations extends Controller {
 
    @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result payPal(Integer roomId) {
+
        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
        Form<Reservation> boundForm = reservationForm.bindFromRequest();
        String checkin = boundForm.field("checkIn").value();
@@ -44,23 +45,22 @@ public class Reservations extends Controller {
 
        Room room = Room.findRoomById(roomId);
        Reservation reservation = new Reservation();
-       reservation.room = room;
-       reservation.user = user;
+           reservation.room = room;
+           reservation.user = user;
+           reservation.setCreatedBy(user.firstname, user.lastname);
 
-       reservation.setCreatedBy(user.firstname, user.lastname);
-
-       SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-       try {
-           Date firstDate = dtf.parse(checkin);
-           Date secondDate = dtf.parse(checkout);
-           if (firstDate.before(secondDate)) {
-               reservation.checkIn = firstDate;
-               reservation.checkOut = secondDate;
-               reservation.cost = reservation.getCost();
-           } else {
-               flash("error", "Check in date can't be after check out date!");
-               return redirect(routes.Rooms.showRoom(roomId));
-           }
+           SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+           try {
+               Date firstDate = dtf.parse(checkin);
+               Date secondDate = dtf.parse(checkout);
+               if (firstDate.before(secondDate)) {
+                   reservation.checkIn = firstDate;
+                   reservation.checkOut = secondDate;
+                   reservation.cost = reservation.getCost();
+               } else {
+                   flash("error", "Check in date can't be after check out date!");
+                   return redirect(routes.Rooms.showRoom(roomId));
+               }
 
 
            // Configuration
@@ -77,15 +77,11 @@ public class Reservations extends Controller {
 
            // Process cart/payment information
 
-           double price = 52222;
+           double price = reservation.cost.doubleValue();
 
            String priceString = String.format("%1.2f", price);
 
-           String desc = "Costumer name: " + reservation.createdBy + "\n" +
-                   "Reservation for hotel: " + room.hotel.name + "\n " +
-                   "Check-in date: " + reservation.checkIn + "\n " +
-                   "Check-out date: " + reservation.checkOut + "\n" +
-                   "Amount: " + priceString;
+           String desc = "Costumer name: " + reservation.createdBy + "\n" + "Reservation for hotel: " + room.hotel.name + "\n " + "Amount: " + priceString;
            // Configure payment
            Amount amount = new Amount();
            amount.setTotal(priceString);
@@ -109,24 +105,22 @@ public class Reservations extends Controller {
 
            RedirectUrls redirects = new RedirectUrls();
            redirects.setCancelUrl("http://localhost:9000/user/register");
-           redirects.setReturnUrl("http://localhost:9000/");
+           redirects.setReturnUrl("http://localhost:9000/user/register");
 
            payment.setRedirectUrls(redirects);
            Payment madePayments = payment.create(context);
-
+               String id = madePayments.getId();
+               reservation.payment_id = id;
+               reservation.status = ReservationStatus.APPROVED;
+               reservation.save();
            Iterator<Links> it = madePayments.getLinks().iterator();
            while (it.hasNext()) {
                Links link = it.next();
                if (link.getRel().equals("approval_url")) {
+
                    return redirect(link.getHref());
                }
            }
-
-           Payment response = payment.execute(context, paymentExecution);
-
-
-
-
 
        } catch (PayPalRESTException e) {
            Logger.warn("PayPal Exception");
@@ -134,9 +128,6 @@ public class Reservations extends Controller {
        } catch (ParseException ex) {
            System.out.println(ex.getMessage());
        }
-
-       reservation.status = ReservationStatus.APPROVED;
-       reservation.save();
        return redirect("/");
    }
 
