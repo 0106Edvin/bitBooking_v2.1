@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
 import play.Logger;
 
 import javax.persistence.*;
@@ -9,7 +10,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import helpers.Constants;
 
 /**
  * Created by Edvin Mulabdic on 9/6/2015.
@@ -138,6 +138,11 @@ public class Hotel extends Model {
         DecimalFormat format = new DecimalFormat(Constants.INITIAL_RATING.toString());
         rating = Double.valueOf(format.format(rating));
         return rating;
+    }
+    public static AppUser findUserByHotel (Hotel hotel){
+        Integer userId = hotel.sellerId;
+        AppUser user = AppUser.findUserById(userId);
+        return user;
     }
 
     @Override

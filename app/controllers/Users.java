@@ -177,8 +177,8 @@ public class Users extends Controller {
     /*shows the list of hotels to hotel manager*/
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result showManagerHotels() {
-        List<Hotel> hotels = finder.all();
-        return ok(managerHotels.render(hotels));
+      //  List<Hotel> hotels = finder.all();
+        return ok(managerHotels.render(hotels, users));
     }
 
     /*shows the list of hotels to hotel manager*/

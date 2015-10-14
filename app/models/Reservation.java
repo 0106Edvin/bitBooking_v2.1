@@ -61,7 +61,7 @@ public class Reservation extends Model {
         this.cost = cost;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.status = ReservationStatus.PENDING;
+        this.status = ReservationStatus.APPROVED;
         this.room = room;
         this.user = user;
     }

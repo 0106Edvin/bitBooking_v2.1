@@ -4,11 +4,20 @@
 //import com.paypal.base.rest.APIContext;
 //import com.paypal.base.rest.OAuthTokenCredential;
 //import com.paypal.base.rest.PayPalRESTException;
+//import helpers.Authenticators;
+//import helpers.ReservationStatus;
+//import models.AppUser;
+//import models.Reservation;
+//import models.Room;
 //import play.Logger;
 //import play.Play;
+//import play.data.Form;
 //import play.mvc.Controller;
 //import play.mvc.Result;
+//import play.mvc.Security;
 //
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
 //import java.util.*;
 //
 ///**
@@ -16,11 +25,15 @@
 // */
 //
 //public class PayPal extends Controller {
-//    public Result payPal() {
+//
+//    private static Form<Reservation> reservationForm = Form.form(Reservation.class);
+//
+//    @Security.Authenticated(Authenticators.BuyerFilter.class)
+//    public Result payPal(Integer roomId) {
 //        try {
 //            // Configuration
-//            String clientid = Play.application().configuration().getString("clientid");
-//            String secret = Play.application().configuration().getString("secret");
+//            String clientid = Play.application().configuration().getString("clientId");
+//            String secret = Play.application().configuration().getString("clientSecret");
 //
 //            String token = new OAuthTokenCredential(clientid, secret).getAccessToken();
 //
@@ -55,10 +68,15 @@
 //            payment.setTransactions(transactionList);
 //
 //            RedirectUrls redirects = new RedirectUrls();
-//            // Note: Dvije ruute ispod nisu napravljene!
-//            redirects.setCancelUrl("http://localhost:9000/payment/fail");
-//            redirects.setReturnUrl("http://localhost:9000/payment/approved");
+//            redirects.setCancelUrl("http://localhost:9000/user/register");
+//            redirects.setReturnUrl("http://localhost:9000/");
+//
 //            payment.setRedirectUrls(redirects);
+//
+//            if(redirects.equals("http://localhost:9000/")){
+//                reservation.status = ReservationStatus.APPROVED;
+//                reservation.save();
+//            }
 //
 //            Payment madePayments = payment.create(context);
 //            Iterator<Links> it = madePayments.getLinks().iterator();

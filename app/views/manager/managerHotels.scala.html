@@ -1,4 +1,7 @@
-@(hotels: java.util.List[Hotel])
+@import helpers.UserAccessLevel
+@import models.AppUser
+@(hotels: java.util.List[Hotel])(users: java.util.List[AppUser])
+
 @main {
 
     <div class="container">
@@ -10,7 +13,8 @@
                 <table class="table ">
                     <thead>
                         <tr class="service">
-                            <th style="font-size: 30px;">Name</th>
+                            <th style="font-size: 30px;">Hotel</th>
+                            <th style="font-size: 30px;">Seller</th>
                             <th style="font-size: 30px;">Location</th>
                             <th style="font-size: 30px;">Description</th>
                             <th></th>
@@ -18,19 +22,43 @@
                     </thead>
                     <tbody>
                         @for(hotel <- hotels) {
-                            <tr class="service">
-                                <td style="font-size: 22px;">@hotel.name</td>
-                                <td style="font-size: 22px;">@hotel.location</td>
-                                <td style="font-size: 22px;">@hotel.description</td>
-                                <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
+                                <tr class="service">
+                                    <td style="font-size : 22px ;">@hotel.name</td>
                                     <td>
-                                        <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                            <button class="btn btn-danger"  id="middlebuttons">DELETE</button>
-                                        </a>
+                                        <select class="ddlsellers">
+                                            @for(user <- users) {
+                                                @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                                    @if(hotel.sellerId == user.id) {
+                                                        <option selected="true">
+                                                            @user.firstname @user.lastname
+                                                        </option>
+                                                    }else{
+                                                        <option>
+                                                            @user.firstname @user.lastname
+                                                        </option>
+                                                    }
+                                                 }
+                                            }
+                                        </select>
                                     </td>
-                                </form>
+                                    <td style="font-size : 22px ;">@hotel.location</td>
+                                    <td style="font-size : 22px ;">@hotel.description</td>
+                                    <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
+                                        <td>
+                                            <a href="@routes.Hotels.deleteHotel(hotel.id)">
+                                                <button class="btn btn-danger" id="middlebuttons">CHANGE SELLER</button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
+                                                <button class="btn btn-danger" id="middlebuttons">DELETE</button>
+                                            </a>
+                                        </td>
+                                    </form>
 
-                            </tr>
+                                </tr>
+
+
                         }
                         <tr>
                             <td>

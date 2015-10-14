@@ -24,6 +24,7 @@ public class Hotels extends Controller {
 
     private Form<Hotel> hotelForm = Form.form(Hotel.class);
     private Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
+    private Model.Finder<String, AppUser> userfinder = new Model.Finder<>(AppUser.class);
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
 
 
@@ -73,7 +74,8 @@ public class Hotels extends Controller {
         hotel.save();
 
         List<Hotel> hotels = finder.all();
-        return ok(managerHotels.render(hotels));
+        List<AppUser> users = userfinder.all();
+        return ok(managerHotels.render(hotels, users));
 
 
     }

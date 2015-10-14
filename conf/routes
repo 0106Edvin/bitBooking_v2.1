@@ -72,6 +72,9 @@ POST        /seller/updaterestaurant/:id                    @controllers.Restaur
 GET         /seller/deleterestaurant/:id                    @controllers.Restaurants.deleteRestaurant(id: Integer)
 #GET         /seller/viewrestaurant/:restaurant              @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
 
+#PayPal
+POST        /hotel/room/reservation/:roomId                 @controllers.Reservations.payPal(roomId: Integer)
+
 #Room
 GET         /seller/createroom/:hotelId                     @controllers.Rooms.createRoom(hotelId: Integer)
 GET         /room/:id                                       @controllers.Rooms.showRoom(id: Integer)
@@ -93,7 +96,9 @@ GET         /weather/getweather                             @controllers.ApiComm
 POST        /user/sendMmail                                 @controllers.Emails.sendMail()
 
 #Reservations
-POST        /room/reservation                               @controllers.Reservations.saveReservation(roomId: Integer)
+#POST        /room/reservation                              @controllers.Reservations.saveReservation(roomId: Integer)
+POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
+GET         /buyer/shoowbuyerreservations/:buyerId          @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 
 #ApiFeatures
 GET         /api/admin/createFeature                        @controllers.ApiFeatures.createFeature()
@@ -110,7 +115,6 @@ GET         /buyer/showbuyerreservations/:buyerId           @controllers.Reserva
 POST        /buyer/showbuyerreservations/:id                @controllers.Reservations.setStatusByUser(id: Integer)
 
 GET         /api/admin/adminfeatures/editFeature/:id        @controllers.ApiFeatures.editfeature(id: Integer)
-POST        /seller/hotelreservations/:id                   @controllers.Reservations.setStatus(id: Integer)
 
 
 GET         /hotel/search/advanced                          @controllers.Hotels.advancedSearch()
@@ -125,6 +129,6 @@ GET         /seller/pdf                                     @controllers.user.Se
 #Email verification
 GET         /validate/:token                                @controllers.Users.emailValidation(token: String)
 
-=======
+
 #PayPal
 #POST        /hotel/room/reservation                         @controllers.PayPal.payPal()

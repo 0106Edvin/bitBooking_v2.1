@@ -79,9 +79,12 @@ h1, h2 {
     font-weight: bold;
 }
 
-.useri {
-    width: 200px !important;
+.ddlsellers{
+    width: 150px;
+    font-size: 20px;
+    color: black;
 }
+
 
 /*header area*/
 .top-header {
