@@ -1,5 +1,6 @@
 @(hotels: java.util.List[Hotel])
     @main {
+        <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
@@ -51,9 +52,8 @@
                             <td style="font-size: 22px;">@hotel.location</td>
                             <td style="font-size: 22px;">@hotel.description</td>
                             <td>
-                                <a onclick=" return deleteConfirmation()" href="@routes.Hotels.deleteHotelAdmin(hotel.id)">
-                                    <button class="btn btn-danger" data-role = "delete"  style="font-size: 17px;">Delete</button>
-                                </a>
+                                <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotelAdmin(hotel.id)" role="button">
+                                    <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
                             </td>
 
                         </tr>

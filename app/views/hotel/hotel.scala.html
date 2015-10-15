@@ -6,6 +6,7 @@
 @(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
 @main {
+    <script src="@routes.Assets.versioned("javascripts/deleteComment.js")"></script>
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
     <div class="container">
         <div class="row">
@@ -198,23 +199,21 @@
                 <div class="contact-info ">
                     <div class="col-md-10 col-md-offset-0">
                     @for(comment <- hotel.comments) {
-                        <div class="service">
+                        <div id="comment-to-delete" class="service">
                             <font size="20" style="color:black">@comment.user.firstname</font>
                             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
-                                <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
-                                    <button class="btn btn-danger" style="float: right;">Delete</button>
-                                </a>
+                                <a id="commDel" data-role="delete" data-delete-parent="#comment-to-delete" href="@routes.Comments.deleteComment(comment.id)" role="button">
+                                    <i class="rediconcolor fa fa-trash-o fa-lg" style="float: right;"></i></a>
                             }
                             <br>
                             <font size="5" style="color:black">@comment.title</font>
                             <p style="color:white" required>@comment.content</p>
                             <font size ="5"><i>This user rated hotel with:</i> @comment.rating</font>
-                                <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
-                                </form>
-                            <hr>
-                            }
 
+                            <hr>
                         </div>
+                    }
+
                     </div>
 
 

@@ -111,10 +111,10 @@ public class Restaurants extends Controller {
         if (session("userId") != null) {
             Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
             restaurant.delete();
-            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
-        } else {
-            return redirect(routes.Application.index());
+            flash("info", "Restaurant deleted");
+            return ok(Integer.parseInt(session("userId"))+"");
         }
+        return internalServerError();
     }
 
 //    public Result viewRestaurant(Integer restaurantId) {

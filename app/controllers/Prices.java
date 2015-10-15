@@ -77,6 +77,7 @@ public class Prices extends Controller {
         price.delete();
 
         List<Price> prices = Price.getRoomPrices(room);
+        flash("deleted", "Price successfully deleted.");
         return redirect(routes.Rooms.updateRoom(room.id));
         //return redirect(views.html.room.updateRoom.render(room, prices));
     }

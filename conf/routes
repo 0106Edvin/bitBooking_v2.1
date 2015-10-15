@@ -18,7 +18,7 @@ GET           /assets/*file                                   controllers.Assets
 GET           /hotelmanager/createhotel                       @controllers.Hotels.createHotel()
 POST          /hotelmanager/savehotel                         @controllers.Hotels.saveHotel()
 GET           /hotelmanager/hotels                            @controllers.Users.showManagerHotels()
-GET           /hotelmanager/hotels/:id                        @controllers.Hotels.deleteHotel(id: Integer)
+DELETE        /hotelmanager/hotels/:id                        @controllers.Hotels.deleteHotel(id: Integer)
 GET           /hotels/search                                  @controllers.Hotels.search()
 
 #User
@@ -37,10 +37,9 @@ GET           /admin/panel                                    @controllers.Users
 GET           /admin/createFeature                            @controllers.Features.createFeature()
 POST          /admin/saveFeature                              @controllers.Features.saveFeature()
 GET           /admin/updateFeature/:id                        @controllers.Features.updateFeature(id: Integer)
-GET           /admin/adminfeatures/:id                        @controllers.Features.deleteFeature(id: Integer)
+DELETE        /admin/adminfeatures/:id                        @controllers.Features.deleteFeature(id: Integer)
 GET           /admin/adminfeatures                            @controllers.Users.showAdminFeatures()
-
-GET           /deleteComment/:commentId                       @controllers.Comments.deleteComment(commentId: Integer)
+DELETE        /deleteComment/:commentId                       @controllers.Comments.deleteComment(commentId: Integer)
 
 #
 POST          /admin/adminusers/:email                        @controllers.Users.setRole(email: String)
@@ -49,8 +48,9 @@ POST          /admin/adminusers/:email                        @controllers.Users
 GET           /admin/adminhotels                              @controllers.Users.showAdminHotels()
 GET           /admin/adminusers                               @controllers.Users.showAdminUsers()
 
-GET           /admin/adminhotels/:id                          @controllers.Hotels.deleteHotelAdmin(id: Integer)
-GET           /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
+DELETE        /admin/adminhotels/:id                          @controllers.Hotels.deleteHotelAdmin(id: Integer)
+DELETE        /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
+
 
 GET           /admin/adminfeatures/editFeature/:id            @controllers.Features.editfeature(id: Integer)
 
@@ -69,7 +69,7 @@ POST          /seller/saverestaurant/:hotelId                 @controllers.Resta
 GET           /seller/editrestaurant/:id                      @controllers.Restaurants.editRestaurant(id: Integer)
 POST          /seller/updaterestaurant/:id                    @controllers.Restaurants.updateRestaurant(id: Integer)
 
-GET           /seller/deleterestaurant/:id                    @controllers.Restaurants.deleteRestaurant(id: Integer)
+DELETE        /seller/deleterestaurant/:id                    @controllers.Restaurants.deleteRestaurant(id: Integer)
 #GET         /seller/viewrestaurant/:restaurant              @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
 
 #Room
@@ -78,7 +78,7 @@ GET           /room/:id                                       @controllers.Rooms
 POST          /seller/saveroom/:hotelId                       @controllers.Rooms.saveRoom(hotelId: Integer)
 GET           /seller/updateroom/:id                          @controllers.Rooms.editRoom(id: Integer)
 POST          /seller/updateroom/:id                          @controllers.Rooms.updateRoom(id: Integer)
-GET           /seller/updateroom/delete/:id                   @controllers.Prices.delete(id: Integer)
+DELETE        /seller/updateroom/delete/:id                   @controllers.Prices.delete(id: Integer)
 DELETE        /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
 GET           /seller/hotelreservations/:hotelId              @controllers.Rooms.hotelReservations(hotelId: Integer)
 

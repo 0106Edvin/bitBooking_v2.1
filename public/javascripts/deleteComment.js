@@ -1,10 +1,10 @@
 /**
- * Created by boris.tomic on 15/10/15.
+ * Created by boris on 10/15/15.
  */
-$('body').on('click', 'a[data-role="delete"]', function (e) {
+$('body').on('click', '#commDel[data-role="delete"]', function (e) {
     e.preventDefault();
     $toDelete = $(this);
-    var conf = bootbox.confirm("Are you sure you want to delete?", function (result) {
+    var conf = bootbox.confirm("Are you sure you want to delete this comment?", function (result) {
         if (result != false) {
             $.ajax({
                 url: $toDelete.attr("href"),
@@ -15,3 +15,4 @@ $('body').on('click', 'a[data-role="delete"]', function (e) {
         }
     });
 });
+

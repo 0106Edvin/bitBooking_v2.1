@@ -1,47 +1,44 @@
 @(hotels: java.util.List[Hotel])
-@main {
-
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>Hotels</h2>
-                </div>
-                <table class="table ">
-                    <thead>
-                        <tr class="service">
-                            <th style="font-size: 30px;">Name</th>
-                            <th style="font-size: 30px;">Location</th>
-                            <th style="font-size: 30px;">Description</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for(hotel <- hotels) {
+    @main {
+        <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+        <div class="container">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <h2>Hotels</h2>
+                    </div>
+                    <table class="table ">
+                        <thead>
                             <tr class="service">
-                                <td style="font-size: 22px;">@hotel.name</td>
-                                <td style="font-size: 22px;">@hotel.location</td>
-                                <td style="font-size: 22px;">@hotel.description</td>
-                                <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
-                                    <td>
-                                        <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                            <button class="btn btn-danger"  id="middlebuttons">DELETE</button>
-                                        </a>
-                                    </td>
-                                </form>
-
+                                <th style="font-size : 30 px ;">Name</th>
+                                <th style="font-size : 30 px ;">Location</th>
+                                <th style="font-size : 30 px ;">Description</th>
+                                <th></th>
                             </tr>
-                        }
-                        <tr>
-                            <td>
-                                <a href="@routes.Hotels.createHotel()">
-                                    <button class="btn btn-success"  id="middlebuttons">ADD NEW HOTEL</button>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @for(hotel <- hotels) {
+                                <tr class="service">
+                                    <td style="font-size : 22 px ;">@hotel.name</td>
+                                    <td style="font-size : 22 px ;">@hotel.location</td>
+                                    <td style="font-size : 22 px ;">@hotel.description</td>
+                                    <td>
+                                        <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
+                                            <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
+                                    </td>
+
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <a href="@routes.Hotels.createHotel()">
+                                        <button class="btn btn-success" id="middlebuttons">ADD NEW HOTEL</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
