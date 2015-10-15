@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class Reservation extends Model {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("%s has reserved %s room from %s till %s for %s",user.firstname,room.name,checkIn,checkOut,cost);
     }
 
@@ -93,6 +94,21 @@ public class Reservation extends Model {
     }
     public static Integer findNumberOfBedsByReservation(Reservation reservation) {
         return reservation.room.numberOfBeds;
+    }
+
+    public static List<Reservation> findReservationsByHotelAndUserIds(Integer hotelId, AppUser user) {
+        List<Room> rooms = Room.findRoomsByHotelId(hotelId);
+        List<Reservation> reservations = new ArrayList<>();
+
+        List<Reservation> allReservations = finder.where().eq("user_id", user.id).findList();
+        for (int i = 0; i < rooms.size(); i++) {
+            Reservation reservation = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findUnique();
+            if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
+               reservations.add(reservation);
+            }
+        }
+
+        return reservations;
     }
 
     public BigDecimal getCost() {
