@@ -110,6 +110,20 @@ public class Reservation extends Model {
         return reservations;
     }
 
+    public static List<Reservation> findReservationsByHotelAndUserIds(Integer hotelId, AppUser user) {
+        List<Room> rooms = Room.findRoomsByHotelId(hotelId);
+        List<Reservation> reservations = new ArrayList<>();
+
+        for (int i = 0; i < rooms.size(); i++) {
+            Reservation reservation = finder.where().eq("user_id", user.id).findUnique();
+            if (reservation != null) {
+               reservations.add(reservation);
+            }
+        }
+
+        return reservations;
+    }
+
     public BigDecimal getCost() {
         cost = new BigDecimal(0);
         Date myDate = checkIn;
