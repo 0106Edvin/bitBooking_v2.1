@@ -224,8 +224,8 @@ public class Reservations extends Controller {
 
         String status = boundForm.field("status").value();
 
-        if (status.equals(ReservationStatus.PENDING.toString())) {
-            reservation.status = ReservationStatus.PENDING;
+        if (status.equals(ReservationStatus.APPROVED.toString())) {
+            reservation.status = ReservationStatus.APPROVED;
         } else if(status.equals(ReservationStatus.CANCELED.toString())){
             reservation.status = ReservationStatus.CANCELED;
         }

@@ -185,25 +185,28 @@ public class AppUser extends Model {
         user.validated = true;
         user.update();
         return true;
+    }
 
     public static Boolean sellersHotel(Hotel hotel, AppUser seller){
-        if(hotel.sellerId == seller.id ){
+        if(hotel.sellerId == seller.id){
             return true;
         }
         return false;
     }
+
     public static Boolean sellersHotelByRoomId(Room room, AppUser user){
         Hotel hotel = room.hotel;
         if(user != null)
-        if(hotel.sellerId == user.id ){
+        if(hotel.sellerId == user.id) {
             return true;
         }
         return false;
     }
+
     public static AppUser sellersHotel2(Hotel hotel, AppUser seller){
-        if(hotel.sellerId == seller.id ) {
+        if(hotel.sellerId == seller.id) {
             return seller;
-        }else{
+        } else {
             return null;
         }
     }
