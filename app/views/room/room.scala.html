@@ -80,9 +80,12 @@
                                                 <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
                                             </div>
                                         </div>
-                                        @*<button class="btn btn-primary" id="book"> <a style="color: white" href="@routes.Reservations.payPal(room.id)">Pay Pal</a></button>*@
-                                       <input type="submit" href="@routes.Reservations.payPal(room.id)"/>
-                                        <span class="font-size-20" id="price-for-period"></span>
+
+                                        <span class="font-size-20" id="price-for-period" style="float: right"></span>
+
+
+                                        <button class="btn btn-primary" id="book">Pay Pal</button>
+
                                     </form>
 
                               }
