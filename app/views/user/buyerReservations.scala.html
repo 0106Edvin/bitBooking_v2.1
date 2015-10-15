@@ -58,7 +58,7 @@
                                 @if(reservation.status == ReservationStatus.APPROVED) {
                                 <td>
                                     <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
-                                        <option value="1" selected="true">Pending</option>
+                                        <option value="1" selected="true">Approved</option>
                                         <option value="7">Cancel</option>
                                     </select>
                                 </td>
