@@ -7,6 +7,8 @@ import models.*;
 import org.slf4j.LoggerFactory;
 import play.Logger;
 import play.Play;
+import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -178,7 +180,8 @@ public class Users extends Controller {
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result showManagerHotels() {
         List<Hotel> hotels = finder.all();
-        return ok(managerHotels.render(hotels));
+        List<AppUser> users = AppUser.finder.all();
+        return ok(managerHotels.render(hotels, users));
     }
 
     /*shows the list of hotels to hotel manager*/
@@ -316,6 +319,24 @@ public class Users extends Controller {
         } catch (Exception e) {
             return redirect(routes.Application.index());
         }
+    }
+
+    public Result changeSeller(Integer hotelId) {
+        Form<AppUser> userForm = Form.form(AppUser.class);
+        Form<AppUser> boundForm = userForm.bindFromRequest();
+
+        String email = boundForm.field("selleremail").value();
+
+        Logger.info("String email    " + email);
+        AppUser seller = AppUser.getUserByEmail(email);
+        Hotel hotel = Hotel.findHotelById(hotelId);
+
+        hotel.sellerId = seller.id;
+        hotel.update();
+
+        List<Hotel> hotels = finder.all();
+        List<AppUser> users = AppUser.finder.all();
+        return ok(managerHotels.render(hotels, users));
     }
 
 }
