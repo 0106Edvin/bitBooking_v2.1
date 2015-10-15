@@ -3,7 +3,7 @@
 @import helpers.UserAccessLevel
 @import models.Restaurant
 
-@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
+@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)
 @import helper._
 @main {
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
@@ -175,7 +175,6 @@
                                         </select>
 
                                 </div>
-
                                 @if(hasCommented) {
                                     <div style="text-align: right; font-size: 40px">
                                         <i>You already commented this hotel.</i>
@@ -184,8 +183,22 @@
                                 } else {
                                     <div style="text-align: right">
                                         <button type="submit" id="post-comment" class="edvin-button">POST</button>
+                                @if(hasRights) {
+                                    if(hasCommented) {
+                                        <div style="text-align : right">
+                                            <font size="6"><i>You already commented this hotel.</i></font>
+                                            <hr>
+                                        </div>
+                                    } else {
+                                        <div style="text-align : right">
+                                            <button type="submit" id="post-comment" class="edvin-button">POST</button>
+                                        </div>
+                                    }
+                                } else {
+                                    <div style="text-align : right">
+                                        <font size="6"><i>You do not have rights to comment this hotel.</i></font>
+                                        <hr>
                                     </div>
-
                                 }
                             </form>
                         }

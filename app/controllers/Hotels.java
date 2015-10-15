@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import helpers.Authenticators;
 import models.*;
 import play.Logger;
@@ -83,7 +84,6 @@ public class Hotels extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
 
-        Logger.debug("Usao u update!!!!!!!!!!!!!!!!");
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
 
@@ -139,9 +139,11 @@ public class Hotels extends Controller {
         AppUser user = null;
         if (request().cookies().get("email") != null) {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
-            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), user));
+            Boolean hasRights = Comment.userHasRightsToCommentThisHotel(request().cookies().get("email").value(), hotel1);
+            Boolean alreadyCommented = Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1);
+            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, true, user));
+            return ok(views.html.hotel.hotel.render(hotel1, false, true, user));
         }
     }
 
