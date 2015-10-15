@@ -83,6 +83,8 @@ GET         /deleteroom/:roomId                             @controllers.Rooms.d
 GET         /seller/hotelreservations/:hotelId              @controllers.Rooms.hotelReservations(hotelId: Integer)
 
 
+POST        /seller/updateroom/editprice/:priceId            @controllers.Prices.editPrice(priceId: Integer)
+
 #General routes
 
 GET         /weather                                        @controllers.ApiCommunicatior.test()

@@ -80,4 +80,25 @@ public class Prices extends Controller {
         return redirect(routes.Rooms.updateRoom(room.id));
         //return redirect(views.html.room.updateRoom.render(room, prices));
     }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result editPrice(Integer id) {
+        Price price = Price.findPriceById(id);
+        Room room = Room.findRoomById(price.room.id);
+
+        Form<Price> boundForm = priceForm.bindFromRequest();
+        // price in Price model => BigDecimal cost
+        String cost = boundForm.field("cost").value();
+        if(cost.equals("") || cost == null) {
+            flash("missing-price", "Please, set room price value and then save.");
+            // here I should render just modal .. this way msg is shown when u open modal again
+            return redirect(routes.Rooms.updateRoom(room.id));
+        }
+            price.cost = new BigDecimal(Long.parseLong(cost));
+            price.save();
+
+            List<Price> prices = Price.getRoomPrices(room);
+            return redirect(routes.Rooms.updateRoom(room.id));
+
+    }
 }
