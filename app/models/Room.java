@@ -78,6 +78,11 @@ public class Room extends Model {
         return room;
     }
 
+    public static List<Room> findRoomsByHotelId(Integer hotelId) {
+        List<Room> rooms = finder.where().eq("hotel_id", hotelId).findList();
+        return rooms;
+    }
+
     /**
      * Method checks if <code>Hotel</code> have <code>Room</code> with name
      * that already exists. If it doesn't returns true, if does returns false.
