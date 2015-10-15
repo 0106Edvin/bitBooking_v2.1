@@ -100,23 +100,10 @@ public class Reservation extends Model {
         List<Room> rooms = Room.findRoomsByHotelId(hotelId);
         List<Reservation> reservations = new ArrayList<>();
 
+        List<Reservation> allReservations = finder.where().eq("user_id", user.id).findList();
         for (int i = 0; i < rooms.size(); i++) {
-            Reservation reservation = finder.where().eq("user_id", user.id).findUnique();
-            if (reservation != null) {
-               reservations.add(reservation);
-            }
-        }
-
-        return reservations;
-    }
-
-    public static List<Reservation> findReservationsByHotelAndUserIds(Integer hotelId, AppUser user) {
-        List<Room> rooms = Room.findRoomsByHotelId(hotelId);
-        List<Reservation> reservations = new ArrayList<>();
-
-        for (int i = 0; i < rooms.size(); i++) {
-            Reservation reservation = finder.where().eq("user_id", user.id).findUnique();
-            if (reservation != null) {
+            Reservation reservation = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findUnique();
+            if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
                reservations.add(reservation);
             }
         }

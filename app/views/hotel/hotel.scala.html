@@ -175,16 +175,8 @@
                                         </select>
 
                                 </div>
-                                @if(hasCommented) {
-                                    <div style="text-align: right; font-size: 40px">
-                                        <i>You already commented this hotel.</i>
-                                        <hr>
-                                    </div>
-                                } else {
-                                    <div style="text-align: right">
-                                        <button type="submit" id="post-comment" class="edvin-button">POST</button>
                                 @if(hasRights) {
-                                    if(hasCommented) {
+                                    @if(hasCommented) {
                                         <div style="text-align : right">
                                             <font size="6"><i>You already commented this hotel.</i></font>
                                             <hr>
@@ -249,4 +241,3 @@ $(document).ready(function(){
     });
 });
 </script>
-
