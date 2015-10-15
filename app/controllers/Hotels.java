@@ -131,15 +131,16 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        List<Room> rooms = hotel1.rooms;
         if(hotel1 != null) {
             hotel1.update();
         }
         AppUser user = null;
         if (request().cookies().get("email") != null) {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
-            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), user));
+            return ok(hotel.render(hotel1, Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1), user, rooms));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, true, user));
+            return ok(views.html.hotel.hotel.render(hotel1, true, user, rooms));
         }
     }
 

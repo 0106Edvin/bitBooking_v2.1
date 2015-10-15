@@ -3,7 +3,7 @@
 @import helpers.UserAccessLevel
 @import models.Restaurant
 
-@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)
+@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])
 @import helper._
 @main {
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
@@ -88,32 +88,99 @@
                     <div class="contact-info ">
                         <div class="col-md-10 col-md-offset-0">
                             <div>
-                               <h3 style="cursor: pointer;" id="restaurantOpen">RESTAURANT</h3>
+                               <h3 style="cursor: pointer;" class="link-hover" id="restaurantOpen">@Restaurant.findRestaurantByHotelId(hotel.id).name<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
                                 <div id="restaurantDiv" class="info-detail" hidden>
                                     <div class="service">
-                                        <p>
-                                           NAME: @Restaurant.findRestaurantByHotelId(hotel.id).name
-                                        </p>
-                                        <p>
-                                           TYPE/MENU: @Restaurant.findRestaurantByHotelId(hotel.id).restauranType
-                                        </p>
-                                        <p>
-                                           CAPACITY/NUMBER OF SEATS: @Restaurant.findRestaurantByHotelId(hotel.id).capacity
-                                        </p>
-                                        <p>
-                                           WORKING HOURS: @Restaurant.findRestaurantByHotelId(hotel.id).workingHours
-                                        </p>
-                                        <p>
-                                           DESCRIPTION @Restaurant.findRestaurantByHotelId(hotel.id).description
-                                        </p>
-
-                                        <p>RESTAURANT GALLERY:</p>
+                                        <p style="color: dimgrey; display: inline">Type of MENU: </p>
+                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).restauranType</p>
+                                        <br>
+                                        <p style="color: dimgrey; display: inline">Description: </p>
+                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).description</p>
+                                        <br>
+                                        <p style="color: dimgrey; display: inline">Working hours:</p>
+                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).workingHours</p>
+                                        <br>
+                                        <p style="color: dimgrey; display: inline">Capacity (number of seats): </p>
+                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).capacity</p>
+                                        <br>
+                                        @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
+                                            <p>RESTAURANT GALLERY</p>
+                                        }
                                         <div class="info-detail">
                                             @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
-                                            @for(image <- Restaurant.findRestaurantByHotelId(hotel.id).images) {
-                                            <img src="@image.getSize(300, 200)"/>
+                                                @for(image <- Restaurant.findRestaurantByHotelId(hotel.id).images) {
+                                                   <img src="@image.getSize(300, 200)"/>
+                                                }
                                             }
-                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if(hotel.rooms.size() != 0) {
+                    <div class="contact-info ">
+                        <div class="col-md-10 col-md-offset-0">
+                            <div>
+                                <h3 style="cursor : pointer ;" class="link-hover" id="roomsOpen">
+                                    ROOMS <i class="glyphicon glyphicon-triangle-bottom" style="float : right"></i> </h3>
+                                <div id="roomsDiv" class="info-detail" hidden>
+                                    <div class="service">
+                                        <div class="row">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr class="service" >
+                                                        <th id="textcenter" style="font-size: 22px">Name</th>
+                                                        <th id="textcenter" style="font-size: 22px">Beds</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                            <th id="textcenter" style="font-size: 22px">Edit</th>
+                                                            <th id="textcenter" style="font-size: 22px">Delete</th>
+                                                        }
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                @for(room <- rooms) {
+                                                    @if(room.hotel == hotel) {
+                                                        <tr class="service" id="textcenter">
+                                                            <td style="font-size: 22px ;">@room.name</td>
+                                                            <td style="font-size: 22px ;">@room.numberOfBeds</td>
+                                                            <td>
+                                                                <a href="@routes.Rooms.showRoom(room.id)">
+                                                                    <button class="btn btn-warning" data-role="edit"  id="middlebuttons">
+                                                                        View room</button>
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@routes.Rooms.showRoom(room.id)">
+                                                                    <button class="btn btn-warning" id="middlebuttons">
+                                                                        CREATE RESERVATION</button>
+                                                                </a>
+                                                            </td>
+
+                                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                                <td>
+                                                                    <a href="@routes.Rooms.editRoom(room.id)">
+                                                                        <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px; color: white"></i>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
+                                                                        <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px; color: white"></i>
+                                                                    </a>
+                                                                </td>
+                                                            }
+
+                                                        </tr>
+                                                    }
+                                                }
+
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -131,8 +198,6 @@
                                     <img src="@image.getSize(300, 200)"/>
                                 }
                             }
-                            <a href="@routes.Rooms.showRooms(hotel.id)" ><button class="btn btn-warning" id="middlebuttons">
-                                VIEW ROOMS</button></a>
                         </div>
                     </div>
                 </div>
@@ -236,4 +301,14 @@ $(document).ready(function(){
     });
 });
 </script>
-
+<script>
+$(document).ready(function(){
+    $('#roomsOpen').click(function() {
+       if ($('#roomsDiv').is(':hidden')) {
+            $('#roomsDiv').show();
+        } else {
+            $('#roomsDiv').hide();
+        }
+    });
+});
+</script>
