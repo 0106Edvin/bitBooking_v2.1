@@ -134,4 +134,5 @@ public class Rooms extends Controller {
         return ok(updateRoom.render(room, prices));
     }
 
+
 }
