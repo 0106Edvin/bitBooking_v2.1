@@ -43,7 +43,6 @@ public class SiteStats extends Model {
     @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
     public Date createDate = new Date();
 
-
     /**
      * Empty constructor for Ebean use.
      */
@@ -52,8 +51,10 @@ public class SiteStats extends Model {
     }
 
     /**
+     * Finds number of unique page visits of site index page,
+     * uniqueness parameter is ip address.
      *
-     * @return
+     * @return <code>Integer</code> type value of number of page visits
      */
     public static Integer getUniquePageVisits() {
         return SiteStats.finder.findRowCount();
@@ -75,27 +76,52 @@ public class SiteStats extends Model {
     }
 
     /**
-     * Users overall
+     * Finds number of all active users on site, active users are those who passed
+     * email validation.
      *
-     * @return
+     * @return <code>Integer</code> type value of active users on site
      */
-    public static Integer getNumberOfUsers() {
-        return AppUser.finder.findRowCount();
+    public static Integer getNumberOfActiveUsers() {
+        return AppUser.finder.where().eq("validated", true).findRowCount();
     }
 
     /**
+     * Finds number of all inactive users on site, inactive users are those who did not passed
+     * email validation.
      *
-     * @param role
-     * @return
+     * @return <code>Integer</code> type value of inactive users on site
+     */
+    public static Integer getNumberOfInactiveUsers() {
+        return AppUser.finder.where().eq("validated", false).findRowCount();
+    }
+
+    /**
+     * Finds number of users by role entered.
+     *
+     * @param role <code>Integer</code> type value of user role
+     * @return <code>Integer</code> type value of number of users by entered role
      */
     public static Integer getNumberOfUsersByRole(Integer role) {
         return AppUser.finder.where().eq("user_access_level", role).findRowCount();
     }
 
+    /**
+     * Finds all hotels operated by seller.
+     *
+     * @param seller <code>Integer</code> type value of seller id
+     * @return <code>List</code> type value of sellers <code>Hotel</code>
+     */
     public static List<Hotel> getManagersHotels(Integer seller) {
         return Hotel.finder.where().eq("seller_id", seller).findList();
     }
 
+    /**
+     * Finds number of visits in given <code>Hotel</code> visits are added if
+     * reservation status is completed.
+     *
+     * @param hotel <code>Hotel</code> type object
+     * @return <code>Integer</code> type value of number of visits in inputed hotel
+     */
     public static Integer getNumberOfVisitsPerHotel(Hotel hotel) {
         Integer visits = 0;
         List<Room> rooms = hotel.rooms;
@@ -110,6 +136,13 @@ public class SiteStats extends Model {
         return visits;
     }
 
+    /**
+     * Finds number of visits in given <code>Room</code> visits are added if
+     * reservation status is completed.
+     *
+     * @param room <code>Hotel</code> type object
+     * @return <code>Integer</code> type value of number of visits in inputed room
+     */
     public static Integer getNumberOfVisitsPerRoom(Room room) {
         Integer visits = 0;
         List<Reservation> reservations = room.reservations;
@@ -121,36 +154,67 @@ public class SiteStats extends Model {
         return visits;
     }
 
+    /**
+     * Sorts list of rooms, most visited is first.
+     *
+     * @param hRooms <code>List</code> type value of <code>Room</code>
+     * @return <code>Room</code> type value with most visits
+     */
     public static Room getMostVisitedRoom(List<Room> hRooms) {
         Collections.sort(hRooms, new Comparator<Room>() {
             public int compare(Room o1, Room o2) {
-                return o1.reservations.size() - (o2.reservations.size());
+                return o2.reservations.size() - (o1.reservations.size());
             }
         });
         return hRooms.get(0);
     }
 
-
-
+    /**
+     * Number of features in given hotel
+     *
+     * @param hotel <code>Hotel</code> type object
+     * @return <code>Integer</code> type value of number of features in inputed hotel
+     */
     public static Integer getNumberOfHotelFeatures(Hotel hotel) {
         return hotel.features.size();
     }
 
+    /**
+     * List of countries in <code>Hotel</code> operated by seller.
+     * If countries repeat they are not included in list.
+     *
+     * @param seller <code>Integer</code> type value seller id
+     * @return <code>List</code> type value of country name string
+     */
     public static List<String> getHotelCountries(Integer seller) {
         List<String> countries = new ArrayList<>();
         List<Hotel> hotels = getManagersHotels(seller);
         for (Hotel hotel : hotels) {
-            if(!countries.contains(hotel.country)) {
+            if (!countries.contains(hotel.country)) {
                 countries.add(hotel.country);
             }
         }
         return countries;
     }
 
+    /**
+     * +
+     * Number of hotels in countrie.
+     *
+     * @param seller  <code>Integer</code> type value of seller id
+     * @param country <code>String</code> type value of country name
+     * @return <code>Integer</code> type value of hotels in inputed country
+     */
     public static Integer getNumberOfHotelsByCountry(Integer seller, String country) {
         return Hotel.finder.where().eq("seller_id", seller).eq("country", country).findRowCount();
     }
 
+    /**
+     * Calculates total amount of money hotel earned.
+     *
+     * @param hotel <code>Hotel</code> type object
+     * @return <code>BigDecimal</code> type value of total amount
+     */
     public static BigDecimal getTotalAmountPerHotel(Hotel hotel) {
         BigDecimal total = new BigDecimal(0);
         List<Room> rooms = hotel.rooms;
@@ -164,8 +228,6 @@ public class SiteStats extends Model {
         }
         return total;
     }
-
-
 
     /**
      * Method used to set createdBy <code>String</code> type value with creator name and surname.

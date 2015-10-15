@@ -112,11 +112,13 @@
                                                         </ul>
                                                     </li>
                                                 </ul>
+                                                <li id="changeVisibility" style="display: none"><a class="menu" href="@routes.Hotels.showSellerHotels(currentUser.id)">New reservations <span class="info badge font-size-18" id="notify"></span></a></li>
 
+
+                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
-                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations <span class="info badge" id="notify"></span></a></li>
-                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations</a></li>
                                             }
                                             <ul class="nav navbar-nav">
                                                 <li class="dropdown">

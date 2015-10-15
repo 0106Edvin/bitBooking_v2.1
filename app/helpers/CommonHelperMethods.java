@@ -16,4 +16,14 @@ public class CommonHelperMethods {
         String myDate = dtf.format(date);
         return myDate;
     }
+
+    /**
+     * Formats only current time into <code>String</code>.
+     * Example of formatted date 19:27:32 Wed, 14 Oct 2015
+     *
+     * @return <code>String</code> type value of formatted date
+     */
+    public static String getCurrentDateFormated() {
+        return new SimpleDateFormat("HH:mm:ss EEE, dd MMM yyyy").format(new Date());
+    }
 }

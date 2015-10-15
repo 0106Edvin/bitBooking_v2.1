@@ -39,7 +39,7 @@
                                         </td>
                                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                             <td>
-                                                <a onclick="return deleteConfirmation()" href="@routes.Rooms.deleteRoom(room.id)">
+                                                <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
                                                         <button class="btn btn-danger" data-role = "delete" id="middlebuttons">DELETE</button>
                                                 </a>
                                             </td>

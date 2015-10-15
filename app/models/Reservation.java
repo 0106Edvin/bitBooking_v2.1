@@ -112,6 +112,21 @@ public class Reservation extends Model {
         this.updatedBy = firstName + " " + lastName;
     }
 
+    public static Integer getNumberOfPayedReservations(Integer sellerId) {
+        Integer total = 0;
+        List<Hotel> hotels = SiteStats.getManagersHotels(sellerId);
+        for (Hotel hotel : hotels) {
+            for (Room room : hotel.rooms) {
+                for (Reservation res : room.reservations) {
+                    if (res.status.equals(ReservationStatus.APPROVED)) {
+                        total++;
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
     @Override
     public void update() {
         updateDate = new Date();

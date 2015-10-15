@@ -1,15 +1,18 @@
 @import helpers.UserAccessLevel
+@import helpers.CommonHelperMethods
 @(user: AppUser)
 @main {
 
-    <br> <br> <br> <br> <br> <br>
+    <br> <br> <br> <br> <br>
     <div class="container">
         <div class="text-center">
 
             <br> <br>
             <h2>Site stats</h2>
+            <p class="font-size-15">Statistic created at</p>
+            <p class="font-size-15">@CommonHelperMethods.getCurrentDateFormated</p>
             <hr>
-            <br> <br> <br> <br>
+            <br> <br> <br>
                 <!-- SITE STATS -->
             <p class="font-size-20"> Site </p>
                 <br>
@@ -45,7 +48,11 @@
                 <tbody>
                     <tr>
                         <td><strong>Active users</strong></td>
-                        <td>@SiteStats.getNumberOfUsers</td>
+                        <td>@SiteStats.getNumberOfActiveUsers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inactive users</strong></td>
+                        <td>@SiteStats.getNumberOfInactiveUsers</td>
                     </tr>
                     <tr>
                         <td><strong>Registered hotel managers</strong></td>
