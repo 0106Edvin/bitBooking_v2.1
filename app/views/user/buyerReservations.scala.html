@@ -1,6 +1,7 @@
 @import helpers.ReservationStatus
 @import helpers.CommonHelperMethods
-@(room: Room)(hotel: Hotel)(reservations: List[Reservation])(user: AppUser)
+@import models.Reservation
+@(room: Room)(hotel: Hotel)(reservations: java.util.List[Reservation])(user: AppUser)
 
 @main {
 <div class="container">
@@ -11,12 +12,11 @@
             </div>
 
             <div class="col-md-0 contact-form">
-
                 <table class="table">
                     <thead>
                     <tr class="service">
-                        <th class="text-align" style="font-size : 30px ;">Guest name</th>
-                        <th class="text-align" style="font-size : 30px ;">Hotel name</th>
+                        <th class="text-align" style="font-size : 30px ;">Guest </th>
+                        <th class="text-align" style="font-size : 30px ;">Hotel </th>
                         <th class="text-align" style="font-size : 30px ;">Beds</th>
                         <th class="text-align" style="font-size : 30px ;">Check-in date</th>
                         <th class="text-align" style="font-size : 30px ;">Check-out date</th>
@@ -30,28 +30,22 @@
 
                     <tbody style="font-size: 20px">
                     @for(reservation <- reservations) {
-                    @if(room != null) {
-                    @if(room.reservations != 0) {
-                    <tr class="service">
-                        <div class="text-align">
-                            <td class="text-align">@reservation.user.firstname</td>
-                            <td class="text-align">@hotel.name</td>
-                            <td class="text-align">@room.numberOfBeds</td>
-                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
-                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-                            <td class="text-align">@reservation.createDate</td>
-                            <td class="text-align">@reservation.cost</td>
+                       @if(room != null) {
+                         @if(room.reservations != 0) {
+                             <tr class="service">
+                                 <div class="text-align">
+                                     <td class="text-align">@reservation.user.firstname</td>
+                                     <td class="text-align">@Reservation.findHotelNameByReservation(reservation)</td>
+                                     <td class="text-align">@Reservation.findNumberOfBedsByReservation(reservation)</td>
+                                     <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                                     <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                                     <td class="text-align">@reservation.createDate</td>
+                                     <td class="text-align">@reservation.cost $</td>
 
-                            @if(reservation.status == ReservationStatus.PENDING) {
-                            <td class="text-align" style="color : darkorange">PENDING</td>
-                            }
                             @if(reservation.status == ReservationStatus.APPROVED) {
                             <td class="text-align" style="color : lawngreen">APPROVED</td>
                             }
-                            @if(reservation.status == ReservationStatus.DECLINED) {
-                            <td class="text-align" style="color : red">DECLINED</td>
-                            }
-                            @if(reservation.status == ReservationStatus.COMPLETED){
+                            @if(reservation.status == ReservationStatus.COMPLETED) {
                             <td class="text-align" style="color: papayawhip">COMPLETED</td>
                             }
                             @if(reservation.status == ReservationStatus.CANCELED) {
@@ -61,10 +55,10 @@
 
                             <form method="post" action="@routes.Reservations.setStatusByUser(reservation.id)" >
 
-                                @if(reservation.status == ReservationStatus.PENDING) {
+                                @if(reservation.status == ReservationStatus.APPROVED) {
                                 <td>
                                     <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
-                                        <option value="1" selected="true">Pending</option>
+                                        <option value="1" selected="true">Approved</option>
                                         <option value="7">Cancel</option>
                                     </select>
                                 </td>

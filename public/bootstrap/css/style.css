@@ -28,11 +28,16 @@ body {
     font-family: 'BenchNine', sans-serif;
 
 }
+.date-class{
+    width: 150px;
+    font-size: 20px;
+}
 
 .update-label {
     font-size: 20px;
-    color:white;
+    color: white;
 }
+
 #hotelsbtn {
     margin-left: 60px;
 }
@@ -74,9 +79,12 @@ h1, h2 {
     font-weight: bold;
 }
 
-.useri {
-    width: 200px !important;
+.ddlsellers{
+    width: 150px;
+    font-size: 20px;
+    color: black;
 }
+
 
 /*header area*/
 .top-header {

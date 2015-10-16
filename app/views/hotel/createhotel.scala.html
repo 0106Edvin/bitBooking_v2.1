@@ -40,12 +40,11 @@
 
                                 <h3>Select the owner</h3>
                                 <div class="info-detail">
-                                    <select id="ddlsellers" name="seller" required>
+                                    <select class="ddlsellers" name="seller" required>
                                         <br>
-
                                         @for(user <- users) {
                                             @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                                                <option class="useri" style="font-size : larger" value="@user.id" >@user.email</option>
+                                                <option value="@user.id" >@user.firstname @user.lastname</option>
                                             }
                                         }
                                     </select>

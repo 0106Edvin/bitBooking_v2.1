@@ -1,87 +1,82 @@
 @import helpers.UserAccessLevel
 @import helpers.SessionsAndCookies
+@import models.AppUser
 @(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
 
 @main{
-        <div class="container">
-            <div class="row">
-                <div class="contact-caption clearfix">
-                    <div class="contact-heading text-center">
-                        <h2>@hotel.name</h2>
-                    </div>
-
-                    <div class="col-md-0 col-md-offset-1 contact-form">
-                        <h3>@hotel.name rooms</h3>
-
-
-                        <table class="table">
-                            <thead>
-
-                                <tr class="service" >
-                                    <th id="textcenter" style="font-size: 30px;">Name</th>
-                                    <th id="textcenter" style="font-size: 30px;">Beds</th>
-
-
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                            @for(room <- rooms) {
-                                @if(room.hotel == hotel) {
-                                    <tr class="service" id="textcenter">
-                                        <td style="font-size: 22px;">@room.name</td>
-                                        <td style="font-size: 22px;">@room.numberOfBeds</td>
-                                        <td>
-                                            <a href="@routes.Rooms.showRoom(room.id)">
-                                                <button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">View room</button>
-                                            </a>
-                                        </td>
-                                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                                            <td>
-                                                <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
-                                                        <button class="btn btn-danger" data-role = "delete" id="middlebuttons">DELETE</button>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="@routes.Rooms.editRoom(room.id)">
-                                                    <button class="btn btn-warning" data-role = "edit" id="middlebuttons">EDIT</button>
-                                                </a>
-                                            </td>
-}
-                                        <td>
-                                            <a href="@routes.Rooms.showRoom(room.id)">
-                                                <button class="btn btn-warning" id="middlebuttons">CREATE RESERVATION</button>
-                                            </a>
-                                        </td>
-
-
-                                    </tr>
-                                }
-                            }
-
-                            </tbody>
-                        </table>
-                        <br><br>
-                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER){
-                        <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
-                            <button class="btn btn-success" id="add-room" >ADD ROOM</button>
-                        </a>
-                        <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
-                        } else {
-                            <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
-
-                        }
-
-
-                    </div>
-                    <div>
-
-                    </div>
-
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>@hotel.name</h2>
                 </div>
 
+                <div class="col-md-0 col-md-offset-1 contact-form">
+                    <h3>@hotel.name rooms</h3>
+
+                    <table class="table">
+                        <thead>
+                            <tr class="service" >
+                                <th id="textcenter" style="font-size: 22px;">Name</th>
+                                <th id="textcenter" style="font-size: 22px;">Beds</th>
+                                <th id="textcenter" style="font-size: 22px;">View</th>
+                                @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                    <th id="textcenter" style="font-size: 22px">Edit</th>
+                                    <th id="textcenter" style="font-size: 22px">Delete</th>
+                                }
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        @for(room <- rooms) {
+                            @if(room.hotel == hotel) {
+                                <tr class="service" id="textcenter">
+                                    <td style="font-size: 22px;">@room.name</td>
+                                    <td style="font-size: 22px;">@room.numberOfBeds</td>
+                                    <td>
+                                        <a href="@routes.Rooms.showRoom(room.id)">
+                                            @*<button class="btn btn-warning" data-role = "edit" style="font-size: 17px;">VIEW ROOM</button>*@
+                                            <i class="glyphicon glyphicon-eye-open" data-role="edit" style="font-size:22px; color: white"></i>
+                                        </a>
+                                    </td>
+                                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                        @if(AppUser.sellersHotel(hotel, currentUser)) {
+                                            <td>
+                                                <a href="@routes.Rooms.editRoom(room.id)">
+                                                    <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px; color: white"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
+                                                    <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px; color: white"></i>
+                                                </a>
+                                            </td>
+                                        }
+                                    }
+
+                                </tr>
+                            }
+                        }
+
+                        </tbody>
+                    </table>
+                    <br><br>
+                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                        @if(AppUser.sellersHotel(hotel, currentUser)) {
+                            <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
+                                <button class="btn btn-success" id="add-room" >ADD ROOM</button>
+                            </a>
+                        }
+                        <a href="@routes.Hotels.showSellerHotels(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
+                    } else {
+                        <a href="@routes.Hotels.showHotel(hotel.id)"> <input class="submit-btn" id="room-back" type="button" value="BACK" ></a>
+
+                    }
+
+                </div>
             </div>
         </div>
+    </div>
 
-    }
+}

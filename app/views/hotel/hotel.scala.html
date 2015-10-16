@@ -3,7 +3,7 @@
 @import helpers.UserAccessLevel
 @import models.Restaurant
 
-@(hotel: Hotel)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])
+@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])
 @import helper._
 @main {
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
@@ -240,17 +240,22 @@
                                         </select>
 
                                 </div>
-
-                                @if(hasCommented) {
-                                    <div style="text-align : right">
-                                        <font size="6"><i>You already commented this hotel.</i></font>
-                                        <hr>
-                                    </div>
+                                @if(hasRights) {
+                                    @if(hasCommented) {
+                                        <div style="text-align : right">
+                                            <font size="6"><i>You already commented this hotel.</i></font>
+                                            <hr>
+                                        </div>
+                                    } else {
+                                        <div style="text-align : right">
+                                            <button type="submit" id="post-comment" class="edvin-button">POST</button>
+                                        </div>
+                                    }
                                 } else {
                                     <div style="text-align : right">
-                                        <button type="submit" id="post-comment" class="edvin-button">POST</button>
+                                        <font size="6"><i>You do not have rights to comment this hotel.</i></font>
+                                        <hr>
                                     </div>
-
                                 }
                             </form>
                         }
@@ -264,16 +269,16 @@
                     <div class="col-md-10 col-md-offset-0">
                     @for(comment <- hotel.comments) {
                         <div class="service">
-                            <font size="20" style="color:black">@comment.user.firstname</font>
+                            <div  style="color: black; font-size: 30px ">@comment.user.firstname</div>
                             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
                                 <a onclick="return deleteConfirmation()" href="@routes.Comments.deleteComment(comment.id)">
                                     <button class="btn btn-danger" style="float: right;">Delete</button>
                                 </a>
                             }
                             <br>
-                            <font size="5" style="color:black">@comment.title</font>
-                            <p style="color:white" required>@comment.content</p>
-                            <font size ="5"><i>This user rated hotel with:</i> @comment.rating</font>
+                            <div style="color: black; font-size: 25px ">@comment.title</div>
+                            <p style="color: white" required>@comment.content</p>
+                            <div style="font-size: 25px"><i>This user rated hotel with:</i> @comment.rating</div>
                                 <form method="delete" action="@routes.Comments.deleteComment(comment.id)">
                                 </form>
                             <hr>

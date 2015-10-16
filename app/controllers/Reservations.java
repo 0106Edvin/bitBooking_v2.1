@@ -1,5 +1,9 @@
 package controllers;
 
+import com.paypal.api.payments.*;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 import helpers.Authenticators;
 import helpers.ReservationStatus;
 import helpers.SessionsAndCookies;
@@ -7,7 +11,9 @@ import models.AppUser;
 import models.Hotel;
 import models.Reservation;
 import models.Room;
+import net.sf.ehcache.distribution.TransactionalRMICachePeer;
 import play.Logger;
+import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -15,82 +21,137 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by gordan on 9/29/15.
  */
 public class Reservations extends Controller {
 
-    private Form<Reservation> reservationForm = Form.form(Reservation.class);
+    private static PaymentExecution paymentExecution;
+    
+    private static Form<Reservation> reservationForm = Form.form(Reservation.class);
 
 
-    @Security.Authenticated(Authenticators.BuyerFilter.class)
-    public Result saveReservation(Integer roomId) {
+   @Security.Authenticated(Authenticators.BuyerFilter.class)
+    public Result payPal(Integer roomId) {
 
-        AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
-        Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        String checkin = boundForm.field("checkIn").value();
-        String checkout = boundForm.field("checkOut").value();
+       AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+       Form<Reservation> boundForm = reservationForm.bindFromRequest();
+       String checkin = boundForm.field("checkIn").value();
+       String checkout = boundForm.field("checkOut").value();
 
-        Room room = Room.findRoomById(roomId);
-        Reservation reservation = new Reservation();
-        reservation.room = room;
-        reservation.user = user;
-        reservation.setCreatedBy(user.firstname, user.lastname);
+       Room room = Room.findRoomById(roomId);
+       Reservation reservation = new Reservation();
+           reservation.room = room;
+           reservation.user = user;
+           reservation.setCreatedBy(user.firstname, user.lastname);
 
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date firstDate = dtf.parse(checkin);
-            Date secondDate = dtf.parse(checkout);
-            if(firstDate.before(secondDate)) {
-                reservation.checkIn = firstDate;
-                reservation.checkOut = secondDate;
-                reservation.cost =reservation.getCost();
-            } else {
-                flash("error","Check in date can't be after check out date!");
-                return redirect(routes.Rooms.showRoom(roomId));
-            }
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-        reservation.status = ReservationStatus.PENDING;
-        reservation.save();
-        return redirect(routes.Reservations.showBuyerReservations(user.id));
-    }
+           SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+           try {
+               Date firstDate = dtf.parse(checkin);
+               Date secondDate = dtf.parse(checkout);
+               if (firstDate.before(secondDate)) {
+                   reservation.checkIn = firstDate;
+                   reservation.checkOut = secondDate;
+                   reservation.cost = reservation.getCost();
+               } else {
+                   flash("error", "Check in date can't be after check out date!");
+                   return redirect(routes.Rooms.showRoom(roomId));
+               }
+
+
+           // Configuration
+           String clientid = Play.application().configuration().getString("clientId");
+           String secret = Play.application().configuration().getString("clientSecret");
+
+           String token = new OAuthTokenCredential(clientid, secret).getAccessToken();
+
+           Map<String, String> config = new HashMap<>();
+           config.put("mode", "sandbox");
+
+           APIContext context = new APIContext(token);
+           context.setConfigurationMap(config);
+
+           // Process cart/payment information
+
+           double price = reservation.cost.doubleValue();
+
+           String priceString = String.format("%1.2f", price);
+
+           String desc = "Costumer name: " + reservation.createdBy + "\n" + "Reservation for hotel: " + room.hotel.name + "\n " + "Amount: " + priceString;
+           // Configure payment
+           Amount amount = new Amount();
+           amount.setTotal(priceString);
+           amount.setCurrency("USD");
+
+           List<Transaction> transactionList = new ArrayList<>();
+           Transaction transaction = new Transaction();
+           transaction.setAmount(amount);
+           transaction.setDescription(desc);
+           transactionList.add(transaction);
+
+           Payer payer = new Payer();
+           payer.setPaymentMethod("paypal");
+
+           Payment payment = new Payment();
+           payment.setPayer(payer);
+           payment.setIntent("sale");
+           payment.setTransactions(transactionList);
+
+
+
+           RedirectUrls redirects = new RedirectUrls();
+           redirects.setCancelUrl("http://localhost:9000/user/register");
+           redirects.setReturnUrl("http://localhost:9000/user/register");
+
+           payment.setRedirectUrls(redirects);
+           Payment madePayments = payment.create(context);
+               String id = madePayments.getId();
+               reservation.payment_id = id;
+               reservation.status = ReservationStatus.APPROVED;
+               reservation.save();
+
+           Iterator<Links> it = madePayments.getLinks().iterator();
+           while (it.hasNext()) {
+               Links link = it.next();
+               if (link.getRel().equals("approval_url")) {
+
+                   return redirect(link.getHref());
+               }
+           }
+
+       } catch (PayPalRESTException e) {
+           Logger.warn("PayPal Exception");
+           e.printStackTrace();
+       } catch (ParseException ex) {
+           System.out.println(ex.getMessage());
+       }
+       return redirect("/");
+   }
+
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result setStatus(Integer id) {
+    public Result setStatus(Integer reservationId) {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        Reservation reservation = Reservation.findReservationById(id);
+        Reservation reservation = Reservation.findReservationById(reservationId);
         Room room = Reservation.findRoomByReservation(reservation);
 
         String status = boundForm.field("status").value();
 
-        if (status.equals(ReservationStatus.PENDING.toString())) {
-            reservation.status = ReservationStatus.PENDING;
-
-        } else if (status.equals(ReservationStatus.APPROVED.toString())) {
+        if (status.equals(ReservationStatus.APPROVED.toString())) {
             reservation.status = ReservationStatus.APPROVED;
             reservation.notification = ReservationStatus.NEW_NOTIFICATION;
             if(room.roomType > 0){
-                room.roomType = room.roomType -1;
-            }else{
-                reservation.status = ReservationStatus.PENDING;
+                room.roomType = room.roomType - 1;
+            } else {
                 flash("error", "All rooms of this type are booked");
             }
 
-        } else if (status.equals(ReservationStatus.DECLINED.toString())) {
-            reservation.status = ReservationStatus.DECLINED;
-            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
-        }else if (status.equals(ReservationStatus.COMPLETED.toString())){
+        } else if (status.equals(ReservationStatus.COMPLETED.toString())) {
             reservation.status = ReservationStatus.COMPLETED;
             room.roomType = room.roomType + 1;
         }
@@ -163,8 +224,8 @@ public class Reservations extends Controller {
 
         String status = boundForm.field("status").value();
 
-        if (status.equals(ReservationStatus.PENDING.toString())) {
-            reservation.status = ReservationStatus.PENDING;
+        if (status.equals(ReservationStatus.APPROVED.toString())) {
+            reservation.status = ReservationStatus.APPROVED;
         } else if(status.equals(ReservationStatus.CANCELED.toString())){
             reservation.status = ReservationStatus.CANCELED;
         }

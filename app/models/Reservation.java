@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.ReservationStatus;
-import helpers.SessionsAndCookies;
 import play.data.format.Formats;
 
 import javax.persistence.Column;
@@ -10,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class Reservation extends Model {
 
     @Id
     public Integer id;
+
+    public String payment_id;
 
     public BigDecimal cost;
 
@@ -57,18 +59,19 @@ public class Reservation extends Model {
 
     public Reservation(){}
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation, String payment_id) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.status = ReservationStatus.PENDING;
+        this.status = ReservationStatus.APPROVED;
         this.room = room;
         this.user = user;
+        this.payment_id = payment_id;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("%s has reserved %s room from %s till %s for %s",user.firstname,room.name,checkIn,checkOut,cost);
     }
 
@@ -77,14 +80,35 @@ public class Reservation extends Model {
         return reservation;
     }
     
-    public static List<Reservation> findReservationByUserId(Integer id){
+    public static List<Reservation> findReservationByUserId(Integer id) {
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;
     }
 
-    public static Room findRoomByReservation(Reservation reservation){
+    public static Room findRoomByReservation(Reservation reservation) {
         Room room = reservation.room;
         return room;
+    }
+    public static String findHotelNameByReservation(Reservation reservation) {
+        return reservation.room.hotel.name;
+    }
+    public static Integer findNumberOfBedsByReservation(Reservation reservation) {
+        return reservation.room.numberOfBeds;
+    }
+
+    public static List<Reservation> findReservationsByHotelAndUserIds(Integer hotelId, AppUser user) {
+        List<Room> rooms = Room.findRoomsByHotelId(hotelId);
+        List<Reservation> reservations = new ArrayList<>();
+
+        List<Reservation> allReservations = finder.where().eq("user_id", user.id).findList();
+        for (int i = 0; i < rooms.size(); i++) {
+            Reservation reservation = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findUnique();
+            if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
+               reservations.add(reservation);
+            }
+        }
+
+        return reservations;
     }
 
     public BigDecimal getCost() {
@@ -132,4 +156,5 @@ public class Reservation extends Model {
         updateDate = new Date();
         super.update();
     }
+
 }
