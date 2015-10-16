@@ -5,6 +5,18 @@
             <div class="contact-caption clearfix">
                 <div class="contact-heading text-center">
                     <h2>Your hotels</h2>
+                    <div style="font-size: 25px; color: #33FF00;">
+                        @if(flash.containsKey("create")){
+                            @flash.get("create")
+                        }
+                        @if(flash.containsKey("delete")){
+                            @flash.get("delete")
+                        }
+                        @if(flash.containsKey("edit")){
+                            @flash.get("edit")
+                        }
+
+                    </div>
                 </div>
 
 

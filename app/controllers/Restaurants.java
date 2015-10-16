@@ -60,6 +60,7 @@ public class Restaurants extends Controller {
         }
 
         if (session("userId") != null) {
+            flash("create","The hotel was created!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());
@@ -90,7 +91,7 @@ public class Restaurants extends Controller {
         String description = restaurantForm1.field("description").value();
         String open = restaurantForm1.field("restOpen").value();
         String close = restaurantForm1.field("restClose").value();
-        String workingHours = open + " " + close;
+        String workingHours = open + " - " + close;
 
         restaurant.name = name;
         restaurant.restauranType = restauranType;
@@ -112,6 +113,7 @@ public class Restaurants extends Controller {
         restaurant.update();
 
         if (session("userId") != null) {
+            flash("edit","The hotel was updated!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());
@@ -130,7 +132,7 @@ public class Restaurants extends Controller {
         if (session("userId") != null) {
             Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
             restaurant.delete();
-            flash("info", "Restaurant deleted");
+            flash("delete", "Restaurant deleted");
             return ok(Integer.parseInt(session("userId")) + "");
         }
         return internalServerError();
