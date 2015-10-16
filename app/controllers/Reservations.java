@@ -104,14 +104,15 @@ public class Reservations extends Controller {
 
 
            RedirectUrls redirects = new RedirectUrls();
-           redirects.setCancelUrl("http://localhost:9000/user/register");
+           redirects.setCancelUrl("http://localhost:9000/");
            redirects.setReturnUrl("http://localhost:9000/user/register");
 
            payment.setRedirectUrls(redirects);
+
            Payment madePayments = payment.create(context);
                String id = madePayments.getId();
                reservation.payment_id = id;
-               reservation.status = ReservationStatus.APPROVED;
+               reservation.status = ReservationStatus.PENDING;
                reservation.save();
 
            Iterator<Links> it = madePayments.getLinks().iterator();
@@ -119,6 +120,14 @@ public class Reservations extends Controller {
                Links link = it.next();
                if (link.getRel().equals("approval_url")) {
 
+                   if(redirects == redirects.setReturnUrl("http://localhost:9000/user/register")) {
+                       room.roomType = room.roomType - 1;
+                       room.update();
+
+                       reservation.status = ReservationStatus.APPROVED;
+                       reservation.update();
+                   }
+                   
                    return redirect(link.getHref());
                }
            }

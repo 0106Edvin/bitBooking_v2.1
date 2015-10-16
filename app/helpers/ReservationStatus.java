@@ -5,6 +5,7 @@ package helpers;
  */
 public class ReservationStatus {
     public static final Integer APPROVED = 2;
+    public static final Integer PENDING = 3;
     public static final Integer NEW_NOTIFICATION = 4;
     public static final Integer READ_NOTIFICATION = 5;
     public static final Integer COMPLETED = 6;

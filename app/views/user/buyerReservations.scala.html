@@ -31,7 +31,7 @@
                     <tbody style="font-size: 20px">
                     @for(reservation <- reservations) {
                        @if(room != null) {
-                         @if(room.reservations != 0) {
+                         @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
                              <tr class="service">
                                  <div class="text-align">
                                      <td class="text-align">@reservation.user.firstname</td>
@@ -41,7 +41,6 @@
                                      <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
                                      <td class="text-align">@reservation.createDate</td>
                                      <td class="text-align">@reservation.cost $</td>
-
                             @if(reservation.status == ReservationStatus.APPROVED) {
                             <td class="text-align" style="color : lawngreen">APPROVED</td>
                             }
