@@ -11,6 +11,11 @@
                 <div class="contact-heading text-center">
                     <h2>Hotels</h2>
                 </div>
+                @if(flash.containsKey("seller-changed")) {
+                    <span style="font-size: 20px; color: #204d74;">
+                      @flash.get("seller-changed")
+                    </span>
+                }
                 <div id="success" style="font-size: 25px; color: greenyellow"></div>
                 <div id="error" style="font-size: 25px; color: red"></div>
                 <table class="table ">
@@ -48,7 +53,7 @@
                                             }
 
                                     </select>
-                                    <td> <button onclick="return changeSeller()" type="submit" class="btn btn-danger" id="middlebuttons">CHANGE SELLER</button></td>
+                                    <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
                                     </form>
                                     </td>
 

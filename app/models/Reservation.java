@@ -163,4 +163,8 @@ public class Reservation extends Model {
         super.update();
     }
 
+    public static Reservation findByPaymentId(String id) {
+        return finder.where().eq("payment_id",id).findUnique();
+    }
+
 }

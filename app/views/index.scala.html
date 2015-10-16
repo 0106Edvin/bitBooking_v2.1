@@ -303,14 +303,14 @@
 
                         <form method="post" action="@routes.Emails.sendMail()">
 
-                            <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onblur="checkName()" onfocusout="checkNameLength()">
+                            <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onblur="checkName()" onkeyup="checkNameLength()">
                             <div style="font-size: 20px; color: red" id="name_error"></div>
                             <div style="font-size: 20px; color: red" id="namelength_error"></div>
 
-                            <input id="email" name="mail" class="email" type="email" placeholder="Emails" required onblur="checkEmail()">
+                            <input id="email" name="mail" class="email" type="email" placeholder="Emails" required onkeyup="checkEmail()">
                             <div style="font-size: 20px; color: red" id="email_error"></div>
 
-                            <input id="subject" name="subject" type="text" placeholder="Subject" required onblur="checkSubject()" onfocusout="checkSubjectLength()">
+                            <input id="subject" name="subject" type="text" placeholder="Subject" required onkeyup="checkSubject()" onkeyup="checkSubjectLength()">
                             <div style="font-size: 20px; color: red" id="subject_error"></div>
                             <div style="font-size: 20px; color: red" id="subjectlength_error"></div>
 

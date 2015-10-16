@@ -327,7 +327,6 @@ public class Users extends Controller {
 
         String email = boundForm.field("selleremail").value();
 
-        Logger.info("String email    " + email);
         AppUser seller = AppUser.getUserByEmail(email);
         Hotel hotel = Hotel.findHotelById(hotelId);
 
@@ -336,6 +335,8 @@ public class Users extends Controller {
 
         List<Hotel> hotels = finder.all();
         List<AppUser> users = AppUser.finder.all();
+
+        flash("seller-changed", "Seller was successfully updated.");
         return ok(managerHotels.render(hotels, users));
     }
 

@@ -1,4 +1,4 @@
-
+@import helpers.Constants
 @import helper._
 @main   {
 
@@ -9,12 +9,77 @@
           <h3 style="font-size: 40px; color:#D00000;">Your payment was rejected!</h3>
         </div>
 
-        <a href="https://www.paypal.com/ba/webapps/mpp/merchant">
-        <img src="http://www.custarddesigns.com/wp-content/uploads/paypal-logo-transparent.png"/>
-        <p style="font-size: 20px; color: white;">For more information please contact PayPal!</p>
-        </a>
+        <!-- contact section starts here -->
+
+        <div class="container" id="mailPanel">
+          <div class="row">
+            <a href="https://www.paypal.com/ba/webapps/mpp/merchant">
+              <img src="http://www.custarddesigns.com/wp-content/uploads/paypal-logo-transparent.png"/>
+            </a>
+            <div class="contact-caption clearfix">
+              <div class="contact-heading text-center">
+                <h2>contact us</h2>
+              </div>
+
+              <div class="col-md-5 contact-info text-left">
+                <h3>contact information</h3>
+
+                <div class="info-detail" style="font-size : 20px;">
+                  <ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span>
+                    9:00 AM to 5:30 PM</li></ul>
+                  <ul><li><i class="fa fa-map-marker"></i><span>Address:</span>
+                    Hrasnicka cesta 15, 72 000 Sarajevo</li></ul>
+                  <ul><li><i class="fa fa-phone"></i><span>Phone:</span>(032) 987-1235</li></ul>
+                  <ul><li><i class="fa fa-fax"></i><span>Fax:</span>(123) 984-1234</li></ul>
+                  <ul><li><i class="fa fa-envelope"></i><span>Email: </span>@Constants.EMAIL</li></ul>
+                </div>
+              </div>
 
 
+              <div class="col-md-6 col-md-offset-1 contact-form" id="contact">
+                <h3>leave us a message</h3>
+
+                <form method="post" action="@routes.Emails.sendMail()">
+
+                  <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onkeyup="checkName()" onkeyup="checkNameLength()">
+                  <div style="font-size: 20px; color: red" id="name_error"></div>
+                  <div style="font-size: 20px; color: red" id="namelength_error"></div>
+
+                  <input id="email" name="mail" class="email" type="email" placeholder="Emails" required onkeyup="checkEmail()">
+                  <div style="font-size: 20px; color: red" id="email_error"></div>
+
+                  <input id="subject" name="subject" type="text" placeholder="Subject" required onkeyup="checkSubject()" onkeyup="checkSubjectLength()">
+                  <div style="font-size: 20px; color: red" id="subject_error"></div>
+                  <div style="font-size: 20px; color: red" id="subjectlength_error"></div>
+
+                  <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message" required ></textarea>
+
+                  <div style="font-size: 20px; color: red" class="duplicate-email" >
+                    @if(flash.containsKey("error")) {
+                    <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                    @flash.get("error")
+
+
+                    }
+                  </div>
+
+                  <div style="font-size: 20px; color: #33FF00" class="duplicate-email" >
+                    @if(flash.containsKey("success")){
+                    <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                    @flash.get("success")
+
+
+                    }
+                  </div>
+                  <div class="g-recaptcha" data-sitekey="6LfB5g0TAAAAAD3vjlDKc3MuTDGkZji-WiD_skWH"></div>
+
+                  <input href="@routes.Emails.sendMail()" class="submit-btn" id="contact-us" type="submit" value="SUBMIT">
+
+                </form>
+              </div>
+
+            </div>
+          </div>
       </div>
     </div>
   </div>
