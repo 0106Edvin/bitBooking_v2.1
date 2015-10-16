@@ -43,6 +43,13 @@ public class Application extends Controller {
         return ok(list.render(hotels));
     }
 
+    public Result see(){
+        return ok(views.html.user.rejectPayment.render());
+    }
+
+    public Result see1(){
+        return ok(views.html.user.successfulPayment.render());
+    }
 
 
 }

@@ -134,3 +134,6 @@ GET           /validate/:token                                  @controllers.Use
 
 #PayPal
 #POST        /hotel/room/reservation                         @controllers.PayPal.payPal()
+
+GET           /rejectPayment                                    @controllers.Application.see()
+GET           /successfulPayment                                @controllers.Application.see1()
