@@ -109,14 +109,6 @@ public class Reservations extends Controller {
 
            payment.setRedirectUrls(redirects);
 
-           if(redirects == redirects.setReturnUrl("http://localhost:9000/user/register")) {
-               room.roomType = room.roomType - 1;
-               room.update();
-
-               reservation.status = ReservationStatus.APPROVED;
-               reservation.update();
-           }
-
            Payment madePayments = payment.create(context);
                String id = madePayments.getId();
                reservation.payment_id = id;
@@ -128,6 +120,14 @@ public class Reservations extends Controller {
                Links link = it.next();
                if (link.getRel().equals("approval_url")) {
 
+                   if(redirects == redirects.setReturnUrl("http://localhost:9000/user/register")) {
+                       room.roomType = room.roomType - 1;
+                       room.update();
+
+                       reservation.status = ReservationStatus.APPROVED;
+                       reservation.update();
+                   }
+                   
                    return redirect(link.getHref());
                }
            }
