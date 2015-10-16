@@ -50,8 +50,8 @@ POST          /admin/adminusers/:email                          @controllers.Use
 GET           /admin/adminhotels                                @controllers.Users.showAdminHotels()
 GET           /admin/adminusers                                 @controllers.Users.showAdminUsers()
 
-DELETE        /admin/adminhotels/:id                          @controllers.Hotels.deleteHotelAdmin(id: Integer)
-DELETE        /admin/adminusers/:email                        @controllers.Users.deleteUser(email: String)
+DELETE        /admin/adminhotels/:id                            @controllers.Hotels.deleteHotelAdmin(id: Integer)
+DELETE        /admin/adminusers/:email                          @controllers.Users.deleteUser(email: String)
 
 GET           /admin/adminfeatures/editFeature/:id              @controllers.Features.editfeature(id: Integer)
 
@@ -70,7 +70,7 @@ POST          /seller/saverestaurant/:hotelId                   @controllers.Res
 GET           /seller/editrestaurant/:id                        @controllers.Restaurants.editRestaurant(id: Integer)
 POST          /seller/updaterestaurant/:id                      @controllers.Restaurants.updateRestaurant(id: Integer)
 
-DELETE        /seller/deleterestaurant/:id                    @controllers.Restaurants.deleteRestaurant(id: Integer)
+DELETE        /seller/deleterestaurant/:id                      @controllers.Restaurants.deleteRestaurant(id: Integer)
 #GET         /seller/viewrestaurant/:restaurant              @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
 
 #PayPal
@@ -82,8 +82,9 @@ GET           /room/:id                                         @controllers.Roo
 POST          /seller/saveroom/:hotelId                         @controllers.Rooms.saveRoom(hotelId: Integer)
 GET           /seller/updateroom/:id                            @controllers.Rooms.editRoom(id: Integer)
 POST          /seller/updateroom/:id                            @controllers.Rooms.updateRoom(id: Integer)
-DELETE        /seller/updateroom/delete/:id                   @controllers.Prices.delete(id: Integer)
-DELETE        /deleteroom/:roomId                             @controllers.Rooms.deleteRoom(roomId: Integer)
+DELETE        /seller/updateroom/delete/:id                     @controllers.Prices.delete(id: Integer)
+DELETE        /deleteroom/:roomId                               @controllers.Rooms.deleteRoom(roomId: Integer)
+
 GET           /seller/hotelreservations/:hotelId                @controllers.Rooms.hotelReservations(hotelId: Integer)
 
 
