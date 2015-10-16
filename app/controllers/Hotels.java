@@ -133,6 +133,7 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        List<Room> rooms = hotel1.rooms;
         if(hotel1 != null) {
             hotel1.update();
         }
@@ -141,9 +142,9 @@ public class Hotels extends Controller {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
             Boolean hasRights = Comment.userHasRightsToCommentThisHotel(request().cookies().get("email").value(), hotel1);
             Boolean alreadyCommented = Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1);
-            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user));
+            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, false, true, user));
+            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms));
         }
     }
 

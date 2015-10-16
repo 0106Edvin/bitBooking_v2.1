@@ -45,7 +45,7 @@
                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                             @if(AppUser.sellersHotelByRoomId(room, currentUser)) {
                                 <div>
-                                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size : 17 px ;">
+                                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px">
                                         EDIT</button> </a>
                                 </div>
                             }
