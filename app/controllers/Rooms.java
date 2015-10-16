@@ -37,6 +37,21 @@ public class Rooms extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result allReservations() {
+        if(session("email") == null) {
+            flash("error-search", "Try logging in to see this part of site.");
+            return redirect(routes.Application.index());
+        }
+        AppUser user = AppUser.finder.where().eq("email", session("email").toLowerCase()).findUnique();
+        List<Hotel> hotels = Hotel.finder.where().eq("seller_id", user.id).findList();
+        if (hotels == null || hotels.size() == 0) {
+            flash("info", "You have no hotels, try contacting our staff for more informations.");
+            return redirect("/#mailPanel");
+        }
+        return ok(views.html.seller.allReservations.render(hotels));
+    }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result saveRoom(Integer hotelId) {
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();

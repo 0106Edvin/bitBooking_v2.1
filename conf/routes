@@ -111,12 +111,10 @@ GET           /api/admin/adminfeatures/:id                      @controllers.Api
 
 GET           /api/admin/adminfeatures/editFeature/:id          @controllers.ApiFeatures.editfeature(id: Integer)
 
-POST          /seller/hotelreservations/:id                     @controllers.Reservations.setStatus(id: Integer)
 
 GET           /buyer/showbuyerreservations/:buyerId             @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 POST          /buyer/showbuyerreservations/:id                  @controllers.Reservations.setStatusByUser(id: Integer)
 
-GET           /api/admin/adminfeatures/editFeature/:id          @controllers.ApiFeatures.editfeature(id: Integer)
 
 
 GET           /hotel/search/advanced                            @controllers.Hotels.advancedSearch()
@@ -134,8 +132,9 @@ GET           /validate/:token                                  @controllers.Use
 
 #PayPal
 #POST        /hotel/room/reservation                         @controllers.PayPal.payPal()
-GET          /paypal/success                                 @controllers.Reservations.paypalSuccess()
+GET           /paypal/success                                   @controllers.Reservations.paypalSuccess()
 
 
 GET           /rejectPayment                                    @controllers.Application.see()
 GET           /successfulPayment                                @controllers.Application.see1()
+GET           /seller/allreservations                           @controllers.Rooms.allReservations()
