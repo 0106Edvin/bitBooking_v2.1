@@ -28,7 +28,25 @@ public class Restaurants extends Controller {
 
         if (!Restaurant.existsInDB(hotelId)) {
             Form<Restaurant> boundForm = restaurantForm.bindFromRequest();
-            Restaurant restaurant = boundForm.get();
+
+            Restaurant restaurant = new Restaurant();
+            Form<Restaurant> restaurantForm1 = restaurantForm.bindFromRequest();
+
+            String name = restaurantForm1.field("name").value();
+            String restauranType = restaurantForm1.field("restauranType").value();
+            Integer capacity = Integer.parseInt(restaurantForm1.field("capacity").value());
+            String description = restaurantForm1.field("description").value();
+            String open = restaurantForm1.field("restOpen").value();
+            String close = restaurantForm1.field("restClose").value();
+            String workingHours = open + " - " + close;
+
+
+            restaurant.name = name;
+            restaurant.restauranType = restauranType;
+            restaurant.capacity = capacity;
+            restaurant.workingHours = workingHours;
+            restaurant.description = description;
+
 
             Hotel hotel = Hotel.findHotelById(hotelId);
             restaurant.hotel = hotel;
@@ -42,6 +60,7 @@ public class Restaurants extends Controller {
         }
 
         if (session("userId") != null) {
+            flash("create","The hotel was created!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());
@@ -69,9 +88,10 @@ public class Restaurants extends Controller {
         String name = restaurantForm1.field("name").value();
         String restauranType = restaurantForm1.field("restauranType").value();
         Integer capacity = Integer.parseInt(restaurantForm1.field("capacity").value());
-        String workingHours = restaurantForm1.field("workingHours").value();
         String description = restaurantForm1.field("description").value();
-
+        String open = restaurantForm1.field("restOpen").value();
+        String close = restaurantForm1.field("restClose").value();
+        String workingHours = open + " - " + close;
 
         restaurant.name = name;
         restaurant.restauranType = restauranType;
@@ -93,6 +113,7 @@ public class Restaurants extends Controller {
         restaurant.update();
 
         if (session("userId") != null) {
+            flash("edit","The hotel was updated!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());
@@ -102,7 +123,7 @@ public class Restaurants extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editRestaurant(Integer restaurantId) {
         Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
-        return ok(updateRestaurant.render(restaurant));
+        return ok(views.html.restaurant.updateRestaurant.render(restaurant));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
@@ -111,10 +132,15 @@ public class Restaurants extends Controller {
         if (session("userId") != null) {
             Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
             restaurant.delete();
-            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
-        } else {
-            return redirect(routes.Application.index());
+            flash("delete", "Restaurant deleted");
+            return ok(Integer.parseInt(session("userId")) + "");
         }
+        return internalServerError();
+    }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
+    public static void splitTime(){
+
     }
 
 //    public Result viewRestaurant(Integer restaurantId) {

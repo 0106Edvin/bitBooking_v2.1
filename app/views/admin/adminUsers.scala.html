@@ -2,6 +2,8 @@
 
 @(users: java.util.List[AppUser])
 @main {
+    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
@@ -93,9 +95,8 @@
                                 </form>
                                 <form method="delete" action="@routes.Users.deleteUser(user.email)">
                                     <td>
-                                        <a onclick=" return deleteConfirmation()" href="@routes.Users.deleteUser(user.email)">
-                                            <button data-role="delete" class="btn btn-danger" style="font-size: 18px;">Delete</button>
-                                        </a>
+                                        <a data-role="delete" data-delete-parent="tr" href="@routes.Users.deleteUser(user.email)" role="button">
+                                            <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
 
                                     </td>
                                 </form>

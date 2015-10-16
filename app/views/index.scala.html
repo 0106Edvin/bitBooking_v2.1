@@ -43,14 +43,6 @@
                             </div>
                         </div>
                         <div class="item">
-                            <img src="@routes.Assets.versioned("img/slide-three.jpg")" alt="">
-                            <div class="carousel-caption">
-                                <h2>providing</h2>
-                                <p>high quality service for booking</p>
-                                <a href="#searchPanel"><button>search hotels</button></a>
-                            </div>
-                        </div>
-                        <div class="item">
                             <img src="@routes.Assets.versioned("img/slide-four.jpg")" alt="">
                             <div class="carousel-caption">
                                 <h2>providing</h2>
@@ -311,14 +303,14 @@
 
                         <form method="post" action="@routes.Emails.sendMail()">
 
-                            <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onblur="checkName()" onfocusout="checkNameLength()">
+                            <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onblur="checkName()" onkeyup="checkNameLength()">
                             <div style="font-size: 20px; color: red" id="name_error"></div>
                             <div style="font-size: 20px; color: red" id="namelength_error"></div>
 
-                            <input id="email" name="mail" class="email" type="email" placeholder="Emails" required onblur="checkEmail()">
+                            <input id="email" name="mail" class="email" type="email" placeholder="Emails" required onkeyup="checkEmail()">
                             <div style="font-size: 20px; color: red" id="email_error"></div>
 
-                            <input id="subject" name="subject" type="text" placeholder="Subject" required onblur="checkSubject()" onfocusout="checkSubjectLength()">
+                            <input id="subject" name="subject" type="text" placeholder="Subject" required onkeyup="checkSubject()" onkeyup="checkSubjectLength()">
                             <div style="font-size: 20px; color: red" id="subject_error"></div>
                             <div style="font-size: 20px; color: red" id="subjectlength_error"></div>
 
@@ -331,6 +323,15 @@
 
 
                             }
+                            </div>
+
+                            <div style="font-size: 20px; color: #33FF00" class="duplicate-email" >
+                                @if(flash.containsKey("success")){
+                                    <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                                        @flash.get("success")
+
+
+                                }
                             </div>
                             <div class="g-recaptcha" data-sitekey="6LfB5g0TAAAAAD3vjlDKc3MuTDGkZji-WiD_skWH"></div>
 

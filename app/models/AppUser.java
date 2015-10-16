@@ -1,13 +1,13 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.UserAccessLevel;
 import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
-
-import helpers.*;
 
 /**
  * Model of App_User. App_User is a person who sign up into database on bitBooking.ba web page
@@ -45,6 +45,15 @@ public class AppUser extends Model {
     @Constraints.Pattern(value = "\\d+", message = "Phone number can contain digits only!")
     public String phoneNumber;
 
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
     public Integer userAccessLevel = UserAccessLevel.BUYER;
 
     @OneToOne
@@ -52,6 +61,11 @@ public class AppUser extends Model {
 
     @OneToMany
     public List<Reservation> reservations;
+
+    @Column(unique = true)
+    public String token;
+    public boolean validated = false;
+
     /**
      * Default constructor
      */
@@ -67,7 +81,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -75,6 +89,7 @@ public class AppUser extends Model {
         this.phoneNumber = phoneNumber;
         this.profileImg = profileImg;
         this.reservations = reservations;
+        this.token = token;
     }
 
     /**
@@ -146,6 +161,54 @@ public class AppUser extends Model {
     public static AppUser findUserById(Integer id){
         AppUser user = finder.where().eq("id",id).findUnique();
         return user;
+    }
+
+    /**
+     * Retreives user from database with provided token
+     * @param token
+     * @return
+     */
+    public static AppUser findUserByToken(String token) {
+        return finder.where().eq("token", token).findUnique();
+    }
+
+    /**
+     * Validates user
+     * @param user
+     * @return
+     */
+    public static boolean validateUser(AppUser user) {
+        if (user == null) {
+            return false;
+        }
+        user.token = null;
+        user.validated = true;
+        user.update();
+        return true;
+    }
+
+    public static Boolean sellersHotel(Hotel hotel, AppUser seller){
+        if(hotel.sellerId == seller.id){
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean sellersHotelByRoomId(Room room, AppUser user){
+        Hotel hotel = room.hotel;
+        if(user != null)
+        if(hotel.sellerId == user.id) {
+            return true;
+        }
+        return false;
+    }
+
+    public static AppUser sellersHotel2(Hotel hotel, AppUser seller){
+        if(hotel.sellerId == seller.id) {
+            return seller;
+        } else {
+            return null;
+        }
     }
 }
 

@@ -24,6 +24,15 @@ public class Restaurant extends Model {
     @Column(columnDefinition = "TEXT")
     public String description;
 
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
     @OneToOne
     public Hotel hotel;
 
@@ -44,6 +53,10 @@ public class Restaurant extends Model {
         this.hotel = hotel;
         this.images = images;
         this.timestamp = timestamp;
+    }
+
+    public Restaurant(){
+
     }
 
     //method that finds restaurant by hotel_id
@@ -69,5 +82,21 @@ public class Restaurant extends Model {
     public static Boolean existsInDB(Integer hotelId) {
         Restaurant restaurant = finder.where().eq("hotel_id", hotelId).findUnique();
         return (restaurant == null) ? false : true;
+    }
+
+    public static String startsAt(Integer restaurantId){
+        Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+
+        String[] res = restaurant.workingHours.split(" - ");
+        String open = res[0];
+        return open;
+    }
+
+    public static String closesAt(Integer restaurantId){
+        Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
+
+        String[] res = restaurant.workingHours.split(" - ");
+        String close = res[1];
+        return close;
     }
 }

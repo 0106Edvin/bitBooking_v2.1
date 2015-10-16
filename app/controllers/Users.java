@@ -4,6 +4,11 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
+import org.slf4j.LoggerFactory;
+import play.Logger;
+import play.Play;
+import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -21,6 +26,7 @@ import views.html.user.register;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -88,10 +94,18 @@ public class Users extends Controller {
             try {
                 user = boundForm.get();
                 user.hashPass();
+
+                user.token = UUID.randomUUID().toString();
                 user.save();
-                return redirect(routes.Application.index());
+
+                // Sending Email To user
+                String host = Play.application().configuration().getString("url") + "validate/" + user.token;
+                MailHelper.send(user.email, host);
+
+                flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                return badRequest(login.render(userForm));
             } catch (Exception e) {
-                flash("error", "Email allready exists in our database, please try again!");
+                flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
             }
         }
@@ -105,7 +119,6 @@ public class Users extends Controller {
      * @return
      */
     public Result login() {
-
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         String email = boundForm.field("email").value();
@@ -113,7 +126,10 @@ public class Users extends Controller {
 
         AppUser user = AppUser.authenticate(email, password);
 
-        if (user == null) {
+        if (user != null && !user.validated) {
+            flash("login-error", "You need to verify your email first. Check your email, please.");
+            return badRequest(login.render(userForm));
+        } else if (user == null) {
             flash("login-error", "Incorrect email or password! Try again.");
             return badRequest(login.render(userForm));
         } else if (user.userAccessLevel == UserAccessLevel.ADMIN) {
@@ -164,7 +180,8 @@ public class Users extends Controller {
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result showManagerHotels() {
         List<Hotel> hotels = finder.all();
-        return ok(managerHotels.render(hotels));
+        List<AppUser> users = AppUser.finder.all();
+        return ok(managerHotels.render(hotels, users));
     }
 
     /*shows the list of hotels to hotel manager*/
@@ -275,18 +292,52 @@ public class Users extends Controller {
     }
 
     /**
-     * Checks if buyer have any pending reservations status changed.
+     * Checks if seller have any approved reservations.
      *
-     * @return <code>int</code> type value of number of new notification
+     * @return <code>Integer</code> type value of number of new notification
      * is sent to ajax function. Notification is shown as badge in main view.
      */
-    @Security.Authenticated(Authenticators.BuyerFilter.class)
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result reservationApprovedNotification() {
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
-        int notification = Reservation.finder.where().eq("user_id", temp.id).eq("notification", ReservationStatus.NEW_NOTIFICATION).findRowCount();
+        Integer notification = Reservation.getNumberOfPayedReservations(temp.id);
         return ok(String.valueOf(notification));
     }
 
+    public Result emailValidation(String token) {
+        try {
+            AppUser user = AppUser.findUserByToken(token);
+            if (token == null) {
+                return redirect(routes.Application.index());
+            }
+            if (AppUser.validateUser(user)) {
+                flash("registration-msg", "Thank you for joining us. Your email has been verified. Please continue by logging in and enjoy searching some of the best places in the world.");
+                return badRequest(login.render(userForm));
+            } else {
+                return redirect(routes.Application.index());
+            }
+        } catch (Exception e) {
+            return redirect(routes.Application.index());
+        }
+    }
 
+    public Result changeSeller(Integer hotelId) {
+        Form<AppUser> userForm = Form.form(AppUser.class);
+        Form<AppUser> boundForm = userForm.bindFromRequest();
+
+        String email = boundForm.field("selleremail").value();
+
+        AppUser seller = AppUser.getUserByEmail(email);
+        Hotel hotel = Hotel.findHotelById(hotelId);
+
+        hotel.sellerId = seller.id;
+        hotel.update();
+
+        List<Hotel> hotels = finder.all();
+        List<AppUser> users = AppUser.finder.all();
+
+        flash("seller-changed", "Seller was successfully updated.");
+        return ok(managerHotels.render(hotels, users));
+    }
 
 }

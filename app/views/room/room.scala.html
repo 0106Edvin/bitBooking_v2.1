@@ -1,5 +1,6 @@
 @import helpers.UserAccessLevel
 @import helpers.CommonHelperMethods
+@import models.AppUser
 @(room: Room)(currentUser: AppUser)
 @main {
     <div class="container">
@@ -19,10 +20,10 @@
                                 <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
                             }
                             @if(room.roomType != 0){
-                            <label style="color: lawngreen; font-size: 20px; text-align: center ">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
+                            <label id="available">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
 
                             } else {
-                            <label style="color : red; font-size: 20px; text-align: center ">NOT AVAILABLE</label>
+                            <label id="not-available">NOT AVAILABLE</label>
                             }
                             <hr/>
                         </div>
@@ -42,44 +43,61 @@
                             </h1>
                         </div>
                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                            <div>
-                                <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px;">EDIT</button> </a>
-                            </div>
+                            @if(AppUser.sellersHotelByRoomId(room, currentUser)) {
+                                <div>
+                                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px">
+                                        EDIT</button> </a>
+                                </div>
+                            }
                         }
                     </div>
                 </div>
                 <div class="row">
+
                     @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
-                        <div class="col-md-5 contact-info text-left">
-                            <h3>Make your reservation</h3>
-                            <div class="duplicate-email" style="font-size: 20px;color: red">
-                            @if(flash.containsKey("error")) {
-                                @flash.get("error")
-                            }
+                            <div class="col-md-5 contact-info text-left">
+
+                                    <h3>Make your reservation</h3>
+                                    <div class="duplicate-email" style="font-size : 20px ; color : red">
+                                    @if(flash.containsKey("error")) {
+                                        @flash.get("error")
+
+                                    }
+                                    </div>
+
+                                    <form method="post"  action="@routes.Reservations.payPal(room.id)">
+                                        <div class="info-detail" >
+                                            <div class="col-md-5">
+                                                <div class="service">
+                                                    <h4>Check-in:</h4>
+                                                </div>
+                                                <input class="date-class" name="checkIn" id="date" placeholder="select date"/>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="service">
+                                                    <h4>Check-out:</h4>
+                                                </div>
+                                                <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
+                                            </div>
+                                        </div>
+
+                                        <span class="font-size-20" id="price-for-period" style="float: right"></span>
+
+                                        @if(room.prices.size() == 0 || room.roomType == 0) {
+                                            <button class="btn btn-primary book" disabled>Pay Pal</button>
+                                        } else {
+                                            <button class="btn btn-primary book" >Pay Pal</button>
+                                        }
+                                    </form>
+
+                              }
+
                             </div>
-                            <form action="@routes.Reservations.saveReservation(room.id)" method="post">
-                                <div class="info-detail" >
-                                    <div class="col-md-5">
-                                        <div class="service">
-                                            <h4>From:</h4>
-                                        </div>
-                                        <input name="checkIn" id="date" placeholder="select date"/>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="service">
-                                            <h4>To:</h4>
-                                        </div>
-                                        <input name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
-                                    </div>
-                                </div>
 
-                                <input type="submit"  class="btn btn-primary" value="BOOK IT" id="bookit" onclick="@routes.Reservations.saveReservation(room.id)">
-                                <span class="font-size-20" id="price-for-period"></span>
+                            <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
 
-                            </form>
-                        </div>
-                        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
-                    }
+
+
                         <div class="col-md-5 contact-info text-left">
                             <h3>Prices</h3>
                             <div class="info-detail">
@@ -113,6 +131,7 @@
                                 </div>
                             </div>
                         </div>
+
                 </div>
             </div>
         </div>

@@ -10,10 +10,17 @@ create table app_user (
   email                     varchar(255),
   password                  varchar(255),
   phone_number              varchar(255),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   user_access_level         integer,
   profile_img_id            integer,
+  token                     varchar(255),
+  validated                 tinyint(1) default 0,
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
+  constraint uq_app_user_token unique (token),
   constraint pk_app_user primary key (id))
 ;
 
@@ -24,12 +31,20 @@ create table comment (
   title                     varchar(255),
   content                   varchar(255),
   rating                    double,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   constraint pk_comment primary key (id))
 ;
 
 create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   icon_id                   integer,
   constraint uq_feature_name unique (name),
   constraint uq_feature_icon_id unique (icon_id),
@@ -47,7 +62,12 @@ create table hotel (
   coordinate_y              varchar(255),
   seller_id                 integer,
   rating                    double,
+  page_visits               integer,
   stars                     integer(1),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   constraint pk_hotel primary key (id))
 ;
 
@@ -69,20 +89,28 @@ create table price (
   date_from                 datetime,
   date_to                   datetime,
   cost                      decimal(38),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   room_id                   integer,
   constraint pk_price primary key (id))
 ;
 
 create table reservation (
   id                        integer auto_increment not null,
+  payment_id                varchar(255),
   cost                      decimal(38),
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,
   notification              integer(1),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   room_id                   integer,
   user_id                   integer,
-  time_of_reservation       datetime,
   constraint pk_reservation primary key (id))
 ;
 
@@ -93,6 +121,10 @@ create table restaurant (
   capacity                  integer,
   working_hours             varchar(255),
   description               TEXT,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   hotel_id                  integer,
   timestamp                 datetime,
   constraint uq_restaurant_hotel_id unique (hotel_id),
@@ -105,8 +137,26 @@ create table room (
   number_of_beds            integer,
   name                      varchar(255),
   room_type                 integer,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
   hotel_id                  integer,
   constraint pk_room primary key (id))
+;
+
+create table site_stats (
+  id                        integer auto_increment not null,
+  ip_address                varchar(40),
+  overall_visits            integer,
+  page_visited              varchar(5),
+  hotel_id                  integer,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_site_stats_ip_address unique (ip_address),
+  constraint pk_site_stats primary key (id))
 ;
 
 
@@ -183,6 +233,8 @@ drop table restaurant;
 drop table room;
 
 drop table room_feature;
+
+drop table site_stats;
 
 SET FOREIGN_KEY_CHECKS=1;
 

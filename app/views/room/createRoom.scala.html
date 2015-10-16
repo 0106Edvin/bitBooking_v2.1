@@ -1,3 +1,4 @@
+
 @(features: List[Feature])(hotelId: Integer)
     @import helper._
     @main {
@@ -33,7 +34,7 @@
                                         <div>
                                             <span>
                                                 <input type="checkbox" style="width: 16px; height: 16px;" class="fa-check-circle" id="@feature.id" name="@feature.name"/>
-                                                <label style="font-size: 19px; color: #FFFFFF;" for="@feature.name">@feature.name</label>
+                                                <label style="font-size: 19px; color: #FFFFFF; text-transform: capitalize;" for="@feature.name">@feature.name</label>
                                             </span>
                                         </div>
                                     }

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class Reservation extends Model {
 
     @Id
     public Integer id;
+
+    public String payment_id;
 
     public BigDecimal cost;
 
@@ -38,31 +41,37 @@ public class Reservation extends Model {
     @Column(name = "notification", length = 1)
     public Integer notification;
 
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
+
     @ManyToOne
     public Room room;
 
     @ManyToOne
     public AppUser user;
 
-    @Formats.DateTime(pattern = "dd/MM/yyyy")
-    @Column(columnDefinition = "datetime")
-    public Date timeOfReservation;
 
     public Reservation(){}
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation, String payment_id) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.status = ReservationStatus.PENDING;
+        this.status = ReservationStatus.APPROVED;
         this.room = room;
         this.user = user;
-        this.timeOfReservation = timeOfReservation;
+        this.payment_id = payment_id;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("%s has reserved %s room from %s till %s for %s",user.firstname,room.name,checkIn,checkOut,cost);
     }
 
@@ -71,14 +80,41 @@ public class Reservation extends Model {
         return reservation;
     }
     
-    public static List<Reservation> findReservationByUserId(Integer id){
+    public static List<Reservation> findReservationByUserId(Integer id) {
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;
     }
 
-    public static Room findRoomByReservation(Reservation reservation){
+    public static Room findRoomByReservation(Reservation reservation) {
         Room room = reservation.room;
         return room;
+    }
+    public static String findHotelNameByReservation(Reservation reservation) {
+        return reservation.room.hotel.name;
+    }
+    public static Integer findNumberOfBedsByReservation(Reservation reservation) {
+        return reservation.room.numberOfBeds;
+    }
+
+    public static List<Reservation> findReservationsByHotelAndUserIds(Integer hotelId, AppUser user) {
+        List<Room> rooms = Room.findRoomsByHotelId(hotelId);
+        List<Reservation> reservations = new ArrayList<>();
+
+        for (int i = 0; i < rooms.size(); i++) {
+            List<Reservation> allReservations = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findList();
+            for (int j = 0; j < allReservations.size(); j++) {
+                Reservation reservation = allReservations.get(j);
+                if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
+                   reservations.add(reservation);
+                }
+            }
+//            Reservation reservation = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findUnique();
+//            if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
+//               reservations.add(reservation);
+//            }
+        }
+
+        return reservations;
     }
 
     public BigDecimal getCost() {
@@ -95,6 +131,40 @@ public class Reservation extends Model {
             }
         }
         return cost;
+    }
+
+
+    public void setCreatedBy(String firstName, String lastName) {
+        this.createdBy = firstName + " " + lastName;
+    }
+
+    public void setUpdatedBy(String firstName, String lastName) {
+        this.updatedBy = firstName + " " + lastName;
+    }
+
+    public static Integer getNumberOfPayedReservations(Integer sellerId) {
+        Integer total = 0;
+        List<Hotel> hotels = SiteStats.getManagersHotels(sellerId);
+        for (Hotel hotel : hotels) {
+            for (Room room : hotel.rooms) {
+                for (Reservation res : room.reservations) {
+                    if (res.status.equals(ReservationStatus.APPROVED)) {
+                        total++;
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
+    @Override
+    public void update() {
+        updateDate = new Date();
+        super.update();
+    }
+
+    public static Reservation findByPaymentId(String id) {
+        return finder.where().eq("payment_id",id).findUnique();
     }
 
 }

@@ -37,12 +37,12 @@ public class Global extends GlobalSettings {
     public void onStart(Application application) {
       Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
 
-//        if(AppUser.finder.findRowCount() == 0) {
-//            FillDatabase.createUsers();
-//        }
-//        if (Hotel.finder.findRowCount() == 0) {
-//            FillDatabase.createHotels();
-//        }
+        if(AppUser.finder.findRowCount() == 0) {
+            FillDatabase.createUsers();
+        }
+        if (Hotel.finder.findRowCount() == 0) {
+            FillDatabase.createHotels();
+        }
     }
 
 //    @Override

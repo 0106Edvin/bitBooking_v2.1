@@ -1,14 +1,15 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
 import play.Logger;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import helpers.Constants;
 
 /**
  * Created by Edvin Mulabdic on 9/6/2015.
@@ -33,8 +34,18 @@ public class Hotel extends Model {
     public Integer sellerId;
     private Double rating;
 
+    @Column(name = "page_visits")
+    public Integer hotelPageVisits = 0;
     @Column(name="stars", length = 1)
     public Integer stars;
+    @Column(name = "updated_by", length = 50)
+    public String updatedBy;
+    @Column(name = "update_date", columnDefinition = "datetime")
+    public Date updateDate;
+    @Column(name = "created_by", length = 50, updatable = false)
+    public String createdBy;
+    @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
+    public Date createDate = new Date();
 
     @ManyToMany
     public List<Feature> features;
@@ -128,5 +139,16 @@ public class Hotel extends Model {
         rating = Double.valueOf(format.format(rating));
         return rating;
     }
+    public static AppUser findUserByHotel (Hotel hotel){
+        Integer userId = hotel.sellerId;
+        AppUser user = AppUser.findUserById(userId);
+        return user;
+    }
 
+    @Override
+    public void update() {
+        updateDate = new Date();
+        hotelPageVisits += SiteStats.INCREMENT_BY_ONE;
+        super.update();
+    }
 }

@@ -67,6 +67,7 @@ public class FillDatabase {
             teammate.lastname = LAST_NAME_TEAM[i];
             teammate.userAccessLevel = UserAccessLevel.ADMIN;
             teammate.phoneNumber = "123456789";
+            teammate.validated = true;
             teammate.save();
         }
 
@@ -79,31 +80,34 @@ public class FillDatabase {
             manager.lastname = LAST_NAME_HOTEL_MANAGERS[i];
             manager.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
             manager.phoneNumber = "123456789";
+            manager.validated = true;
             manager.save();
         }
 
         for(int i = 0; i < FIRST_NAME_SELLERS.length; i++) {
-            AppUser manager = new AppUser();
-            manager.email = EMAIL_SELLERS[i];
-            manager.password = "Seller123";
-            manager.hashPass();
-            manager.firstname = FIRST_NAME_SELLERS[i];
-            manager.lastname = LAST_NAME_SELLERS[i];
-            manager.userAccessLevel = UserAccessLevel.SELLER;
-            manager.phoneNumber = "123456789";
-            manager.save();
+            AppUser seller = new AppUser();
+            seller.email = EMAIL_SELLERS[i];
+            seller.password = "Seller123";
+            seller.hashPass();
+            seller.firstname = FIRST_NAME_SELLERS[i];
+            seller.lastname = LAST_NAME_SELLERS[i];
+            seller.userAccessLevel = UserAccessLevel.SELLER;
+            seller.phoneNumber = "123456789";
+            seller.validated = true;
+            seller.save();
         }
 
         for(int i = 0; i < FIRST_NAME_BUYERS.length; i++) {
-            AppUser manager = new AppUser();
-            manager.email = EMAIL_BUYERS[i];
-            manager.password = "Buyer123";
-            manager.hashPass();
-            manager.firstname = FIRST_NAME_BUYERS[i];
-            manager.lastname = LAST_NAME_BUYERS[i];
-            manager.userAccessLevel = UserAccessLevel.BUYER;
-            manager.phoneNumber = "123456789";
-            manager.save();
+            AppUser buyer = new AppUser();
+            buyer.email = EMAIL_BUYERS[i];
+            buyer.password = "Buyer123";
+            buyer.hashPass();
+            buyer.firstname = FIRST_NAME_BUYERS[i];
+            buyer.lastname = LAST_NAME_BUYERS[i];
+            buyer.userAccessLevel = UserAccessLevel.BUYER;
+            buyer.phoneNumber = "123456789";
+            buyer.validated = true;
+            buyer.save();
         }
 
     }

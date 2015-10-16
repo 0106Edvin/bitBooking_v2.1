@@ -1,0 +1,159 @@
+@import helpers.UserAccessLevel
+@import helpers.CommonHelperMethods
+@(user: AppUser)
+@main {
+
+    <br> <br> <br> <br> <br>
+    <div class="container">
+        <div class="text-center">
+
+            <br> <br>
+            <h2>Site stats</h2>
+            <p class="font-size-15">Statistic created at</p>
+            <p class="font-size-15">@CommonHelperMethods.getCurrentDateFormated</p>
+            <hr>
+            <br> <br> <br>
+                <!-- SITE STATS -->
+            <p class="font-size-20"> Site </p>
+                <br>
+            <table class="table">
+                <thead class="alert-info">
+                    <tr>
+                        <th class="font-size-15 text-center">Unique site visits</th>
+                        <th class="font-size-15 text-center">Total site visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-size-15">@SiteStats.getUniquePageVisits()</td>
+                        <td class="font-size-15">@SiteStats.getTotalOfPageVisits()</td>
+                    </tr>
+                </tbody>
+            </table>
+                <!-- END OF SITE STATS -->
+            <hr>
+
+            <br> <br>
+
+                <!-- USERS STATS -->
+            <p class="font-size-20"> Users </p>
+            <br>
+            <table class="table table-condensed table-bordered table-striped volumes font-size-15">
+                <thead>
+                    <tr>
+                        <th>USERS</th>
+                        <th>NUMBERS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Active users</strong></td>
+                        <td>@SiteStats.getNumberOfActiveUsers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inactive users</strong></td>
+                        <td>@SiteStats.getNumberOfInactiveUsers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registered hotel managers</strong></td>
+                        <td>@SiteStats.getNumberOfUsersByRole(UserAccessLevel.HOTEL_MANAGER)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registered sellers</strong></td>
+                        <td>@SiteStats.getNumberOfUsersByRole(UserAccessLevel.SELLER)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registered Buyers</strong></td>
+                        <td>@SiteStats.getNumberOfUsersByRole(UserAccessLevel.BUYER)</td>
+                    </tr>
+                </tbody>
+            </table>
+                <!-- END OF USERS STATS -->
+            <hr>
+            <br> <br> <br> <br> <br> <br> <br> <br>
+
+                <!-- HOTELS STATS -->
+            <p class="font-size-20"> Hotels </p>
+            <br>
+            <table class="table table-condensed table-bordered table-striped volumes font-size-15">
+                <thead>
+                    <tr class="text-center">
+                        <th>HOTEL</th>
+                        <th>CITY</th>
+                        <th>STARS</th>
+                        <th>FEATURES</th>
+                        <th>RATING</th>
+                        <th>HOTEL PAGE VISITS</th>
+                        <th>HOTEL VISITS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                    <tr>
+                        <td><strong>@hotel.name</strong></td>
+                        <td>@hotel.city</td>
+                        <td>@hotel.stars</td>
+                        <td>@SiteStats.getNumberOfHotelFeatures(hotel)</td>
+                        <td>@hotel.getRating</td>
+                        <td>@hotel.hotelPageVisits</td>
+                        <td>@SiteStats.getNumberOfVisitsPerHotel(hotel)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+                <!-- END OF HOTELS STATS -->
+
+            <hr>
+            <br> <br>
+                <!-- ROOM STATS -->
+            <p class="font-size-20">Rooms</p>
+            <br>
+            <table class="table table-condensed table-bordered table-striped volumes font-size-15">
+                <thead>
+                    <tr>
+                        <th>HOTEL</th>
+                        <th>ROOM</th>
+                        <th>NUMBER OF VISITS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                    <tr>
+                        <td>@hotel.name</td>
+                        <td>@SiteStats.getMostVisitedRoom(hotel.rooms).name</td>
+                        <td>@SiteStats.getNumberOfVisitsPerRoom(SiteStats.getMostVisitedRoom(hotel.rooms))</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+                <!-- END OF ROOMS STATS -->
+
+            <hr>
+            <br><br><br><br><br><br><br><br>
+            <!-- MONEY STATS -->
+            <p class="font-size-20">Money</p>
+            <br>
+            <table class="table table-condensed table-bordered table-striped volumes font-size-15">
+                <thead>
+                    <tr>
+                        <th>HOTEL</th>
+                        <th>TOTAL EARNINGS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(hotel <- SiteStats.getManagersHotels(user.id)) {
+                    <tr>
+                        <td>@hotel.name</td>
+                        <td>@SiteStats.getTotalAmountPerHotel(hotel) $</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+                <!-- END OF MONEY STATS -->
+
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+}

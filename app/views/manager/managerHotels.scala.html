@@ -1,5 +1,9 @@
-@(hotels: java.util.List[Hotel])
+@import helpers.UserAccessLevel
+@import models.AppUser
+@(hotels: java.util.List[Hotel])(users: java.util.List[AppUser])
+
 @main {
+    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
 
     <div class="container">
         <div class="row">
@@ -7,30 +11,63 @@
                 <div class="contact-heading text-center">
                     <h2>Hotels</h2>
                 </div>
+                @if(flash.containsKey("seller-changed")) {
+                    <span style="font-size: 20px; color: #204d74;">
+                      @flash.get("seller-changed")
+                    </span>
+                }
+                <div id="success" style="font-size: 25px; color: greenyellow"></div>
+                <div id="error" style="font-size: 25px; color: red"></div>
                 <table class="table ">
                     <thead>
                         <tr class="service">
-                            <th style="font-size: 30px;">Name</th>
+                            <th style="font-size: 30px;">Hotel</th>
                             <th style="font-size: 30px;">Location</th>
                             <th style="font-size: 30px;">Description</th>
+                            <th style="font-size: 30px;">Seller</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @for(hotel <- hotels) {
-                            <tr class="service">
-                                <td style="font-size: 22px;">@hotel.name</td>
-                                <td style="font-size: 22px;">@hotel.location</td>
-                                <td style="font-size: 22px;">@hotel.description</td>
-                                <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
+                                <tr class="service">
+                                    <td style="font-size : 22px ;">@hotel.name</td>
+                                    <td style="font-size : 22px ;">@hotel.location</td>
+                                    <td style="font-size : 22px ;">@hotel.description</td>
                                     <td>
-                                        <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                            <button class="btn btn-danger"  id="middlebuttons">DELETE</button>
-                                        </a>
-                                    </td>
-                                </form>
+                                        <form method="post" action="@routes.Users.changeSeller(hotel.id)">
+                                        <select name="selleremail"  class="ddlsellers" onchange="@routes.Users.changeSeller(hotel.id)">
+                                            @for(user <- users) {
+                                                @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                                    @if(hotel.sellerId == user.id) {
+                                                        <option selected="true">
+                                                            @user.email
+                                                        </option>
+                                                    }else{
+                                                        <option>
+                                                            @user.email
+                                                        </option>
 
-                            </tr>
+                                                    }
+                                                 }
+                                            }
+
+                                    </select>
+                                    <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
+                                    </form>
+                                    </td>
+
+
+
+                                      <td>
+                                          <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
+                                              <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
+                                        </td>
+
+
+                                </tr>
+
+
                         }
                         <tr>
                             <td>

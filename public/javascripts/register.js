@@ -11,7 +11,7 @@ function checkEmail() {
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
     if (!filter.test(email.value)) {
-        document.getElementById('email_error').innerHTML = "Please provide a valid email adress!";
+        document.getElementById('email_error').innerHTML = "Please provide a valid email address!";
         return false;
     }else{
         document.getElementById('email_error').innerHTML = "";
@@ -128,11 +128,11 @@ function checkLastnameLength(){
 function numberLength(){
     var number = document.getElementById("phone-number").value;
 
-    if(number.length < 16 && number.value < 0){
+    if(number.length < 16 && number.length > 8){
         document.getElementById('numberlength_error').innerHTML="";
         return true;
     }else{
-        document.getElementById('numberlength_error').innerHTML="Number can have 15 digits max!";
+        document.getElementById('numberlength_error').innerHTML="Number can have min 9 and max 15 digits!";
         return false;
     }
 }

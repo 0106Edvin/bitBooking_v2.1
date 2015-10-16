@@ -2,8 +2,19 @@
     margin-top: 20%;
 }
 
+.rediconcolor {
+    color:red;
+}
 .font-size-20 {
     font-size: 20px;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.font-size-15 {
+    font-size: 15px;
 }
 
 .text-align {
@@ -16,11 +27,16 @@ body {
     font-family: 'BenchNine', sans-serif;
 
 }
+.date-class{
+    width: 150px;
+    font-size: 20px;
+}
 
 .update-label {
     font-size: 20px;
-    color:white;
+    color: white;
 }
+
 #hotelsbtn {
     margin-left: 60px;
 }
@@ -62,9 +78,12 @@ h1, h2 {
     font-weight: bold;
 }
 
-.useri {
-    width: 200px !important;
+.ddlsellers{
+    width: 150px;
+    font-size: 20px;
+    color: black;
 }
+
 
 /*header area*/
 .top-header {
