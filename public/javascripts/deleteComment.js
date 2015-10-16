@@ -4,7 +4,10 @@
 $('body').on('click', '#commDel[data-role="delete"]', function (e) {
     e.preventDefault();
     $toDelete = $(this);
-    var conf = bootbox.confirm("Are you sure you want to delete this comment?", function (result) {
+    var conf = bootbox.confirm({
+        className: "delete-modal-font",
+        message: "Are you sure you want to delete this comment?",
+        callback: function (result) {
         if (result != false) {
             $.ajax({
                 url: $toDelete.attr("href"),
@@ -13,5 +16,5 @@ $('body').on('click', '#commDel[data-role="delete"]', function (e) {
                 $toDelete.parents($toDelete.attr("data-delete-parent")).remove();
             });
         }
-    });
+    }});
 });

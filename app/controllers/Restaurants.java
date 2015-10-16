@@ -60,7 +60,7 @@ public class Restaurants extends Controller {
         }
 
         if (session("userId") != null) {
-            flash("create","The hotel was created!");
+            flash("create","The restaurant was created!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());
@@ -113,7 +113,7 @@ public class Restaurants extends Controller {
         restaurant.update();
 
         if (session("userId") != null) {
-            flash("edit","The hotel was updated!");
+            flash("edit","The restaurant was updated!");
             return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
         } else {
             return redirect(routes.Application.index());

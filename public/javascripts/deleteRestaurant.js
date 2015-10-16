@@ -4,7 +4,10 @@
 $('body').on('click', '#restDel[data-role="delete"]', function (e) {
     e.preventDefault();
     $toDelete = $(this);
-    var conf = bootbox.confirm("Are you sure you want to delete restaurant?", function (result) {
+    var conf = bootbox.confirm({
+        className: "delete-modal-font",
+        message: "Are you sure you want to delete restaurant?",
+        callback: function (result){
         if (result != false) {
             $.ajax({
                 url: $toDelete.attr("href"),
@@ -14,5 +17,5 @@ $('body').on('click', '#restDel[data-role="delete"]', function (e) {
                 window.location.href = '/seller/sellerPanel/' + response;
             });
         }
-    });
+    }});
 });

@@ -112,7 +112,7 @@
                                     <td class="font-size-18">@SiteStats.getNumberOfActiveUsers</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-size-18"><strong>Inactive users</strong></td>
+                                    <td class="font-size-18"><strong>Unverified users</strong></td>
                                     <td class="font-size-18">@SiteStats.getNumberOfInactiveUsers</td>
                                 </tr>
                                 <tr>
@@ -126,6 +126,10 @@
                                 <tr>
                                     <td class="font-size-18"><strong>Registered Buyers</strong></td>
                                     <td class="font-size-18">@SiteStats.getNumberOfUsersByRole(UserAccessLevel.BUYER)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-size-18 alert-info"><stong>Total users</stong></td>
+                                    <td class="font-size-18 alert-info">@SiteStats.getTotalUsers</td>
                                 </tr>
                             </tbody>
                         </table>
