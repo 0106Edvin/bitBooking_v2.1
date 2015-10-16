@@ -4,6 +4,8 @@
 @(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
 
 @main{
+    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
@@ -48,9 +50,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
-                                                    <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px; color: white"></i>
-                                                </a>
+                                                <a data-role="delete" data-delete-parent="tr" href="@routes.Rooms.deleteRoom(room.id)" role="button">
+                                                    <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
                                             </td>
                                         }
                                     }

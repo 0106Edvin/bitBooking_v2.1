@@ -121,7 +121,7 @@ public class Restaurants extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editRestaurant(Integer restaurantId) {
         Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
-        return ok(updateRestaurant.render(restaurant));
+        return ok(views.html.restaurant.updateRestaurant.render(restaurant));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
@@ -130,10 +130,10 @@ public class Restaurants extends Controller {
         if (session("userId") != null) {
             Restaurant restaurant = Restaurant.findRestaurantById(restaurantId);
             restaurant.delete();
-            return redirect(routes.Hotels.showSellerHotels(Integer.parseInt(session("userId"))));
-        } else {
-            return redirect(routes.Application.index());
+            flash("info", "Restaurant deleted");
+            return ok(Integer.parseInt(session("userId")) + "");
         }
+        return internalServerError();
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)

@@ -3,6 +3,7 @@
 @(hotels: java.util.List[Hotel])(users: java.util.List[AppUser])
 
 @main {
+    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
 
     <div class="container">
         <div class="row">
@@ -53,13 +54,10 @@
 
 
 
-                                    <form method="delete" action="@routes.Hotels.deleteHotel(hotel.id)">
                                       <td>
-                                          <a onclick="return deleteConfirmation()" href="@routes.Hotels.deleteHotel(hotel.id)">
-                                                <button class="btn btn-danger" id="middlebuttons">DELETE</button>
-                                            </a>
+                                          <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
+                                              <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
                                         </td>
-                                    </form>
 
 
                                 </tr>
