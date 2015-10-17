@@ -219,14 +219,15 @@ public class Reservations extends Controller {
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result showBuyerReservations(Integer userId) {
         AppUser user = AppUser.findUserById(userId);
-        List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
+        //List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
+        List<Reservation> reservationList = Reservation.finder.where().eq("user_id", userId).orderBy("create_date desc").findList();
+        if (reservationList == null  || reservationList.size() == 0) {
+            flash("info", "You have no reservations.");
+            return redirect(routes.Application.index());
+        }
         Room room = null;
         Hotel hotel = null;
         for (Reservation reservation : reservationList) {
-            if (reservation == null) {
-                flash("info", "You have no reservations.");
-                return redirect(routes.Application.index());
-            }
             reservation.notification = ReservationStatus.READ_NOTIFICATION;
             reservation.setUpdatedBy(user.firstname, user.lastname);
             reservation.update();
@@ -270,27 +271,27 @@ public class Reservations extends Controller {
 
 
     @Security.Authenticated(Authenticators.BuyerFilter.class)
-    public Result setStatusByUser(Integer id) {
-        AppUser user = SessionsAndCookies.getCurrentUser(ctx());
-        Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        Reservation reservation = Reservation.findReservationById(id);
-        Room room = Reservation.findRoomByReservation(reservation);
-
-        String status = boundForm.field("status").value();
-
-        if (status.equals(ReservationStatus.APPROVED.toString())) {
-            reservation.status = ReservationStatus.APPROVED;
-        } else if(status.equals(ReservationStatus.CANCELED.toString())){
+    public Result setStatusByUser(Integer resId) {
+        DynamicForm form = Form.form().bindFromRequest();
+        String reservationId = form.field("value").value();
+        if(reservationId != null && reservationId.length() != 0) {
+            Integer id = Integer.parseInt(reservationId);
+            AppUser user = SessionsAndCookies.getCurrentUser(ctx());
+            Form<Reservation> boundForm = reservationForm.bindFromRequest();
+            Reservation reservation = Reservation.findReservationById(id);
+            Room room = Reservation.findRoomByReservation(reservation);
             reservation.status = ReservationStatus.CANCELED;
+            room.update();
+            reservation.setUpdatedBy(user.firstname, user.lastname);
+            reservation.update();
+
+            //List<Reservation> reservationList = Reservation.findReservationByUserId(user.id);
+            List<Reservation> reservationList = Reservation.finder.where().eq("user_id", id).orderBy("create_date asc").findList();
+            Logger.debug(reservationList.toString());
+            Hotel hotel = room.hotel;
+            return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
         }
-
-        room.update();
-        reservation.setUpdatedBy(user.firstname, user.lastname);
-        reservation.update();
-
-        List<Reservation> reservationList = Reservation.findReservationByUserId(user.id);
-        Hotel hotel = room.hotel;
-        return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
+        return badRequest();
 
     }
 

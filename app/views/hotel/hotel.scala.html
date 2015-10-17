@@ -156,14 +156,17 @@
                                                                         View room</button>
                                                                 </a>
                                                             </td>
-                                                            <td>
-                                                                <a href="@routes.Rooms.showRoom(room.id)">
-                                                                    <button class="btn btn-warning" id="middlebuttons">
-                                                                        CREATE RESERVATION</button>
-                                                                </a>
-                                                            </td>
+                                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
+                                                                <td>
+                                                                    <a href="@routes.Rooms.showRoom(room.id)">
+                                                                        <button class="btn btn-warning" id="middlebuttons">
+                                                                            CREATE RESERVATION</button>
+                                                                    </a>
+                                                                </td>
+                                                            }
 
                                                             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                                <td></td>
                                                                 <td>
                                                                     <a href="@routes.Rooms.editRoom(room.id)">
                                                                         <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px; color: white"></i>

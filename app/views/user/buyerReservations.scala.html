@@ -4,7 +4,8 @@
 @(room: Room)(hotel: Hotel)(reservations: java.util.List[Reservation])(user: AppUser)
 
 @main {
-<div class="container">
+    <script src="@routes.Assets.versioned("javascripts/cancelReservation.js")"></script>
+    <div class="container">
     <div class="row">
         <div class="contact-caption clearfix">
             <div class="contact-heading text-center">
@@ -15,7 +16,6 @@
                 <table class="table">
                     <thead>
                     <tr class="service">
-                        <th class="text-align" style="font-size : 30px ;">Guest </th>
                         <th class="text-align" style="font-size : 30px ;">Hotel </th>
                         <th class="text-align" style="font-size : 30px ;">Beds</th>
                         <th class="text-align" style="font-size : 30px ;">Check-in date</th>
@@ -23,7 +23,7 @@
                         <th class="text-align" style="font-size : 30px ;">Reservation date</th>
                         <th class="text-align" style="font-size : 30px ;">Price</th>
                         <th class="text-align" style="font-size : 30px ;">Status</th>
-                        <th></th>
+                        <th class="text-align" style="font-size : 30px ;">Cancel</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -34,7 +34,6 @@
                          @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
                              <tr class="service">
                                  <div class="text-align">
-                                     <td class="text-align">@reservation.user.firstname</td>
                                      <td class="text-align">@Reservation.findHotelNameByReservation(reservation)</td>
                                      <td class="text-align">@Reservation.findNumberOfBedsByReservation(reservation)</td>
                                      <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
@@ -42,7 +41,7 @@
                                      <td class="text-align">@reservation.createDate</td>
                                      <td class="text-align">@reservation.cost $</td>
                             @if(reservation.status == ReservationStatus.APPROVED) {
-                            <td class="text-align" style="color : lawngreen">APPROVED</td>
+                            <td class="text-align" style="color : lawngreen">PAYED</td>
                             }
                             @if(reservation.status == ReservationStatus.COMPLETED) {
                             <td class="text-align" style="color: papayawhip">COMPLETED</td>
@@ -52,20 +51,14 @@
                             }
 
 
-                            <form method="post" action="@routes.Reservations.setStatusByUser(reservation.id)" >
-
-                                @if(reservation.status == ReservationStatus.APPROVED) {
-                                <td>
-                                    <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
-                                        <option value="1" selected="true">Approved</option>
-                                        <option value="7">Cancel</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <button class="edvin-button-role" type="submit" style="font-size : 20px ; background-color : #204d74 ; border-radius : 5px ; width : 90px ; height : 40px ;">Confirm</button>
-                                </td>
+                            <td class="text-align">
+                                @if(reservation.status.equals(ReservationStatus.APPROVED)) {
+                                    <a id="cancelReservation" data-role="cancel" value="@reservation.id" href="@routes.Reservations.setStatusByUser(reservation.id)" role="button">
+                                        <i class="fa fa-times fa-lg rediconcolor"></i></a>
+                                } else {
+                                    Already canceled
                                 }
-                            </form>
+                            </td>
                         </div>
                     </tr>
                     }
