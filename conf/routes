@@ -140,7 +140,8 @@ GET           /successfulPayment                                @controllers.App
 GET           /seller/allreservations                           @controllers.Rooms.allReservations()
 
 POST          /newsletter                                       @controllers.NewsletterController.signUp()
-POST          /newsletter                                       @controllers.NewsletterController.sendPromotion()
+POST          /newsletter/sendPromotion                         @controllers.NewsletterController.sendPromotion()
+GET           /newsletter/unsubscribe/:token                    @controllers.NewsletterController.unsubscribe(token: String)
 GET           /seller/createpromotion                           @controllers.user.Seller.createPromotion()
 
 

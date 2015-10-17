@@ -47,6 +47,10 @@ public class Newsletter extends Model {
         return false;
     }
 
+    public static Newsletter findByToken(String token) {
+        return finder.where().eq("token", token).findUnique();
+    }
+
     @Override
     public void update() {
         updateDate = new Date();
