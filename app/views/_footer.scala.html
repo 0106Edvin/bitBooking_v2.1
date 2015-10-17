@@ -3,6 +3,7 @@
 
 @()(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 
+<script src="@routes.Assets.versioned("javascripts/subscribeToNewsletters.js")"></script>
 
 <footer class="footer" role="contentinfo">
     <div class="container font-size-18" style="padding-top: 2cm;">
@@ -70,25 +71,37 @@
 
                     </div>
                 </div>
-                <div class="col-md-4 col-md-offset-2">
-                    <hr class="visible-xs">
-                    <ul class="list-unstyled">
-                        <li class="header">Subscribe to bitBooking newsletters and <strong class="font-size-20">get discounts</strong>.</li>
-                        <form class="form validate form-label-inline" action="" accept-charset="UTF-8" method="post">
-                            <div class="input-group field-group">
-                                <div class="email-input">
-                                    <input type="email" name="email" id="email" value="" class="form-control required email" placeholder="Secure, spam-free">
-                                    <label class="in" for="email">Enter Email Address</label>
-                                </div>
-                                <span class="input-group-addon">
-                                    <button class="btn btn-link" type="submit">
-                                        <i class="fa fa-arrow-right fa-lg"></i>
-                                    </button>
-                                </span>
+
+                @if(currentUser == null) {
+                    <div class="col-md-4 col-md-offset-2">
+                        <hr class="visible-xs">
+                        <ul class="list-unstyled">
+                            <li class="header">Subscribe to bitBooking newsletters and <strong class="font-size-20">get discounts</strong>.</li>
+                            <div class="form validate form-label-inline">
+                                <input type="email" name="email" id="newsmail" value="" class="form-control" placeholder="Enter email address">
+                                <a id="newsletter" href="@routes.NewsletterController.signUp()" class="btn btn-link" type="submit"><label class="font-size-18">Subscribe</label><i class="fa fa-arrow-right fa-lg"></i></a>
+
                             </div>
-                        </form>
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+                } else {
+                    @if(Newsletter.isSignedUp(currentUser)){
+
+                    } else {
+                        <div class="col-md-4 col-md-offset-2">
+                            <hr class="visible-xs">
+                            <ul class="list-unstyled">
+                                <li class="header">Subscribe to bitBooking newsletters and <strong class="font-size-20">get discounts</strong>.</li>
+                                <div class="form validate form-label-inline">
+                                    <input type="email" name="email" id="newsmail" value="" class="form-control" placeholder="Enter email address">
+                                    <a id="newsletter" href="@routes.NewsletterController.signUp()" class="btn btn-link" type="submit"><label class="font-size-18">Subscribe</label><i class="fa fa-arrow-right fa-lg"></i></a>
+
+                                </div>
+                            </ul>
+                        </div>
+                    }
+                }
+
             </div>
 
             <div class="row">

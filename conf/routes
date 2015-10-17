@@ -138,3 +138,9 @@ GET           /paypal/success                                   @controllers.Res
 GET           /rejectPayment                                    @controllers.Application.see()
 GET           /successfulPayment                                @controllers.Application.see1()
 GET           /seller/allreservations                           @controllers.Rooms.allReservations()
+
+POST          /newsletter                                       @controllers.NewsletterController.signUp()
+POST          /newsletter                                       @controllers.NewsletterController.sendPromotion()
+GET           /seller/createpromotion                           @controllers.user.Seller.createPromotion()
+
+
