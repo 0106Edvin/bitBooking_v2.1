@@ -120,7 +120,7 @@
                                                 <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
-                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations</a></li>
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >My reservations</a></li>
                                             }
                                             <ul class="nav navbar-nav">
                                                 <li class="dropdown">
@@ -161,25 +161,26 @@
             </div>
         </header> <!-- end of header area -->
     @content
+        @_footer()
 
         <!-- footer starts here -->
-        <footer class="footer clearfix">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-6 footer-para">
-                        <p>&copy;rockIT All rights reserved</p>
-                    </div>
+        @*<footer class="footer clearfix">*@
+            @*<div class="container">*@
+                @*<div class="row">*@
+                    @*<div class="col-xs-6 footer-para">*@
+                        @*<p>&copy;rockIT All rights reserved</p>*@
+                    @*</div>*@
 
-                    <!-- Nema funkcije
-                    <div class="col-xs-6 text-right">
-                        <a href=""><i class="fa fa-facebook"></i></a>
-                        <a href=""><i class="fa fa-twitter"></i></a>
-                        <a href=""><i class="fa fa-skype"></i></a>
-                    </div>
-                    -->
-                </div>
-            </div>
-        </footer>
+                    @*<!-- Nema funkcije*@
+                    @*<div class="col-xs-6 text-right">*@
+                        @*<a href=""><i class="fa fa-facebook"></i></a>*@
+                        @*<a href=""><i class="fa fa-twitter"></i></a>*@
+                        @*<a href=""><i class="fa fa-skype"></i></a>*@
+                    @*</div>*@
+                    @*-->*@
+                @*</div>*@
+            @*</div>*@
+        @*</footer>*@
 
         <script type="text/javascript">
           $(function () {

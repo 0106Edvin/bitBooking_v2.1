@@ -1,0 +1,102 @@
+@import helpers.SessionsAndCookies
+@import helpers.UserAccessLevel
+
+@()(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
+
+
+<footer class="footer" role="contentinfo">
+    <div class="container font-size-18" style="padding-top: 2cm;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+
+                        <div class="col-xs-3">
+                            <ul class="list-unstyled">
+                                <li class="header">bitBooking</li>
+                                <li><a href="#team">About Us</a></li>
+                                <li><a href="#mailPanel">Contact Us</a></li>
+                                <li><a href="#">Terms</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-3">
+                            <ul class="list-unstyled">
+                                <li class="header">Site</li>
+                                <li><a href="#searchPanel">Search Hotels</a></li>
+                                <li><a href="@routes.Hotels.advancedSearch()">Advanced Search</a></li>
+                                @if(currentUser == null) {
+                                    <li><a href="@routes.Users.registerUser()">Register</a></li>
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-3">
+                            <ul class="list-unstyled">
+                                <li class="header">Support</li>
+                                <li><a href="#formLogin">Log In</a></li>
+                                <li><a href="#">Help</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+                        @if(currentUser != null) {
+
+                            <div class="col-xs-3">
+                                <ul class="list-unstyled">
+                                    <li class="header">Quick link</li>
+                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)) {
+                                        <li><a href="@routes.Users.showAdminPanel()">Admin panel</a></li>
+                                        <li><a href="@routes.Users.showAdminHotels()">Delete hotels</a></li>
+                                        <li><a href="@routes.Users.showAdminUsers()">Manage users</a></li>
+                                        <li><a href="@routes.Users.showAdminFeatures()">Manage features</a></li>
+                                    }
+                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.HOTEL_MANAGER)) {
+                                        <li><a href="@routes.Users.showManagerHotels()">Manager panel</a></li>
+                                        <li><a href="@routes.Hotels.createHotel()">Add new hotel</a></li>
+                                        <li><a href="@routes.Users.editUser(currentUser.email)">Edit personal profile</a></li>
+                                    }
+                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
+                                        <li><a href="@routes.Hotels.showSellerHotels(currentUser.id)">Seller panel</a></li>
+                                        <li><a href="@routes.Rooms.allReservations()">See all reservations</a></li>
+                                        <li><a href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
+                                    }
+                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)){
+                                        <li><a href="@routes.Reservations.showBuyerReservations(currentUser.id)">My reservations</a></li>
+                                        <li><a href="@routes.Users.editUser(currentUser.email)">Edit personal profile</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <hr class="visible-xs">
+                    <ul class="list-unstyled">
+                        <li class="header">Subscribe to bitBooking newsletters and <strong class="font-size-20">get discounts</strong>.</li>
+                        <form class="form validate form-label-inline" action="" accept-charset="UTF-8" method="post">
+                            <div class="input-group field-group">
+                                <div class="email-input">
+                                    <input type="email" name="email" id="email" value="" class="form-control required email" placeholder="Secure, spam-free">
+                                    <label class="in" for="email">Enter Email Address</label>
+                                </div>
+                                <span class="input-group-addon">
+                                    <button class="btn btn-link" type="submit">
+                                        <i class="fa fa-arrow-right fa-lg"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <div class="text-center header">Copyright &copy; 2015 bitBooking &#64; BITCamp</div>
+                </div>
+            </div>
+        <br>
+    </div>
+</footer>
