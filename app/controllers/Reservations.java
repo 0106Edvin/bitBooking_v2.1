@@ -273,7 +273,6 @@ public class Reservations extends Controller {
     public Result setStatusByUser(Integer resId) {
         DynamicForm form = Form.form().bindFromRequest();
         String reservationId = form.field("value").value();
-        Logger.debug(reservationId + " res");
         if(reservationId != null && reservationId.length() != 0) {
             Integer id = Integer.parseInt(reservationId);
             AppUser user = SessionsAndCookies.getCurrentUser(ctx());

@@ -84,6 +84,19 @@ create table image (
   constraint pk_image primary key (id))
 ;
 
+create table newsletter (
+  id                        integer auto_increment not null,
+  email                     varchar(40),
+  is_subscribed             tinyint(1) default 0,
+  token                     varchar(255),
+  updated_by                varchar(255),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_newsletter_email unique (email),
+  constraint pk_newsletter primary key (id))
+;
+
 create table price (
   id                        integer auto_increment not null,
   date_from                 datetime,
@@ -223,6 +236,8 @@ drop table hotel_feature;
 drop table hotel;
 
 drop table image;
+
+drop table newsletter;
 
 drop table price;
 
