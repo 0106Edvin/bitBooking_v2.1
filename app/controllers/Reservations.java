@@ -219,7 +219,6 @@ public class Reservations extends Controller {
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result showBuyerReservations(Integer userId) {
         AppUser user = AppUser.findUserById(userId);
-        //List<Reservation> reservationList = Reservation.findReservationByUserId(userId);
         List<Reservation> reservationList = Reservation.finder.where().eq("user_id", userId).orderBy("create_date desc").findList();
         if (reservationList == null  || reservationList.size() == 0) {
             flash("info", "You have no reservations.");
@@ -274,6 +273,7 @@ public class Reservations extends Controller {
     public Result setStatusByUser(Integer resId) {
         DynamicForm form = Form.form().bindFromRequest();
         String reservationId = form.field("value").value();
+        Logger.debug(reservationId + " res");
         if(reservationId != null && reservationId.length() != 0) {
             Integer id = Integer.parseInt(reservationId);
             AppUser user = SessionsAndCookies.getCurrentUser(ctx());
@@ -285,9 +285,7 @@ public class Reservations extends Controller {
             reservation.setUpdatedBy(user.firstname, user.lastname);
             reservation.update();
 
-            //List<Reservation> reservationList = Reservation.findReservationByUserId(user.id);
             List<Reservation> reservationList = Reservation.finder.where().eq("user_id", id).orderBy("create_date asc").findList();
-            Logger.debug(reservationList.toString());
             Hotel hotel = room.hotel;
             return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
         }

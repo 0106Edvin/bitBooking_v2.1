@@ -53,7 +53,7 @@
 
                             <td class="text-align">
                                 @if(reservation.status.equals(ReservationStatus.APPROVED)) {
-                                    <a id="cancelReservation" data-role="cancel" value="@reservation.id" href="@routes.Reservations.setStatusByUser(reservation.id)" role="button">
+                                    <a id="cancelReservation" data-role="cancel" res-id="@reservation.id" href="@routes.Reservations.setStatusByUser(reservation.id)" role="button">
                                         <i class="fa fa-times fa-lg rediconcolor"></i></a>
                                 } else {
                                     Already canceled

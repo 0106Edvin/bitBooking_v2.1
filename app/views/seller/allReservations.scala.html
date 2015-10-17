@@ -15,8 +15,8 @@
             <thead>
               <tr class="service">
                 <th class="text-align" style="font-size: 30px ;">Guest </th>
+                <th class="text-align"  style="font-size: 30px ;">Hotel</th>
                 <th class="text-align" style="font-size: 30px ;">Room</th>
-                <th class="text-align"  style="font-size: 30px ;">Beds</th>
                 <th class="text-align" style="font-size: 30px ;">Check-in </th>
                 <th class="text-align" style="font-size: 30px ;">Check-out </th>
                 <th class="text-align" style="font-size: 30px ;">Reservation date</th>
@@ -34,8 +34,8 @@
                   @for(reservation <- room.reservations) {
                     <tr class="service">
                       <td class="text-align">@reservation.user.firstname @reservation.user.lastname</td>
+                      <td class="text-align">@hotel.name</td>
                       <td class="text-align">@room.name</td>
-                      <td class="text-align">@room.numberOfBeds</td>
                       <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
                       <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
                       <td class="text-align">@reservation.createDate</td>
