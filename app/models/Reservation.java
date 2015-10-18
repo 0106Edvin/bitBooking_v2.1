@@ -2,12 +2,10 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.ReservationStatus;
+import play.Logger;
 import play.data.format.Formats;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +55,8 @@ public class Reservation extends Model {
     public AppUser user;
 
 
-    public Reservation(){}
+    public Reservation() {
+    }
 
     public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation, String payment_id) {
         this.id = id;
@@ -70,16 +69,11 @@ public class Reservation extends Model {
         this.payment_id = payment_id;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s has reserved %s room from %s till %s for %s",user.firstname,room.name,checkIn,checkOut,cost);
-    }
-
-    public static Reservation findReservationById(Integer id){
-        Reservation reservation = finder.where().eq("id",id).findUnique();
+    public static Reservation findReservationById(Integer id) {
+        Reservation reservation = finder.where().eq("id", id).findUnique();
         return reservation;
     }
-    
+
     public static List<Reservation> findReservationByUserId(Integer id) {
         List<Reservation> reservationList = finder.where().eq("user_id", id).findList();
         return reservationList;
@@ -89,9 +83,11 @@ public class Reservation extends Model {
         Room room = reservation.room;
         return room;
     }
+
     public static String findHotelNameByReservation(Reservation reservation) {
         return reservation.room.hotel.name;
     }
+
     public static Integer findNumberOfBedsByReservation(Reservation reservation) {
         return reservation.room.numberOfBeds;
     }
@@ -105,7 +101,7 @@ public class Reservation extends Model {
             for (int j = 0; j < allReservations.size(); j++) {
                 Reservation reservation = allReservations.get(j);
                 if (reservation != null && reservation.status == ReservationStatus.COMPLETED) {
-                   reservations.add(reservation);
+                    reservations.add(reservation);
                 }
             }
 //            Reservation reservation = finder.where().eq("user_id", user.id).where().eq("room_id", rooms.get(i).id).findUnique();
@@ -115,31 +111,6 @@ public class Reservation extends Model {
         }
 
         return reservations;
-    }
-
-    public BigDecimal getCost() {
-        cost = new BigDecimal(0);
-        Date myDate = checkIn;
-        for(Price price: room.prices) {
-            while (myDate.compareTo(checkOut) <= 0 ) {
-                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) <= 0) {
-                    cost = cost.add(price.cost);
-                } else {
-                    break;
-                }
-                myDate = org.apache.commons.lang.time.DateUtils.addDays(myDate, 1);
-            }
-        }
-        return cost;
-    }
-
-
-    public void setCreatedBy(String firstName, String lastName) {
-        this.createdBy = firstName + " " + lastName;
-    }
-
-    public void setUpdatedBy(String firstName, String lastName) {
-        this.updatedBy = firstName + " " + lastName;
     }
 
     public static Integer getNumberOfPayedReservations(Integer sellerId) {
@@ -157,14 +128,73 @@ public class Reservation extends Model {
         return total;
     }
 
+    /**
+     * Finds all reservations that were paid by seller.
+     * Creates new Date with current time.
+     * Goes tru all reservations checks if checkOutDate is null, compares
+     * currentDate and checkOutDate of every reservation. If reservationCheckoutDate
+     * passed currentDate sets that reservation as completed.
+     */
+    public static void checkReservationExpiration() {
+        List<Reservation> reservations = finder.where().eq("status", ReservationStatus.APPROVED).findList();
+
+        Date currentDate = new Date();
+
+        for (Reservation reservation : reservations) {
+            Date reservationCheckOutDate = reservation.checkOut;
+            if (reservationCheckOutDate != null) {
+                if (currentDate.after(reservationCheckOutDate)) {
+                    reservation.status = ReservationStatus.COMPLETED;
+                    reservation.updatedBy = "Auto complete reservation";
+                    try {
+                        reservation.update();
+                    } catch (PersistenceException e) {
+                        Logger.info("Could not update reservation.");
+                        Logger.info("Reservation made by " + reservation.user.firstname);
+                        Logger.error("Error message " + e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    public static Reservation findByPaymentId(String id) {
+        return finder.where().eq("payment_id", id).findUnique();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s has reserved %s room from %s till %s for %s", user.firstname, room.name, checkIn, checkOut, cost);
+    }
+
+    public BigDecimal getCost() {
+        cost = new BigDecimal(0);
+        Date myDate = checkIn;
+        for (Price price : room.prices) {
+            while (myDate.compareTo(checkOut) <= 0) {
+                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) <= 0) {
+                    cost = cost.add(price.cost);
+                } else {
+                    break;
+                }
+                myDate = org.apache.commons.lang.time.DateUtils.addDays(myDate, 1);
+            }
+        }
+        return cost;
+    }
+
+    public void setCreatedBy(String firstName, String lastName) {
+        this.createdBy = firstName + " " + lastName;
+    }
+
+    public void setUpdatedBy(String firstName, String lastName) {
+        this.updatedBy = firstName + " " + lastName;
+    }
+
     @Override
     public void update() {
         updateDate = new Date();
         super.update();
-    }
-
-    public static Reservation findByPaymentId(String id) {
-        return finder.where().eq("payment_id",id).findUnique();
     }
 
 }
