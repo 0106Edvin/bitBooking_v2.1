@@ -11,24 +11,28 @@ $('body').on('click', '#newsletter', function (e) {
         method: "post",
         data: "email=" + $email
     }).success(function (response) {
-        bootbox.alert({
-            className: "delete-modal-font",
-            message: "You successfully signed up for newsletters."
+        swal({
+            title: 'You successfully signed up for newsletters.',
+            text: 'Window will close in 3 seconds.',
+            type: 'success',
+            timer: 3000
         });
     }).error(function (response){
         if(response.responseText == "input") {
-            bootbox.alert({
-                className: "delete-modal-font",
-                message: "Inputed email is wrong."
+            swal({
+                title: 'Inputted email is wrong.',
+                text: 'Window will close in 3 seconds.',
+                type: 'error',
+                timer: 3000
             });
         } else {
-            bootbox.alert({
-                className: "delete-modal-font",
-                message: "You already are registered for newsletters."
+            swal({
+                title: 'You already are registered for newsletters.',
+                text: 'Window will close in 3 seconds.',
+                type: 'error',
+                timer: 3000
             });
         }
     });
-
-
 });
 
