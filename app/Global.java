@@ -1,4 +1,5 @@
 import com.cloudinary.Cloudinary;
+import helpers.AutocompleteReservation;
 import helpers.FillDatabase;
 import models.AppUser;
 import models.Hotel;
@@ -35,7 +36,15 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application application) {
-      Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
+
+        /**
+         * Calls a thread that will check reservations every hour.
+         * If reservation checkoutDate passed currentDate they will
+         * be set as completed.
+         */
+        AutocompleteReservation.completeReservations();
+
+        Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
 
         if(AppUser.finder.findRowCount() == 0) {
             FillDatabase.createUsers();
