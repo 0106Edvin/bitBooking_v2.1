@@ -138,7 +138,7 @@ public class Reservation extends Model {
     public static void checkReservationExpiration() {
         List<Reservation> reservations = finder.where().eq("status", ReservationStatus.APPROVED).findList();
 
-        Date currentDate = new Date();
+        final Date currentDate = new Date();
 
         for (Reservation reservation : reservations) {
             Date reservationCheckOutDate = reservation.checkOut;

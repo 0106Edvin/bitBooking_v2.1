@@ -49,7 +49,7 @@ public class Room extends Model {
     @OneToMany(mappedBy="room")
     public List<Price> prices;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="room")
     public List<Image> images;
 
     @OneToMany(mappedBy="room")

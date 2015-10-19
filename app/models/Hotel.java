@@ -50,13 +50,13 @@ public class Hotel extends Model {
     @ManyToMany
     public List<Feature> features;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="hotel")
     public List<Image> images;
 
     @OneToMany(mappedBy="hotel")
     public List<Room> rooms;
 
-    @OneToMany
+    @OneToMany(mappedBy="hotel")
     public List<Comment> comments;
 
     /**
