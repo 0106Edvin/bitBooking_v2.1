@@ -18,8 +18,7 @@ import views.html.seller.sellerPanel;
 import views.html.user.profilePage;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Hotels extends Controller {
 
@@ -48,20 +47,18 @@ public class Hotels extends Controller {
         //Getting values from checkboxes
         List<String> checkBoxValues = new ArrayList<>();
         for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.field(features.get(i).name).value();
+            String feature = boundForm.field(features.get(i).id.toString()).value();
 
             if (feature != null) {
                 checkBoxValues.add(feature);
             }
-
-            Logger.debug(checkBoxValues.toString());
         }
 
         List<Feature> featuresForHotel = new ArrayList<Feature>();
 
         for (int i = 0; i < checkBoxValues.size(); i++) {
             for (int j = 0; j < features.size(); j++) {
-                if (features.get(j).name.equals(checkBoxValues.get(i))) {
+                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
                     featuresForHotel.add(features.get(j));
                 }
             }

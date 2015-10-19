@@ -13,8 +13,11 @@ public class Feature extends Model {
 
     @Id
     public Integer id;
-    @Column(unique = true)
+    //@Column(unique = true)
     public String name;
+
+    @Column(name = "is_free")
+    public Boolean isFree;
 
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
@@ -30,6 +33,20 @@ public class Feature extends Model {
 
     @ManyToMany(mappedBy = "features")
     public List<Hotel> hotels;
+
+    @ManyToMany(mappedBy = "features")
+    public List<Room> rooms;
+
+    /**
+     * Empty constructor for Ebean use
+     */
+    public Feature() {
+        //leave empty
+    }
+
+    public Feature(String name) {
+        this.name = name;
+    }
 
     public Feature(Integer id, String name,Image icon, List<Hotel> hotels){
         this.id = id;
@@ -48,7 +65,7 @@ public class Feature extends Model {
     }
 
     public String toString() {
-        return id + " " + name;
+        return name +  " " + isFree;
     }
 
 }

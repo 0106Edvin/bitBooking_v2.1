@@ -49,9 +49,9 @@ public class Global extends GlobalSettings {
         if(AppUser.finder.findRowCount() == 0) {
             FillDatabase.createUsers();
         }
-        if (Hotel.finder.findRowCount() == 0) {
-            FillDatabase.createHotels();
-        }
+//        if (Hotel.finder.findRowCount() == 0) {
+//            FillDatabase.createHotels();
+//        }
     }
 
 //    @Override

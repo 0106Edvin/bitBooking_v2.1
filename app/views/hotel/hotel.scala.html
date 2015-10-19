@@ -74,6 +74,11 @@
                                         <li style="font-size: 16px;">
                                             @feature.name
                                             <img src="@feature.icon.getSize(30, 30)"/>
+                                            @if(feature.isFree == false) {
+                                                Extra $
+                                            } else {
+                                                Free
+                                            }
                                         </li>
 
                                     }
