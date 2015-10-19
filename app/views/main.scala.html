@@ -77,11 +77,20 @@
 
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
+                                                <div class="form-group" style="font-size: 20px; color: green; margin-left: 10px;">
+                                                    @if(flash.containsKey("pass-changed-success")) {
+                                                    @flash.get("pass-changed-success")
+                                                    }
+                                                </div>
+                                                <div class="form-group" style="font-size: 20px; color: red; margin-left: 10px;">
+                                                    @if(flash.containsKey("pass-changed-error")) {
+                                                    @flash.get("pass-changed-error")
+                                                    }
+                                                </div>
                                                 <div class="dropdown-menu" style="background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
                                                         <h1></h1>
                                                         <br>
-
                                                         <div class="form-group">
                                                             <input class="form-control" name="email" id="username" type="text" placeholder="Email" title="Enter your username" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
                                                         </div>
@@ -95,7 +104,7 @@
                                                         </div>
                                                         <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
                                                         <div class="forgotten-password-div">
-                                                            <a class="forgotten-password-a" href="@routes.Users.forgotYourPassword()">Forgot your password?</a>
+                                                            <a class="forgotten-password-a" href="@routes.Users.askForPasswordChange()">Forgot your password?</a>
                                                         </div>
                                                     </form>
                                                 </div>
