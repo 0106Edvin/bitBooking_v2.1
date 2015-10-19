@@ -28,6 +28,7 @@ GET           /user/logout                                      @controllers.Use
 GET           /user/update/:email                               @controllers.Users.editUser(email: String)
 POST          /user/update/:email                               @controllers.Users.updateUser(email: String)
 POST          /user/hotel/:hotelId                              @controllers.Comments.insertComment(hotelId: Integer)
+GET           /user/forgotyourpassword                          @controllers.Users.forgotYourPassword()
 
 #Admin
 GET           /admin/panel                                      @controllers.Users.showAdminPanel()

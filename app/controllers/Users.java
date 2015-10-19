@@ -23,6 +23,7 @@ import views.html.manager.managerHotels;
 import views.html.user.login;
 import views.html.user.profilePage;
 import views.html.user.register;
+import views.html.user.forgottenPassword;
 
 import java.io.File;
 import java.util.List;
@@ -338,6 +339,10 @@ public class Users extends Controller {
 
         flash("seller-changed", "Seller was successfully updated.");
         return ok(managerHotels.render(hotels, users));
+    }
+
+    public Result forgotYourPassword() {
+        return ok(forgottenPassword.render());
     }
 
 }
