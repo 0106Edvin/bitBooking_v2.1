@@ -56,6 +56,30 @@ public class Rooms extends Controller {
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
 
+        List<Feature> features = Feature.finder.all();
+        //Getting values from checkboxes
+        List<String> checkBoxValues = new ArrayList<>();
+        for (int i = 0; i < features.size(); i++) {
+            String feature = boundForm.field(features.get(i).id.toString()).value();
+
+            if (feature != null) {
+                checkBoxValues.add(feature);
+            }
+        }
+
+        List<Feature> featuresForRoom = new ArrayList<Feature>();
+
+        for (int i = 0; i < checkBoxValues.size(); i++) {
+            for (int j = 0; j < features.size(); j++) {
+                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
+                    featuresForRoom.add(features.get(j));
+                }
+            }
+        }
+
+        room.features = featuresForRoom;
+
+
         if(!Room.checkRoomName(room.name, hotelId)) {
             flash("error-search", "You already have room with that name!");
             return redirect(routes.Rooms.createRoom(hotelId));

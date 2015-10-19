@@ -49,7 +49,6 @@ public class Hotels extends Controller {
         for (int i = 0; i < features.size(); i++) {
             String feature = boundForm.field(features.get(i).id.toString()).value();
 
-            Logger.debug(feature);
             if (feature != null) {
                 checkBoxValues.add(feature);
             }
