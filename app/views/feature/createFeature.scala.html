@@ -17,6 +17,8 @@
                             </div>
                             <label>Feature name:</label>
                             <input name="name" style="text-transform: capitalize;" type="text" placeholder="Feature Name" required>
+                            <label>Check if free -> </label>
+                            <input type="checkbox" name="isFree" style="width: 18px; height: 18px;"> <br>
                             <label>Set icon:</label>
                             <input type="file" name="image" class="form-control" accept="image/*" required/>
                             <input name="name" style="background-color: #204d74; border-radius: 5px; width: 80px; margin-bottom: 0.2cm; " class="submit-btn " type="submit" value="ADD" onclick="@routes.Features.saveFeature()">

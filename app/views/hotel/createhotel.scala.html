@@ -26,12 +26,17 @@
 
                                 <h3>Features</h3>
                                 <div class="info-detail ">
-                                @for(feature <- features) {
-                            <div style="text-transform: capitalize; font-size: 22px; color:#FFFFFF;">
-                                    <input type="checkbox" name="@feature.name" value="@feature.name" style="width: 16px; height: 16px;"><td>  @feature.name</td><br>
-                                </div>
-                                        @*<img src="@feature.icon.getSize(30,30)"/>*@
+                                        @for(feature <- features) {
 
+                                            <div style="text-transform: capitalize; font-size: 22px; color:#FFFFFF;">
+                                                @if(feature.isFree) {
+                                                    Free
+                                                } else {
+                                                    Paid
+                                                }
+                                            Feature <input type="checkbox" name="@feature.id" value="@feature.id" style="width: 16px; height: 16px;">
+                                                <td>@feature.name <img src="@feature.icon.getSize(30,30)"/></td><br> <br>
+                                            </div>
                                     }
                                 </div>
                             </div>

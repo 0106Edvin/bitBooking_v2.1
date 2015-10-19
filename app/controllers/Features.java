@@ -37,11 +37,18 @@ public class Features extends Controller {
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result saveFeature() {
         Form<Feature> boundForm = featureForm.bindFromRequest();
+        String isFree = boundForm.field("isFree").value();
 
         Feature feature = null;
 
         try {
             feature = boundForm.get();
+            if (isFree == null) {
+                feature.isFree = false;
+            } else {
+                feature.isFree = true;
+            }
+
             feature.save();
 
             feature.save();
@@ -58,7 +65,7 @@ public class Features extends Controller {
             feature.update();
             return redirect(routes.Users.showAdminFeatures());
         } catch (Exception e) {
-            flash("error", "Feature with same name already exists in our database, please try again!");
+            //flash("error", "Feature with same name already exists in our database, please try again!");
             return ok(createFeature.render());
         }
 

@@ -41,12 +41,12 @@ create table comment (
 create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
+  is_free                   tinyint(1) default 0,
   updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
   icon_id                   integer,
-  constraint uq_feature_name unique (name),
   constraint uq_feature_icon_id unique (icon_id),
   constraint pk_feature primary key (id))
 ;
@@ -233,6 +233,8 @@ drop table feature;
 
 drop table hotel_feature;
 
+drop table room_feature;
+
 drop table hotel;
 
 drop table image;
@@ -246,8 +248,6 @@ drop table reservation;
 drop table restaurant;
 
 drop table room;
-
-drop table room_feature;
 
 drop table site_stats;
 
