@@ -28,6 +28,10 @@ GET           /user/logout                                      @controllers.Use
 GET           /user/update/:email                               @controllers.Users.editUser(email: String)
 POST          /user/update/:email                               @controllers.Users.updateUser(email: String)
 POST          /user/hotel/:hotelId                              @controllers.Comments.insertComment(hotelId: Integer)
+GET           /user/askforpasswordchange                        @controllers.Users.askForPasswordChange()
+POST          /user/askforpasswordchange                        @controllers.Users.sendChangePasswordRequest()
+GET           /user/forgotyourpassword/:token                   @controllers.Users.forgotYourPassword(token: String)
+POST           /user/forgotyourpassword/:token                  @controllers.Users.changePassword(token: String)
 
 #Admin
 GET           /admin/panel                                      @controllers.Users.showAdminPanel()

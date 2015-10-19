@@ -23,6 +23,9 @@ import views.html.manager.managerHotels;
 import views.html.user.login;
 import views.html.user.profilePage;
 import views.html.user.register;
+import views.html.user.forgottenPassword;
+import views.html.user.askForPasswordChange;
+import views.html.list;
 
 import java.io.File;
 import java.util.List;
@@ -338,6 +341,88 @@ public class Users extends Controller {
 
         flash("seller-changed", "Seller was successfully updated.");
         return ok(managerHotels.render(hotels, users));
+    }
+
+    /**
+     * Redirects to page for sending request for changing password
+     * @return
+     */
+    public Result askForPasswordChange() {
+        return ok(askForPasswordChange.render());
+    }
+
+
+    /**
+     * Generates unique token for changin password
+     * and sends an email to the user to confirm request
+     * @return
+     */
+    public Result sendChangePasswordRequest() {
+        try {
+            Form<String> form = Form.form(String.class);
+            Form<String> boundForm = form.bindFromRequest();
+
+            String email = boundForm.field("email").value();
+
+            AppUser user1 = AppUser.getUserByEmail(email);
+
+            user1.forgottenPassToken = UUID.randomUUID().toString();
+            user1.save();
+
+            // Sending Email To user
+            String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user1.forgottenPassToken;
+            MailHelper.send(user1.email, host);
+
+            flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
+            return badRequest(askForPasswordChange.render());
+        } catch (Exception e) {
+            flash("error", "User with provided email address does not exist.");
+            return ok(askForPasswordChange.render());
+        }
+    }
+
+    /**
+     * Checks if user with provided token exists in the database
+     * and if it does redirects to form for entering a new password.
+     *
+     * If it doesn't, returns a bad request warning.
+     * @param forgottenPasswordToken
+     * @return
+     */
+    public Result forgotYourPassword(String forgottenPasswordToken) {
+        try {
+            AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
+            return ok(forgottenPassword.render(forgottenPasswordToken));
+        } catch (Exception e) {
+            return badRequest();
+        }
+    }
+
+    /**
+     * Checks one more time if user with provided token exists in the database,
+     * collects data about new password from the form, and saves a new password
+     *
+     * Clears the forgotten password token field in the database
+     * @param forgottenPasswordToken
+     * @return
+     */
+    public Result changePassword(String forgottenPasswordToken) {
+        Form<String> form = Form.form(String.class);
+        Form<String> boundForm = form.bindFromRequest();
+
+        String pass = boundForm.field("newpassword").value();
+
+        try {
+            AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
+            user.updatePassword(user, pass);
+
+            flash("pass-changed-success", "Password has been successfully changed.");
+            return redirect(routes.Application.index());
+        } catch (Exception e) {
+            flash("pass-changed-error", "Password hasn't been changed.");
+            return redirect(routes.Application.index());
+        }
+
     }
 
 }
