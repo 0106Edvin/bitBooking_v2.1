@@ -53,7 +53,7 @@ public class Hotel extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<Image> images;
 
-    @OneToMany
+    @OneToMany(mappedBy="hotel")
     public List<Room> rooms;
 
     @OneToMany

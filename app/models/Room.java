@@ -46,13 +46,13 @@ public class Room extends Model {
     @ManyToOne
     public Hotel hotel;
 
-    @OneToMany
+    @OneToMany(mappedBy="room")
     public List<Price> prices;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
     public List<Image> images;
 
-    @OneToMany
+    @OneToMany(mappedBy="room")
     public List<Reservation> reservations;
 
     public Room() {

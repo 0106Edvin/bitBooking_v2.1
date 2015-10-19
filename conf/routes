@@ -145,3 +145,6 @@ GET           /newsletter/unsubscribe/:token                    @controllers.New
 GET           /seller/createpromotion                           @controllers.user.Seller.createPromotion()
 
 
+GET           /api/users                                        @controllers.user.UserApiController.getAllUsers()
+
+
