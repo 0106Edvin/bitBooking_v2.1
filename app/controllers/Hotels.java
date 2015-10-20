@@ -187,32 +187,8 @@ public class Hotels extends Controller {
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
         String category = hotelForm1.field("category").value();
         String searchWhat = hotelForm1.field("search").value();
-        List<Hotel> hotels = new ArrayList<>();
-        if (category.equals("name")) {
-            hotels = Hotel.findHotelsByName(searchWhat);
-        } else if(category.equals("country")) {
-            hotels = Hotel.findHotelsByCountry(searchWhat);
-        } else if(category.equals("city")) {
-            hotels = Hotel.findHotelsByCity(searchWhat);
-        } else if(category.equals("stars")) {
-            try {
-                if (searchWhat.length() > 1) {
-                    flash("error-search", "Try searching by entering a number of stars from one to seven.");
-                    return redirect(routes.Application.index());
-                }
-                Integer.parseInt(searchWhat);
-            } catch (NumberFormatException e) {
-                flash("error-search", "Try searching by entering a number of stars from one to seven.");
-                return redirect(routes.Application.index());
-            }
-            hotels = Hotel.findHotelsByStars(searchWhat);
-        } else if (category.equals("price")) {
-            hotels = Hotel.findHotelsByPrice(searchWhat);
-        }
-        Logger.debug(hotels.size() + "");
-//        else if(category.equals("price")){
-//            List<Hotel> hotels = Room.findHotelByPrice(category);
-//        }
+        List<Hotel> hotels = Hotel.searchHotels(category, searchWhat);
+
         return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 

@@ -90,36 +90,48 @@ public class Hotel extends Model {
         return hotel;
     }
 
-    public static List<Hotel> findHotelsByName(String name){
-        return finder.where().contains("name", name).findList();
-    }
-    public static List<Hotel> findHotelsByCountry(String name){
-        return finder.where().contains("country",name).findList();
-    }
-    public static List<Hotel> findHotelsByCity(String name){
-        return finder.where().contains("city", name).findList();
-    }
+    public static List<Hotel> searchHotels(String field, String term) {
 
-    public static List<Hotel> findHotelsByStars(String name){
-        return finder.where().contains("stars", name).findList();
-    }
-
-    public static List<Hotel> findHotelsByPrice(String name) {
-        List<Hotel> foundHotels = new ArrayList<>();
-        List<Hotel> hotels = new ArrayList<>();
-        hotels = finder.all();
-        try {
-            for (Hotel h : hotels) {
-                for (int i = 0; i < h.rooms.size(); i++) {
-                    if (h.rooms.get(i).prices.contains(BigDecimal.valueOf(Double.parseDouble(name)))) {
-                        foundHotels.add(h);
-                    }
-                }
+        if(field != null && term != null) {
+            if ("name".equals(field)) {
+                return Hotel.findHotelsByName(term);
+            } else if ("country".equals(field)) {
+                return Hotel.findHotelsByCountry(term);
+            } else if ("city".equals(field)) {
+                return Hotel.findHotelsByCity(term);
+            } else if ("stars".equals(field)) {
+                return Hotel.findHotelsByStars(term);
+            } else if ("price".equals(field)) {
+                return Hotel.findHotelsByPrice(term);
+            } else if ("rating".equals(field)) {
+                return Hotel.findHotelsByRating(term);
             }
-        } catch (NumberFormatException e) {
-            Logger.error("Could't parse given string", e.getCause());
         }
-        return foundHotels;
+        return null;
+    }
+
+    private static List<Hotel> findHotelsByName(String term){
+        return finder.where().ilike("name", "%" + term + "%").findList();
+    }
+
+    private static List<Hotel> findHotelsByCountry(String term){
+        return finder.where().ilike("country", "%" + term + "%").findList();
+    }
+
+    private static List<Hotel> findHotelsByCity(String name){
+        return finder.where().ilike("city", "%" + name + "%").findList();
+    }
+
+    private static List<Hotel> findHotelsByStars(String name){
+        return finder.where().ilike("stars", name).findList();
+    }
+
+    private static List<Hotel> findHotelsByPrice(String name) {
+        return finder.where().ilike("rooms.prices.cost", "%" + name + "%").findList();
+    }
+
+    private static List<Hotel> findHotelsByRating(String name) {
+        return finder.where().ilike("comments.rating", name).findList();
     }
 
     @Override
