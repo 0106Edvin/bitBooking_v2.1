@@ -3,12 +3,14 @@ package models;
 import com.avaje.ebean.Model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 /**
  * Created by Alen Bumbulovic on 10/19/2015.
  */
+@Entity
 public class Question extends Model {
 
     public static Finder<Integer, Question> finder = new Finder<>(Question.class);

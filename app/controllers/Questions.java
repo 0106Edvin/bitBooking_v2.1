@@ -33,7 +33,7 @@ public class Questions extends Controller {
     }
 
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result editFAQ(Integer Id) {
+    public Result editFAQ(Integer Id){
         Question questions = Question.findQuestionById(Id);
 
         return ok(editFAQ.render(questions));
