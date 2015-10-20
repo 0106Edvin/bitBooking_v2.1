@@ -58,8 +58,8 @@ public class Reservations extends Controller {
         reservation.setCreatedBy(user.firstname, user.lastname);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
-            Date firstDate = dtf.parse(checkin + " 11:00:00");
-            Date secondDate = dtf.parse(checkout + " 12:00:00");
+            Date firstDate = dtf.parse(checkin + " 12:00:00");
+            Date secondDate = dtf.parse(checkout + " 11:00:00");
             if (firstDate.before(secondDate)) {
                 reservation.checkIn = firstDate;
                 reservation.checkOut = secondDate;
