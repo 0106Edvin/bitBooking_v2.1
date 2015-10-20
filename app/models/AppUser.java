@@ -242,6 +242,19 @@ public class AppUser extends Model {
         } catch (Exception e) {
 
         }
+    }
+
+    /**
+     * Clears the forgotten password token field for provided user
+     * @param user
+     */
+    public static void clearChangePasswordToken(AppUser user) {
+        try {
+            user.forgottenPassToken = null;
+            user.save();
+        } catch (Exception e) {
+
+        }
 
     }
 }
