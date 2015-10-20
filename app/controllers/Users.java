@@ -432,13 +432,15 @@ public class Users extends Controller {
      */
     public Result cancelPasswordChangeRequest(String forgottenPasswordToken) {
         try {
+            Logger.debug(forgottenPasswordToken);
             AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
-            user.forgottenPassToken = null;
+            Logger.debug(user.toString());
+            user.clearChangePasswordToken(user);
 
-            flash("pass-changed-success", "Your change password request was successfully canceled.");
+            flash("pass-changed-success", "Your change password request was successfully cancelled.");
             return redirect(routes.Application.index());
         } catch (Exception e) {
-            flash("pass-changed-error", "Your calcelation link is invalid.");
+            flash("pass-changed-error", "Your cancellation link is invalid.");
             return redirect(routes.Application.index());
         }
     }

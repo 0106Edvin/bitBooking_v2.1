@@ -27,7 +27,7 @@ public class MailHelper {
                                 "Please confirm your Email adress", host));
             } else if (type == Constants.CHANGE_PASSWORD) {
                 mail.setHtmlMsg(String
-                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <p> %s </p></body></html>",
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <p> %s </p> <p> %s </p></body></html>",
                                 "You have requested to change your password.",
                                 "Please confirm your request and complete your password change following this link:", host,
                                 "If you did not ask for password change, please cancel this request following this link:", cancelRequest));
