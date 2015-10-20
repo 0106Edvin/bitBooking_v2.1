@@ -5,23 +5,33 @@ import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.Play;
+import helpers.Constants;
 
 /**
  * Created by ajla.eltabari on 12/10/15.
  */
 public class MailHelper {
     final static Logger logger = LoggerFactory.getLogger(MailHelper.class);
-    public static void send(String email, String host) {
+    public static void send(String email, String host, Integer type) {
         try {
             HtmlEmail mail = new HtmlEmail();
             mail.setSubject("Welcome to bitBooking");
             mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
             mail.addTo(email);
             mail.setMsg(host);
-            mail.setHtmlMsg(String
-                    .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
-                            "Thanks for signing up to bitBooking!",
-                            "Please confirm your Email adress", host));
+
+            if (type == Constants.REGISTER) {
+                mail.setHtmlMsg(String
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
+                                "Thanks for signing up to bitBooking!",
+                                "Please confirm your Email adress", host));
+            } else if (type == Constants.CHANGE_PASSWORD) {
+                mail.setHtmlMsg(String
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
+                                "You have requested to change your password.",
+                                "Please confirm your request and complete your password change following this link:", host));
+            }
+
             mail.setHostName(Play.application().configuration().getString("smtp.host"));
             mail.setStartTLSEnabled(true);
             mail.setSSLOnConnect(true);
