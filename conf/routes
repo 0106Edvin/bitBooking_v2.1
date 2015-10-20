@@ -19,6 +19,7 @@ GET           /hotelmanager/hotels                              @controllers.Use
 DELETE        /hotelmanager/hotels/:id                          @controllers.Hotels.deleteHotel(id: Integer)
 GET           /hotels/search                                    @controllers.Hotels.search()
 POST          /hotelmanager/hotels/changeseller/:hotelId        @controllers.Users.changeSeller(hotelId: Integer)
+POST          /hotelmanager/hotels/changevisibility/:hotel:visibility    @controllers.Hotels.changeVisibility(hotel: Hotel, visibility: Boolean)
 
 #User
 GET           /user/register                                    @controllers.Users.registerUser()
@@ -70,7 +71,7 @@ GET           /seller/editrestaurant/:id                        @controllers.Res
 POST          /seller/updaterestaurant/:id                      @controllers.Restaurants.updateRestaurant(id: Integer)
 
 DELETE        /seller/deleterestaurant/:id                      @controllers.Restaurants.deleteRestaurant(id: Integer)
-#GET         /seller/viewrestaurant/:restaurant              @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
+#GET         /seller/viewrestaurant/:restaurant                 @controllers.Restaurants.viewRestaurant(restaurant: Restaurant)
 
 #PayPal
 POST          /hotel/room/reservation/:roomId                   @controllers.Reservations.payPal(roomId: Integer)
@@ -95,7 +96,7 @@ GET           /weather/getweather                               @controllers.Api
 POST          /user/sendMmail                                   @controllers.Emails.sendMail()
 
 #Reservations
-#POST        /room/reservation                              @controllers.Reservations.saveReservation(roomId: Integer)
+#POST        /room/reservation                                  @controllers.Reservations.saveReservation(roomId: Integer)
 POST          /seller/hotelreservations/:id                     @controllers.Reservations.setStatus(id: Integer)
 GET           /buyer/showbuyerreservations/:buyerId             @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 POST          /buyer/showbuyerreservations/:id                  @controllers.Reservations.setStatusByUser(id: Integer)

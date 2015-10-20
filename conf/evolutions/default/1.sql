@@ -70,6 +70,7 @@ create table hotel (
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
+  show_on_home_page         tinyint(1) default 0,
   constraint pk_hotel primary key (id))
 ;
 

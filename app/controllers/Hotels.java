@@ -195,4 +195,9 @@ public class Hotels extends Controller {
     public Result advancedSearch() {
         return ok(views.html.hotel.advancedSearch.render(Hotel.finder.all()));
     }
+
+    public Result changeVisibility(Hotel hotel, Boolean visibility) {
+        Hotel.setHotelVisibilityOnHomePage(hotel, visibility);
+        return redirect(routes.Users.showManagerHotels());
+    }
 }

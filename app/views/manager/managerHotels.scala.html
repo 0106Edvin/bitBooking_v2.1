@@ -1,5 +1,6 @@
 @import helpers.UserAccessLevel
 @import models.AppUser
+@import models.Hotel
 @(hotels: java.util.List[Hotel])(users: java.util.List[AppUser])
 
 @main {
@@ -43,7 +44,7 @@
                                                         <option selected="true">
                                                             @user.email
                                                         </option>
-                                                    }else{
+                                                    } else {
                                                         <option>
                                                             @user.email
                                                         </option>
@@ -54,17 +55,19 @@
 
                                     </select>
                                     <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
+                                    <td>
+                                        @if(hotel.showOnHomePage == false || hotel.showOnHomePage == null) {
+                                            <button onclick="@routes.Hotels.changeVisibility(hotel, true)" type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
+                                        } else {
+                                            <button onclick="@routes.Hotels.changeVisibility(hotel, false)" type="submit" class="btn btn-warning" id="middlebuttons">HIDE FROM HOMEPAGE</button>
+                                        }
+                                    </td>
                                     </form>
                                     </td>
-
-
-
                                       <td>
                                           <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
                                               <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
                                         </td>
-
-
                                 </tr>
 
 
