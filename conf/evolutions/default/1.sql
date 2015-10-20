@@ -112,6 +112,17 @@ create table price (
   constraint pk_price primary key (id))
 ;
 
+create table question (
+  id                        integer auto_increment not null,
+  question                  TEXT,
+  answer                    TEXT,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint pk_question primary key (id))
+;
+
 create table reservation (
   id                        integer auto_increment not null,
   payment_id                varchar(255),
@@ -246,6 +257,8 @@ drop table image;
 drop table newsletter;
 
 drop table price;
+
+drop table question;
 
 drop table reservation;
 

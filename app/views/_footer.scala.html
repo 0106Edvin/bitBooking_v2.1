@@ -36,7 +36,12 @@
                                 <li class="header">Support</li>
                                 <li><a href="#formLogin">Log In</a></li>
                                 <li><a href="#">Help</a></li>
-                                <li><a href="#">FAQ</a></li>
+                                @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)){
+                                    <li><a href="@routes.Questions.seeAll()">FAQ</a></li>
+                                }else{
+                                    <li><a href="@routes.Application.showFAQ()">FAQ</a></li>
+                                }
+
                             </ul>
                         </div>
                         @if(currentUser != null) {

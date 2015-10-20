@@ -3,6 +3,7 @@ package controllers;
 import helpers.SessionsAndCookies;
 import models.AppUser;
 import models.Hotel;
+import models.Question;
 import models.SiteStats;
 import play.Logger;
 import play.Play;
@@ -51,5 +52,9 @@ public class Application extends Controller {
         return ok(views.html.user.successfulPayment.render());
     }
 
+    public Result showFAQ() {
+        List<Question> q = Question.finder.all();
+        return ok(views.html.user.userFAQ.render(q));
+    }
 
 }

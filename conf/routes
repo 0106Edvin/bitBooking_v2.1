@@ -135,5 +135,13 @@ GET           /newsletter/unsubscribe/:token                    @controllers.New
 GET           /seller/createpromotion                           @controllers.user.Seller.createPromotion()
 
 #REST
-
 GET           /api/users                                        @controllers.user.UserApiController.getAllUsers()
+
+#FAQ
+POST          /admin/createFAQ                                  @controllers.Questions.saveFAQ()
+POST          /admin/updateFAQ/:id                              @controllers.Questions.updateFAQ(id: Integer)
+GET           /admin/createFAQ                                  @controllers.Questions.createFAQ()
+GET           /admin/editFAQ/:id                                @controllers.Questions.editFAQ(id: Integer)
+GET           /admin/seeallFAQ                                  @controllers.Questions.seeAll()
+DELETE        /admin/deleteFAQ/:id                              @controllers.Questions.deleteFAQ(id: Integer)
+GET           /FAQ                                              @controllers.Application.showFAQ()

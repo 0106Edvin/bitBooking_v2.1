@@ -1,0 +1,52 @@
+@(questions: java.util.List[Question])
+@import helpers.UserAccessLevel
+
+
+@main {
+
+<script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+
+
+                <table class="table table-responsive" style="font-size: 45px;">
+                    <thead>
+                        <tr class="service">
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th></th>
+
+                                <th>Edit FAQ</th>
+                                <th>Delete FAQ</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(question <- questions) {
+
+                            <tr class="service">
+                                <td style="text-transform: capitalize; font-size: 22px;">@question.question</td>
+                                <td style="text-transform: capitalize; font-size: 22px;">@question.answer</td>
+                                <td></td>
+                                <td><a href="@routes.Questions.editFAQ(question.id)"><button class="btn btn-warning" style="font-size: 18px;">Edit</button></a></td>
+                                <td><button ahref="@routes.Questions.deleteFAQ(question.id)" class="btn btn-danger" style="font-size: 18px;">Delete</button></td>
+
+                                <td></td>
+
+                            </tr>
+
+
+                    }
+                    </tbody>
+                </table>
+
+                <a href="@routes.Questions.createFAQ()">
+                    <button class="btn btn-success"  id="middlebuttons">Create FAQ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+}
