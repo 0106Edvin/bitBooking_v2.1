@@ -113,10 +113,12 @@ create table price (
 create table reservation (
   id                        integer auto_increment not null,
   payment_id                varchar(255),
+  sale_id                   varchar(255),
   cost                      decimal(38),
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,
+  is_refunded               tinyint(1) default 0,
   notification              integer(1),
   updated_by                varchar(50),
   update_date               datetime,

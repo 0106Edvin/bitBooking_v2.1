@@ -23,6 +23,7 @@ public class Reservation extends Model {
     public Integer id;
 
     public String payment_id;
+    public String sale_id;
 
     public BigDecimal cost;
 
@@ -35,6 +36,8 @@ public class Reservation extends Model {
     public Date checkOut;
 
     public Integer status;
+
+    public Boolean isRefunded;
 
     @Column(name = "notification", length = 1)
     public Integer notification;
@@ -58,7 +61,7 @@ public class Reservation extends Model {
     public Reservation() {
     }
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, AppUser user, Date timeOfReservation, String payment_id) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room,String sale_id, AppUser user,Boolean isRefunded, Date timeOfReservation, String payment_id) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
@@ -67,6 +70,8 @@ public class Reservation extends Model {
         this.room = room;
         this.user = user;
         this.payment_id = payment_id;
+        this.isRefunded = false;
+        this.sale_id = sale_id;
     }
 
     public static Reservation findReservationById(Integer id) {
@@ -196,5 +201,6 @@ public class Reservation extends Model {
         updateDate = new Date();
         super.update();
     }
+
 
 }
