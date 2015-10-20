@@ -103,7 +103,7 @@ public class Users extends Controller {
 
                 // Sending Email To user
                 String host = Play.application().configuration().getString("url") + "validate/" + user.token;
-                MailHelper.send(user.email, host);
+                MailHelper.send(user.email, host, Constants.REGISTER);
 
                 flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
                 return badRequest(login.render(userForm));
@@ -371,7 +371,7 @@ public class Users extends Controller {
 
             // Sending Email To user
             String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user1.forgottenPassToken;
-            MailHelper.send(user1.email, host);
+            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD);
 
             flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
             return badRequest(askForPasswordChange.render());
