@@ -15,7 +15,11 @@ public class MailHelper {
     public static void send(String email, String host, Integer type, String cancelRequest) {
         try {
             HtmlEmail mail = new HtmlEmail();
-            mail.setSubject("Welcome to bitBooking");
+            if (type == Constants.REGISTER) {
+                mail.setSubject("Welcome to bitBooking");
+            } else if (type == Constants.CHANGE_PASSWORD) {
+                mail.setSubject("bitBooking - change password");
+            }
             mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
             mail.addTo(email);
             mail.setMsg(host);
@@ -40,7 +44,6 @@ public class MailHelper {
                     Play.application().configuration().getString("mail.smtp.user"),
                     Play.application().configuration().getString("mail.smtp.pass")
             ));
-            //mail.setAuthentication(Play.application().configuration().getString("mailFromPass"), Play.application().configuration().getString("mail.smtp.pass"));
             mail.send();
         } catch (Exception e) {
             logger.warn("Email error" + e);

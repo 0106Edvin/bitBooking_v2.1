@@ -234,14 +234,10 @@ public class AppUser extends Model {
      * @return
      */
     public void updatePassword(AppUser user, String newPassword) {
-        try {
             user.password = newPassword;
             user.hashPass();
             user.forgottenPassToken = null;
             user.save();
-        } catch (Exception e) {
-
-        }
     }
 
     /**
@@ -249,13 +245,8 @@ public class AppUser extends Model {
      * @param user
      */
     public static void clearChangePasswordToken(AppUser user) {
-        try {
             user.forgottenPassToken = null;
             user.save();
-        } catch (Exception e) {
-
-        }
-
     }
 }
 

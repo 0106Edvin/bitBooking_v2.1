@@ -413,14 +413,14 @@ public class Users extends Controller {
 
         String pass = boundForm.field("newpassword").value();
 
-        try {
-            AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
-            user.updatePassword(user, pass);
+        AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
 
-            flash("pass-changed-success", "Password has been successfully changed.");
-            return redirect(routes.Application.index());
-        } catch (Exception e) {
+        if (user == null) {
             flash("pass-changed-error", "Password hasn't been changed.");
+            return redirect(routes.Application.index());
+        } else {
+            user.updatePassword(user, pass);
+            flash("pass-changed-success", "Password has been successfully changed.");
             return redirect(routes.Application.index());
         }
     }
@@ -431,15 +431,14 @@ public class Users extends Controller {
      * @return
      */
     public Result cancelPasswordChangeRequest(String forgottenPasswordToken) {
-        try {
-            AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
-            Logger.debug(user.toString());
-            user.clearChangePasswordToken(user);
+        AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
 
-            flash("pass-changed-success", "Your change password request was successfully cancelled.");
-            return redirect(routes.Application.index());
-        } catch (Exception e) {
+        if (user == null) {
             flash("pass-changed-error", "Your cancellation link is invalid.");
+            return redirect(routes.Application.index());
+        } else {
+            user.clearChangePasswordToken(user);
+            flash("pass-changed-success", "Your change password request was successfully cancelled.");
             return redirect(routes.Application.index());
         }
     }
