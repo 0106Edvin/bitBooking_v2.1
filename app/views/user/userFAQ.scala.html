@@ -1,0 +1,31 @@
+@(questions: List[Question])
+
+@main{
+
+<div class="container">
+    <div class="row">
+        <div class="contact-caption clearfix">
+            <div class="contact-heading text-center">
+                <h2>FAQ's</h2>
+            </div>
+            <div class="contact-info ">
+                <div class="col-md-10 col-md-offset-0">
+                    @for(question <- questions) {
+                    <div id="comment-to-delete" class="service">
+                        <label>Question:</label>
+                        <div  style="color: black; font-size: 30px; text-transform: capitalize; ">@question.question?</div>
+
+                        <br>
+                        <label>Answer:</label>
+                        <div style="color: black; font-size: 25px; text-transform: capitalize; ">@question.answer</div>
+
+                        <hr>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
