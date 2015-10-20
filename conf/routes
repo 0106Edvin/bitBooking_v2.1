@@ -31,7 +31,8 @@ POST          /user/hotel/:hotelId                              @controllers.Com
 GET           /user/askforpasswordchange                        @controllers.Users.askForPasswordChange()
 POST          /user/askforpasswordchange                        @controllers.Users.sendChangePasswordRequest()
 GET           /user/forgotyourpassword/:token                   @controllers.Users.forgotYourPassword(token: String)
-POST           /user/forgotyourpassword/:token                  @controllers.Users.changePassword(token: String)
+POST          /user/forgotyourpassword/:token                   @controllers.Users.changePassword(token: String)
+POST          /user/cancelpasswordchangerequest/:token          @controllers.Users.cancelPasswordChangeRequest(token: String)
 
 #Admin
 GET           /admin/panel                                      @controllers.Users.showAdminPanel()

@@ -103,7 +103,7 @@ public class Users extends Controller {
 
                 // Sending Email To user
                 String host = Play.application().configuration().getString("url") + "validate/" + user.token;
-                MailHelper.send(user.email, host, Constants.REGISTER);
+                MailHelper.send(user.email, host, Constants.REGISTER, null);
 
                 flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
                 return badRequest(login.render(userForm));
@@ -371,7 +371,8 @@ public class Users extends Controller {
 
             // Sending Email To user
             String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user1.forgottenPassToken;
-            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD);
+            String cancelRequest = Play.application().configuration().getString("url") + "user/cancelpasswordchangerequest/" + user1.forgottenPassToken;
+            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD, cancelRequest);
 
             flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
             return badRequest(askForPasswordChange.render());
@@ -422,7 +423,24 @@ public class Users extends Controller {
             flash("pass-changed-error", "Password hasn't been changed.");
             return redirect(routes.Application.index());
         }
+    }
 
+    /**
+     * Cancels password change request if user didn't want to change it.
+     * Clears the forgotten password token field in the database
+     * @return
+     */
+    public Result cancelPasswordChangeRequest(String forgottenPasswordToken) {
+        try {
+            AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
+            user.forgottenPassToken = null;
+
+            flash("pass-changed-success", "Your change password request was successfully canceled.");
+            return redirect(routes.Application.index());
+        } catch (Exception e) {
+            flash("pass-changed-error", "Your calcelation link is invalid.");
+            return redirect(routes.Application.index());
+        }
     }
 
 }
