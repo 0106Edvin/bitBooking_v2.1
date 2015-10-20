@@ -4,19 +4,17 @@ import helpers.FillDatabase;
 import models.AppUser;
 import models.Hotel;
 import models.Image;
+import play.Application;
 import play.GlobalSettings;
 import play.Play;
 import play.libs.F;
 import play.mvc.Http;
+import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
-import play.*;
-import play.mvc.*;
-import play.mvc.Http.*;
-import views.html.*;
+import views.html.notFound;
+
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.notFound;
-import play.api.mvc.EssentialFilter;
-import play.filters.csrf.CSRFFilter;
 
 
 /**
