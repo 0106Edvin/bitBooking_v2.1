@@ -36,7 +36,7 @@
                                 <li class="header">Support</li>
                                 <li><a href="#formLogin">Log In</a></li>
                                 <li><a href="#">Help</a></li>
-                                @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)){
+                                @if(currentUser != null && currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)){
                                     <li><a href="@routes.Questions.seeAll()">FAQ</a></li>
                                 }else{
                                     <li><a href="@routes.Application.showFAQ()">FAQ</a></li>
@@ -45,35 +45,32 @@
                             </ul>
                         </div>
                         @if(currentUser != null) {
-
                             <div class="col-xs-3">
                                 <ul class="list-unstyled">
                                     <li class="header">Quick link</li>
-                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)) {
+                                    @if(currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
                                         <li><a href="@routes.Users.showAdminPanel()">Admin panel</a></li>
                                         <li><a href="@routes.Users.showAdminHotels()">Delete hotels</a></li>
                                         <li><a href="@routes.Users.showAdminUsers()">Manage users</a></li>
                                         <li><a href="@routes.Users.showAdminFeatures()">Manage features</a></li>
                                     }
-                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.HOTEL_MANAGER)) {
+                                    @if(currentUser.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
                                         <li><a href="@routes.Users.showManagerHotels()">Manager panel</a></li>
                                         <li><a href="@routes.Hotels.createHotel()">Add new hotel</a></li>
                                         <li><a href="@routes.Users.editUser(currentUser.email)">Edit personal profile</a></li>
                                     }
-                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
+                                    @if(currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                                         <li><a href="@routes.Hotels.showSellerHotels(currentUser.id)">Seller panel</a></li>
                                         <li><a href="@routes.Rooms.allReservations()">See all reservations</a></li>
                                         <li><a href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
                                     }
-                                    @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)){
+                                    @if(currentUser.userAccessLevel == UserAccessLevel.BUYER){
                                         <li><a href="@routes.Reservations.showBuyerReservations(currentUser.id)">My reservations</a></li>
                                         <li><a href="@routes.Users.editUser(currentUser.email)">Edit personal profile</a></li>
                                     }
                                 </ul>
                             </div>
                         }
-
-
                     </div>
                 </div>
 
