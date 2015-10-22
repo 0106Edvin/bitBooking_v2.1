@@ -42,12 +42,13 @@ public class Questions extends Controller {
     //This method saves the FAQ
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result saveFAQ(){
-        Logger.info("evoo");
         DynamicForm form = Form.form().bindFromRequest();
         Question q = new Question();
         q.question = form.field("question").value();
         q.answer = form.field("answer").value();
         q.save();
+
+        flash("save", "A new FAQ was created!");
 
         return redirect(routes.Questions.seeAll());
     }
@@ -55,25 +56,27 @@ public class Questions extends Controller {
 
     //This method updates the FAQ
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result updateFAQ(Integer Id){
+    public Result updateFAQ(Integer Id) {
+
         Question q = Question.findQuestionById(Id);
         DynamicForm form = Form.form().bindFromRequest();
         q.question = form.field("question").value();
         q.answer = form.field("answer").value();
 
-        q.update();
 
+        q.update();
+        flash("update", "The FAQ was updated!");
         return redirect(routes.Questions.seeAll());
     }
 
 
     //This method deletes the FAQ
     @Security.Authenticated(Authenticators.AdminFilter.class)
-    public Result deleteFAQ(Integer Id){
+    public Result deleteFAQ(Integer Id) {
         Question q = Question.findQuestionById(Id);
 
         q.delete();
-
+        flash("delete", "The FAQ was deleted!");
         return redirect(routes.Questions.seeAll());
     }
 

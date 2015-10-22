@@ -1,26 +1,26 @@
 @(questions: List[Question])
 
 @main{
-
+<section>
 <div class="container">
     <div class="row">
         <div class="contact-caption clearfix">
             <div class="contact-heading text-center">
-                <h2>FAQ's</h2>
+                <h2>Frequently asked questions</h2>
             </div>
             <div class="contact-info ">
                 <div class="col-md-10 col-md-offset-0">
                     @for(question <- questions) {
                     <div id="comment-to-delete" class="service">
-                        <label>Question:</label>
-                        <div  style="color: black; font-size: 30px; text-transform: capitalize; ">@question.question?</div>
 
+                        <h3 style="cursor: pointer;" class="link-hover" id="answerOpen@question.id">@question.question<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
+                        <div id="answerDiv@question.id" class="info-detail" hidden>
                         <br>
-                        <label>Answer:</label>
-                        <div style="color: black; font-size: 25px; text-transform: capitalize; ">@question.answer</div>
+
+                        <div style="color: black; font-size: 25px;">@question.answer</div>
 
                         <hr>
-
+                        </div>
                         }
                     </div>
                 </div>
@@ -28,4 +28,22 @@
         </div>
     </div>
 </div>
+
+
+</section>
 }
+
+<script>
+$(document).ready(function(){
+    @for(question <- questions) {
+        var id = @question.id;
+        $('#answerOpen' + @question.id).click(function() {
+           if ($('#answerDiv' + @question.id).is(':hidden')) {
+                $('#answerDiv' + @question.id).show();
+            } else {
+                $('#answerDiv' + @question.id).hide();
+            }
+         });
+    }
+});
+</script>

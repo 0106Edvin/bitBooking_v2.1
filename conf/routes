@@ -143,5 +143,5 @@ POST          /admin/updateFAQ/:id                              @controllers.Que
 GET           /admin/createFAQ                                  @controllers.Questions.createFAQ()
 GET           /admin/editFAQ/:id                                @controllers.Questions.editFAQ(id: Integer)
 GET           /admin/seeallFAQ                                  @controllers.Questions.seeAll()
-DELETE        /admin/deleteFAQ/:id                              @controllers.Questions.deleteFAQ(id: Integer)
+GET           /admin/deleteFAQ/:id                              @controllers.Questions.deleteFAQ(id: Integer)
 GET           /FAQ                                              @controllers.Application.showFAQ()

@@ -9,8 +9,30 @@
     <div class="container">
         <div class="row">
             <div class="contact-caption clearfix">
-
-
+                <div class="contact-heading text-center">
+                    <h2>FAQ</h2>
+                </div>
+                <div>
+                @if(flash.containsKey("save")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("save")
+                    </span>
+                }
+                </div>
+                <div>
+                @if(flash.containsKey("update")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("update")
+                    </span>
+                }
+                </div>
+                <div>
+                @if(flash.containsKey("delete")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("delete")
+                    </span>
+                }
+                </div>
                 <table class="table table-responsive" style="font-size: 45px;">
                     <thead>
                         <tr class="service">
@@ -18,8 +40,8 @@
                             <th>Answer</th>
                             <th></th>
 
-                                <th>Edit FAQ</th>
-                                <th>Delete FAQ</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
 
                         </tr>
                     </thead>
@@ -27,11 +49,11 @@
                     @for(question <- questions) {
 
                             <tr class="service">
-                                <td style="text-transform: capitalize; font-size: 22px;">@question.question</td>
-                                <td style="text-transform: capitalize; font-size: 22px;">@question.answer</td>
+                                <td style="font-size: 22px;">@question.question</td>
+                                <td style="font-size: 22px;">@question.answer</td>
                                 <td></td>
                                 <td><a href="@routes.Questions.editFAQ(question.id)"><button class="btn btn-warning" style="font-size: 18px;">Edit</button></a></td>
-                                <td><button ahref="@routes.Questions.deleteFAQ(question.id)" class="btn btn-danger" style="font-size: 18px;">Delete</button></td>
+                                <td><a href="@routes.Questions.deleteFAQ(question.id)"><button class="btn btn-danger" style="font-size: 18px;">Delete</button></a></td>
 
                                 <td></td>
 
