@@ -58,7 +58,7 @@
 
                                     </form>
                                     <td>
-                                        @if(hotel.showOnHomePage == false || hotel.showOnHomePage == null) {
+                                        @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
                                             <a href="@routes.Hotels.changeVisibility(hotel.id)" >
                                                 <button type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
                                             </a>

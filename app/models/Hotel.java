@@ -178,7 +178,7 @@ public class Hotel extends Model {
      * @return
      */
     public static List<Hotel> hotelsForHomepage() {
-        List<Hotel> hotels = finder.where().eq("showOnHomePage", false).findList();
+        List<Hotel> hotels = finder.where().eq("showOnHomePage", true).findList();
         return hotels;
     }
 
