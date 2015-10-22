@@ -106,7 +106,7 @@ public class Users extends Controller {
                 MailHelper.send(user.email, host, Constants.REGISTER, null);
 
                 flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
-                return badRequest(login.render(userForm));
+                return ok(login.render(userForm));
             } catch (Exception e) {
                 flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
