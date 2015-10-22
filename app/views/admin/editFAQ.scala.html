@@ -13,7 +13,7 @@
         <h3>Please enter your data</h3>
         <div class="info-detail">
 
-          <form method="post" ahref="@routes.Questions.updateFAQ(question.id)">
+          <form method="post" action="@routes.Questions.updateFAQ(question.id)">
             <div class="duplicate-email" style="font-size: 18px; color: red;">
 
             </div>
@@ -30,7 +30,7 @@
 
 
             <!--submit button-->
-            <input ahref="@routes.Questions.updateFAQ(question.id)" class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" type="submit" value="Edit FAQ">
+            <input href="@routes.Questions.updateFAQ(question.id)" class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" type="submit" value="Edit FAQ">
           </form>
 
         </div>
