@@ -22,7 +22,7 @@ public class AutocompleteReservation {
             while (!Thread.interrupted()) {
                 try {
                     Reservation.checkReservationExpiration();
-                    Thread.sleep(ONE_HOUR);
+                    Thread.sleep(ONE_MINUTE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
