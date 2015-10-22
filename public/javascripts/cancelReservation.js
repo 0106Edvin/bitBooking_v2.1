@@ -34,8 +34,6 @@ $('body').on('click', '#cancelReservation[data-role="cancel"]', function (e) {
             });
         } else {
             swal({
-                title: 'Canceled!',
-                text: 'Reservation is saved.',
                 type: 'error',
                 timer: 1000
             });
