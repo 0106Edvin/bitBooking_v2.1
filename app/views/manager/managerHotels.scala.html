@@ -55,14 +55,19 @@
 
                                     </select>
                                     <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
+
+                                    </form>
                                     <td>
                                         @if(hotel.showOnHomePage == false || hotel.showOnHomePage == null) {
-                                            <button onclick="@routes.Hotels.changeVisibility(hotel, true)" type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
+                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                                <button type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
+                                            </a>
                                         } else {
-                                            <button onclick="@routes.Hotels.changeVisibility(hotel, false)" type="submit" class="btn btn-warning" id="middlebuttons">HIDE FROM HOMEPAGE</button>
+                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                                <button onclick="@routes.Hotels.changeVisibility(hotel.id)" type="submit" class="btn btn-warning" id="middlebuttons">HIDE FROM HOMEPAGE</button>
+                                            </a>
                                         }
                                     </td>
-                                    </form>
                                     </td>
                                       <td>
                                           <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">

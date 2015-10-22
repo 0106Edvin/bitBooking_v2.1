@@ -40,7 +40,7 @@ public class Application extends Controller {
                 tempStat.update();
             }
         }
-        List<Hotel> hotels = Hotel.finder.all();
+        List<Hotel> hotels = Hotel.hotelsForHomepage();
         return ok(list.render(hotels));
     }
 

@@ -169,9 +169,17 @@ public class Hotel extends Model {
      * @param visibility
      */
     public static void setHotelVisibilityOnHomePage(Hotel hotel, Boolean visibility) {
-        Logger.debug("tu sam!!!!!!!!!!!!!!!!");
         hotel.showOnHomePage = visibility;
         hotel.save();
+    }
+
+    /**
+     * Returns only hotels marked to be visible on the homepage.
+     * @return
+     */
+    public static List<Hotel> hotelsForHomepage() {
+        List<Hotel> hotels = finder.where().eq("showOnHomePage", false).findList();
+        return hotels;
     }
 
     @Override

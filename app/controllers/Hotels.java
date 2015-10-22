@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Model;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import helpers.Authenticators;
+import helpers.Constants;
 import models.*;
 import play.Logger;
 import play.data.Form;
@@ -68,7 +69,7 @@ public class Hotels extends Controller {
         Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
-
+        hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
         hotel.save();
 
         List<Hotel> hotels = finder.all();
@@ -196,8 +197,10 @@ public class Hotels extends Controller {
         return ok(views.html.hotel.advancedSearch.render(Hotel.finder.all()));
     }
 
-    public Result changeVisibility(Hotel hotel, Boolean visibility) {
-        Hotel.setHotelVisibilityOnHomePage(hotel, visibility);
+    public Result changeVisibility(Integer hotelId) {
+        Hotel hotel = Hotel.findHotelById(hotelId);
+        Boolean visibility = hotel.showOnHomePage;
+        Hotel.setHotelVisibilityOnHomePage(hotel, !visibility);
         return redirect(routes.Users.showManagerHotels());
     }
 }

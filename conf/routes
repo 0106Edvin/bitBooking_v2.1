@@ -19,7 +19,7 @@ GET           /hotelmanager/hotels                              @controllers.Use
 DELETE        /hotelmanager/hotels/:id                          @controllers.Hotels.deleteHotel(id: Integer)
 GET           /hotels/search                                    @controllers.Hotels.search()
 POST          /hotelmanager/hotels/changeseller/:hotelId        @controllers.Users.changeSeller(hotelId: Integer)
-POST          /hotelmanager/hotels/changevisibility/:hotel:visibility    @controllers.Hotels.changeVisibility(hotel: Hotel, visibility: Boolean)
+GET          /hotelmanager/hotels/changevisibility/:hotelId      @controllers.Hotels.changeVisibility(hotelId: Integer)
 
 #User
 GET           /user/register                                    @controllers.Users.registerUser()
@@ -122,7 +122,7 @@ GET           /seller/pdf                                       @controllers.use
 GET           /validate/:token                                  @controllers.Users.emailValidation(token: String)
 
 #PayPal
-#POST        /hotel/room/reservation                         @controllers.PayPal.payPal()
+#POST        /hotel/room/reservation                            @controllers.PayPal.payPal()
 GET           /paypal/success                                   @controllers.Reservations.paypalSuccess()
 
 GET           /rejectPayment                                    @controllers.Application.see()
