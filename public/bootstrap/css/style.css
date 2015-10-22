@@ -1,6 +1,20 @@
 .edvin-class {
     margin-top: 20%;
 }
+.marginbottom{
+    margin-bottom: 50px;
+}
+.searchhotels{
+    background: url(http://bboceansuites.com/wp-content/uploads/2015/05/sunset-beach-chairs-stock-footage.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin-top: 50px;
+}
+.footer{
+    margin-top: 50px;
+    background: #c4e3f3;
+}
 
 .rediconcolor {
     color:#b81900;
@@ -308,35 +322,34 @@ li a.active {
 .gogo {
     width: 70px;
     height: 52px;
-    background: #fff;
     position: relative;
     top: -30px;
-    left: 43%;
+    left: 40%;
 }
 
-.gogo:before {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 34px solid transparent;
-    border-right: 35px solid transparent;
-    border-bottom: 15px solid #fff;
-}
+/*.gogo:before {*/
+    /*content: "";*/
+    /*position: absolute;*/
+    /*top: -15px;*/
+    /*left: 0;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-left: 34px solid transparent;*/
+    /*border-right: 35px solid transparent;*/
+    /*border-bottom: 15px solid #fff;*/
+/*}*/
 
-.gogo:after {
-    content: "";
-    position: absolute;
-    bottom: -15px;
-    left: 0;
-    width: 0;
-    height: 0px;
-    border-left: 36px solid transparent;
-    border-right: 34px solid transparent;
-    border-top: 15px solid #fff;
-}
+/*.gogo:after {*/
+    /*content: "";*/
+    /*position: absolute;*/
+    /*bottom: -15px;*/
+    /*left: 0;*/
+    /*width: 0;*/
+    /*height: 0px;*/
+    /*border-left: 36px solid transparent;*/
+    /*border-right: 34px solid transparent;*/
+    /*border-top: 15px solid #fff;*/
+/*}*/
 
 .about-details {
     background: #2a2a2a;
@@ -359,7 +372,6 @@ li a.active {
     color: #fff;
     font-family: 'Open Sans', sans-serif;
     padding: 0 25px;
-    padding-bottom: 30px;
 }
 
 .single-about-detail:hover .about-details {
@@ -790,8 +802,8 @@ li a.active {
 }
 
 .footer a i.fa {
-    font-size: 24px;
-    color: #b1b1b1;
+    font-size: 26px;
+    color: grey;
     padding: 22px 10px;
 }
 
