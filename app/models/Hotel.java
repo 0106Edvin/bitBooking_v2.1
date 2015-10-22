@@ -59,12 +59,15 @@ public class Hotel extends Model {
     @OneToMany(mappedBy="hotel")
     public List<Comment> comments;
 
+    @Column
+    public Boolean showOnHomePage;
+
     /**
      * Default empty constructor for Ebean use
      */
     public Hotel() {};
 
-    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images,Double rating) {
+    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage) {
 
         this.id = id;
         this.name = name;
@@ -81,6 +84,7 @@ public class Hotel extends Model {
         this.comments = comments;
         this.stars = stars;
         this.rating = Constants.INITIAL_RATING;
+        this.showOnHomePage = showOnHomePage;
     }
 
     //method that finds hotel by id
@@ -151,10 +155,31 @@ public class Hotel extends Model {
         rating = Double.valueOf(format.format(rating));
         return rating;
     }
+
     public static AppUser findUserByHotel (Hotel hotel){
         Integer userId = hotel.sellerId;
         AppUser user = AppUser.findUserById(userId);
         return user;
+    }
+
+    /**
+     * Sets hotel visibility on homepage.
+     * Only hotel managers should be able to call this method.
+     * @param hotel
+     * @param visibility
+     */
+    public static void setHotelVisibilityOnHomePage(Hotel hotel, Boolean visibility) {
+        hotel.showOnHomePage = visibility;
+        hotel.save();
+    }
+
+    /**
+     * Returns only hotels marked to be visible on the homepage.
+     * @return
+     */
+    public static List<Hotel> hotelsForHomepage() {
+        List<Hotel> hotels = finder.where().eq("showOnHomePage", false).findList();
+        return hotels;
     }
 
     @Override
