@@ -27,7 +27,7 @@ public class Comments extends Controller {
         AppUser user = AppUser.getUserByEmail(request().cookies().get("email").value());
         Hotel hotel = Hotel.findHotelById(hotelId);
         comment.user = user;
-        comment.hotel = hotel;
+        comment.hotel = hotel; 
 
         comment.save();
         return redirect(routes.Hotels.showHotel(comment.hotel.id));
