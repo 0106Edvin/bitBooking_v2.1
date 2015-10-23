@@ -1,6 +1,14 @@
 .edvin-class {
     margin-top: 20%;
 }
+#background{
+    background: whitesmoke;
+}
+#main-background{
+    background-color: #42b3e5;
+    background-image: url(http://www.transparenttextures.com/patterns/foggy-birds.png);
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
 .marginbottom{
     margin-bottom: 50px;
 }
@@ -340,15 +348,42 @@ li a.active {
     margin-right: 0;
     margin-top: 50px;
 }
-
+#hotel-section1{
+    margin-top: 120px;
+}
 /*about area*/
 .about h2 {
     font-size: 90px;
     color: #42b3e5;
     margin-top: 50px;
 }
+.about h3 {
+    font-size: 30px;
+    color: #42b3e5;
+    margin-top: 50px;
+}
 
 .about h4 {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about p {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about li {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about th {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about td {
     font-size: 24px;
     color: #737373;
     margin-bottom: 45px;
@@ -706,6 +741,9 @@ li a.active {
 /*contact section*/
 .contact-caption {
     background: #3a9dca;
+}
+.contact-caption-white {
+    background: white;
 }
 
 .contact-heading h2 {
