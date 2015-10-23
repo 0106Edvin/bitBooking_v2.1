@@ -275,7 +275,29 @@
                                     <div class="form-group">
                                         <div>
                                             <div class="service">
+
                                                 <label>User:</label>
+
+                                                <label for="rate">Rate hotel:</label>
+                                            </div>
+
+                                            @*<select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">*@
+                                                @*<option value="1">1</option>*@
+                                                @*<option value="2">2</option>*@
+                                                @*<option value="3">3</option>*@
+                                                @*<option value="4">4</option>*@
+                                                @*<option value="5">5</option>*@
+                                            @*</select>*@
+                                            <div class="acidjs-rating-stars" name="rating" id="rate">
+                                                <form>
+                                                    <input type="radio" name="group-2" id="group-2-0" value="5" /><label for="group-2-0"></label>
+                                                <input type="radio" name="group-2" id="group-2-1" value="4" /><label for="group-2-1"></label>
+                                                <input type="radio" name="group-2" id="group-2-2" value="3" /><label for="group-2-2"></label>
+                                                <input type="radio" name="group-2" id="group-2-3" value="2" /><label for="group-2-3"></label>
+                                                <input type="radio"  checked="checked" name="group-2" id="group-2-4"  value="1" /><label for="group-2-4"></label>
+                                                </form>
+                                            </div>
+
 
                                                 <label>@request.cookies.get("name").value()</label>
                                             </div>
