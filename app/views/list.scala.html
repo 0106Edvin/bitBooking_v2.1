@@ -4,7 +4,7 @@
 
     @for(hotel <- hotels) {
         @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-3 col-sm-6">
                 <div class="single-about-detail clearfix">
                     <div class="about-img">
                         @if(hotel.images.size() == 0) {
@@ -20,7 +20,7 @@
                                     </h1>
                                 </div>
                                 <h3>@hotel.name</h3>
-                                <p>Hotel address: <br>@hotel.location</p>
+                                <p>@hotel.city</p>
                                 <button class="edvin-button">VIEW HOTEL</button>
                             </div>
                         </a>

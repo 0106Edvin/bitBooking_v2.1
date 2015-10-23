@@ -121,8 +121,9 @@
         <div class="container">
             <div class="row">
                 <h2>The most visited hotels</h2>
+                <div class="marginbottom">
                 <h3>Best rated hotels by our guests</h3>
-
+                </div>
                 @content
 
             </div>
@@ -130,32 +131,17 @@
     </section> <!-- end of about section -->
 
 
-    <section class="">
+    <section class="searchhotels" >
         <div class="container">
         <div class="" id="searchPanel">
             <div class="row">
-                <div class="contact-caption clearfix">
                     <div class="contact-heading text-center">
                         <h2>Search Hotels</h2>
-                        <div class="info-detail">
-                            </div>
                     </div>
 
                     <div class="col-md-4 col-md-offset-3 contact-form">
-                        @* <h4>Search:</h4>*@
 
                             <form method="get" action="@routes.Hotels.search()">
-                                @*<div class="fa-search">*@
-                                @*<div class="form-group">*@
-
-                                @*<select name="object" class="form-control" id="sel1">*@
-                                @*<option>Hotel</option>*@
-                                @*<option>Room</option>*@
-
-                                @*</select>*@
-                                @*</div>*@
-
-                                @*</div>*@
 
                                 <div class="form-group">
                                     <h3>Search By:</h3>
@@ -183,7 +169,6 @@
                     </div>
 
                 </div>
-            </div>
         </div>
 
     </section>
@@ -316,7 +301,7 @@
                             <div style="font-size: 20px; color: red" id="subject_error"></div>
                             <div style="font-size: 20px; color: red" id="subjectlength_error"></div>
 
-                            <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message" required ></textarea>
+                            <textarea class="message" name="message" id="message" cols="30" rows="10"  placeholder="Message" required style="resize: vertical"></textarea>
 
                             <div style="font-size: 20px; color: red" class="duplicate-email" >
                             @if(flash.containsKey("error")) {
