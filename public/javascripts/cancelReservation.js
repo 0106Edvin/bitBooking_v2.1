@@ -5,19 +5,22 @@ $('body').on('click', '#cancelReservation[data-role="cancel"]', function (e) {
     e.preventDefault();
     $toCancel = $(this);
     swal({
-        title: 'Are you sure you want to cancel this reservation?',
+        title: 'Are you sure you want to cancel reservation?',
         text: 'You are about to cancel reservation.',
         type: 'warning',
         showCancelButton: true,
+        chowConfirmButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         confirmButtonText: 'Yes, cancel it!',
         cancelButtonText: 'No, keep reservation!',
         confirmButtonClass: 'confirm-class',
         cancelButtonClass: 'cancel-class',
+        showLoaderOnConfirm: true,
         closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnCancel: true
     }, function (isConfirm) {
+        swal.disableButtons();
         if (isConfirm) {
             $.ajax({
                 url: $toCancel.attr("href"),
@@ -32,13 +35,7 @@ $('body').on('click', '#cancelReservation[data-role="cancel"]', function (e) {
                     timer: 1000
                 });
             });
-        } else {
-            swal({
-                type: 'error',
-                timer: 1000
-            });
         }
     });
 });
-
 
