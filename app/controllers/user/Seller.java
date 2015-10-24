@@ -42,7 +42,7 @@ public class Seller extends Controller {
 
     public Result createPromotion() {
         AppUser seller = AppUser.getUserByEmail(session("email"));
-        List<Hotel> hotels = Hotel.finder.where().eq("seller_id", seller.id).findList();
+        List<Hotel> hotels = Hotel.finder.where().eq("seller_id", seller.id).orderBy("name asc").findList();
         return ok(views.html.seller.createPromotion.render(hotels));
     }
 
