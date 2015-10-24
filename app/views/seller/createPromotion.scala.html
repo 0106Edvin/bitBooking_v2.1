@@ -15,9 +15,9 @@
                         <div class="form-group font-size-18">
                             <label for="select" class="col-lg-2 control-label">Choose hotel</label>
                             <div class="col-xs-9">
-                                <select class="form-control" id="select" name="hotel">
+                                <select class="form-control font-size-18" id="select" name="hotel">
                                 @for(hotel <- hotels) {
-                                    <option class="font-size-18" value="@hotel.name">@hotel.name</option>
+                                    <option class="font-size-18" value="@hotel.name">@hotel.name @hotel.city</option>
                                 }
                                 </select>
                             </div>
@@ -26,14 +26,14 @@
                         <div class="form-group font-size-18">
                             <label for="title" class="col-lg-2 control-label">Title</label>
                             <div class="col-xs-9">
-                                <input name="title" type="text" class="form-control font-size-18" id="title" placeholder="Promotion title">
+                                <input name="title" type="text" class="form-control font-size-18" id="title" placeholder="Promotion title" required>
                             </div>
                         </div>
 
                         <div class="form-group font-size-18">
                             <label for="textArea" class="col-lg-2 control-label">Promotion content</label>
                             <div class="col-xs-9">
-                                <textarea name="content" class="form-control font-size-18" rows="5" id="textArea" placeholder="Write your promotion here."></textarea>
+                                <textarea name="content" class="form-control font-size-18" rows="5" id="textArea" placeholder="Write your promotion here." required></textarea>
                             </div>
                         </div>
 

@@ -73,7 +73,7 @@ public class NewsletterController extends Controller {
             NewsletterMail.send(nl.email, host, title, content, hotel, nl.token);
         }
         Logger.debug(hotel + " " + title + " " + " " + content + " " + host);
-        flash("info", "Successfully send all newsletters.");
+        flash("info", "Successfully sent to all subscribers.");
         return redirect(routes.Application.index());
     }
 
