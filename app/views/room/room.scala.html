@@ -1,5 +1,4 @@
-@import helpers.UserAccessLevel
-@import helpers.CommonHelperMethods
+@import helpers.{CommonHelperMethods, UserAccessLevel}
 @import models.AppUser
 @(room: Room)(currentUser: AppUser)
 @main {
@@ -13,17 +12,17 @@
                     <div class="col-md-5 contact-info text-left">
                         <h3>contact information</h3>
                         <div class="info-detail">
-                            @if(room.images.size() != 0){
-                                <img src="@room.images.get(0).getSize(400,300)"/>
-
-                            }else {
-                                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                            }
-                            @if(room.roomType != 0){
-                            <label id="available">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
+                            @if(room.images.size() != 0) {
+                                <img src="@room.images.get(0).getSize(400, 300)"/>
 
                             } else {
-                            <label id="not-available">NOT AVAILABLE</label>
+                                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                            }
+                            @if(room.roomType != 0) {
+                                <label id="available">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
+
+                            } else {
+                                <label id="not-available">NOT AVAILABLE</label>
                             }
                             <hr/>
                         </div>
@@ -32,10 +31,30 @@
 
                     <div class="col-md-6 col-md-offset-1 contact-form">
                         <h3>@room.name description</h3>
-                        <div class="info-detail">
-                            <div class="service">
-                                <p style="font-size: 25px;">@room.description</p>
+                        <div class="service">
+                            <p style="font-size : 25 px ;">@room.description</p>
+                            <h3>Feature</h3>
+                            <div class="info-detail">
+                                <ul>
+                                    <div class="service" style="text-transform : capitalize ;">
+
+                                    @for(feature <- room.features) {
+
+                                        <li style="font-size : 16 px ;">
+                                            @feature.name
+                                        <img src="@feature.icon.getSize(30, 30)"/>
+                                            @if(feature.isFree == false) {
+                                                Extra $
+                                            } else {
+                                                Free
+                                            }
+                                        </li>
+                                    }
+
+                                    </div>
+                                </ul>
                             </div>
+
                         </div>
                         <div>
                             <h1>
@@ -45,7 +64,7 @@
                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                             @if(AppUser.sellersHotelByRoomId(room, currentUser)) {
                                 <div>
-                                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size: 17px">
+                                    <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning" style="font-size : 17 px">
                                         EDIT</button> </a>
                                 </div>
                             }
@@ -55,82 +74,82 @@
                 <div class="row">
 
                     @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
-                            <div class="col-md-5 contact-info text-left">
+                        <div class="col-md-5 contact-info text-left">
 
-                                    <h3>Make your reservation</h3>
-                                    <div class="duplicate-email" style="font-size : 20px ; color : red">
-                                    @if(flash.containsKey("error")) {
-                                        @flash.get("error")
+                            <h3>Make your reservation</h3>
+                            <div class="duplicate-email" style="font-size : 20 px ; color : red">
+                            @if(flash.containsKey("error")) {
+                                @flash.get("error")
 
-                                    }
-                                    </div>
-
-                                    <form method="post"  action="@routes.Reservations.payPal(room.id)">
-                                        <div class="info-detail" >
-                                            <div class="col-md-5">
-                                                <div class="service">
-                                                    <h4>Check-in:</h4>
-                                                </div>
-                                                <input class="date-class" name="checkIn" id="date" placeholder="select date"/>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="service">
-                                                    <h4>Check-out:</h4>
-                                                </div>
-                                                <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
-                                            </div>
-                                        </div>
-
-                                        <span class="font-size-20" id="price-for-period" style="float: right"></span>
-
-                                        @if(room.prices.size() == 0 || room.roomType == 0) {
-                                            <button class="btn btn-primary book" disabled>Pay Pal</button>
-                                        } else {
-                                            <button class="btn btn-primary book" >Pay Pal</button>
-                                        }
-                                    </form>
-
-                              }
-
+                            }
                             </div>
 
-                            <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
-
-
-
-                        <div class="col-md-5 contact-info text-left">
-                            <h3>Prices</h3>
-                            <div class="info-detail">
-                                <div class="service">
-                                    <table class=" table table-stripped">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Start date
-                                                </th>
-                                                <th>
-                                                    End date
-                                                </th>
-                                                <th>
-                                                    Price
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(room.prices.size() != 0) {
-                                                @for(price <- room.prices) {
-                                                    <tr>
-                                                        <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
-                                                        <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
-                                                        <td>@price.cost $</td>
-                                                    </tr>
-                                                }
-                                            }
-                                        </tbody>
-                                    </table>
+                            <form method="post" action="@routes.Reservations.payPal(room.id)">
+                                <div class="info-detail" >
+                                    <div class="col-md-5">
+                                        <div class="service">
+                                            <h4>Check-in:</h4>
+                                        </div>
+                                        <input class="date-class" name="checkIn" id="date" placeholder="select date"/>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="service">
+                                            <h4>Check-out:</h4>
+                                        </div>
+                                        <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
+                                    </div>
                                 </div>
+
+                                <span class="font-size-20" id="price-for-period" style="float : right"></span>
+
+                                @if(room.prices.size() == 0 || room.roomType == 0) {
+                                    <button class="btn btn-primary book" disabled>Pay Pal</button>
+                                } else {
+                                    <button class="btn btn-primary book" >Pay Pal</button>
+                                }
+                            </form>
+
+                            }
+
+                </div>
+
+                    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
+
+
+
+                    <div class="col-md-5 contact-info text-left">
+                        <h3>Prices</h3>
+                        <div class="info-detail">
+                            <div class="service">
+                                <table class=" table table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Start date
+                                            </th>
+                                            <th>
+                                                End date
+                                            </th>
+                                            <th>
+                                                Price
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(room.prices.size() != 0) {
+                                        @for(price <- room.prices) {
+                                            <tr>
+                                                <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
+                                                <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
+                                                <td>@price.cost $</td>
+                                            </tr>
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                    </div>
 
                 </div>
             </div>

@@ -38,7 +38,7 @@
                                 @if(room.reservations != 0) {
                                     @for(reservation <- room.reservations) {
                                         <tr class="service">
-                                            <td class="text-align">@reservation.user.firstname</td>
+                                            <td class="text-align">@reservation.user.firstname @reservation.user.lastname</td>
                                             <td class="text-align">@room.name</td>
                                             <td class="text-align">@room.numberOfBeds</td>
                                             <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>

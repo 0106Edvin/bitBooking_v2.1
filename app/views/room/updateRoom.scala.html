@@ -38,19 +38,19 @@
                             </div>
                             <h3>Features</h3>
 
-                            <div class="info-detail">
-                            @if(room.features.size()>0) {
-                                @for(feature <- room.features) {
-                                    <div>
-                                        <span>
-                                            <input type="checkbox" class="fa-check-circle" id="@feature.id"
-                                            name="@feature.name"/>
-                                            <label for="@feature.name">@feature.name</label>
-                                        </span>
-                                    </div>
-                                }
-                            }
-                        </div>
+                            <!--<div class="info-detail">-->
+                            <!--@if(room.features.size() > 0) {-->
+                                <!--@for(feature <- room.features) {-->
+                                    <!--<div>-->
+                                        <!--<span>-->
+                                            <!--<input type="checkbox" class="fa-check-circle" id="@feature.id"-->
+                                            <!--name="@feature.name"/>-->
+                                            <!--<label for="@feature.name">@feature.name</label>-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+                                <!--}-->
+                            <!--}-->
+                        <!--</div>-->
                         <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" id="edit-room-back" type="button" value="BACK" ></a>
                         <a href="#"> <input class="submit-btn" id="edit-room-submit" type="submit" value="SUBMIT"></a>
                     </form>

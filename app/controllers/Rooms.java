@@ -37,9 +37,48 @@ public class Rooms extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
+    public Result allReservations() {
+        if(session("email") == null) {
+            flash("error-search", "Try logging in to see this part of site.");
+            return redirect(routes.Application.index());
+        }
+        AppUser user = AppUser.finder.where().eq("email", session("email").toLowerCase()).findUnique();
+        List<Hotel> hotels = Hotel.finder.where().eq("seller_id", user.id).findList();
+        if (hotels == null || hotels.size() == 0) {
+            flash("info", "You have no hotels, try contacting our staff for more informations.");
+            return redirect("/#mailPanel");
+        }
+        return ok(views.html.seller.allReservations.render(hotels));
+    }
+
+    @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result saveRoom(Integer hotelId) {
         Form<Room> boundForm = roomForm.bindFromRequest();
         Room room = boundForm.get();
+
+        List<Feature> features = Feature.finder.all();
+        //Getting values from checkboxes
+        List<String> checkBoxValues = new ArrayList<>();
+        for (int i = 0; i < features.size(); i++) {
+            String feature = boundForm.field(features.get(i).id.toString()).value();
+
+            if (feature != null) {
+                checkBoxValues.add(feature);
+            }
+        }
+
+        List<Feature> featuresForRoom = new ArrayList<Feature>();
+
+        for (int i = 0; i < checkBoxValues.size(); i++) {
+            for (int j = 0; j < features.size(); j++) {
+                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
+                    featuresForRoom.add(features.get(j));
+                }
+            }
+        }
+
+        room.features = featuresForRoom;
+
 
         if(!Room.checkRoomName(room.name, hotelId)) {
             flash("error-search", "You already have room with that name!");

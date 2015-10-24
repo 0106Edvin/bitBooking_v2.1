@@ -33,8 +33,16 @@
                                     @for(feature <- features) {
                                         <div>
                                             <span>
-                                                <input type="checkbox" style="width: 16px; height: 16px;" class="fa-check-circle" id="@feature.id" name="@feature.name"/>
-                                                <label style="font-size: 19px; color: #FFFFFF; text-transform: capitalize;" for="@feature.name">@feature.name</label>
+                                                <input type="checkbox" name="@feature.id" value="@feature.id" style="width: 16px; height: 16px;">
+                                                <td>
+
+                                                <label style="font-size: 19px; color: #FFFFFF; text-transform: capitalize;" for="@feature.name">
+                                                @if(feature.isFree) {
+                                                    Free
+                                                } else {
+                                                    Paid
+                                                } @feature.name</label>
+                                                    <img src="@feature.icon.getSize(30,30)"/></td>
                                             </span>
                                         </div>
                                     }

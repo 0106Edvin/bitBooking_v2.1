@@ -1,21 +1,20 @@
 import com.cloudinary.Cloudinary;
+import helpers.AutocompleteReservation;
 import helpers.FillDatabase;
 import models.AppUser;
 import models.Hotel;
 import models.Image;
+import play.Application;
 import play.GlobalSettings;
 import play.Play;
 import play.libs.F;
 import play.mvc.Http;
+import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
-import play.*;
-import play.mvc.*;
-import play.mvc.Http.*;
-import views.html.*;
+import views.html.notFound;
+
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.notFound;
-import play.api.mvc.EssentialFilter;
-import play.filters.csrf.CSRFFilter;
 
 
 /**
@@ -35,14 +34,22 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application application) {
-      Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
+
+        /**
+         * Calls a thread that will check reservations every hour.
+         * If reservation checkoutDate passed currentDate they will
+         * be set as completed.
+         */
+        AutocompleteReservation.completeReservations();
+
+        Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
 
         if(AppUser.finder.findRowCount() == 0) {
             FillDatabase.createUsers();
         }
-        if (Hotel.finder.findRowCount() == 0) {
-            FillDatabase.createHotels();
-        }
+//        if (Hotel.finder.findRowCount() == 0) {
+//            FillDatabase.createHotels();
+//        }
     }
 
 //    @Override

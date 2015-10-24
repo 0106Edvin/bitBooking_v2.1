@@ -1,0 +1,42 @@
+@(question: Question)
+@main   {
+
+<div class="container">
+  <div class="row">
+    <div class="contact-caption clearfix">
+      <div class="contact-heading text-center">
+        <h2>Edit FAQ</h2>
+      </div>
+
+
+      <div class="col-md-6 col-md-offset-3 contact-form">
+        <h3>Please enter your data</h3>
+        <div class="info-detail">
+
+          <form method="post" action="@routes.Questions.updateFAQ(question.id)">
+            <div class="duplicate-email" style="font-size: 18px; color: red;">
+
+            </div>
+
+            <!--input for question-->
+            <label style="font-size: 20px;color: white">Question:</label>
+            <input type="text" id="question" name="question"  value="@question.question" required >
+
+
+            <!--input for answer-->
+            <label style="font-size: 20px;color: white">Answer:</label>
+            <textarea type="text" id="answer" name="answer" style="height: 100px;" required >@question.answer</textarea>
+
+
+
+            <!--submit button-->
+            <input href="@routes.Questions.updateFAQ(question.id)" class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" type="submit" value="Edit FAQ">
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+}

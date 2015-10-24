@@ -12,4 +12,8 @@ public class Constants {
     public static final Integer MAX_PHONE_NUMBER_LENGTH = 15;
     public static final String EMAIL = "bitBooking@gmail.com";
     public static final Double INITIAL_RATING = 0.0;
+    public static final Boolean SHOW_HOTEL_ON_HOMEPAGE = false;
+
+    public static final Integer CHANGE_PASSWORD = 0;
+    public static final Integer REGISTER = 1;
 }

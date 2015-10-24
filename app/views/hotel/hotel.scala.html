@@ -74,6 +74,11 @@
                                         <li style="font-size: 16px;">
                                             @feature.name
                                             <img src="@feature.icon.getSize(30, 30)"/>
+                                            @if(feature.isFree == false) {
+                                                Extra $
+                                            } else {
+                                                Free
+                                            }
                                         </li>
 
                                     }
@@ -156,14 +161,17 @@
                                                                         View room</button>
                                                                 </a>
                                                             </td>
-                                                            <td>
-                                                                <a href="@routes.Rooms.showRoom(room.id)">
-                                                                    <button class="btn btn-warning" id="middlebuttons">
-                                                                        CREATE RESERVATION</button>
-                                                                </a>
-                                                            </td>
+                                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
+                                                                <td>
+                                                                    <a href="@routes.Rooms.showRoom(room.id)">
+                                                                        <button class="btn btn-warning" id="middlebuttons">
+                                                                            CREATE RESERVATION</button>
+                                                                    </a>
+                                                                </td>
+                                                            }
 
                                                             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                                <td></td>
                                                                 <td>
                                                                     <a href="@routes.Rooms.editRoom(room.id)">
                                                                         <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px; color: white"></i>
@@ -212,35 +220,7 @@
                         <div class="info-detail">
                         @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
                             <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
-                                <div class="form-group">
-                                    <div>
-                                        <div class="service">
-                                            <label>User:</label>
 
-                                            <label>@request.cookies.get("name").value()</label>
-                                        </div>
-                                    </div>
-                                    <div class="service">
-                                        <label for="usr">Title:</label>
-                                    </div>
-                                    <input type="text" class="form-control" style="font-size: 17px;" id="usr" name="title" required>
-                                    <div class="service">
-                                        <label for="comment">Comment:</label>
-                                    </div>
-                                    <textarea class="form-control" rows="5" id="comment" style="resize : none; font-size: 18px;" name="content" required></textarea>
-                                    <div class="service">
-                                        <label for="rate">Rate hotel:</label>
-                                    </div>
-
-                                        <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-
-                                </div>
                                 @if(hasRights) {
                                     @if(hasCommented) {
                                         <div style="text-align : right">
@@ -248,6 +228,35 @@
                                             <hr>
                                         </div>
                                     } else {
+                                        <div class="form-group">
+                                            <div>
+                                                <div class="service">
+                                                    <label>User:</label>
+
+                                                    <label>@request.cookies.get("name").value()</label>
+                                                </div>
+                                            </div>
+                                            <div class="service">
+                                                <label for="usr">Title:</label>
+                                            </div>
+                                            <input type="text" class="form-control" style="font-size: 17px;" id="usr" name="title" required>
+                                            <div class="service">
+                                                <label for="comment">Comment:</label>
+                                            </div>
+                                            <textarea class="form-control" rows="5" id="comment" style="resize : none; font-size: 18px;" name="content" required></textarea>
+                                            <div class="service">
+                                                <label for="rate">Rate hotel:</label>
+                                            </div>
+
+                                            <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+
+                                        </div>
                                         <div style="text-align : right">
                                             <button type="submit" id="post-comment" class="edvin-button">POST</button>
                                         </div>

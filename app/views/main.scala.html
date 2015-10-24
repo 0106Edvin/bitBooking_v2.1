@@ -15,12 +15,14 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")"/>
 
         <link rel="stylesheet" href="@routes.Assets.versioned("bootstrap/css/style.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/sweetalert2.css")">
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="@routes.Assets.versioned("javascripts/bootbox.min.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/sweetalert2.min.js")"></script>
 
 
         <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
@@ -75,13 +77,22 @@
 
                                                 <a href="" id="bugfix" class="dropdown-toggle" data-toggle="dropdown" title="User dashboard" aria-expanded="true">
                                                     Login </a>
+                                                <div class="form-group" style="font-size: 20px; color: green; margin-left: 10px;">
+                                                    @if(flash.containsKey("pass-changed-success")) {
+                                                    @flash.get("pass-changed-success")
+                                                    }
+                                                </div>
+                                                <div class="form-group" style="font-size: 20px; color: red; margin-left: 10px;">
+                                                    @if(flash.containsKey("pass-changed-error")) {
+                                                    @flash.get("pass-changed-error")
+                                                    }
+                                                </div>
                                                 <div class="dropdown-menu" style="background-color: transparent; border: none; background: rgba(255,255,255,0.5)">
                                                     <form id="formLogin" class="form container-fluid">
                                                         <h1></h1>
                                                         <br>
-
                                                         <div class="form-group">
-                                                            <input class="form-control" name="email" id="username" type="text" placeholder="email" title="Enter your username" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
+                                                            <input class="form-control" name="email" id="username" type="text" placeholder="Email" title="Enter your username" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
                                                         </div>
                                                         <div class="form-group">
                                                             <input class="form-control" name="password" id="password" type="password" placeholder="Password" title="Enter your password" required="" style="height: 40px; font-size: 20px; margin: 10px; width: 240px">
@@ -92,7 +103,9 @@
                                                         }
                                                         </div>
                                                         <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
-
+                                                        <div class="forgotten-password-div">
+                                                            <a class="forgotten-password-a" href="@routes.Users.askForPasswordChange()">Forgot your password?</a>
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </li>
@@ -109,18 +122,20 @@
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Seller dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
                                                             <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()">See all reservations</a></li>
                                                             <li class="divider"></li>
+                                                            <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.createPromotion()">Create promotion</a></li>
                                                             <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
-                                                <li id="changeVisibility" style="display: none"><a class="menu" href="@routes.Hotels.showSellerHotels(currentUser.id)">New reservations <span class="info badge font-size-18" id="notify"></span></a></li>
+                                                <li id="changeVisibility" style="display: none"><a class="menu" href="@routes.Rooms.allReservations()">New <span class="info badge font-size-18" id="notify"></span></a></li>
 
 
                                                 <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
-                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >Your reservations</a></li>
+                                                <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >My reservations</a></li>
                                             }
                                             <ul class="nav navbar-nav">
                                                 <li class="dropdown">
@@ -161,25 +176,9 @@
             </div>
         </header> <!-- end of header area -->
     @content
+        @_footer()
 
-        <!-- footer starts here -->
-        <footer class="footer clearfix">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-6 footer-para">
-                        <p>&copy;rockIT All rights reserved</p>
-                    </div>
 
-                    <!-- Nema funkcije
-                    <div class="col-xs-6 text-right">
-                        <a href=""><i class="fa fa-facebook"></i></a>
-                        <a href=""><i class="fa fa-twitter"></i></a>
-                        <a href=""><i class="fa fa-skype"></i></a>
-                    </div>
-                    -->
-                </div>
-            </div>
-        </footer>
 
         <script type="text/javascript">
           $(function () {

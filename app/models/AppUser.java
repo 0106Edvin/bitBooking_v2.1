@@ -8,6 +8,7 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Model of App_User. App_User is a person who sign up into database on bitBooking.ba web page
@@ -59,12 +60,15 @@ public class AppUser extends Model {
     @OneToOne
     public Image profileImg;
 
-    @OneToMany
+    @OneToMany(mappedBy="user")
     public List<Reservation> reservations;
 
     @Column(unique = true)
     public String token;
     public boolean validated = false;
+
+    @Column(unique = true)
+    public String forgottenPassToken;
 
     /**
      * Default constructor
@@ -81,7 +85,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -90,6 +94,7 @@ public class AppUser extends Model {
         this.profileImg = profileImg;
         this.reservations = reservations;
         this.token = token;
+        this.forgottenPassToken = forgottenPassToken;
     }
 
     /**
@@ -173,6 +178,15 @@ public class AppUser extends Model {
     }
 
     /**
+     * Retreives user from database with provided token for forgotten password
+     * @param forgottenPassToken
+     * @return
+     */
+    public static AppUser findUserByForgottenPasswordToken(String forgottenPassToken) {
+        return finder.where().eq("forgotten_pass_token", forgottenPassToken).findUnique();
+    }
+
+    /**
      * Validates user
      * @param user
      * @return
@@ -187,14 +201,14 @@ public class AppUser extends Model {
         return true;
     }
 
-    public static Boolean sellersHotel(Hotel hotel, AppUser seller){
+    public static Boolean sellersHotel(Hotel hotel, AppUser seller) {
         if(hotel.sellerId == seller.id){
             return true;
         }
         return false;
     }
 
-    public static Boolean sellersHotelByRoomId(Room room, AppUser user){
+    public static Boolean sellersHotelByRoomId(Room room, AppUser user) {
         Hotel hotel = room.hotel;
         if(user != null)
         if(hotel.sellerId == user.id) {
@@ -203,12 +217,36 @@ public class AppUser extends Model {
         return false;
     }
 
-    public static AppUser sellersHotel2(Hotel hotel, AppUser seller){
+    public static AppUser sellersHotel2(Hotel hotel, AppUser seller) {
         if(hotel.sellerId == seller.id) {
             return seller;
         } else {
             return null;
         }
+    }
+
+    /**
+     * Hashes the new password and saves it into the database.
+     *
+     * Clears the forgotten password token field in the database
+     * @param user
+     * @param newPassword
+     * @return
+     */
+    public void updatePassword(AppUser user, String newPassword) {
+            user.password = newPassword;
+            user.hashPass();
+            user.forgottenPassToken = null;
+            user.save();
+    }
+
+    /**
+     * Clears the forgotten password token field for provided user
+     * @param user
+     */
+    public static void clearChangePasswordToken(AppUser user) {
+            user.forgottenPassToken = null;
+            user.save();
     }
 }
 

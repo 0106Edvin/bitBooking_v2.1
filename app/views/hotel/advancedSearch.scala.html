@@ -12,11 +12,12 @@
                         <th>Stars</th>
                         <th>Price</th>
                         <th>Rating</th>
+                        <th>Visit hotel page</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for(hotel <- hotels) {
-                        <tr class="service">
+                        <tr class="">
                             <td>@hotel.name</td>
                             <td>@hotel.country</td>
                             <td>@hotel.city</td>
@@ -27,6 +28,7 @@
                                 }
                             }</td>
                             <th>@hotel.getRating</th>
+                            <td><a href="@routes.Hotels.showHotel(hotel.id)">See @hotel.name</a></td>
                         </tr>
                     }
                 </tbody>
@@ -37,7 +39,10 @@
 
     <script>
         $(document).ready(function(){
-            $('#sort').DataTable();
+            $('#sort').DataTable({
+                "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                "iDisplayLength": 25
+            });
         });
     </script>
 }

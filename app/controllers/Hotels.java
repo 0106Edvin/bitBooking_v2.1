@@ -3,6 +3,7 @@ package controllers;
 import com.avaje.ebean.Model;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import helpers.Authenticators;
+import helpers.Constants;
 import models.*;
 import play.Logger;
 import play.data.Form;
@@ -18,8 +19,7 @@ import views.html.seller.sellerPanel;
 import views.html.user.profilePage;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Hotels extends Controller {
 
@@ -48,20 +48,18 @@ public class Hotels extends Controller {
         //Getting values from checkboxes
         List<String> checkBoxValues = new ArrayList<>();
         for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.field(features.get(i).name).value();
+            String feature = boundForm.field(features.get(i).id.toString()).value();
 
             if (feature != null) {
                 checkBoxValues.add(feature);
             }
-
-            Logger.debug(checkBoxValues.toString());
         }
 
         List<Feature> featuresForHotel = new ArrayList<Feature>();
 
         for (int i = 0; i < checkBoxValues.size(); i++) {
             for (int j = 0; j < features.size(); j++) {
-                if (features.get(j).name.equals(checkBoxValues.get(i))) {
+                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
                     featuresForHotel.add(features.get(j));
                 }
             }
@@ -71,7 +69,7 @@ public class Hotels extends Controller {
         Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
-
+        hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
         hotel.save();
 
         List<Hotel> hotels = finder.all();
@@ -190,36 +188,19 @@ public class Hotels extends Controller {
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
         String category = hotelForm1.field("category").value();
         String searchWhat = hotelForm1.field("search").value();
-        List<Hotel> hotels = new ArrayList<>();
-        if (category.equals("name")) {
-            hotels = Hotel.findHotelsByName(searchWhat);
-        } else if(category.equals("country")) {
-            hotels = Hotel.findHotelsByCountry(searchWhat);
-        } else if(category.equals("city")) {
-            hotels = Hotel.findHotelsByCity(searchWhat);
-        } else if(category.equals("stars")) {
-            try {
-                if (searchWhat.length() > 1) {
-                    flash("error-search", "Try searching by entering a number of stars from one to seven.");
-                    return redirect(routes.Application.index());
-                }
-                Integer.parseInt(searchWhat);
-            } catch (NumberFormatException e) {
-                flash("error-search", "Try searching by entering a number of stars from one to seven.");
-                return redirect(routes.Application.index());
-            }
-            hotels = Hotel.findHotelsByStars(searchWhat);
-        } else if (category.equals("price")) {
-            hotels = Hotel.findHotelsByPrice(searchWhat);
-        }
-        Logger.debug(hotels.size() + "");
-//        else if(category.equals("price")){
-//            List<Hotel> hotels = Room.findHotelByPrice(category);
-//        }
+        List<Hotel> hotels = Hotel.searchHotels(category, searchWhat);
+
         return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 
     public Result advancedSearch() {
         return ok(views.html.hotel.advancedSearch.render(Hotel.finder.all()));
+    }
+
+    public Result changeVisibility(Integer hotelId) {
+        Hotel hotel = Hotel.findHotelById(hotelId);
+        Boolean visibility = hotel.showOnHomePage;
+        Hotel.setHotelVisibilityOnHomePage(hotel, !visibility);
+        return redirect(routes.Users.showManagerHotels());
     }
 }

@@ -1,5 +1,6 @@
 @import helpers.UserAccessLevel
 @import models.AppUser
+@import models.Hotel
 @(hotels: java.util.List[Hotel])(users: java.util.List[AppUser])
 
 @main {
@@ -43,7 +44,7 @@
                                                         <option selected="true">
                                                             @user.email
                                                         </option>
-                                                    }else{
+                                                    } else {
                                                         <option>
                                                             @user.email
                                                         </option>
@@ -54,17 +55,24 @@
 
                                     </select>
                                     <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
+
                                     </form>
+                                    <td>
+                                        @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
+                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                                <button type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
+                                            </a>
+                                        } else {
+                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                                <button onclick="@routes.Hotels.changeVisibility(hotel.id)" type="submit" class="btn btn-warning" id="middlebuttons">HIDE FROM HOMEPAGE</button>
+                                            </a>
+                                        }
                                     </td>
-
-
-
+                                    </td>
                                       <td>
                                           <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
                                               <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
                                         </td>
-
-
                                 </tr>
 
 

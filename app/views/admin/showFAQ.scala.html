@@ -1,0 +1,74 @@
+@(questions: java.util.List[Question])
+@import helpers.UserAccessLevel
+
+
+@main {
+
+<script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+
+    <div class="container">
+        <div class="row">
+            <div class="contact-caption clearfix">
+                <div class="contact-heading text-center">
+                    <h2>FAQ</h2>
+                </div>
+                <div>
+                @if(flash.containsKey("save")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("save")
+                    </span>
+                }
+                </div>
+                <div>
+                @if(flash.containsKey("update")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("update")
+                    </span>
+                }
+                </div>
+                <div>
+                @if(flash.containsKey("delete")) {
+                    <span style="font-size: 20px; color: green;">
+                    @flash.get("delete")
+                    </span>
+                }
+                </div>
+                <table class="table table-responsive" style="font-size: 45px;">
+                    <thead>
+                        <tr class="service">
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th></th>
+
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @for(question <- questions) {
+
+                            <tr class="service">
+                                <td style="font-size: 22px;">@question.question</td>
+                                <td style="font-size: 22px;">@question.answer</td>
+                                <td></td>
+                                <td><a href="@routes.Questions.editFAQ(question.id)"><button class="btn btn-warning" style="font-size: 18px;">Edit</button></a></td>
+                                <td><a href="@routes.Questions.deleteFAQ(question.id)"><button class="btn btn-danger" style="font-size: 18px;">Delete</button></a></td>
+
+                                <td></td>
+
+                            </tr>
+
+
+                    }
+                    </tbody>
+                </table>
+
+                <a href="@routes.Questions.createFAQ()">
+                    <button class="btn btn-success"  id="middlebuttons">Create FAQ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+}

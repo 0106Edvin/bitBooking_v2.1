@@ -18,9 +18,11 @@ create table app_user (
   profile_img_id            integer,
   token                     varchar(255),
   validated                 tinyint(1) default 0,
+  forgotten_pass_token      varchar(255),
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
   constraint uq_app_user_token unique (token),
+  constraint uq_app_user_forgotten_pass_token unique (forgotten_pass_token),
   constraint pk_app_user primary key (id))
 ;
 
@@ -41,12 +43,12 @@ create table comment (
 create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
+  is_free                   tinyint(1) default 0,
   updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
   icon_id                   integer,
-  constraint uq_feature_name unique (name),
   constraint uq_feature_icon_id unique (icon_id),
   constraint pk_feature primary key (id))
 ;
@@ -68,6 +70,7 @@ create table hotel (
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
+  show_on_home_page         tinyint(1) default 0,
   constraint pk_hotel primary key (id))
 ;
 
@@ -84,6 +87,19 @@ create table image (
   constraint pk_image primary key (id))
 ;
 
+create table newsletter (
+  id                        integer auto_increment not null,
+  email                     varchar(40),
+  is_subscribed             tinyint(1) default 0,
+  token                     varchar(255),
+  updated_by                varchar(255),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_newsletter_email unique (email),
+  constraint pk_newsletter primary key (id))
+;
+
 create table price (
   id                        integer auto_increment not null,
   date_from                 datetime,
@@ -97,13 +113,26 @@ create table price (
   constraint pk_price primary key (id))
 ;
 
+create table question (
+  id                        integer auto_increment not null,
+  question                  TEXT,
+  answer                    TEXT,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint pk_question primary key (id))
+;
+
 create table reservation (
   id                        integer auto_increment not null,
   payment_id                varchar(255),
+  sale_id                   varchar(255),
   cost                      decimal(38),
   check_in                  datetime,
   check_out                 datetime,
   status                    integer,
+  is_refunded               tinyint(1) default 0,
   notification              integer(1),
   updated_by                varchar(50),
   update_date               datetime,
@@ -220,19 +249,23 @@ drop table feature;
 
 drop table hotel_feature;
 
+drop table room_feature;
+
 drop table hotel;
 
 drop table image;
 
+drop table newsletter;
+
 drop table price;
+
+drop table question;
 
 drop table reservation;
 
 drop table restaurant;
 
 drop table room;
-
-drop table room_feature;
 
 drop table site_stats;
 

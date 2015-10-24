@@ -1,0 +1,55 @@
+@(hotels: java.util.List[Hotel])
+@main {
+
+    @helper.form(action = routes.NewsletterController.sendPromotion(), 'class -> "form-horizontal", 'role -> "form", 'enctype -> "multipart/form-data") {
+
+
+        <div class="container">
+            <div class="row">
+                <div class="contact-caption clearfix">
+                    <div class="contact-heading text-center">
+                        <div class="font-size-30" style="color : white">Create new promotion for your hotel</div>
+
+                        <br> <br> <br>
+
+                        <div class="form-group font-size-18">
+                            <label for="select" class="col-lg-2 control-label">Choose hotel</label>
+                            <div class="col-xs-9">
+                                <select class="form-control" id="select" name="hotel">
+                                @for(hotel <- hotels) {
+                                    <option class="font-size-18" value="@hotel.name">@hotel.name</option>
+                                }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group font-size-18">
+                            <label for="title" class="col-lg-2 control-label">Title</label>
+                            <div class="col-xs-9">
+                                <input name="title" type="text" class="form-control font-size-18" id="title" placeholder="Promotion title">
+                            </div>
+                        </div>
+
+                        <div class="form-group font-size-18">
+                            <label for="textArea" class="col-lg-2 control-label">Promotion content</label>
+                            <div class="col-xs-9">
+                                <textarea name="content" class="form-control font-size-18" rows="5" id="textArea" placeholder="Write your promotion here."></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-xs-9">
+                                <button type="submit" class="btn btn-primary rest-delete-positon font-size-18" href="@routes.NewsletterController.sendPromotion()">
+                                    Send to all subscribers</button>
+                            </div>
+                        </div>
+                        <br> <br>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

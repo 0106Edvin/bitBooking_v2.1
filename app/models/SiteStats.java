@@ -61,6 +61,15 @@ public class SiteStats extends Model {
     }
 
     /**
+     * Finds all users registered on BITBooking
+     *
+     * @return <code>Integer</code> type value of total number of users
+     */
+    public static Integer getTotalUsers() {
+        return AppUser.finder.findRowCount();
+    }
+
+    /**
      * Goes tru all stats and calculates overall visits to index page.
      *
      * @return <code>Integer</code> type value of overall visits to index page,

@@ -1,0 +1,80 @@
+@import helpers.CommonHelperMethods
+@import helpers.ReservationStatus
+
+@(hotels: List[Hotel])
+
+@main {
+  <div class="container">
+    <div class="row">
+      <div class="contact-caption clearfix">
+        <div class="contact-heading text-center">
+          <h2>All reservations</h2>
+        </div>
+
+          <table class="table">
+            <thead>
+              <tr class="service">
+                <th class="text-align" style="font-size: 30px ;">Guest </th>
+                <th class="text-align"  style="font-size: 30px ;">Hotel</th>
+                <th class="text-align" style="font-size: 30px ;">Room</th>
+                <th class="text-align" style="font-size: 30px ;">Check-in </th>
+                <th class="text-align" style="font-size: 30px ;">Check-out </th>
+                <th class="text-align" style="font-size: 30px ;">Reservation date</th>
+                <th class="text-align" style="font-size: 30px ;">Price</th>
+
+                <th class="text-align" style="font-size: 30px ;">Status</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody style="font-size : 20px">
+              @for(hotel <- hotels) {
+                @for(room <- hotel.rooms) {
+                  @for(reservation <- room.reservations) {
+                    <tr class="service">
+                      <td class="text-align">@reservation.user.firstname @reservation.user.lastname</td>
+                      <td class="text-align">@hotel.name</td>
+                      <td class="text-align">@room.name</td>
+                      <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                      <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                      <td class="text-align">@reservation.createDate</td>
+                      <td class="text-align">@reservation.cost $</td>
+                      @if(reservation.status == ReservationStatus.APPROVED) {
+                        <td class="text-align" style="color : lawngreen">APPROVED</td>
+                      }
+                      @if(reservation.status == ReservationStatus.COMPLETED){
+                        <td class="text-align" style="color : papayawhip ">COMPLETED</td>
+                      }
+                      @if(reservation.status == ReservationStatus.CANCELED){
+                        <td class="text-align" style="color : red ">CANCELED</td>
+                      }
+                      <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
+                        <td> @if(reservation.status != ReservationStatus.CANCELED) {
+                          <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
+
+                            @if(reservation.status == ReservationStatus.APPROVED) {
+                              <option value="2" selected="true">Approved</option>
+                              <option value="6">Completed</option>
+                            }
+
+                            @if(reservation.status == ReservationStatus.COMPLETED){
+
+                              <option value="2">Approved</option>
+                              <option value="6" selected="true">Completed</option>
+                            }
+                          </select>
+                        </td>
+                        <td><button class="edvin-button-role" type="submit" style="font-size : 20px ; background-color : #204d74 ; border-radius : 5px ; width : 90px ; height : 40px ;">Confirm</button></td>
+                        }
+                      </form>
+                    </tr>
+                  }
+                }
+              }
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+}
