@@ -162,6 +162,13 @@ public class Hotel extends Model {
         return user;
     }
 
+    public static AppUser findUserByHotelId (Integer hotelId){
+        Hotel h = findHotelById(hotelId);
+        Integer userId = h.sellerId;
+        AppUser user = AppUser.findUserById(userId);
+        return user;
+    }
+
     /**
      * Sets hotel visibility on homepage.
      * Only hotel managers should be able to call this method.
