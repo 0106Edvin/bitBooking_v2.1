@@ -1,0 +1,74 @@
+@import helpers.Constants
+@(messages: List[Message], user: AppUser)
+@main {
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/messageStyle.css")"/>
+
+
+    <br> <br> <br> <br> <br> <br> <br>
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-sm-9 col-md-10">
+                <h3>@user.firstname's Mailbox</h3>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+
+                <hr>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#"><span class="badge pull-right">32</span> Inbox </a>
+                    </li>
+                    <li><a href="#">Starred</a></li>
+                    <li><a href="#">Important</a></li>
+                    <li><a href="#">Sent Mail</a></li>
+                    <li><a href="#"><span class="badge pull-right">3</span>Drafts</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-md-10">
+                    <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab" class="font-size-20"><span class="glyphicon glyphicon-inbox"></span>Inbox</a>
+                    </li>
+                    <li>
+                        <a href="#profile" data-toggle="tab" class="font-size-20"><span class="glyphicon glyphicon-send"></span>Outbox</a>
+                    </li>
+                </ul>
+                    <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div class="tab-pane fade in active" id="home">
+                        <div class="list-group">
+                            @for(message <- messages) {
+                                <a href="#" class="list-group-item">
+                                    <span class="name font-size-18" style="min-width: 120px ; display: inline-block;">@message.sender.firstname @message.sender.lastname</span>
+                                    <span class="font-size-18">@message.title</span>
+                                    <span class="text-muted font-size-15" >- @message.getShortContent</span>
+                                    <span class="badge">@message.getSentDate</span>
+                                    <span class="pull-right"><span class="glyphicon glyphicon-paperclip"></span></span>
+                                </a>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade in" id="profile">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <span class="text-center">This tab is empty.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+}
