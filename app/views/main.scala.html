@@ -117,25 +117,26 @@
                                                 <li><a class="menu" href="@routes.Users.showManagerHotels()" >Manager panel</a></li>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
+                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
+                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/messageNotify.js")"></script>
                                                 <ul class="nav navbar-nav">
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Seller dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
                                                             <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()">See all reservations</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()">See all reservations <span class="info badge font-size-15" id="notify"></span></a></li>
                                                             <li class="divider"></li>
                                                             <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.createPromotion()">Create promotion</a></li>
                                                             <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
-                                                <li id="changeVisibility" style="display: none"><a class="menu" href="@routes.Rooms.allReservations()">New <span class="info badge font-size-18" id="notify"></span></a></li>
-
-
-                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
+                                                <li><a class="menu" href="@routes.MessageController.allMessages()" >Messages <span class="info badge font-size-15" id="msgs"></span></a></li>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
+                                                <script type="text/javascript" src="@routes.Assets.versioned("javascripts/messageNotify.js")"></script>
                                                 <li><a class="menu" href="@routes.Reservations.showBuyerReservations(currentUser.id)" >My reservations</a></li>
+                                                <li><a class="menu" href="@routes.MessageController.allMessages()" >Messages <span class="info badge font-size-15" id="msgs"></span></a></li>
                                             }
                                             <ul class="nav navbar-nav">
                                                 <li class="dropdown">
