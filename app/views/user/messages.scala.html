@@ -1,0 +1,131 @@
+@(messages: List[Message], user: AppUser)
+@main {
+
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/messageStyle.css")"/>
+    <script src="@routes.Assets.versioned("javascripts/deleteMessage.js")"></script>
+
+    <br> <br> <br> <br> <br> <br> <br>
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-sm-9 col-md-10">
+                <h3>@user.firstname's Mailbox</h3>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12">
+
+                    <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#inbox" data-toggle="tab" class="font-size-20"><span class="glyphicon glyphicon-inbox"></span>
+                            Inbox</a>
+                    </li>
+                    <li>
+                        <a href="#outbox" data-toggle="tab" class="font-size-20"><span class="glyphicon glyphicon-send"></span>
+                            Outbox</a>
+                    </li>
+                </ul>
+                    <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div class="tab-pane fade in active" id="inbox">
+                        <div class="list-group">
+
+                            <table class="table table-condensed table-striped volumes ">
+                                <thead class="alert-info">
+                                    <tr>
+                                        <th class="font-size-18">From</th>
+                                        <th class="font-size-18">Message</th>
+                                        <th class="font-size-18 text-center">Date</th>
+                                        <th class="font-size-18 text-right">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @for(message <- messages) {
+                                    @if(message.receiver.id.equals(user.id) && message.statusIn) {
+                                        <tr>
+                                            <td>
+                                                <span class="name font-size-18 message-layout">@message.sender.firstname @message.sender.lastname</span>
+                                            </td>
+
+                                            <td>
+                                                <a href="@routes.MessageController.readMessage(message.id)">
+                                                    @if(message.status) {
+                                                        <span class="badge font-size-15">New</span>
+                                                    }
+                                                    <span class="font-size-18">@message.title</span>
+                                                    <span class="text-muted font-size-15" >- @message.getShortContent</span>
+                                                </a>
+                                            </td>
+                                            <td class="font-size-18 text-center">
+                                                <span class="badge">@message.getSentDate</span>
+                                            </td>
+                                            <form method="delete" action="@routes.MessageController.deleteMessageFromInbox(message.id)">
+                                            <td class="font-size-15">
+                                                <a id="delMessage" data-role="delete" data-delete-parent="tr" msg-id="@message.id" href="@routes.MessageController.deleteMessageFromInbox(message.id)" role="button">
+                                                    <span class="pull-right"><i class="fa fa-trash-o fa-lg rediconcolor"></i></span></a>
+                                            </td>
+                                            </form>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade in" id="outbox">
+                        <div class="list-group">
+                            <table class="table table-condensed table-striped volumes ">
+                                <thead class="alert-info">
+                                    <tr>
+                                        <th class="font-size-18">To</th>
+                                        <th class="font-size-18">Message</th>
+                                        <th class="font-size-18 text-center">Date</th>
+                                        <th class="font-size-18 text-right">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @for(message <- messages) {
+                                    @if(message.sender.id.equals(user.id) && message.statusOut) {
+                                        <tr>
+                                            <td>
+                                                <span class="name font-size-18 message-layout">@message.receiver.firstname @message.receiver.lastname</span>
+                                            </td>
+
+                                            <td>
+                                                <a href="@routes.MessageController.readMessage(message.id)">
+                                                    <span class="font-size-18">@message.title</span>
+                                                    <span class="text-muted font-size-15" >- @message.getShortContent</span>
+                                                </a>
+                                            </td>
+                                            <td class="font-size-18 text-center">
+                                                <span class="badge">@message.getSentDate</span>
+                                            </td>
+                                            <form method="delete" action="@routes.MessageController.deleteMessageFromOutbox(message.id)">
+                                                <td class="font-size-15">
+                                                    <a id="delMessage" data-role="delete" data-delete-parent="tr" msg-id="@message.id" href="@routes.MessageController.deleteMessageFromOutbox(message.id)" role="button">
+                                                        <span class="pull-right"><i class="fa fa-trash-o fa-lg rediconcolor"></i></span></a>
+                                                </td>
+                                            </form>
+
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+}

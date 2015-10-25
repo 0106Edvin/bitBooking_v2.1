@@ -16,4 +16,9 @@ public class Constants {
 
     public static final Integer CHANGE_PASSWORD = 0;
     public static final Integer REGISTER = 1;
+
+    public static final Boolean MESSAGE_NEW = true;
+    public static final Boolean MESSAGE_READ = false;
+    public static final Boolean MESSAGE_ACTIVE = true;
+    public static final Boolean MESSAGE_DELETED = false;
 }

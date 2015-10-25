@@ -40,6 +40,14 @@
     font-size: 15px;
 }
 
+#bc-white {
+    background-color: white;
+    border-top: 1px solid #bebebe;
+    border-bottom: none !important;
+    border-left: 1px solid #bebebe;
+    border-right: none !important;
+}
+
 .rest-delete-positon {
     float: right;
     margin:2% 30% 0% 0%;

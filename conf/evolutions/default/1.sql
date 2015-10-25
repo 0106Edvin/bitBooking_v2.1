@@ -87,6 +87,22 @@ create table image (
   constraint pk_image primary key (id))
 ;
 
+create table message (
+  id                        integer auto_increment not null,
+  title                     varchar(2000),
+  content                   TEXT,
+  status                    tinyint(1) default 0,
+  inbox_active              tinyint(1) default 0,
+  outbox_active             tinyint(1) default 0,
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  sender_id                 integer,
+  receiver_id               integer,
+  constraint pk_message primary key (id))
+;
+
 create table newsletter (
   id                        integer auto_increment not null,
   email                     varchar(40),
@@ -216,16 +232,20 @@ alter table image add constraint fk_image_feature_7 foreign key (feature_id) ref
 create index ix_image_feature_7 on image (feature_id);
 alter table image add constraint fk_image_restaurant_8 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_image_restaurant_8 on image (restaurant_id);
-alter table price add constraint fk_price_room_9 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_price_room_9 on price (room_id);
-alter table reservation add constraint fk_reservation_room_10 foreign key (room_id) references room (id) on delete restrict on update restrict;
-create index ix_reservation_room_10 on reservation (room_id);
-alter table reservation add constraint fk_reservation_user_11 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
-create index ix_reservation_user_11 on reservation (user_id);
-alter table restaurant add constraint fk_restaurant_hotel_12 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_restaurant_hotel_12 on restaurant (hotel_id);
-alter table room add constraint fk_room_hotel_13 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
-create index ix_room_hotel_13 on room (hotel_id);
+alter table message add constraint fk_message_sender_9 foreign key (sender_id) references app_user (id) on delete restrict on update restrict;
+create index ix_message_sender_9 on message (sender_id);
+alter table message add constraint fk_message_receiver_10 foreign key (receiver_id) references app_user (id) on delete restrict on update restrict;
+create index ix_message_receiver_10 on message (receiver_id);
+alter table price add constraint fk_price_room_11 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_price_room_11 on price (room_id);
+alter table reservation add constraint fk_reservation_room_12 foreign key (room_id) references room (id) on delete restrict on update restrict;
+create index ix_reservation_room_12 on reservation (room_id);
+alter table reservation add constraint fk_reservation_user_13 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
+create index ix_reservation_user_13 on reservation (user_id);
+alter table restaurant add constraint fk_restaurant_hotel_14 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_restaurant_hotel_14 on restaurant (hotel_id);
+alter table room add constraint fk_room_hotel_15 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_room_hotel_15 on room (hotel_id);
 
 
 
@@ -254,6 +274,8 @@ drop table room_feature;
 drop table hotel;
 
 drop table image;
+
+drop table message;
 
 drop table newsletter;
 
