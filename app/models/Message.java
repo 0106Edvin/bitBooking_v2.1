@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
+import play.Logger;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,11 @@ public class Message extends Model {
     @Column(name = "content", columnDefinition = "TEXT")
     public String content;
     @Column(name = "status")
-    public Boolean status;
+    public Boolean status = Constants.MESSAGE_NEW;
+    @Column(name = "inbox_active")
+    public Boolean statusIn = Constants.MESSAGE_ACTIVE;
+    @Column(name = "outbox_active")
+    public Boolean statusOut = Constants.MESSAGE_ACTIVE;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
@@ -46,14 +51,13 @@ public class Message extends Model {
         // leave empty
     }
 
-    public static boolean createNewMessage(String subject, String content, Integer hotelId, AppUser sender) {
+    public static boolean createNewMessageFromHotelPage(String subject, String content, Integer hotelId, AppUser sender) {
         Message temp = new Message();
         temp.title = subject;
         temp.content = content;
         temp.receiver = Hotel.findUserByHotelId(hotelId);
         temp.sender = sender;
-        temp.status = Constants.MESSAGE_NEW;
-        temp.setCreatedBy(sender.firstname, sender.lastname);
+        temp.setCreatedBy(sender);
         try {
             temp.save();
             return true;
@@ -62,27 +66,101 @@ public class Message extends Model {
         }
     }
 
+    public static boolean createReplyMessage(String subject, String content, Integer receiver, AppUser sender) {
+        Message temp = new Message();
+        temp.title = subject;
+        temp.content = content;
+        temp.receiver = AppUser.findUserById(receiver);
+        temp.sender = sender;
+        temp.setCreatedBy(sender);
+        try {
+            temp.save();
+            return true;
+        } catch (PersistenceException e) {
+            return false;
+        }
+    }
+
+    public static boolean deleteMessageFromInbox(Integer messageId, AppUser user) {
+        Message temp = finder.byId(messageId);
+        if (temp == null) {
+            return false;
+        }
+        temp.status = Constants.MESSAGE_READ;
+        temp.statusIn = Constants.MESSAGE_DELETED;
+        temp.setUpdatedBy(user);
+        try {
+            temp.update();
+            return true;
+        } catch (PersistenceException e) {
+            return false;
+        }
+    }
+
+    public static boolean deleteMessageFromOutbox(Integer messageId, AppUser user) {
+        Message temp = finder.byId(messageId);
+        if (temp == null) {
+            return false;
+        }
+        temp.statusOut = Constants.MESSAGE_DELETED;
+        temp.setUpdatedBy(user);
+        try {
+            temp.update();
+            return true;
+        } catch (PersistenceException e) {
+            return false;
+        }
+    }
+
+    public static boolean clearanceToRead(Message message, AppUser user) {
+        if(user.id.equals(message.receiver.id) || user.id.equals(message.sender.id)) {
+            if (user.id.equals(message.receiver.id)) {
+                message.status = Constants.MESSAGE_READ;
+                message.setUpdatedBy(user);
+                message.update();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static Integer numberOfNewMessages(AppUser receiver) {
+        return finder.where().eq("receiver", receiver).eq("status", Constants.MESSAGE_NEW).findRowCount();
+    }
+
     public String getShortContent() {
         try {
-            return content.substring(0, 20);
+            return content.substring(0, 80);
         } catch (StringIndexOutOfBoundsException e) {
             return content;
         }
     }
 
     public String getSentDate() {
+        if (createDate == null) {
+            return "NO DATE RECORDED";
+        }
         return new SimpleDateFormat("HH:mm EEE, dd MMM yyyy").format(createDate);
     }
 
     /**
      * Sets created by string in format name surname of sender
      *
-     * @param name    <code>String</code> type value of sender first name
-     * @param surname <code>String</code> type value of sender last name
+     * @param user <code>AppUser</code> type value of sender
      */
-    public void setCreatedBy(String name, String surname) {
-        createdBy = name + " " + surname;
+    public void setCreatedBy(AppUser user) {
+        createdBy = user.firstname + " " + user.lastname;
     }
+
+    /**
+     * Sets updated by string in format name surname of sender
+     *
+     * @param user <code>AppUser</code> type value of sender
+     */
+    public void setUpdatedBy(AppUser user) {
+        updatedBy = user.firstname + " " + user.lastname;
+    }
+
 
     @Override
     public void update() {

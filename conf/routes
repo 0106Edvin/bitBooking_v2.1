@@ -151,5 +151,14 @@ GET           /FAQ                                                  @controllers
 # Messages
 POST          /message/save/:id                                     @controllers.MessageController.saveMessage(id: Integer)
 GET           /message/all                                          @controllers.MessageController.allMessages()
+GET           /messagenotif                                         @controllers.MessageController.notification()
+DELETE        /message/delete/in/:id                                @controllers.MessageController.deleteMessageFromInbox(id: Integer)
+DELETE        /message/delete/out/:id                               @controllers.MessageController.deleteMessageFromOutbox(id: Integer)
+GET           /message/single/:id                                   @controllers.MessageController.readMessage(id: Integer)
+POST          /message/reply/:id                                    @controllers.MessageController.replyMessage(id: Integer)
+
+
+
+
 
 

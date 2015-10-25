@@ -19,4 +19,6 @@ public class Constants {
 
     public static final Boolean MESSAGE_NEW = true;
     public static final Boolean MESSAGE_READ = false;
+    public static final Boolean MESSAGE_ACTIVE = true;
+    public static final Boolean MESSAGE_DELETED = false;
 }

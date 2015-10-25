@@ -92,6 +92,8 @@ create table message (
   title                     varchar(2000),
   content                   TEXT,
   status                    tinyint(1) default 0,
+  inbox_active              tinyint(1) default 0,
+  outbox_active             tinyint(1) default 0,
   updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),
