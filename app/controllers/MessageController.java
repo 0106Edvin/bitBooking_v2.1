@@ -41,7 +41,6 @@ public class MessageController extends Controller {
     }
 
     public Result replyMessage(Integer userId) {
-        Logger.debug("entered");
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
             flash("error-search", "Log in to reply to message.");

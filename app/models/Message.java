@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
-import play.Logger;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
