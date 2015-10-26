@@ -5,9 +5,7 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
-import helpers.Authenticators;
-import helpers.ReservationStatus;
-import helpers.SessionsAndCookies;
+import helpers.*;
 import models.AppUser;
 import models.Hotel;
 import models.Reservation;
@@ -176,15 +174,23 @@ public class Reservations extends Controller {
             flash("info");
 
             AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+
             String message = String
-                    .format("<html><body><strong> %s %s %s</strong> <p> %s </p> <p> %s </p> <p> %s %s </p> <p> %s %s </p> <p> %s %s </p> <p> %s %s %s</p> <p> %s </p></body></html>",
+                    .format("<html><body><strong> %s %s %s <br> %s <p> %s </p></strong> %s %s  <br> %s %s <br> %s %s %s <br> %s %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
                             "Hello ", user.firstname, ",",
-                            "Your reservation has been successfuly booked",
+                            "Your reservation has been successfully booked.",
                             "Reservation details:",
-                            "FROM: ", reservation.checkIn,
-                            "TO: ", reservation.checkOut,
-                            "PRICE: ", reservation.cost, " $",
-                            "\nHOTEL: ", Hotel.findHotelsByName());
+                            "FROM: ", CommonHelperMethods.getDateAsString(reservation.checkIn).toString(),
+                            "TO: ", CommonHelperMethods.getDateAsString(reservation.checkOut).toString(),
+                            "PRICE: ", reservation.cost, "$",
+                            "HOTEL: ", room.hotel.name,
+                            "CITY: ", room.hotel.city,
+                            "Thank you for using our services. We wish you pleasant stay in our hotel.",
+                            "Sincerely yours,",
+                            "bitBooking team.",
+                            Play.application().configuration().getString("logo"));
+
+            MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null);
 
         } catch (Exception e) {
             flash("error");
