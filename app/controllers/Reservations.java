@@ -190,7 +190,7 @@ public class Reservations extends Controller {
                             "bitBooking team.",
                             Play.application().configuration().getString("logo"));
 
-            MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null);
+            MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null, null, null);
 
         } catch (Exception e) {
             flash("error");
