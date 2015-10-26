@@ -185,14 +185,28 @@ public class Hotel extends Model {
      * @return
      */
     public static List<Hotel> hotelsForHomepage() {
-        List<Hotel> hotels = finder.where().eq("showOnHomePage", true).findList();
+        List<Hotel> hotels = finder.where().eq("showOnHomePage", true).orderBy("rating desc").findList();
         return hotels;
     }
 
     @Override
     public void update() {
+        rating = getRating();
         updateDate = new Date();
         hotelPageVisits += SiteStats.INCREMENT_BY_ONE;
         super.update();
     }
+
+    /**
+     * Returns the number of hotels shown on homepage
+     * @return
+     */
+
+    public static int showingHotels(){
+        int shownHotels = finder.where().eq("show_on_home_page", true).findRowCount();
+
+        return shownHotels;
+    }
+
+
 }
