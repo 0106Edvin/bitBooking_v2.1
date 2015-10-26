@@ -26,6 +26,7 @@
                             <th style="font-size: 30px;">Location</th>
                             <th style="font-size: 30px;">Description</th>
                             <th style="font-size: 30px;">Seller</th>
+                            <th>Currently showing @Hotel.showingHotels() hotel(s) on homepage</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -60,7 +61,7 @@
                                     <td>
                                         @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
                                             <a href="@routes.Hotels.changeVisibility(hotel.id)" >
-                                                <button type="submit" class="btn btn-warning" id="middlebuttons">SHOW ON HOMEPAGE</button>
+                                                <button type="submit" class="btn btn-primary" id="middlebuttons">SHOW ON HOMEPAGE</button>
                                             </a>
                                         } else {
                                             <a href="@routes.Hotels.changeVisibility(hotel.id)" >
