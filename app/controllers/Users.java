@@ -55,7 +55,7 @@ public class Users extends Controller {
 
     /*insert registered user into the database*/
 
-    public Result saveUser() {
+    public Result saveUser(String token) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         //getting the values from the fields
