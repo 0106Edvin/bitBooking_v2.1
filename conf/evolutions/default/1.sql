@@ -87,6 +87,19 @@ create table image (
   constraint pk_image primary key (id))
 ;
 
+create table invitation (
+  id                        integer auto_increment not null,
+  token                     varchar(255),
+  is_active                 tinyint(1) default 0,
+  email                     varchar(255),
+  updated_by                varchar(50),
+  update_date               datetime,
+  created_by                varchar(50),
+  create_date               datetime,
+  constraint uq_invitation_email unique (email),
+  constraint pk_invitation primary key (id))
+;
+
 create table message (
   id                        integer auto_increment not null,
   title                     varchar(2000),
@@ -108,7 +121,7 @@ create table newsletter (
   email                     varchar(40),
   is_subscribed             tinyint(1) default 0,
   token                     varchar(255),
-  updated_by                varchar(255),
+  updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
@@ -274,6 +287,8 @@ drop table room_feature;
 drop table hotel;
 
 drop table image;
+
+drop table invitation;
 
 drop table message;
 

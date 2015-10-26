@@ -1,30 +1,31 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by boris on 10/17/15.
+ * Created by boris.tomic on 26/10/15.
  */
 @Entity
-@Table(name = "newsletter")
-public class Newsletter extends Model {
+@Table(name = "invitation")
+public class Invitation extends Model {
 
-    public static Finder<Integer, Newsletter> finder = new Finder<>(Newsletter.class);
+    public static Finder<Integer, Invitation> finder = new Finder<>(Invitation.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", insertable = false)
     public Integer id;
-    @Column(name = "email", unique = true, length = 40)
-    public String email;
-    @Column(name = "is_subscribed")
-    public Boolean isSubscribed = true;
     @Column(name = "token")
     public String token = UUID.randomUUID().toString();
+    @Column(name = "is_active")
+    public Boolean isActive = Constants.INVITATION_ACTIVE;
+    @Column(name = "email", unique = true)
+    public String email;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
@@ -37,19 +38,16 @@ public class Newsletter extends Model {
     /**
      * Empty constructor for Ebean use
      */
-    public Newsletter(){
-        //leave empty
+    public Invitation() {
+        // leave empty
     }
 
-    public static Boolean isSignedUp(AppUser user) {
-        if (finder.where().eq("email", user.email).findUnique() != null) {
-            return true;
-        }
-        return false;
+    public void setCreatedBy(AppUser user) {
+        createdBy = user.firstname + " " + user.lastname;
     }
 
-    public static Newsletter findByToken(String token) {
-        return finder.where().eq("token", token).findUnique();
+    public void setUpdatedBy(AppUser user) {
+        updatedBy = user.firstname + " " + user.lastname;
     }
 
     @Override
