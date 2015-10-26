@@ -3,14 +3,34 @@
 }
 #background{
     background: whitesmoke;
+    opacity: 0.8;
 }
 #main-background{
-    background-color: #42b3e5;
-    background-image: url(http://www.transparenttextures.com/patterns/foggy-birds.png);
-    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    /*background-color: #42b3e5;*/
+    /*background-image: url(http://www.transparenttextures.com/patterns/foggy-birds.png);*/
+    /*/!* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! *!/*/
+
+    background: url(http://i.imgur.com/Nun3b.jpg);
+    /*background: url(http://res.cloudinary.com/dsjagtpwx/image/upload/e_blur_region:2000/v1445869032/Hotels_nmatjq.jpg);*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+#room-section-reservation{
+    margin-left: 15px;
 }
 .marginbottom{
     margin-bottom: 50px;
+}
+.marginbottom-buttons{
+    margin-bottom: 35%;
+}
+.marginleft{
+    margin-left: 40%;
+}
+#margintop{
+    margin-top: 45px;
 }
 .acidjs-rating-stars,
 .acidjs-rating-stars label::before
@@ -368,13 +388,11 @@ li a.active {
 .about h3 {
     font-size: 30px;
     color: #42b3e5;
-    margin-top: 50px;
 }
 
 .about h4 {
     font-size: 24px;
     color: #737373;
-    margin-bottom: 45px;
 }
 .about p {
     font-size: 24px;
@@ -395,6 +413,11 @@ li a.active {
     font-size: 24px;
     color: #737373;
     margin-bottom: 45px;
+}
+.about label{
+    font-size: 24px;
+    color: #737373;
+
 }
 
 .about-img img {
@@ -775,14 +798,15 @@ li a.active {
 }
 
 .contact-form h3 {
-    padding-left: 0;
     font-size: 30px;
-    color: #fff;
+    color: #42b3e5;
     text-transform: uppercase;
-    font-weight: bold;
-    border-bottom: 1px solid #13849c;
+}
+
+.contact-form h4 {
     padding-bottom: 12px;
-    margin-bottom: 0;
+    font-size: 24px;
+    color: #737373;
 }
 
 .contact-info ul {
@@ -838,7 +862,13 @@ li a.active {
     padding-top: 15px;
     text-align: right;
 }
-
+.nomarginbottom h4{
+    margin-bottom: 0%;
+}
+.features-margin{
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
 .contact-form input.submit-btn {
     width: 180px;
     height: 50px;
