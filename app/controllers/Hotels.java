@@ -203,4 +203,7 @@ public class Hotels extends Controller {
         Hotel.setHotelVisibilityOnHomePage(hotel, !visibility);
         return redirect(routes.Users.showManagerHotels());
     }
+
+
+
 }
