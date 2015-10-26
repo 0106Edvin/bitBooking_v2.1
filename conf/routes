@@ -23,7 +23,7 @@ GET           /hotelmanager/hotels/changevisibility/:hotelId        @controllers
 
 #User
 GET           /user/register                                        @controllers.Users.registerUser()
-POST          /user/register/save                                   @controllers.Users.saveUser()
+POST          /user/register/save/:userType                         @controllers.Users.saveUser(userType: String)
 POST          /user/login                                           @controllers.Users.login()
 GET           /user/logout                                          @controllers.Users.logOut()
 GET           /user/update/:email                                   @controllers.Users.editUser(email: String)
@@ -162,7 +162,10 @@ GET           /message/single/:id                                   @controllers
 POST          /message/reply/:id                                    @controllers.MessageController.replyMessage(id: Integer)
 
 #Invitation
-#POST    /invitation
+GET           /register/seller/:token                               @controllers.Users.registerSeller(token: String)
+GET           /hotelmanager/sellers                                 @controllers.Users.seeAllSellers()
+POST          /invitation                                           @controllers.Users.sendInvitation()
+
 
 
 

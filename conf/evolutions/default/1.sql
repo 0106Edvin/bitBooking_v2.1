@@ -89,14 +89,15 @@ create table image (
 
 create table invitation (
   id                        integer auto_increment not null,
+  title                     varchar(2000),
+  content                   TEXT,
   token                     varchar(255),
   is_active                 tinyint(1) default 0,
-  email                     varchar(255),
+  email                     varchar(50),
   updated_by                varchar(50),
   update_date               datetime,
   created_by                varchar(50),
   create_date               datetime,
-  constraint uq_invitation_email unique (email),
   constraint pk_invitation primary key (id))
 ;
 

@@ -4,10 +4,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.*;
 import models.*;
-import org.slf4j.LoggerFactory;
 import play.Logger;
 import play.Play;
-import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -20,12 +18,7 @@ import views.html.admin.adminPanel;
 import views.html.admin.adminUsers;
 import views.html.hotel.createhotel;
 import views.html.manager.managerHotels;
-import views.html.user.login;
-import views.html.user.profilePage;
-import views.html.user.register;
-import views.html.user.forgottenPassword;
-import views.html.user.askForPasswordChange;
-import views.html.list;
+import views.html.user.*;
 
 import java.io.File;
 import java.util.List;
@@ -55,7 +48,7 @@ public class Users extends Controller {
 
     /*insert registered user into the database*/
 
-    public Result saveUser(String token) {
+    public Result saveUser(String userType) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
         //getting the values from the fields
@@ -99,13 +92,20 @@ public class Users extends Controller {
                 user.hashPass();
 
                 user.token = UUID.randomUUID().toString();
+                if (Constants.USER_SELLER.equals(userType)) {
+                    user.userAccessLevel = UserAccessLevel.SELLER;
+                    user.validated = Constants.VALIDATED_USER;
+                }
                 user.save();
 
-                // Sending Email To user
-                String host = Play.application().configuration().getString("url") + "validate/" + user.token;
-                MailHelper.send(user.email, host, Constants.REGISTER, null);
+                if (Constants.USER_BUYER.equals(userType)) {
+                    // Sending Email To user
+                    String host = Play.application().configuration().getString("url") + "validate/" + user.token;
+                    MailHelper.send(user.email, host, Constants.REGISTER, null, null, null);
 
-                flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                    flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                }
+                flash("registration-msg", "Thank you for joining us.");
                 return ok(login.render(userForm));
             } catch (Exception e) {
                 flash("error", "Email already exists in our database, please try again!");
@@ -345,6 +345,7 @@ public class Users extends Controller {
 
     /**
      * Redirects to page for sending request for changing password
+     *
      * @return
      */
     public Result askForPasswordChange() {
@@ -355,6 +356,7 @@ public class Users extends Controller {
     /**
      * Generates unique token for changin password
      * and sends an email to the user to confirm request
+     *
      * @return
      */
     public Result sendChangePasswordRequest() {
@@ -372,7 +374,7 @@ public class Users extends Controller {
             // Sending Email To user
             String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user1.forgottenPassToken;
             String cancelRequest = Play.application().configuration().getString("url") + "user/cancelpasswordchangerequest/" + user1.forgottenPassToken;
-            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD, cancelRequest);
+            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD, cancelRequest, null, null);
 
             flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
             return badRequest(askForPasswordChange.render());
@@ -385,8 +387,9 @@ public class Users extends Controller {
     /**
      * Checks if user with provided token exists in the database
      * and if it does redirects to form for entering a new password.
-     *
+     * <p>
      * If it doesn't, returns a bad request warning.
+     *
      * @param forgottenPasswordToken
      * @return
      */
@@ -402,8 +405,9 @@ public class Users extends Controller {
     /**
      * Checks one more time if user with provided token exists in the database,
      * collects data about new password from the form, and saves a new password
-     *
+     * <p>
      * Clears the forgotten password token field in the database
+     *
      * @param forgottenPasswordToken
      * @return
      */
@@ -428,6 +432,7 @@ public class Users extends Controller {
     /**
      * Cancels password change request if user didn't want to change it.
      * Clears the forgotten password token field in the database
+     *
      * @return
      */
     public Result cancelPasswordChangeRequest(String forgottenPasswordToken) {
@@ -442,5 +447,49 @@ public class Users extends Controller {
             return redirect(routes.Application.index());
         }
     }
+
+    public Result registerSeller(String token) {
+        Invitation invitation = Invitation.finder.where().eq("token", token).findUnique();
+        if (invitation != null) {
+            invitation.isActive = Constants.INVITATION_EXPIRED;
+            invitation.update();
+        }
+
+        return ok(views.html.user.registerSeller.render(userForm));
+    }
+
+    /**
+     * Saves new Invitation to database and sends email with registration link only for seller.
+     * @return
+     */
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
+    public Result sendInvitation() {
+        AppUser user = AppUser.getUserByEmail(session("email"));
+        DynamicForm form = Form.form().bindFromRequest();
+        String email = form.field("email").value();
+        String title = form.field("subject").value();
+        String content = form.field("content").value();
+
+        boolean created = Invitation.createNewInvitation(email, title, content, user);
+
+        if (created) {
+            flash("info", "Invitation successfully sent.");
+            return redirect(routes.Users.seeAllSellers());
+        }
+
+        Logger.debug(email + " " + title + " " + content);
+        return ok("bla");
+    }
+
+    /**
+     * Renders all AppUsers that are sellers, orders them by first name.
+     *
+     * @return
+     */
+    public Result seeAllSellers() {
+        List<AppUser> sellers = AppUser.finder.where().eq("user_access_level", UserAccessLevel.SELLER).orderBy("firstname asc").findList();
+        return ok(views.html.manager.seeAllSellers.render(sellers));
+    }
+
 
 }

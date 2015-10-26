@@ -12,13 +12,15 @@ import helpers.Constants;
  */
 public class MailHelper {
     final static Logger logger = LoggerFactory.getLogger(MailHelper.class);
-    public static void send(String email, String host, Integer type, String cancelRequest) {
+    public static void send(String email, String host, Integer type, String cancelRequest, String title, String content) {
         try {
             HtmlEmail mail = new HtmlEmail();
             if (type == Constants.REGISTER) {
                 mail.setSubject("Welcome to bitBooking");
             } else if (type == Constants.CHANGE_PASSWORD) {
                 mail.setSubject("bitBooking - change password");
+            } else if (type.equals(Constants.REGISTER_SELLER)) {
+                mail.setSubject(title);
             }
             mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
             mail.addTo(email);
@@ -35,6 +37,11 @@ public class MailHelper {
                                 "You have requested to change your password.",
                                 "Please confirm your request and complete your password change following this link:", host,
                                 "If you did not ask for password change, please cancel this request following this link:", cancelRequest));
+            } else if (type.equals(Constants.REGISTER_SELLER)) {
+                mail.setHtmlMsg(String
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
+                                "Join us at bitBooking and promote your hotel",
+                                content, host));
             }
 
             mail.setHostName(Play.application().configuration().getString("smtp.host"));
