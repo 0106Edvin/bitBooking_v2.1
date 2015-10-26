@@ -21,6 +21,8 @@ public class MailHelper {
                 mail.setSubject("bitBooking - change password");
             } else if (type.equals(Constants.REGISTER_SELLER)) {
                 mail.setSubject(title);
+            } else if (type == Constants.SUCCESSFUL_RESERVATION) {
+                mail.setSubject("bitBooking - reservation successful");
             }
             mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
             mail.addTo(email);
@@ -42,6 +44,8 @@ public class MailHelper {
                         .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
                                 "Join us at bitBooking and promote your hotel",
                                 content, host));
+            } else if (type == Constants.SUCCESSFUL_RESERVATION) {
+                mail.setHtmlMsg(host);
             }
 
             mail.setHostName(Play.application().configuration().getString("smtp.host"));

@@ -114,19 +114,19 @@ public class Hotel extends Model {
         return null;
     }
 
-    private static List<Hotel> findHotelsByName(String term){
+    private static List<Hotel> findHotelsByName(String term) {
         return finder.where().ilike("name", "%" + term + "%").findList();
     }
 
-    private static List<Hotel> findHotelsByCountry(String term){
+    private static List<Hotel> findHotelsByCountry(String term) {
         return finder.where().ilike("country", "%" + term + "%").findList();
     }
 
-    private static List<Hotel> findHotelsByCity(String term){
+    private static List<Hotel> findHotelsByCity(String term) {
         return finder.where().ilike("city", "%" + term + "%").findList();
     }
 
-    private static List<Hotel> findHotelsByStars(String term){
+    private static List<Hotel> findHotelsByStars(String term) {
         return finder.where().ilike("stars", term).findList();
     }
 
