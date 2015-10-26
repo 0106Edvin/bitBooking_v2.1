@@ -248,6 +248,13 @@ public class AppUser extends Model {
             user.forgottenPassToken = null;
             user.save();
     }
+
+    public static boolean sellerHaveHotel(AppUser user) {
+        if (Hotel.finder.where().eq("seller_id", user.id).findRowCount() > 0) {
+            return true;
+        }
+        return false;
+    }
 }
 
 

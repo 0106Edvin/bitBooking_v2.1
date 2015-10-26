@@ -25,6 +25,7 @@ public class Newsletter extends Model {
     public Boolean isSubscribed = true;
     @Column(name = "token")
     public String token = UUID.randomUUID().toString();
+    @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
     public Date updateDate;
