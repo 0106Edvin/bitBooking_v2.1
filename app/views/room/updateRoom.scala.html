@@ -2,172 +2,191 @@
 @import helper._
 @import helpers.CommonHelperMethods
 @main {
-
-
     <script src='@routes.Assets.versioned("javascripts/modalverification.js")'></script>
 
-    <meta charset="UTF-8">
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>UPDATE ROOM</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+
+            <section id="hotel-section1">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>UPDATE ROOM</h2>
+                    </div>
                 </div>
+            </section>
+
+            <section id="updateroom-section-roominformation">
                 <div class="col-md-5 contact-form">
                     <h3>room information</h3>
                     <div class="info-detail">
                     @helper.form(action = routes.Rooms.updateRoom(room.id), 'enctype -> "multipart/form-data") {
 
-                    <form class="form">
-
-                        <label for="name" style="font-size: 20px; color:white">Room name</label>
-                        <input name="name" class="name" type="text" value="@room.name" required>
-                        <label for="numberOfBeds" style="font-size: 20px; color:white">Number of beds</label>
-                        <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
-                        <label for="roomType" style="font-size: 20px; color:white">Room Type</label>
-                        <input name="roomType" type="number" min="1" value="@room.roomType">
-
-                        <label for="description" style="font-size: 20px; color:white">Description</label>
-                        <textarea class="message" name="description" id="message" cols="30" rows="10"
-                                  style="resize : none" required>@room.description</textarea>
-
-                            <h3>Choose pictures for gallery: </h3>
-
-                            <div id="upload-file-container">
-                                <input type="file" name="image" class="form-control" multiple accept="image/*"/>
-                            </div>
-                            <h3>Features</h3>
-
-                            <div class="info-detail">
-                            @if(room.features.size()>0) {
-                                @for(feature <- room.features) {
-                                    <div>
-                                        <span>
-                                            <input type="checkbox" class="fa-check-circle" id="@feature.id"
-                                            name="@feature.name"/>
-                                            <label for="@feature.name">@feature.name</label>
-                                        </span>
-                                    </div>
-                                }
-                            }
-                        </div>
-                        <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" id="edit-room-back" type="button" value="BACK" ></a>
-                        <a href="#"> <input class="submit-btn" id="edit-room-submit" type="submit" value="SUBMIT"></a>
-                    </form>
-                    }
-                    </div>
-
-                </div>
-                <div class="col-md-5 col-md-offset-1 contact-form">
-                    <h3>Add price</h3>
-                    <div class="info-detail">
-                    @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
                         <form class="form">
-                            <div class="service">
-                                <div class="duplicate-email" style="font-size: 20px;color: red">
-                                @if(flash.containsKey("error")) {
-                                    @flash.get("error")
-                                }
-                                </div>
-                                <h4 style="margin-bottom: 0%"> From</h4>
-                                <input name="checkIn" id="date" placeholder="select date"/>
-                                <h4 style="margin-bottom: 0%">To</h4>
-                                <input name="checkOut" id="date2" placeholder="select date"/>
-                                <div>
-                                    <h4 style="margin-bottom: 0%">Price</h4>
-                                </div>
-                                <div>
-                                    <input name="cost" class="phone" type="number" min="1" max="500000" required>
-                                </div>
+                            <div class="nomarginbottom">
+                                <h4 for="name">Room name</h4>
+                                <input name="name" class="name" type="text" value="@room.name" required>
+                                <h4 for="numberOfBeds">Number of beds</h4>
+                                <input name="numberOfBeds" class="phone" type="number" value="@room.numberOfBeds" min="1" max="5" required>
+                                <h4 for="roomType" >Room Type</h4>
+                                <input name="roomType" type="number" min="1" value="@room.roomType">
 
+                                <h4 for="description" >Description</h4>
+                                <textarea class="message" name="description" id="message" cols="30" rows="10"
+                                style="resize : none" required>@room.description</textarea>
 
-                            </div>
-                            <div class="form-group">
-                                <button class="edvin-button" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
-                                    ADD PRICE</button>
+                                <h3>Choose pictures for gallery: </h3>
+
+                                <div id="upload-file-container">
+                                    <input type="file" name="image" class="form-control" multiple accept="image/*"/>
+                                </div>
+                                <div class="features-margin">
+                                    <h3>Features</h3>
+
+                                    <div class="info-detail">
+                                    @if(room.features.size()>0) {
+                                        @for(feature <- room.features) {
+                                            <div>
+                                                <span>
+                                                    <input type="checkbox" class="fa-check-circle" id="@feature.id"
+                                                    name="@feature.name"/>
+                                                    <label for="@feature.name">@feature.name</label>
+                                                </span>
+                                            </div>
+                                        }
+                                    }
+                                    </div>
+                                </div>
+                                <div class="marginbottom-buttons">
+                                    <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" id="edit-room-back" type="button" value="BACK" ></a>
+                                    <a href="#"> <input class="submit-btn" id="edit-room-submit" type="submit" value="SUBMIT"></a>
+                                </div>
                             </div>
                         </form>
-                    </div>
                     }
-                    @if(flash.containsKey("success")) {
-                        <span style="background-color: green; color: white; font-size: 20px; padding: 0px 5px 0px 5px;">
-                            @flash.get("success")
-                        </span>
-                    }
-
-                    <div>
-                        <table class="table " style="font-size: 20px; color: white">
-                            <thead>
-                                <tr>
-                                    <th>From date</th>
-                                    <th>To date</th>
-                                    <th>Price</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for(price <- prices) {
-                                    <tr>
-                                        <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
-                                        <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
-                                        <td>@price.cost $</td>
-                                        <td><a href="#" data-toggle="modal" data-target="#myModal@price.id"><i class="glyphicon glyphicon-pencil" style="color: #204d74 ;"></i></a></td>
-                                    </tr>
-
-                                    <div id="myModal@price.id" class="modal fade" role="dialog" style="background-color: #204d74">
-                                        <div class="modal-dialog">
-                                            <form method="post" action="@routes.Prices.editPrice(price.id)">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                                                        <h4 class="modal-title"  style="font-size: 24px; font-weight: bold">UPDATE PRICE</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div id="info-container" style="color: #204d74; font-size: 20px">
-                                                            @if(flash.containsKey("missing-price")) {
-                                                                <span id="price-missing" style="font-size: 20px; color: red">
-                                                                @flash.get("missing-price")
-                                                                </span>
-                                                            }
-                                                        <span id="price-missing" style="font-size: 20px; color: red"></span>
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                            <label>From date:</label>
-                                                                <p style="height: 5px"></p>
-                                                            <p>@CommonHelperMethods.getDateAsString(price.dateFrom)</p>
-                                                        </div>
-                                                            <div  class="col-md-3">
-                                                            <label>To date:</label>
-                                                                <p style="height: 5px"></p>
-                                                                <p>@CommonHelperMethods.getDateAsString(price.dateTo)</p>
-                                                        </div>
-                                                        <div  class="col-md-3">
-                                                            <p>Insert price: </p>
-                                                            <input type="number" id="modal-price" name="cost" min="1" max="500000" style="border:1px solid #204d74" placeholder="1000" oninput="validatePrice()"/>
-                                                        </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="close" class="edvin-button" id="modal-button-white" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="edvin-button" id="modal-button-blue" onclick="validatePrice()">Save</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-
-                            </tbody>
-                        </table>
                     </div>
                 </div>
+            </section>
 
-            </div>
+            <section id="updateroom-section-price">
+                <div class="container">
+                    <div class="row">
+                        <div class="about clearfix">
+                            <div class="col-md-5 col-md-offset-1 about">
+                                <h3>ADD PRICE</h3>
+                                <div class="info-detail">
+                                @helper.form(action = routes.Prices.savePrice(room.id), 'class -> "form-horizontal", 'role -> "form") {
+                                    <form class="form">
+                                        <div class="contact-form">
+                                            <div class="duplicate-email" style="font-size: 20px;color: red">
+                                            @if(flash.containsKey("error")) {
+                                                @flash.get("error")
+                                            }
+                                            </div>
+                                            <div class="nomarginbottom">
+                                                <h4 > From</h4>
+                                                <input name="checkIn" id="date" placeholder="select date"/>
+                                                <h4 >To</h4>
+                                                <input name="checkOut" id="date2" placeholder="select date"/>
+                                                <div>
+                                                    <h4 >Price</h4>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input name="cost" class="phone" type="number" min="1" max="500000" required>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="edvin-button" id="edit-room-add-price" href="@routes.Prices.savePrice(room.id)">
+                                                ADD PRICE</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                }
+                                @if(flash.containsKey("success")) {
+                                    <span style="background-color: green; color: white; font-size: 20px; padding: 0px 5px 0px 5px;">
+                                    @flash.get("success")
+                                    </span>
+                                }
+
+                                <div>
+                                    <table class="table " style="font-size: 20px; color: white">
+                                        <thead>
+                                            <tr class="about">
+                                                <th>From date</th>
+                                                <th>To date</th>
+                                                <th>Price</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @for(price <- prices) {
+                                            <tr>
+                                                <td>@CommonHelperMethods.getDateAsString(price.dateFrom)</td>
+                                                <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
+                                                <td>@price.cost $</td>
+                                                <td><a href="#" data-toggle="modal" data-target="#myModal@price.id"><i class="glyphicon glyphicon-pencil" style="color: #204d74 ;"></i></a></td>
+                                            </tr>
+
+                                            <div id="myModal@price.id" class="modal fade" role="dialog" style="background-color: #204d74">
+                                                <div class="modal-dialog">
+                                                    <form method="post" action="@routes.Prices.editPrice(price.id)">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                                                <h4 class="modal-title"  style="font-size: 24px; font-weight: bold">UPDATE PRICE</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div id="info-container" style="color: #204d74; font-size: 20px">
+                                                                    @if(flash.containsKey("missing-price")) {
+                                                                        <span id="price-missing" style="font-size: 20px; color: red">
+                                                                        @flash.get("missing-price")
+                                                                        </span>
+                                                                    }
+                                                                <span id="price-missing" style="font-size: 20px; color: red"></span>
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <label>From date:</label>
+                                                                        <p style="height: 5px"></p>
+                                                                        <p>@CommonHelperMethods.getDateAsString(price.dateFrom)</p>
+                                                                    </div>
+                                                                    <div  class="col-md-3">
+                                                                        <label>To date:</label>
+                                                                        <p style="height: 5px"></p>
+                                                                        <p>@CommonHelperMethods.getDateAsString(price.dateTo)</p>
+                                                                    </div>
+                                                                    <div  class="col-md-3">
+                                                                        <p>Insert price: </p>
+                                                                        <input type="number" id="modal-price" name="cost" min="1" max="500000" style="border:1px solid #204d74" placeholder="1000" oninput="validatePrice()"/>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="close" class="edvin-button" id="modal-button-white" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="edvin-button" id="modal-button-blue" onclick="validatePrice()">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
-    </div>
+        }
 
+</div>
 
     <!-- end of contact section -->
 
-}
