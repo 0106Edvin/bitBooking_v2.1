@@ -2,6 +2,8 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
+import helpers.MailHelper;
+import play.Play;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,11 +22,15 @@ public class Invitation extends Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", insertable = false)
     public Integer id;
+    @Column(name = "title", length = 2000)
+    public String title;
+    @Column(name = "content", columnDefinition = "TEXT")
+    public String content;
     @Column(name = "token")
     public String token = UUID.randomUUID().toString();
     @Column(name = "is_active")
     public Boolean isActive = Constants.INVITATION_ACTIVE;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", length = 50)
     public String email;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
@@ -40,6 +46,22 @@ public class Invitation extends Model {
      */
     public Invitation() {
         // leave empty
+    }
+
+    public static boolean createNewInvitation(String email, String title, String content, AppUser manager) {
+        Invitation temp = new Invitation();
+        temp.title = title;
+        temp.content = content;
+        temp.email = email;
+        temp.setCreatedBy(manager);
+        String host = Play.application().configuration().getString("url") + "register/seller/" + temp.token;
+        try {
+            temp.save();
+            MailHelper.send(temp.email, host, Constants.REGISTER_SELLER, null, title, content);
+            return true;
+        } catch (PersistenceException e) {
+            return false;
+        }
     }
 
     public void setCreatedBy(AppUser user) {

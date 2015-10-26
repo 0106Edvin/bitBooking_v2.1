@@ -120,11 +120,10 @@
                                                         <ul class="dropdown-menu" role="menu">
                                                             <li><a class="menu font-size-20" href="@routes.Users.showManagerHotels()" >Manage hotels</a></li>
                                                             <li class="divider"></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showManagerHotels()" >Invite sellers</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.seeAllSellers()" >See all sellers</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
-
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.SELLER)) {
                                                 <script type="text/javascript" src="@routes.Assets.versioned("javascripts/reservationNotify.js")"></script>
