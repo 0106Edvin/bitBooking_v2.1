@@ -31,7 +31,6 @@ import java.util.*;
 public class Reservations extends Controller {
 
     private static PaymentExecution paymentExecution;
-
     private static Form<Reservation> reservationForm = Form.form(Reservation.class);
 
 
@@ -175,6 +174,17 @@ public class Reservations extends Controller {
             room.roomType -= 1;
             room.update();
             flash("info");
+
+            AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
+            String message = String
+                    .format("<html><body><strong> %s %s %s</strong> <p> %s </p> <p> %s </p> <p> %s %s </p> <p> %s %s </p> <p> %s %s </p> <p> %s %s %s</p> <p> %s </p></body></html>",
+                            "Hello ", user.firstname, ",",
+                            "Your reservation has been successfuly booked",
+                            "Reservation details:",
+                            "FROM: ", reservation.checkIn,
+                            "TO: ", reservation.checkOut,
+                            "PRICE: ", reservation.cost, " $",
+                            "\nHOTEL: ", Hotel.findHotelsByName());
 
         } catch (Exception e) {
             flash("error");
