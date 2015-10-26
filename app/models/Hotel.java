@@ -189,10 +189,6 @@ public class Hotel extends Model {
         return hotels;
     }
 
-    public static Hotel findHotelByRoomId(Integer roomId) {
-        return finder.where().eq("")
-    }
-
     @Override
     public void update() {
         rating = getRating();
