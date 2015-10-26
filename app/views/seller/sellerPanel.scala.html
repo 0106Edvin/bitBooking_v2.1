@@ -1,79 +1,89 @@
 @(hotels: java.util.List[Hotel])
 @main {
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>Your hotels</h2>
-                    <div style="font-size: 25px; color: #33FF00;">
-                        @if(flash.containsKey("create")){
-                            @flash.get("create")
-                        }
-                        @if(flash.containsKey("delete")){
-                            @flash.get("delete")
-                        }
-                        @if(flash.containsKey("edit")){
-                            @flash.get("edit")
-                        }
+    <div  id="main-background">
+        <div class="container" id="background">
+            <div class="row">
+                <div class="about clearfix">
+                    <section id="hotel-section1">
+                        <div class="container">
+                            <div class="about text-center">
+                                <h2>Your hotels</h2>
+                                <div style="font-size: 25px; color: #33FF00;">
+                                    @if(flash.containsKey("create")){
+                                        @flash.get("create")
+                                    }
+                                    @if(flash.containsKey("delete")){
+                                        @flash.get("delete")
+                                    }
+                                    @if(flash.containsKey("edit")){
+                                        @flash.get("edit")
+                                    }
 
-                    </div>
-                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
+                   <section>
+                        <div class="col-md-11 col-md-offset-1 contact-form">
+                            <h3>The list of your hotels</h3>
+                            <div class="info-detail">
 
-                <div class="col-md-11 col-md-offset-1 contact-form">
-                    <h3>The list of your hotels</h3>
+                            <table class="table">
+                                <thead>
+                                    <tr class="about">
+                                        <th>HOTEL</th>
+                                        <th>ADDRESS</th>
+                                    </tr>
+                                </thead>
 
-                    <table class="table">
-                        <thead>
-                            <tr class="service">
-                                <th style="font-size : 28 px ;">Hotel name</th>
-                                <th style="font-size : 28 px ;">Address</th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                                <tbody>
+                                @for(hotel <- hotels) {
+                                    @if(hotel.sellerId == Integer.parseInt(request().cookies().get("userId").value())) {
+                                        <tr class="about">
 
-                        <tbody>
-                        @for(hotel <- hotels) {
-                            @if(hotel.sellerId == Integer.parseInt(request().cookies().get("userId").value())) {
-                                <tr class="service">
+                                            <td>@hotel.name</td>
+                                            <td >@hotel.location</td>
 
-                                    <td style="font-size: 22px;">@hotel.name</td>
-                                    <td style="font-size: 22px;">@hotel.location</td>
+                                            <td>
+                                                <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
+                                                    <button class="btn btn-success" id="middlebuttons">ADD ROOM</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a onclick="" href="@routes.Restaurants.createRestaurant(hotel.id)">
+                                                    <button class="btn btn-success" id="middlebuttons">RESTAURANT</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a onclick="" href="@routes.Rooms.hotelReservations(hotel.id)">
+                                                    <button class="btn btn-warning" id="middlebuttons">RESERVATIONS</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a onclick="" href="@routes.Rooms.showRooms(hotel.id)">
+                                                    <button class="btn btn-warning" id="middlebuttons">ROOMS</button>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a onclick="" href="@routes.Hotels.editHotel(hotel.id)">
+                                                    <button class="btn btn-warning" id="middlebuttons">EDIT</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
 
-                                    <td>
-                                        <a onclick="" href="@routes.Rooms.createRoom(hotel.id)">
-                                            <button class="btn btn-success" id="middlebuttons">ADD ROOM</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a onclick="" href="@routes.Restaurants.createRestaurant(hotel.id)">
-                                            <button class="btn btn-success" id="middlebuttons">RESTAURANT</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a onclick="" href="@routes.Rooms.hotelReservations(hotel.id)">
-                                            <button class="btn btn-warning" id="middlebuttons">RESERVATIONS</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a onclick="" href="@routes.Rooms.showRooms(hotel.id)">
-                                            <button class="btn btn-warning" id="middlebuttons">ROOMS</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a onclick="" href="@routes.Hotels.editHotel(hotel.id)">
-                                            <button class="btn btn-warning" id="middlebuttons">EDIT</button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        }
+                                </tbody>
+                            </table>
+                                </div>
+                        </div>
 
-                        </tbody>
-                    </table>
-                </div>
+                </section>
+
 
             </div>
         </div>
-    </div>
-}
+            </div>
+        }
+</div>
