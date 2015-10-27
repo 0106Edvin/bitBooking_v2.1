@@ -1,0 +1,36 @@
+@(questions: List[Question])
+@main {
+
+  <div class="container">
+    <div class="edvin-class font-size-20">
+      <table id="sort" class="table">
+        <thead>
+          <tr class="service">
+            <th>Question</th>
+            <th>Answer</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        @for(question <- questions) {
+          <tr class="">
+            <td>@question.question</td>
+            <td>@question.answer</td>
+          </tr>
+        }
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <script>
+        $(document).ready(function(){
+            $('#sort').DataTable({
+                "aLengthMenu": [[10, 50, 75, -1], [10, 50, 75, "All"]],
+                "iDisplayLength": 10
+            });
+        });
+    </script>
+
+}

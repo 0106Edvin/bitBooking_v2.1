@@ -38,7 +38,6 @@ public class Reservations extends Controller {
 
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result payPal(Integer roomId) {
-
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
