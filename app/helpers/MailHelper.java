@@ -30,20 +30,23 @@ public class MailHelper {
 
             if (type == Constants.REGISTER) {
                 mail.setHtmlMsg(String
-                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "Thanks for signing up to bitBooking!",
-                                "Please confirm your Email adress", host));
+                                "Please confirm your email address", host,
+                                Play.application().configuration().getString("logo")));
             } else if (type == Constants.CHANGE_PASSWORD) {
                 mail.setHtmlMsg(String
-                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <p> %s </p> <p> %s </p></body></html>",
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "You have requested to change your password.",
                                 "Please confirm your request and complete your password change following this link:", host,
-                                "If you did not ask for password change, please cancel this request following this link:", cancelRequest));
+                                "If you did not ask for password change, please cancel this request following this link:", cancelRequest,
+                                Play.application().configuration().getString("logo")));
             } else if (type.equals(Constants.REGISTER_SELLER)) {
                 mail.setHtmlMsg(String
-                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>",
+                        .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "Join us at bitBooking and promote your hotel",
-                                content, host));
+                                content, host,
+                                Play.application().configuration().getString("logo")));
             } else if (type == Constants.SUCCESSFUL_RESERVATION) {
                 mail.setHtmlMsg(host);
             }
