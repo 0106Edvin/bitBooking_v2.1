@@ -136,7 +136,8 @@ GET           /newsletter/unsubscribe/:token                    @controllers.New
 GET           /seller/createpromotion                           @controllers.user.Seller.createPromotion()
 
 #REST
-GET           /api/users                                        @controllers.user.UserApiController.getAllUsers()
+GET           /api/users                                        @controllers.api.ApiUserController.getAllUsers()
+GET           /api/hotels                                       @controllers.api.ApiHotelController.getHotelList()
 
 #FAQ
 POST          /admin/createFAQ                                  @controllers.Questions.saveFAQ()
