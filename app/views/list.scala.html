@@ -1,3 +1,4 @@
+@import helpers.Constants
 @(hotels: List[Hotel])
 @import helper._
 @index {
@@ -38,7 +39,7 @@
 <script>
     $('#easyPaginate').easyPaginate({
         paginateElement: '.hotel',
-        elementsPerPage: 4,
+        elementsPerPage: @Constants.PAGE_SIZE,
         effect: 'climb'
         });
 </script>

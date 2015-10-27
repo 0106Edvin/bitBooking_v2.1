@@ -34,4 +34,7 @@ public class Constants {
     public static final Boolean VALIDATED_USER = true;
     public static final Boolean NOT_VALIDATED_USER = false;
 
+    // Homepage - number of hotels by page
+    public static final Integer PAGE_SIZE = 8;
+
 }
