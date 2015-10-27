@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
 import helpers.UserAccessLevel;
 import org.mindrot.jbcrypt.BCrypt;
 import play.data.validation.Constraints;
@@ -65,7 +66,7 @@ public class AppUser extends Model {
 
     @Column(unique = true)
     public String token;
-    public boolean validated = false;
+    public boolean validated = Constants.NOT_VALIDATED_USER;
 
     @Column(unique = true)
     public String forgottenPassToken;

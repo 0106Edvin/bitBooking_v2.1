@@ -21,15 +21,23 @@ public class NewsletterMail {
 
     public static void send(String email, String host, String title, String content, Hotel hotel, String token) {
         String mailString = "";
-        System.out.println(hotel.name);
-        System.out.println(hotel.city);
-        System.out.println(hotel.images.get(0).getSize(200, 200));
+
+        String homepage = Play.application().configuration().getString("application.host");
         String name = hotel.name;
-        String image = hotel.images.get(0).getSize(200, 200);
-        String s = String.format(mailString, image, name);
+        String country = hotel.country;
+        String city = hotel.city;
+        String address = hotel.location;
+        String hotelPage = String.valueOf(hotel.id);
+        String image = "";
+        if (hotel.images.size() > 0) {
+            image = hotel.images.get(0).getSize(300, 300);
+        } else {
+            image = "https://res.cloudinary.com/dzkq8z522/image/upload/v1445942565/uofvut1ec1fx8ogqynqa.jpg";
+        }
+
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(Play.application().getFile("app/views/utils/newsletterEmail.txt")));
+            BufferedReader reader = new BufferedReader(new FileReader(Play.application().getFile("app/views/utils/newsletterMail.html")));
             while (reader.ready()) {
                 mailString += reader.readLine() + "\n";
             }
@@ -40,6 +48,8 @@ public class NewsletterMail {
             logger.debug("cant read", e.getLocalizedMessage());
             e.printStackTrace();
         }
+
+        String s = String.format(mailString, homepage, title, image, name, country, city, address, hotelPage, title, content, host + token);
 
         try {
             HtmlEmail mail = new HtmlEmail();

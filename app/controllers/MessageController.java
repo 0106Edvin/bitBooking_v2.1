@@ -40,6 +40,7 @@ public class MessageController extends Controller {
         return redirect(routes.Application.index());
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result replyMessage(Integer userId) {
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
@@ -59,6 +60,7 @@ public class MessageController extends Controller {
         return redirect(routes.Application.index());
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result allMessages() {
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
@@ -69,6 +71,7 @@ public class MessageController extends Controller {
         return ok(views.html.user.messages.render(messages, user));
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result readMessage(Integer messageId) {
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
@@ -83,12 +86,14 @@ public class MessageController extends Controller {
                 "\n\nYour ip is recorded! " +  request().remoteAddress().toString());
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result notification() {
         AppUser user = AppUser.getUserByEmail(session("email"));
         Integer number = Message.numberOfNewMessages(user);
         return ok(String.valueOf(number));
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result deleteMessageFromInbox(Integer messageId) {
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
@@ -102,6 +107,7 @@ public class MessageController extends Controller {
         return internalServerError();
     }
 
+    @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result deleteMessageFromOutbox(Integer messageId) {
         AppUser user = AppUser.getUserByEmail(session("email"));
         if (user == null) {
