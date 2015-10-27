@@ -57,4 +57,9 @@ public class Application extends Controller {
         return ok(views.html.user.userFAQ.render(q));
     }
 
+
+    public Result searchFAQ() {
+        List<Question> q = Question.finder.all();
+        return ok(views.html.user.searchFAQ.render(q));
+    }
 }
