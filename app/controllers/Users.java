@@ -104,6 +104,7 @@ public class Users extends Controller {
                     MailHelper.send(user.email, host, Constants.REGISTER, null, null, null);
 
                     flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                    return ok(login.render(userForm));
                 }
                 flash("registration-msg", "Thank you for joining us.");
                 return ok(login.render(userForm));

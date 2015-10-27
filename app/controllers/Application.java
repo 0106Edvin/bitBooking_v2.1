@@ -28,9 +28,9 @@ public class Application extends Controller {
                 tempStat.setUpdatedBy(temp.firstname, temp.lastname);
             }
         } else {
-            stats.createdBy = "Anonimous user";
+            stats.createdBy = "Anonymous user";
             if (tempStat != null) {
-                tempStat.updatedBy = "Anonimous user";
+                tempStat.updatedBy = "Anonymous user";
             }
         }
         try {
