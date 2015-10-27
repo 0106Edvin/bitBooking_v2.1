@@ -101,7 +101,7 @@ public class Authenticators {
                 return null;
             String email = ctx.session().get("email");
             AppUser u = AppUser.getUserByEmail(email);
-            if (u != null) {
+            if (u != null && u.validated == Constants.VALIDATED_USER) {
                 user = u;
                 return u.email;
             } else {

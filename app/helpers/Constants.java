@@ -32,5 +32,6 @@ public class Constants {
     public static final String USER_BUYER = "buyer";
 
     public static final Boolean VALIDATED_USER = true;
+    public static final Boolean NOT_VALIDATED_USER = false;
 
 }
