@@ -148,6 +148,8 @@ DELETE        /admin/deleteFAQ/:id                                  @controllers
 GET           /FAQ                                                  @controllers.Application.showFAQ()
 GET           /searchFAQ                                            @controllers.Application.searchFAQ()
 
+
+
 # Messages
 POST          /message/save/:id                                     @controllers.MessageController.saveMessage(id: Integer)
 GET           /message/all                                          @controllers.MessageController.allMessages()
