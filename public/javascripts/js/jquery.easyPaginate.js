@@ -27,14 +27,14 @@ $.fn.easyPaginate = function (options) {
         elementsPerPage: 10,
         effect: 'default',
         slideOffset: 200,
-        firstButton: true,
-        firstButtonText: '<<',
-        lastButton: true,
-        lastButtonText: '>>',
+        firstButton: false,
+        firstButtonText: 'First',
+        lastButton: false,
+        lastButtonText: 'Last',
         prevButton: true,
-        prevButtonText: '<',
+        prevButtonText: 'Prev          ',
         nextButton: true,
-        nextButtonText: '>'
+        nextButtonText: '          Next'
     }
 
     return this.each (function (instance) {
