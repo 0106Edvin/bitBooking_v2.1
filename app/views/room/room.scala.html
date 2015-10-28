@@ -29,9 +29,7 @@
                         } else {
                             <label id="not-available">NOT AVAILABLE</label>
                         }
-
                     </div>
-
 
                     <div class="col-md-5 col-md-offset-1 about">
                         <h3>Description</h3>
@@ -70,7 +68,7 @@
             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
                 @if(AppUser.sellersHotelByRoomId(room, currentUser)) {
                     <div class="marginleft">
-                        <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn btn-warning edit ">EDIT</button> </a>
+                        <a href="@routes.Rooms.editRoom(room.id)" ><button class="btn submit-btn edit" >EDIT</button> </a>
                     </div>
                 }
             }

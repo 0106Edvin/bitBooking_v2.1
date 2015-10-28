@@ -1,11 +1,16 @@
 @(hotels: List[Hotel])
 @main {
-
-    <div class="container">
-        <div class="edvin-class font-size-20">
+    <div  id="main-background">
+        <div class="container" id="background">
+        <div class= font-size-20" id="sorting">
+            <div class="container">
+                <div class="about text-center">
+                    <h2>RESULTS OF SEARCH</h2>
+                </div>
+            </div>
             <table id="sort" class="table">
                 <thead>
-                    <tr class="service">
+                    <tr class="about">
                         <th>Hotel name</th>
                         <th>Country</th>
                         <th>City</th>
@@ -17,7 +22,7 @@
                 </thead>
                 <tbody>
                     @for(hotel <- hotels) {
-                        <tr class="">
+                        <tr class="about">
                             <td>@hotel.name</td>
                             <td>@hotel.country</td>
                             <td>@hotel.city</td>
@@ -46,3 +51,4 @@
         });
     </script>
 }
+    </div>

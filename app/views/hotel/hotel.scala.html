@@ -19,7 +19,7 @@
 
 
                     <div class="col-md-6 col-md-offset-0 ">
-                        <div class="about">
+                        <div class="margintop">
                             <div class="about text-center">
                                 @if(hotel.images.size() == 0) {
                                     <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
@@ -99,18 +99,15 @@
                                 <div>
                                     <h3 style="cursor: pointer;" class="link-hover" id="restaurantOpen">@Restaurant.findRestaurantByHotelId(hotel.id).name<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
                                     <div id="restaurantDiv" class="info-detail" hidden>
-                                        <div class="service">
-                                            <p style="color: dimgrey; display: inline">Type of MENU: </p>
-                                            <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).restauranType</p>
+                                        <div class="about">
+                                            <h4>Type of MENU: @Restaurant.findRestaurantByHotelId(hotel.id).restauranType </h4>
                                             <br>
-                                            <p style="color: dimgrey; display: inline">Description: </p>
-                                            <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).description</p>
+                                            <h4>Description: @Restaurant.findRestaurantByHotelId(hotel.id).description</h4>
                                             <br>
-                                            <p style="color: dimgrey; display: inline">Working hours:</p>
-                                            <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).workingHours</p>
+                                            <h4>Working hours: @Restaurant.findRestaurantByHotelId(hotel.id).workingHours</h4>
+                                            <h4> </h4>
                                             <br>
-                                            <p style="color: dimgrey; display: inline">Capacity (number of seats): </p>
-                                            <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).capacity</p>
+                                            <h4>Capacity (number of seats): @Restaurant.findRestaurantByHotelId(hotel.id).capacity</h4>
                                             <br>
                                             @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
                                                 <h4>RESTAURANT GALLERY</h4>

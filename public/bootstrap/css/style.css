@@ -3,7 +3,7 @@
 }
 #background{
     background: whitesmoke;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 #main-background{
     /*background-color: #42b3e5;*/
@@ -20,8 +20,20 @@
 #room-section-reservation{
     margin-left: 15px;
 }
+#upload-file-container{
+    height: 50px;
+}
+#height{
+    height: 50px;
+}
 .marginbottom{
     margin-bottom: 50px;
+}
+.marginbottom-admin{
+    margin-bottom: 38%;
+}
+.marginbottom-admin-hotels{
+    margin-bottom: 20%;
 }
 .marginbottom-buttons{
      margin-bottom: 35%;
@@ -32,9 +44,19 @@
 .marginleft{
     margin-left: 40%;
 }
+.margintop{
+    margin-top: 30px;
+}
 #margintop{
     margin-top: 45px;
 }
+#sorting{
+    margin-top: 150px;
+}
+.margininput{
+    margin-top: 10px;
+}
+
 .acidjs-rating-stars,
 .acidjs-rating-stars label::before
 {
@@ -103,6 +125,11 @@
 .footer{
     margin-top: 50px;
     background: #c4e3f3;
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*margin: 0 auto;*/
+    /*width: 100%;*/
+
 }
 
 .rediconcolor {
@@ -119,15 +146,24 @@
 
 .font-size-20 {
     font-size: 20px;
-}
-
-.font-size-18 {
-    font-size: 18px;
+    margin-top: 10px;
 }
 
 .font-size-15 {
     font-size: 15px;
 }
+.font-size-18 {
+    font-size: 18px;
+}
+.font-size-22 {
+    font-size: 22px;
+}
+.input{
+    margin-top: 10px;
+    font-size: 22px;
+    height: 40px;
+}
+
 
 .rest-delete-positon {
     float: right;
@@ -877,6 +913,7 @@ li a.active {
     font-weight: bold;
 
 }
+
 
 .contact-form {
     padding-right: 40px;

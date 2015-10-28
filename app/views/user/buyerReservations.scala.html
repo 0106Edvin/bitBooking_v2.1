@@ -5,76 +5,80 @@
 
 @main {
     <script src="@routes.Assets.versioned("javascripts/cancelReservation.js")"></script>
-    <div class="container">
-    <div class="row">
-        <div class="contact-caption clearfix">
-            <div class="contact-heading text-center">
-                <h2> RESERVATIONS </h2>
-            </div>
-
-            <div class="col-md-0 contact-form">
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>RESERVATIONS</h2>
+                    </div>
+                </div>
+            </section>
+            <section>
                 <table class="table">
                     <thead>
-                    <tr class="service">
-                        <th class="text-align" style="font-size : 30px ;">Hotel </th>
-                        <th class="text-align" style="font-size : 30px ;">Beds</th>
-                        <th class="text-align" style="font-size : 30px ;">Check-in date</th>
-                        <th class="text-align" style="font-size : 30px ;">Check-out date</th>
-                        <th class="text-align" style="font-size : 30px ;">Reservation date</th>
-                        <th class="text-align" style="font-size : 30px ;">Price</th>
-                        <th class="text-align" style="font-size : 30px ;">Status</th>
-                        <th class="text-align" style="font-size : 30px ;">Cancel</th>
-                        <th></th>
-                    </tr>
+                        <tr class="about">
+                            <th class="text-align" >Hotel </th>
+                            <th class="text-align" >Beds</th>
+                            <th class="text-align" >Check-in date</th>
+                            <th class="text-align" >Check-out date</th>
+                            <th class="text-align" >Reservation date</th>
+                            <th class="text-align" >Price</th>
+                            <th class="text-align" >Status</th>
+                            <th class="text-align" >Cancel</th>
+                            <th></th>
+                        </tr>
                     </thead>
 
                     <tbody style="font-size: 20px">
                     @for(reservation <- reservations) {
-                       @if(room != null) {
-                         @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
-                             <tr class="service">
-                                 <div class="text-align">
-                                     <td class="text-align">@Reservation.findHotelNameByReservation(reservation)</td>
-                                     <td class="text-align">@Reservation.findNumberOfBedsByReservation(reservation)</td>
-                                     <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
-                                     <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-                                     <td class="text-align">@reservation.createDate</td>
-                                     <td class="text-align">@reservation.cost $</td>
-                            @if(reservation.status == ReservationStatus.APPROVED) {
-                            <td class="text-align" style="color : lawngreen">PAYED</td>
-                            }
-                            @if(reservation.status == ReservationStatus.COMPLETED) {
-                            <td class="text-align" style="color: papayawhip">COMPLETED</td>
-                            }
-                            @if(reservation.status == ReservationStatus.CANCELED) {
-                                <td class="text-align" style="color : red">CANCELED</td>
-                            }
+                        @if(room != null) {
+                            @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
+                                <tr class="about">
+                                    <div class="text-align">
+                                        <td class="text-align">@Reservation.findHotelNameByReservation(reservation)</td>
+                                        <td class="text-align">@Reservation.findNumberOfBedsByReservation(reservation)</td>
+                                        <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                                        <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                                        <td class="text-align">@reservation.createDate</td>
+                                        <td class="text-align">@reservation.cost $</td>
+                                        @if(reservation.status == ReservationStatus.APPROVED) {
+                                            <td class="text-align" style="color : #189800">PAYED</td>
+                                        }
+                                        @if(reservation.status == ReservationStatus.COMPLETED) {
+                                            <td class="text-align" style="color: #42b3e5 ">COMPLETED</td>
+                                        }
+                                        @if(reservation.status == ReservationStatus.CANCELED) {
+                                            <td class="text-align" style="color : red">CANCELED</td>
+                                        }
 
 
-                            <td class="text-align">
-                                @if(reservation.status.equals(ReservationStatus.APPROVED)) {
-                                    <a id="cancelReservation" data-role="cancel" res-id="@reservation.id" href="@routes.Reservations.setStatusByUser(reservation.id)" role="button">
-                                        <i class="fa fa-times fa-lg rediconcolor"></i></a>
-                                } else {
-                                    @if(reservation.status.equals(ReservationStatus.COMPLETED)) {
-                                        Completed
-                                    } else {
-                                        Already canceled
-                                    }
-                                }
-                            </td>
-                        </div>
-                    </tr>
-                    }
-                    }
+                                        <td class="text-align">
+                                        @if(reservation.status.equals(ReservationStatus.APPROVED)) {
+                                            <a id="cancelReservation" data-role="cancel" res-id="@reservation.id" href="@routes.Reservations.setStatusByUser(reservation.id)" role="button">
+                                                <i class="fa fa-times fa-lg rediconcolor"></i></a>
+                                        } else {
+                                            @if(reservation.status.equals(ReservationStatus.COMPLETED)) {
+                                                Completed
+                                            } else {
+                                                Already canceled
+                                            }
+                                        }
+                                        </td>
+                                    </div>
+                                </tr>
+                            }
+                        }
                     }
                     </tbody>
 
                 </table>
-                <a href="@routes.Users.updateUser(user.email)"> <input class="submit-btn" id="back"  type="button" value="BACK" ></a>
+
+            </section>
+
+
+                <a href="@routes.Users.updateUser(user.email)"> <input class="btn submit-btn" id="back"  type="button" value="BACK" ></a>
 
             </div>
-        </div>
-    </div>
-</div>
 }
+</div>
