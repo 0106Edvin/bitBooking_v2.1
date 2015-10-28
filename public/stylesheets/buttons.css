@@ -20,14 +20,36 @@
 #admin-change-role {
     font-size: 18px;
     height: 40px;
+    width: 100px;
 }
 
 #admin-add-feature {
     font-size: 24px;
     background-color: #204d74;
     border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin-top:20px;
+    margin-bottom: 40px;
 }
-
+#admin-feature-add {
+    font-size: 24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin-top:40px;
+    float: right;
+}
+#admin-feature-back{
+    font-size: 24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 140px;
+    height: 40px;
+    margin-top:40px;
+    float: left;
+}
 #update-feature {
     background-color: #204d74;
     border-radius: 5px;
@@ -47,7 +69,8 @@
     background-color: #204d74;
     font-size:24px;
     border-radius: 5px;
-    width: 90px;
+    width: 140px;
+    height: 50px;
 }
 
 #hotel-back {
@@ -55,22 +78,38 @@
     float: left;
     background-color: #0066FF;
     border-radius: 5px;
-    width: 90px;
+    width: 140px;
+    height: 50px;
 }
 
 #add-room {
+    background-color:#204d74;
+    color: white;
     font-size: 24px;
     float: right;
     border-radius : 5px;
+    width: 140px;
+    height: 50px;
+}
+#editroom{
+
 }
 
 #room-back {
-    background-color: #0066FF;
+    background-color:#204d74;
     border-radius : 5px;
     width: 140px;
     float: left;
     font-size:24px;
     height: 50px;
+}
+#confirm{
+    font-size : 20px;
+    background-color :  #0066FF;
+    border-radius : 5px;
+    width : 90px;
+    height : 40px ;
+    float: right;
 }
 
 #add-room-submit {
@@ -79,12 +118,25 @@
     width: 140px;
     font-size:24px;
     height: 50px;
+    float: right;
+}
+#addhotel{
+    background-color: #204d74;
+    border-radius : 5px;
+    width: 140px;
+    font-size:24px;
+    height: 50px;
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 30px;
 }
 
 #add-room-back {
     background-color: #0066FF;
-    border-radius: 5px;
-    width: 90px;
+    border-radius : 5px;
+    width: 140px;
+    font-size:24px;
+    height: 50px;
     float: left;
 }
 
@@ -96,10 +148,18 @@
     width: 140px;
     height: 50px;
 }
+#subscribe{
+    font-size:24px;
+    background-color: #204d74;
+    border-radius: 5px;
+    width: 200px;
+    height: 50px;
+    margin-left: 50%;
 
+}
 #edit-room-back {
     font-size:24px;
-    background-color: #0066FF;
+    background-color:#204d74;
     border-radius : 5px;
     width: 140px;
     float: left;
@@ -152,20 +212,28 @@
     width : 140px;
 }
 .edit{
-    font-size: 24px;
-    margin-top: 1em;
     text-align: center;
     align-content: center;
-    margin-bottom: 1em;
-    width : 140px;
+    margin-left: 20px;
+    float: left;
+    height: 40px;
+    color: white;
+    margin-bottom: 40px;
+    font-size:24px;
+    background-color:#204d74;
+    border-radius : 5px;
+    width: 140px;
 }
 
 
 #back{
-    background-color : #0066FF ;
+    margin-bottom: 40px;
+    color: white;
+
+    font-size:24px;
+    background-color:#204d74;
     border-radius : 5px;
-    width: 100px;
-    margin-left: 20px;
+    width: 140px;
     float: left;
 }
 #modal-button-blue {

@@ -4,27 +4,33 @@
 @(rooms: List[Room])(hotel: Hotel)(currentUser: AppUser)
 
 @main {
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>@hotel.name</h2>
+
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>@hotel.name</h2>
+                    </div>
                 </div>
+            </section>
 
+            <section>
                 <div class="col-md-0 contact-form">
-                    <h3>@hotel.name reservations</h3>
-
-
+                    <div class="about">
+                        <h3>Reservations</h3>
+                    </div>
+                    <div class="info-detail">
                     <table class="table">
                         <thead>
-                            <tr class="service">
-                                <th class="text-align" style="font-size: 30px ;">Guest </th>
-                                <th class="text-align" style="font-size: 30px ;">Room</th>
-                                <th class="text-align"  style="font-size: 30px ;">Beds</th>
-                                <th class="text-align" style="font-size: 30px ;">Check-in </th>
-                                <th class="text-align" style="font-size: 30px ;">Check-out </th>
-                                <th class="text-align" style="font-size: 30px ;">Reservation date</th>
-                                <th class="text-align" style="font-size: 30px ;">Price</th>
+                            <tr class="about">
+                                <th class="text-align">Guest </th>
+                                <th class="text-align">Room</th>
+                                <th class="text-align">Beds</th>
+                                <th class="text-align">Check-in </th>
+                                <th class="text-align">Check-out </th>
+                                <th class="text-align">Reservation date</th>
+                                <th class="text-align">Price</th>
 
                                 <th class="text-align" style="font-size: 30px ;">Status</th>
                                 <th></th>
@@ -37,51 +43,35 @@
                             @for(room <- rooms) {
                                 @if(room.reservations != 0) {
                                     @for(reservation <- room.reservations) {
-                                        <tr class="service">
-                                            <td class="text-align">@reservation.user.firstname @reservation.user.lastname</td>
-                                            <td class="text-align">@room.name</td>
-                                            <td class="text-align">@room.numberOfBeds</td>
-                                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
-                                            <td class="text-align">@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-                                            <td class="text-align">@reservation.createDate</td>
-                                            <td class="text-align">@reservation.cost $</td>
+                                        <tr class="about text-align">
+                                            <td>@reservation.user.firstname @reservation.user.lastname</td>
+                                            <td>@room.name</td>
+                                            <td>@room.numberOfBeds</td>
+                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                                            <td>@reservation.createDate</td>
+                                            <td>@reservation.cost $</td>
                                             @if(reservation.status == ReservationStatus.APPROVED) {
-                                                <td class="text-align" style="color : lawngreen">APPROVED</td>
+                                                <td class="text-align" style="color : #189800">APPROVED</td>
                                             }
                                             @if(reservation.status == ReservationStatus.COMPLETED){
-                                                <td class="text-align" style="color : papayawhip ">COMPLETED</td>
+                                                <td class="text-align" style="color :#42b3e5">COMPLETED</td>
                                             }
                                             @if(reservation.status == ReservationStatus.CANCELED){
                                                 <td class="text-align" style="color : red ">CANCELED</td>
                                             }
-                                            <form method="post" action="@routes.Reservations.setStatus(reservation.id)" >
-                                                <td> @if(reservation.status != ReservationStatus.CANCELED) {
-                                                    <select name="status" class="form-control" onchange="@routes.Reservations.setStatus(reservation.id)" style="font-size: 18px; height: 40px;" required>
 
-                                                        @if(reservation.status == ReservationStatus.APPROVED) {
-                                                        <option value="2" selected="true">Approved</option>
-                                                        <option value="6">Completed</option>
-                                                        }
-
-                                                        @if(reservation.status == ReservationStatus.COMPLETED){
-
-                                                        <option value="2">Approved</option>
-                                                        <option value="6" selected="true">Completed</option>
-                                                        }
-                                                    </select>
-                                                </td>
-                                                <td><button class="edvin-button-role" type="submit" style="font-size : 20px ; background-color : #204d74 ; border-radius : 5px ; width : 90px ; height : 40px ;">Confirm</button></td>
-                                                }
-                                            </form>
                                         </tr>
                                     }
                                 }
                             }
-                    }
-                    </tbody>
-                </table>
-            </div>
+                        }
+                        </tbody>
+                    </table>
+                        </div>
+                </div>
+            </section>
+
         </div>
+        }
     </div>
-</div>
-}
