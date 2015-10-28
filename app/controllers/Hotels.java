@@ -6,6 +6,7 @@ import helpers.Authenticators;
 import helpers.Constants;
 import models.*;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -19,6 +20,8 @@ import views.html.seller.sellerPanel;
 import views.html.user.profilePage;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Hotels extends Controller {
@@ -185,11 +188,30 @@ public class Hotels extends Controller {
     }
 
     public Result search() {
-        Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
-        String category = hotelForm1.field("category").value();
-        String searchWhat = hotelForm1.field("search").value();
-        List<Hotel> hotels = Hotel.searchHotels(category, searchWhat);
+        DynamicForm form = Form.form().bindFromRequest();
 
+        String searchWhat = form.field("search").value();
+        String checkin = form.field("firstDate").value();
+        String checkout = form.field("secondDate").value();
+
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date firstDate = null;
+        Date secondDate = null;
+
+        try {
+            firstDate = dtf.parse(checkin);
+            secondDate = dtf.parse(checkout);
+
+            if(firstDate.after(secondDate)) {
+                flash("error-search","First date can't be after second date!");
+                return redirect(routes.Application.index());
+            }
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+
+        List<Hotel> hotels = Hotel.searchHotels(firstDate, secondDate, searchWhat);
         return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 

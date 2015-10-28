@@ -32,6 +32,17 @@
         <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/jquery-ui.min.css")'/>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 
+        <script type="text/javascript">
+        $(document).ready(function(){
+          $(function () {
+             $('#date').datepicker({ minDate: 0 });
+          });
+          $(function () {
+             $('#date2').datepicker({ minDate: 1 });
+          });
+          });
+        </script>
+
         <script src='@routes.Assets.versioned("javascripts/js/coordinate.js")'></script>
         <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/coordinate.css")'>
         <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/buttons.css")'>
@@ -196,14 +207,7 @@
 
 
 
-        <script type="text/javascript">
-          $(function () {
-             $('#date').datepicker({ minDate: 0 });
-          });
-          $(function () {
-             $('#date2').datepicker({ minDate: 1 });
-          });
-        </script>
+
 
     </body>
 
