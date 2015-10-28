@@ -46,8 +46,9 @@
                             <h3>Features</h3>
                             <div class="info-detail ">
                             @for(feature <- features) {
-                                <div style="text-transform: capitalize; font-size: 22px; color:#FFFFFF;">
-                                    <input type="checkbox" name="@feature.name" value="@feature.name" style="width: 16px; height: 16px;"><td>  @feature.name</td><br>
+                                <div class="about">
+                                    <input type="checkbox" name="@feature.name" value="@feature.name" style="width: 16px; height: 16px;">
+                                    <label  for="@feature.name">@feature.name</label>
                                 </div>
                                 @*<img src="@feature.icon.getSize(30,30)"/>*@
 
@@ -68,7 +69,6 @@
                             </div>
                             <div id="margintop">
                                 <a href="@routes.Users.showManagerHotels()"> <input class="submit-btn" id="hotel-back" type="button" value="BACK" ></a>
-
                                 <input class="submit-btn" id="hotel-register" type="submit" value="REGISTER" onclick="@routes.Hotels.saveHotel()">
                             </div>
                         </div>

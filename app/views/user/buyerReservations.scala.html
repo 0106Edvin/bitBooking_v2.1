@@ -33,7 +33,7 @@
 
                     <tbody style="font-size: 20px">
                     @for(reservation <- reservations) {
-                }
+
                         @if(room != null) {
                             @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
                                 <tr class="about">
