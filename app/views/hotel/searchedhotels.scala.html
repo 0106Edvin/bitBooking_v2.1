@@ -1,11 +1,12 @@
 @(hotels: List[Hotel])
 @main {
+    <div  id="main-background">
+        <div class="container" id="background">
 
-    <div class="container">
 
             @for(hotel <- hotels) {
                 <div class="edvin-class">
-                <div class="col-md-4 col-sm-0">
+                <div class="col-md-3 col-sm-6">
                 @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
 
                     <div class="single-about-detail clearfix">
@@ -46,7 +47,6 @@
             </div>
         </div>
 
-
-
+</div>
+        }
     </div>
-}
