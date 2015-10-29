@@ -2,10 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.sun.org.apache.xpath.internal.operations.Bool;
-import helpers.Authenticators;
-import helpers.CommonHelperMethods;
-import helpers.Constants;
-import helpers.MailHelper;
+import helpers.*;
 import models.*;
 import play.Logger;
 import play.Play;
@@ -182,9 +179,15 @@ public class Hotels extends Controller {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
             Boolean hasRights = Comment.userHasRightsToCommentThisHotel(request().cookies().get("email").value(), hotel1);
             Boolean alreadyCommented = Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1);
-            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms, features));
+
+            // Checking if UserAccessLevel is BUYER, and records his/hers visit for recommendation purposes
+            if (user.userAccessLevel == UserAccessLevel.BUYER) {
+                HotelVisit.createOrUpdateVisit(hotel1, user);
+            }
+
+            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms, features));
+            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms));
         }
     }
 

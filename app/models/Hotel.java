@@ -57,12 +57,15 @@ public class Hotel extends Model {
     @Column
     public Boolean showOnHomePage;
 
+    @ManyToOne
+    public HotelVisit hotelVisit;
+
     /**
      * Default empty constructor for Ebean use
      */
     public Hotel() {};
 
-    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage) {
+    public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage, HotelVisit hotelVisit) {
 
         this.id = id;
         this.name = name;
@@ -79,6 +82,7 @@ public class Hotel extends Model {
         this.stars = stars;
         this.rating = Constants.INITIAL_RATING;
         this.showOnHomePage = showOnHomePage;
+        this.hotelVisit = hotelVisit;
     }
 
     //method that finds hotel by id

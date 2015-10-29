@@ -71,6 +71,9 @@ public class AppUser extends Model {
     @Column(unique = true)
     public String forgottenPassToken;
 
+    @ManyToOne
+    public HotelVisit hotelVisit;
+
     /**
      * Default constructor
      */
@@ -86,7 +89,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -96,6 +99,7 @@ public class AppUser extends Model {
         this.reservations = reservations;
         this.token = token;
         this.forgottenPassToken = forgottenPassToken;
+        this.hotelVisit = hotelVisit;
     }
 
     /**

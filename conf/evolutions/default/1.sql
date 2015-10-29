@@ -19,6 +19,7 @@ create table app_user (
   token                     varchar(255),
   validated                 tinyint(1) default 0,
   forgotten_pass_token      varchar(255),
+  hotel_visit_id            integer,
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
   constraint uq_app_user_token unique (token),
@@ -71,9 +72,11 @@ create table hotel (
   created_by                varchar(50),
   create_date               datetime,
   show_on_home_page         tinyint(1) default 0,
+  hotel_visit_id            integer,
   constraint pk_hotel primary key (id))
 ;
 
+<<<<<<< HEAD
 create table hotel_feature (
   id                        integer auto_increment not null,
   is_free                   tinyint(1) default 0,
@@ -85,6 +88,13 @@ create table hotel_feature (
   created_by                varchar(50),
   create_date               datetime,
   constraint pk_hotel_feature primary key (id))
+=======
+create table hotel_visit (
+  id                        integer auto_increment not null,
+  visits_no                 integer,
+  create_date               datetime,
+  constraint pk_hotel_visit primary key (id))
+>>>>>>> hotel visit model, for recommendation
 ;
 
 create table image (
@@ -239,6 +249,7 @@ create table room_feature (
 ;
 alter table app_user add constraint fk_app_user_profileImg_1 foreign key (profile_img_id) references image (id) on delete restrict on update restrict;
 create index ix_app_user_profileImg_1 on app_user (profile_img_id);
+<<<<<<< HEAD
 alter table comment add constraint fk_comment_user_2 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
 create index ix_comment_user_2 on comment (user_id);
 alter table comment add constraint fk_comment_hotel_3 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
@@ -249,6 +260,18 @@ alter table hotel_feature add constraint fk_hotel_feature_hotel_5 foreign key (h
 create index ix_hotel_feature_hotel_5 on hotel_feature (hotel_id);
 alter table hotel_feature add constraint fk_hotel_feature_feature_6 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
 create index ix_hotel_feature_feature_6 on hotel_feature (feature_id);
+=======
+alter table app_user add constraint fk_app_user_hotelVisit_2 foreign key (hotel_visit_id) references hotel_visit (id) on delete restrict on update restrict;
+create index ix_app_user_hotelVisit_2 on app_user (hotel_visit_id);
+alter table comment add constraint fk_comment_user_3 foreign key (user_id) references app_user (id) on delete restrict on update restrict;
+create index ix_comment_user_3 on comment (user_id);
+alter table comment add constraint fk_comment_hotel_4 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+create index ix_comment_hotel_4 on comment (hotel_id);
+alter table feature add constraint fk_feature_icon_5 foreign key (icon_id) references image (id) on delete restrict on update restrict;
+create index ix_feature_icon_5 on feature (icon_id);
+alter table hotel add constraint fk_hotel_hotelVisit_6 foreign key (hotel_visit_id) references hotel_visit (id) on delete restrict on update restrict;
+create index ix_hotel_hotelVisit_6 on hotel (hotel_visit_id);
+>>>>>>> hotel visit model, for recommendation
 alter table image add constraint fk_image_hotel_7 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_image_hotel_7 on image (hotel_id);
 alter table image add constraint fk_image_room_8 foreign key (room_id) references room (id) on delete restrict on update restrict;
@@ -273,6 +296,13 @@ alter table room add constraint fk_room_hotel_17 foreign key (hotel_id) referenc
 create index ix_room_hotel_17 on room (hotel_id);
 
 
+<<<<<<< HEAD
+=======
+
+alter table hotel_feature add constraint fk_hotel_feature_hotel_01 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
+
+alter table hotel_feature add constraint fk_hotel_feature_feature_02 foreign key (feature_id) references feature (id) on delete restrict on update restrict;
+>>>>>>> hotel visit model, for recommendation
 
 alter table room_feature add constraint fk_room_feature_room_01 foreign key (room_id) references room (id) on delete restrict on update restrict;
 
@@ -292,7 +322,11 @@ drop table room_feature;
 
 drop table hotel;
 
+<<<<<<< HEAD
 drop table hotel_feature;
+=======
+drop table hotel_visit;
+>>>>>>> hotel visit model, for recommendation
 
 drop table image;
 
