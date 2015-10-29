@@ -110,7 +110,7 @@
                                     @if(room.prices.size() == 0 || room.roomType == 0) {
                                         <button class="btn btn-primary book" disabled>Book it</button>
                                     } else {
-                                        <button class="btn btn-primary book" >Book it</button>
+                                        <button class="btn btn-primary book" data-toggle="modal" data-target="#basicModal">Book it</button>
                                     }
                                     </div>
 
@@ -172,6 +172,7 @@
                     <h3 class="modal-title" id="myModalLabel" style="text-align: center;">CONFIRM RESERVATION</h3>
                 </div>
                 <div class="modal-body">
+                    <h4><strong>Hotel:</strong> @room.hotel.name</h4>
                     <h4><strong>Room:</strong> @room.name</h4>
                     <h4><strong>Beds:</strong> @room.numberOfBeds</h4>
                     <h4><strong>Check In: </strong>
@@ -187,9 +188,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" style="font-size: 18px;" class="btn btn-default" data-dismiss="modal">Close</button>
-                   <button type="submit" style="font-size: 18px;" class="btn btn-primary" href="@routes.Reservations.payPal(room.id)">Confirm</button>
+                    <button type="submit" style="font-size: 18px;" class="btn btn-primary" href="@routes.Reservations.payPal(room.id)">Confirm</button>
                 </div>
-                    </form>
+                </form>
             </div>
         </div>
     </div>
@@ -205,23 +206,21 @@
 
 
 <script>
+     var getCheckIn = function() {
+     var checkInDate = document.getElementById("date").value;
+     $('#check_in').val(checkInDate);
+     $('#show_check_in').text(checkInDate).style.fontWeight = "700";
+     }
 
+     var getCheckOut = function() {
+     var checkOutDate = document.getElementById("date2").value;
+     $('#check_out').val(checkOutDate);
+     $('#show_check_out').text(checkOutDate).style.fontWeight = "700";
+     }
 
-            var getCheckIn = function() {
-                var checkInDate = document.getElementById("date").value;
-                $('#check_in').val(checkInDate);
-                $('#show_check_in').text(checkInDate).style.fontWeight = "700";
-            }
-
-            var getCheckOut = function() {
-                var checkOutDate = document.getElementById("date2").value;
-                $('#check_out').val(checkOutDate);
-                $('#show_check_out').text(checkOutDate).style.fontWeight = "700";
-            }
-
-            var getPrice = function(){
-                var price2 = document.getElementById("price-for-period").innerHTML;
-                console.log(price2);
-                $('#total-price').html(price2).style.fontWeight="700";
-            }
-     </script>
+     var getPrice = function(){
+     var price2 = document.getElementById("price-for-period").innerHTML;
+     console.log(price2);
+     $('#total-price').html(price2).style.fontWeight="700";
+     }
+</script>
