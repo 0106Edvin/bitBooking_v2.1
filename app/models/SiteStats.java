@@ -170,12 +170,16 @@ public class SiteStats extends Model {
      * @return <code>Room</code> type value with most visits
      */
     public static Room getMostVisitedRoom(List<Room> hRooms) {
-        Collections.sort(hRooms, new Comparator<Room>() {
-            public int compare(Room o1, Room o2) {
-                return o2.reservations.size() - (o1.reservations.size());
-            }
-        });
-        return hRooms.get(0);
+        try {
+            Collections.sort(hRooms, new Comparator<Room>() {
+                public int compare(Room o1, Room o2) {
+                    return o2.reservations.size() - (o1.reservations.size());
+                }
+            });
+            return hRooms.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return new Room();
+        }
     }
 
     /**
