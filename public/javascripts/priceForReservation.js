@@ -8,6 +8,7 @@ var sendData = function(roomId){
         data: 'room=' + roomId + '&date=' + $('#date').val() + '&date2=' + $('#date2').val()
     }).success(function(response) {
         $('#price-for-period').html("Price for selected period: " + response + " $");
+        return response;
 
     })
 };
