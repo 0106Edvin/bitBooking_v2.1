@@ -74,6 +74,7 @@
             }
 
 
+
             <div class="row" id="margintop">
                 @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
                     <section id="room-section-reservation">
@@ -88,18 +89,20 @@
                                 </div>
 
                                 <form method="post"  action="@routes.Reservations.payPal(room.id)">
+
                                     <div class="col-md-5">
                                         <div class="about">
                                             <h4>Check-in:</h4>
                                         </div>
-                                        <input class="date-class" name="checkIn" id="date" placeholder="select date"/>
+                                        <input class="date-class" name="checkIn" id="date" placeholder="select date" onchange="getCheckIn()"/>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="about">
                                             <h4>Check-out:</h4>
                                         </div>
-                                        <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id)"/>
+                                        <input class="date-class" name="checkOut" id="date2" placeholder="select date" onchange="sendData(@room.id), getCheckOut()"/>
                                     </div>
+
 
 
                                     <span class="font-size-20" id="price-for-period" style="float: right"></span>
@@ -110,6 +113,7 @@
                                         <button class="btn btn-primary book" >Book it</button>
                                     }
                                     </div>
+
 
                                 </form>
                             </div>
@@ -144,6 +148,7 @@
                                             <td>@CommonHelperMethods.getDateAsString(price.dateTo)</td>
                                             <td>@price.cost $</td>
                                         </tr>
+
                                     }
                                 }
                                 </tbody>
@@ -156,7 +161,67 @@
                 </section>
             </div>
 
+
+
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" style="background-color:rgb(32, 77, 116);" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog" style="width: 350px;">
+            <div class="modal-content">
+                <form method="post" action="@routes.Reservations.payPal(room.id)">
+                <div class="modal-header">
+                    <button type="button" style="font-size: 50px;" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="myModalLabel" style="text-align: center;">CONFIRM RESERVATION</h3>
+                </div>
+                <div class="modal-body">
+                    <h4><strong>Room:</strong> @room.name</h4>
+                    <h4><strong>Beds:</strong> @room.numberOfBeds</h4>
+                    <h4><strong>Check In: </strong>
+                        <span id="show_check_in"></span>
+                    </h4>
+                    <h4><strong>Check Out:</strong>
+                    <span id="show_check_out"></span></h4>
+
+                    <h4 style="font-weight: bold;" id="total-price"></h4>
+
+                    <input name="checkIn" value="" id="check_in" hidden/>
+                    <input name="checkOut" value="" id="check_out" hidden/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="font-size: 18px;" class="btn btn-default" data-dismiss="modal">Close</button>
+                   <button type="submit" style="font-size: 18px;" class="btn btn-primary" href="@routes.Reservations.payPal(room.id)">Confirm</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
         </div>
         }
 
 </div>
+
+
+<script>
+
+
+            var getCheckIn = function() {
+                var checkInDate = document.getElementById("date").value;
+                $('#check_in').val(checkInDate);
+                $('#show_check_in').text(checkInDate).style.fontWeight = "700";
+            }
+
+            var getCheckOut = function() {
+                var checkOutDate = document.getElementById("date2").value;
+                $('#check_out').val(checkOutDate);
+                $('#show_check_out').text(checkOutDate).style.fontWeight = "700";
+            }
+
+            var getPrice = function(){
+                var price2 = document.getElementById("price-for-period").innerHTML;
+                console.log(price2);
+                $('#total-price').html(price2).style.fontWeight="700";
+            }
+     </script>
