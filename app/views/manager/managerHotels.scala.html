@@ -29,8 +29,12 @@
                         <tr class="about text-align">
                             <th class="text-align" >Hotel</th>
                             <th class="text-align">Location</th>
-                            <th class="text-align">Description</th>
+                            <th class="text-align">City</th>
                             <th class="text-align">Seller</th>
+                            <th class="text-align">Change seller</th>
+                            <th class="text-align">Show on homepage</th>
+                            <th class="text-align">Delete</th>
+
 
                         </tr>
                     </thead>
@@ -39,7 +43,7 @@
                             <tr class="about text-align">
                                 <td>@hotel.name</td>
                                 <td>@hotel.location</td>
-                                <td>@hotel.description</td>
+                                <td>@hotel.city</td>
                                 <td>
                                     <form method="post" action="@routes.Users.changeSeller(hotel.id)">
                                         <select name="selleremail"  class="ddlsellers" onchange="@routes.Users.changeSeller(hotel.id)">
@@ -59,8 +63,19 @@
 
 
                                         </select>
-                                        <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
+                                        <td> <button onclick="return changeSeller()" type="submit" class="btn btn-primary" id="middlebuttons">CHANGE</button></td>
                                     </form>
+                                </td>
+                                <td>
+                                @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
+                                    <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                        <button type="submit" class="btn btn-primary" id="middlebuttons">SHOW</button>
+                                    </a>
+                                } else {
+                                    <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                        <button onclick="@routes.Hotels.changeVisibility(hotel.id)" type="submit" class="btn btn-primary" id="middlebuttons">HIDE</button>
+                                    </a>
+                                }
                                 </td>
                                 <td>
                                     <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
@@ -72,7 +87,7 @@
                     </tbody>
                 </table>
                 <a href="@routes.Hotels.createHotel()">
-                    <button class="btn btn-success"  id="addhotel">ADD NEW HOTEL</button>
+                    <button class=" btn-success"  id="addhotel">ADD NEW HOTEL</button>
                 </a>
             </section>
 

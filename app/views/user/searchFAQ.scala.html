@@ -1,30 +1,38 @@
 @(questions: List[Question])
 @main {
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                    <div class="about text-center">
+                        <h2>SEARCH</h2>
+                    </div>
 
-  <div class="container">
-    <div class="edvin-class font-size-20">
-      <table id="sort" class="table">
-        <thead>
-          <tr class="service">
-            <th>Question</th>
-            <th>Answer</th>
+                    <table id="sort" class="table">
+                        <thead>
+                            <tr class="about">
+                                <th>Question</th>
+                                <th>Answer</th>
 
-          </tr>
-        </thead>
-        <tbody>
-        @for(question <- questions) {
-          <tr class="">
-            <td>@question.question</td>
-            <td>@question.answer</td>
-          </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @for(question <- questions) {
+                            <tr class="about">
+                                <td>@question.question</td>
+                                <td>@question.answer</td>
+                            </tr>
+                        }
+                        </tbody>
+
+                    </table>
+            </section>
+        </div>
         }
-        </tbody>
 
-      </table>
-    </div>
-  </div>
+</div>
 
-  <script>
+
+    <script>
         $(document).ready(function(){
             $('#sort').DataTable({
                 "aLengthMenu": [[10, 50, 75, -1], [10, 50, 75, "All"]],
@@ -32,5 +40,3 @@
             });
         });
     </script>
-
-}
