@@ -2,10 +2,8 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
-import play.Logger;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -57,7 +55,7 @@ public class Hotel extends Model {
     @Column
     public Boolean showOnHomePage;
 
-    @ManyToOne
+    @OneToMany
     public HotelVisit hotelVisit;
 
     /**
