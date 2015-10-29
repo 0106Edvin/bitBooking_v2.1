@@ -95,8 +95,15 @@ public class Hotel extends Model {
     public static List<Hotel> searchHotels(Date first, Date second, String term) {
 
         List<Hotel> finalHotels = new ArrayList<>();
-        List<Hotel> hotels = finder.where().betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", first).betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", second).gt("rooms.roomType", 0).findList();
+        int checkNumbers = finder.where().betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", first).betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", second).gt("rooms.roomType", 0).findRowCount();
 
+        List<Hotel> hotels = null;
+
+        if (checkNumbers == 0) {
+            hotels = finder.where().gt("rooms.roomType", 0).findList();
+        } else {
+            hotels = finder.where().betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", first).betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", second).gt("rooms.roomType", 0).findList();
+        }
         String column = "";
 
         Map<String, Integer> map = new HashMap<>();
