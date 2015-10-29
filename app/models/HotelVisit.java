@@ -15,9 +15,9 @@ public class HotelVisit extends Model {
 
     @Id
     public Integer id;
-    @OneToMany
+    @ManyToOne
     public Hotel hotel;
-    @OneToMany
+    @ManyToOne
     public AppUser user;
     @Column
     public Integer visitsNo;
