@@ -43,47 +43,37 @@ public class Hotels extends Controller {
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
-
+        AppUser user = AppUser.getUserByEmail(session("email"));
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
         Hotel hotel = boundForm.get();
 
-        List<Feature> features = listOfFeatures();
-        //Getting values from checkboxes
-        List<String> checkBoxValues = new ArrayList<>();
-        for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.field(features.get(i).id.toString()).value();
-
-            if (feature != null) {
-                checkBoxValues.add(feature);
-            }
-        }
-
-        List<Feature> featuresForHotel = new ArrayList<Feature>();
-
-        for (int i = 0; i < checkBoxValues.size(); i++) {
-            for (int j = 0; j < features.size(); j++) {
-                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
-                    featuresForHotel.add(features.get(j));
-                }
-            }
-        }
-
-        hotel.features = featuresForHotel;
         Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
         hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
         hotel.save();
 
+        List<Feature> features = listOfFeatures();
+        for (int i = 0; i < features.size(); i++) {
+            String feature = boundForm.field(features.get(i).id.toString()).value();
+
+            if (feature != null) {
+                HotelFeature hotelFeature = new HotelFeature();
+                hotelFeature.feature = features.get(i);
+                hotelFeature.hotel = hotel;
+                hotelFeature.setCreatedBy(user);
+                hotelFeature.save();
+            }
+        }
+
         List<Hotel> hotels = finder.all();
         List<AppUser> users = userfinder.all();
         return ok(managerHotels.render(hotels, users));
-
-
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
+        AppUser user = AppUser.getUserByEmail(session("email"));
 
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
@@ -94,6 +84,28 @@ public class Hotels extends Controller {
         String location = hotelForm1.field("location").value();
         String description = hotelForm1.field("description").value();
 
+        List<Feature> features = listOfFeatures();
+        Map<Integer, String> featurePrice = new HashMap<>();
+
+        for (int i = 0; i < features.size(); i++) {
+            String price = hotelForm1.field(features.get(i).id.toString()).value();
+
+            if (price != null) {
+                featurePrice.put(features.get(i).id, price);
+            }
+        }
+
+        for (Map.Entry<Integer, String> entry : featurePrice.entrySet()) {
+            if (!"".equals(entry.getValue().trim())) {
+                int featureId = entry.getKey();
+                String price = featurePrice.get(featureId);
+                HotelFeature temp = HotelFeature.getHotelFeatureByHotelIdAndFeatureId(id, featureId);
+                temp.isFree = Constants.FEATURE_NOT_FREE;
+                temp.price = price;
+                temp.setUpdatedBy(user);
+                temp.update();
+            }
+        }
 
         hotel.name = name;
         hotel.location = location;
@@ -134,6 +146,7 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        List<HotelFeature> features = HotelFeature.getFeaturesByHotelId(id);
         List<Room> rooms = hotel1.rooms;
         if(hotel1 != null) {
             hotel1.update();
@@ -143,16 +156,17 @@ public class Hotels extends Controller {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
             Boolean hasRights = Comment.userHasRightsToCommentThisHotel(request().cookies().get("email").value(), hotel1);
             Boolean alreadyCommented = Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1);
-            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms));
+            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms, features));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms));
+            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms, features));
         }
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
-        return ok(updateHotel.render(hotel));
+        List<HotelFeature> features = HotelFeature.getFeaturesByHotelId(id);
+        return ok(updateHotel.render(hotel, features));
     }
 
 

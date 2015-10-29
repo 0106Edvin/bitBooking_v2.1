@@ -189,7 +189,7 @@ public class SiteStats extends Model {
      * @return <code>Integer</code> type value of number of features in inputed hotel
      */
     public static Integer getNumberOfHotelFeatures(Hotel hotel) {
-        return hotel.features.size();
+        return HotelFeature.getFeaturesByHotel(hotel);
     }
 
     /**

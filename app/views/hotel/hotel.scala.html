@@ -3,7 +3,7 @@
 @import helpers.UserAccessLevel
 @import models.Restaurant
 
-@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])
+@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])(features: List[HotelFeature])
 @import helper._
 @main {
     <script src="@routes.Assets.versioned("javascripts/deleteComment.js")"></script>
@@ -100,14 +100,17 @@
                             <div class="col-md-10 col-md-offset-0">
                                 <h3>Features</h3>
                                 <div class="info-detail">
-                                @if(hotel.features.size() != 0) {
+                                @if(features.size != 0) {
                                 <ul>
                                     <div class="about" style="text-transform: capitalize;">
-                                    @for(feature <- hotel.features) {
+                                    @for(feature <- features) {
                                         <h4>
-                                            @feature.name
+                                            @feature.feature.name
+                                            @if(!feature.isFree) {
+                                                - will cost @feature.price extra $
+                                            }
                                             <div class="col-md-1">
-                                                <img src="@feature.icon.getSize(30, 30)"/>
+                                                <img src="@feature.feature.icon.getSize(30, 30)"/>
                                             </div>
 
                                         </h4>
