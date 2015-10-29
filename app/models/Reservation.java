@@ -177,7 +177,7 @@ public class Reservation extends Model {
         Date myDate = checkIn;
         for (Price price : room.prices) {
             while (myDate.compareTo(checkOut) <= 0) {
-                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) <= 0) {
+                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) < 0) {
                     cost = cost.add(price.cost);
                 } else {
                     break;
