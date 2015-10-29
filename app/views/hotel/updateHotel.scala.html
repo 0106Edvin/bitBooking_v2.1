@@ -1,4 +1,5 @@
-@(hotel: Hotel)
+@(hotel: Hotel, features: List[HotelFeature])
+
 @import helper._
     @main {
         @helper.form(action = routes.Hotels.updateHotel(hotel.id), 'enctype -> "multipart/form-data") {
@@ -50,6 +51,19 @@
                                         <textarea class="message" name="description" id="message" placeholder="Description" style="resize : vertical" >@hotel.description</textarea>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3 contact-form  ">
+                                    @for(feature <- features) {
+                                        <div class="form-inline">
+                                                <img src="@feature.feature.icon.getSize(38, 38)" />
+                                                <input class="form-control" type="number" min="0" max="10000" name="@feature.feature.id" placeholder="@feature.feature.name (leave empty if feature is free)" style="width: 350px;">
+                                        </div>
+                                    }
+
+                                </div>
+
                             </div>
 
 

@@ -43,11 +43,6 @@ public class Features extends Controller {
 
         try {
             feature = boundForm.get();
-            if (isFree == null) {
-                feature.isFree = false;
-            } else {
-                feature.isFree = true;
-            }
 
             feature.save();
 

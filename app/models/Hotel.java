@@ -45,9 +45,6 @@ public class Hotel extends Model {
     @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
     public Date createDate = new Date();
 
-    @ManyToMany
-    public List<Feature> features;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy="hotel")
     public List<Image> images;
 
@@ -76,7 +73,6 @@ public class Hotel extends Model {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
         this.sellerId = sellerId;
-        this.features = features;
         this.images = images;
         this.rooms = rooms;
         this.comments = comments;
@@ -114,10 +110,10 @@ public class Hotel extends Model {
         map.put("rooms.prices.cost", Hotel.findHotelsByPrice(term));
         map.put("comments.rating", Hotel.findHotelsByRating(term));
 
-        int maxValueInMap=(Collections.max(map.values()));  // This will return max value in the Hashmap
+        int maxValueInMap = (Collections.max(map.values()));
 
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {  // Itrate through hashmap
-            if (entry.getValue()==maxValueInMap) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == maxValueInMap) {
                 column = entry.getKey();
             }
         }
@@ -126,7 +122,7 @@ public class Hotel extends Model {
 
         for (Hotel h1 : hotels) {
             for (Hotel h2 : searchedHotels) {
-                if(h1.equals(h2)) {
+                if (h1.equals(h2)) {
                     finalHotels.add(h2);
                 }
             }
