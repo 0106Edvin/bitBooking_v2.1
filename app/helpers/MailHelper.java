@@ -23,6 +23,8 @@ public class MailHelper {
                 mail.setSubject(title);
             } else if (type == Constants.SUCCESSFUL_RESERVATION) {
                 mail.setSubject("bitBooking - reservation successful");
+            } else if (type == Constants.HOTEL_CREATED) {
+                mail.setSubject("bitBooking - Hotel manager has created hotel for you");
             }
             mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
             mail.addTo(email);
@@ -48,6 +50,8 @@ public class MailHelper {
                                 content, host,
                                 Play.application().configuration().getString("logo")));
             } else if (type == Constants.SUCCESSFUL_RESERVATION) {
+                mail.setHtmlMsg(host);
+            } else if (type == Constants.HOTEL_CREATED) {
                 mail.setHtmlMsg(host);
             }
 

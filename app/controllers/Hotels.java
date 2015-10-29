@@ -3,9 +3,12 @@ package controllers;
 import com.avaje.ebean.Model;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import helpers.Authenticators;
+import helpers.CommonHelperMethods;
 import helpers.Constants;
+import helpers.MailHelper;
 import models.*;
 import play.Logger;
+import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -68,6 +71,29 @@ public class Hotels extends Controller {
 
         List<Hotel> hotels = finder.all();
         List<AppUser> users = userfinder.all();
+
+        // Sending an email to the seller after creating the hotel.
+        String message = String
+                .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
+                        "Dear ", user.firstname, ",",
+                        "we want to inform you that Hotel Manager has created hotel for you.",
+                        "HOTEL INFORMATION:",
+                        boundForm.field("name").value(),
+                        boundForm.field("location").value(),
+                        boundForm.field("city").value(),
+                        boundForm.field("country").value(),
+                        boundForm.field("stars").value(), " stars",
+
+                        "Please visit your profile and check for updates.",
+                        "Sincerely yours,",
+                        "bitBooking team.",
+                        Play.application().configuration().getString("logo"));
+
+        AppUser seller = AppUser.findUserById(sellerId);
+        Logger.debug(seller.email);
+
+        MailHelper.send(seller.email, message, Constants.HOTEL_CREATED, null, null, null);
+
         return ok(managerHotels.render(hotels, users));
     }
 

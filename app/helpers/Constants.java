@@ -19,6 +19,7 @@ public class Constants {
     public static final Integer REGISTER = 1;
     public static final Integer REGISTER_SELLER = 2;
     public static final Integer SUCCESSFUL_RESERVATION = 3;
+    public static final Integer HOTEL_CREATED = 4;
 
     // Values for message status
     public static final Boolean MESSAGE_NEW = true;
