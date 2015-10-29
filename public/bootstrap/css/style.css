@@ -1,9 +1,120 @@
 .edvin-class {
     margin-top: 20%;
 }
+#background{
+    background: whitesmoke;
+    opacity: 0.9;
+}
+#main-background{
+    /*background-color: #42b3e5;*/
+    /*background-image: url(http://www.transparenttextures.com/patterns/foggy-birds.png);*/
+    /*/!* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! *!/*/
+
+    background: url(http://i.imgur.com/Nun3b.jpg);
+    /*background: url(http://res.cloudinary.com/dsjagtpwx/image/upload/e_blur_region:2000/v1445869032/Hotels_nmatjq.jpg);*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+#room-section-reservation{
+    margin-left: 15px;
+}
+#upload-file-container{
+    height: 50px;
+}
+#height{
+    height: 50px;
+}
 .marginbottom{
     margin-bottom: 50px;
 }
+.marginbottom-admin{
+    margin-bottom: 38%;
+}
+.marginbottom-admin-hotels{
+    margin-bottom: 20%;
+}
+.marginbottom-buttons{
+     margin-bottom: 35%;
+ }
+.marginbottom-buttons2{
+    margin-bottom: 20%;
+}
+.marginleft{
+    margin-left: 40%;
+}
+.margintop{
+    margin-top: 30px;
+}
+#margintop{
+    margin-top: 45px;
+}
+#sorting{
+    margin-top: 150px;
+}
+.margininput{
+    margin-top: 10px;
+}
+
+.acidjs-rating-stars,
+.acidjs-rating-stars label::before
+{
+    display: inline-block;
+}
+
+.acidjs-rating-stars label:hover,
+.acidjs-rating-stars label:hover ~ label
+{
+    color: #189800;
+}
+
+.acidjs-rating-stars *
+{
+    margin: 0;
+    padding: 0;
+}
+
+.acidjs-rating-stars input
+{
+    display: none;
+}
+
+.acidjs-rating-stars
+{
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+
+.acidjs-rating-stars label
+{
+    color: #ccc;
+}
+
+.acidjs-rating-stars label::before
+{
+    content: "\2605";
+    width: 18px;
+    line-height: 18px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.acidjs-rating-stars input:checked ~ label
+{
+    color: #f5b301;
+}
+
+.acidjs-rating-disabled
+{
+    opacity: .50;
+
+    -webkit-pointer-events: none;
+    -moz-pointer-events: none;
+    pointer-events: none;
+}
+
 .searchhotels{
     background: url(http://bboceansuites.com/wp-content/uploads/2015/05/sunset-beach-chairs-stock-footage.jpg);
     background-size: cover;
@@ -14,6 +125,16 @@
 .footer{
     margin-top: 50px;
     background: #c4e3f3;
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*margin: 0 auto;*/
+    /*width: 100%;*/
+
+
+}
+.margins{
+    margin-top: 60px;
+    margin-left: 10px;
 }
 
 .rediconcolor {
@@ -30,14 +151,22 @@
 
 .font-size-20 {
     font-size: 20px;
-}
-
-.font-size-18 {
-    font-size: 18px;
+    margin-top: 10px;
 }
 
 .font-size-15 {
     font-size: 15px;
+}
+.font-size-18 {
+    font-size: 18px;
+}
+.font-size-22 {
+    font-size: 22px;
+}
+.input{
+    margin-top: 10px;
+    font-size: 22px;
+    height: 40px;
 }
 
 #bc-white {
@@ -47,6 +176,7 @@
     border-left: 1px solid #bebebe;
     border-right: none !important;
 }
+
 
 .rest-delete-positon {
     float: right;
@@ -64,7 +194,7 @@ body {
 
 }
 .date-class{
-    width: 150px;
+    /*width: 150px;*/
     font-size: 20px;
 }
 
@@ -290,18 +420,48 @@ li a.active {
     margin-right: 0;
     margin-top: 50px;
 }
-
+#hotel-section1{
+    margin-top: 120px;
+}
 /*about area*/
 .about h2 {
     font-size: 90px;
     color: #42b3e5;
     margin-top: 50px;
 }
+.about h3 {
+    font-size: 30px;
+    color: #42b3e5;
+}
 
 .about h4 {
     font-size: 24px;
     color: #737373;
+}
+.about p {
+    font-size: 24px;
+    color: #737373;
     margin-bottom: 45px;
+}
+.about li {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about th {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about td {
+    font-size: 24px;
+    color: #737373;
+    margin-bottom: 45px;
+}
+.about label{
+    font-size: 24px;
+    color: #737373;
+
 }
 
 .about-img img {
@@ -657,6 +817,9 @@ li a.active {
 .contact-caption {
     background: #3a9dca;
 }
+.contact-caption-white {
+    background: white;
+}
 
 .contact-heading h2 {
     color: #fff;
@@ -679,14 +842,15 @@ li a.active {
 }
 
 .contact-form h3 {
-    padding-left: 0;
     font-size: 30px;
-    color: #fff;
+    color: #42b3e5;
     text-transform: uppercase;
-    font-weight: bold;
-    border-bottom: 1px solid #13849c;
+}
+
+.contact-form h4 {
     padding-bottom: 12px;
-    margin-bottom: 0;
+    font-size: 24px;
+    color: #737373;
 }
 
 .contact-info ul {
@@ -742,7 +906,13 @@ li a.active {
     padding-top: 15px;
     text-align: right;
 }
-
+.nomarginbottom h4{
+    margin-bottom: 0%;
+}
+.features-margin{
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
 .contact-form input.submit-btn {
     width: 180px;
     height: 50px;
@@ -756,6 +926,7 @@ li a.active {
     font-weight: bold;
 
 }
+
 
 .contact-form {
     padding-right: 40px;

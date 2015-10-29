@@ -122,7 +122,7 @@
                                                             @flash.get("login-error")
                                                         }
                                                         </div>
-                                                        <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()" style="font-size: 20px; width: 80px; margin-left: 5em;align-self: center" />
+                                                        <input type="submit"  id="btnLogin" name="submit" value="Log in" class="btn btn-primary" onclick="@routes.Users.login()"/>
                                                         <div class="forgotten-password-div">
                                                             <a class="forgotten-password-a" href="@routes.Users.askForPasswordChange()">Forgot your password?</a>
                                                         </div>
@@ -205,10 +205,9 @@
                 </div>
             </div>
         </header> <!-- end of header area -->
-    @content
-        @_footer()
+           @content
 
-
+            @_footer()
 
 
 

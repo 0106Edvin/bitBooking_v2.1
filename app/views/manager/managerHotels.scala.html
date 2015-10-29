@@ -6,88 +6,92 @@
 @main {
     <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
 
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>Hotels</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>HOTELS</h2>
+                    </div>
+                    @if(flash.containsKey("seller-changed")) {
+                        <span style="font-size: 20px; color: #204d74;">
+                        @flash.get("seller-changed")
+                        </span>
+                    }
+                    <div id="success" style="font-size: 25px; color: greenyellow"></div>
+                    <div id="error" style="font-size: 25px; color: red"></div>
                 </div>
-                @if(flash.containsKey("seller-changed")) {
-                    <span style="font-size: 20px; color: #204d74;">
-                      @flash.get("seller-changed")
-                    </span>
-                }
-                <div id="success" style="font-size: 25px; color: greenyellow"></div>
-                <div id="error" style="font-size: 25px; color: red"></div>
+            </section>
+
+            <section>
                 <table class="table ">
                     <thead>
-                        <tr class="service">
-                            <th style="font-size: 30px;">Hotel</th>
-                            <th style="font-size: 30px;">Location</th>
-                            <th style="font-size: 30px;">Description</th>
-                            <th style="font-size: 30px;">Seller</th>
-                            <th>Currently showing @Hotel.showingHotels() hotel(s) on homepage</th>
-                            <th></th>
+                        <tr class="about text-align">
+                            <th class="text-align" >Hotel</th>
+                            <th class="text-align">Location</th>
+                            <th class="text-align">City</th>
+                            <th class="text-align">Seller</th>
+                            <th class="text-align">Change seller</th>
+                            <th class="text-align">Show on homepage</th>
+                            <th class="text-align">Delete</th>
+
+
                         </tr>
                     </thead>
                     <tbody>
                         @for(hotel <- hotels) {
-                                <tr class="service">
-                                    <td style="font-size : 22px ;">@hotel.name</td>
-                                    <td style="font-size : 22px ;">@hotel.location</td>
-                                    <td style="font-size : 22px ;">@hotel.description</td>
-                                    <td>
-                                        <form method="post" action="@routes.Users.changeSeller(hotel.id)">
+                            <tr class="about text-align">
+                                <td>@hotel.name</td>
+                                <td>@hotel.location</td>
+                                <td>@hotel.city</td>
+                                <td>
+                                    <form method="post" action="@routes.Users.changeSeller(hotel.id)">
                                         <select name="selleremail"  class="ddlsellers" onchange="@routes.Users.changeSeller(hotel.id)">
-                                            @for(user <- users) {
-                                                @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                                                    @if(hotel.sellerId == user.id) {
-                                                        <option selected="true">
-                                                            @user.email
-                                                        </option>
-                                                    } else {
-                                                        <option>
-                                                            @user.email
-                                                        </option>
 
-                                                    }
-                                                 }
+                                        @for(user <- users) {
+                                            @if(user.userAccessLevel == UserAccessLevel.SELLER) {
+                                                @if(hotel.sellerId == user.id) {
+                                                    <option selected="true">
+                                                    @user.email
+                                                    </option>
+                                                }else{
+                                                    <option>@user.email</option>
+                                                }
+
                                             }
-
-                                    </select>
-                                    <td> <button onclick="return changeSeller()" type="submit" class="btn btn-warning" id="middlebuttons">CHANGE SELLER</button></td>
-
-                                    </form>
-                                    <td>
-                                        @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
-                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
-                                                <button type="submit" class="btn btn-primary" id="middlebuttons">SHOW ON HOMEPAGE</button>
-                                            </a>
-                                        } else {
-                                            <a href="@routes.Hotels.changeVisibility(hotel.id)" >
-                                                <button onclick="@routes.Hotels.changeVisibility(hotel.id)" type="submit" class="btn btn-warning" id="middlebuttons">HIDE FROM HOMEPAGE</button>
-                                            </a>
                                         }
-                                    </td>
-                                    </td>
-                                      <td>
-                                          <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
-                                              <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
-                                        </td>
-                                </tr>
 
 
+                                        </select>
+                                        <td> <button onclick="return changeSeller()" type="submit" class="btn btn-primary" id="middlebuttons">CHANGE</button></td>
+                                    </form>
+                                </td>
+                                <td>
+                                @if(hotel.showOnHomePage == null || hotel.showOnHomePage == false) {
+                                    <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                        <button type="submit" class="btn btn-primary" id="middlebuttons">SHOW</button>
+                                    </a>
+                                } else {
+                                    <a href="@routes.Hotels.changeVisibility(hotel.id)" >
+                                        <button onclick="@routes.Hotels.changeVisibility(hotel.id)" type="submit" class="btn btn-primary" id="middlebuttons">HIDE</button>
+                                    </a>
+                                }
+                                </td>
+                                <td>
+                                    <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotel(hotel.id)" role="button">
+                                        <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
+                                </td>
+                            </tr>
                         }
-                        <tr>
-                            <td>
-                                <a href="@routes.Hotels.createHotel()">
-                                    <button class="btn btn-success"  id="middlebuttons">ADD NEW HOTEL</button>
-                                </a>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
-            </div>
+                <a href="@routes.Hotels.createHotel()">
+                    <button class=" btn-success"  id="addhotel">ADD NEW HOTEL</button>
+                </a>
+            </section>
+
         </div>
-    </div>
-}
+        }
+</div>
+
