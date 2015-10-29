@@ -1,6 +1,10 @@
 .edvin-class {
     margin-top: 20%;
 }
+html{
+    position:relative;
+    min-height: 100%;
+}
 #background{
     background: whitesmoke;
     /*opacity: 0.9;*/
@@ -125,13 +129,18 @@
 .footer{
     margin-top: 50px;
     background: #c4e3f3;
-    /*position: absolute;*/
-    /*bottom: 0;*/
-    /*margin: 0 auto;*/
-    /*width: 100%;*/
-
+    bottom: 0;
+    left: 0;
+    right: 0;
 
 }
+.footer1{
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 .margins{
     margin-top: 60px;
     margin-left: 10px;
