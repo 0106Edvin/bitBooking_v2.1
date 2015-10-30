@@ -123,15 +123,15 @@
                 <h3>Best rated hotels by our guests</h3>
                 </div>
                 @list
-
             </div>
         </div>
 
-
     </section> <!-- end of about section -->
 
+    <div id="searchPanel" style="margin-top: 150px">
+    </div>
     <section class="searchhotels" >
-        <div class="" id="searchPanel">
+
 
             <div class="container">
                 <div class="row">
@@ -142,13 +142,16 @@
                         <div class="col-md-4 col-md-offset-4 contact-form text-center">
 
                             <form method="get" action="@routes.Hotels.search()">
+
                                 <div class="col-md-5">
                                     <input class="date-class" name="firstDate" id="date" placeholder="Check-in"/>
                                 </div>
                                 <div class="col-md-5">
                                     <input class="date-class" name="secondDate" id="date2" placeholder="Check-out"/>
                                 </div>
-                                    <!--input field for search-->
+
+
+                                <!--input field for search-->
                                 <div class="col-md-5">
                                     <input type="text" id="search1" name = "search" style="font-size: 17px;width: 250px; height: 50px;" minlength="1" maxlength="32" required placeholder="e.g. city, country, hotel...">
                                 </div>
@@ -165,10 +168,10 @@
 
 
             </div>
-        </div>
 
 
     </section>
+
 
     <!-- about section -->
 <section class="about text-center" id="about">
