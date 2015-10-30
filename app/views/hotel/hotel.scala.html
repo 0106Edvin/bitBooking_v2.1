@@ -66,6 +66,53 @@
                                 </h4>
                                     </div>
 
+                                @if(currentUser != null && currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
+                                    <a href="#" data-toggle="modal" data-target="#privateMessage" class="font-size-18"><i class="fa fa-envelope-o"></i>
+                                        Contact seller</a>
+                                }
+
+                                    <!-- start of modal -->
+                                <div id="privateMessage" class="modal fade" role="dialog" style="background-color : #204d74">
+                                    <div class="modal-dialog">
+
+                                        <form method="post" action="@routes.MessageController.saveMessage(hotel.id)">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title font-size-30" style="color: #204d74">Compose Message</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 font-size-20" style="color: #204d74" for="inputSubject">Subject</label>
+                                                        <div class="col-sm-10">
+                                                            <input class="form-control" name="subject" style="color: #575757; font-size: 20px" id="inputSubject" placeholder="Subject" type="text" required />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 font-size-20" style="color: #204d74" for="inputBody">Message</label>
+                                                        <div class="col-sm-12">
+                                                            <textarea class="form-control" name="content" style="color: #575757; font-size: 20px" id="inputBody" placeholder="Message text" rows="10" required ></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row"></div>
+
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" class="edvin-button-role" id="modal-button-blue" value="Send"/>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div> <!-- end of modal -->
+
+
                             </div>
                         </div>
                     </div>
