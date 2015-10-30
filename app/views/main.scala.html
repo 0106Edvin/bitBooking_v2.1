@@ -63,6 +63,7 @@
           });
         </script>
     </head>
+    <div class="all">
     <body >
         <header class="top-header">
             <div class="container">
@@ -206,13 +207,10 @@
             </div>
         </header> <!-- end of header area -->
            @content
-            <div class="footer1">
-            @_footer()
-
-            </div>
-
-
 
     </body>
+        <div class="push"></div>
+        @_footer()
+    </div>
 
 </html>

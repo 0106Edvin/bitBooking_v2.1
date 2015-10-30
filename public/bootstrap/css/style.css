@@ -1,13 +1,21 @@
 .edvin-class {
     margin-top: 20%;
 }
-html{
-    position:relative;
+html, body {
+    height: 100%;
+}
+.all {
     min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -220px; /* the bottom margin is the negative value of the footer's height */
 }
 #background{
     background: whitesmoke;
     /*opacity: 0.9;*/
+}
+.push {
+    height: 220px;
 }
 #main-background{
     /*background-color: #42b3e5;*/
