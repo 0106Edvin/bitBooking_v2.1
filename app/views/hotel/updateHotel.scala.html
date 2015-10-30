@@ -58,7 +58,13 @@
                                     @for(feature <- features) {
                                         <div class="form-inline">
                                                 <img src="@feature.feature.icon.getSize(38, 38)" />
-                                                <input class="form-control" type="number" min="0" max="10000" name="@feature.feature.id" placeholder="@feature.feature.name (leave empty if feature is free)" style="width: 350px;">
+                                                <input class="form-control" type="number" min="0" max="10000" name="@feature.feature.id"
+                                                @if(feature.isFree) {
+                                                    placeholder="@feature.feature.name (leave empty if feature is free)"
+                                                } else {
+                                                    placeholder="Current feature price @feature.price $"
+                                                }
+                                                style="width: 350px;">
                                         </div>
                                     }
 
