@@ -1,7 +1,32 @@
-@import helpers.UserAccessLevel
 @import helpers.CommonHelperMethods
 @(user: AppUser)
-@main {
+
+
+@import helpers.UserAccessLevel
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title></title>
+
+    </head>
+    <body >
+        <header class="top-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-5 header-logo">
+                        <br>
+                        <a href="@routes.Application.index()"><img src= "@routes.Assets.versioned("img/logo.png")" alt="" class="img-responsive logo"></a>
+                    </div>
+
+
+                </div>
+            </div>
+        </header> <!-- end of header area -->
+
+
+
 
     <br> <br> <br> <br> <br>
     <div class="container">
@@ -160,4 +185,7 @@
 
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-}
+    </body>
+
+</html>
+
