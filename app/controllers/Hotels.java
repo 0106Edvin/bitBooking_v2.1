@@ -107,6 +107,17 @@ public class Hotels extends Controller {
         String country = hotelForm1.field("country").value();
         String location = hotelForm1.field("location").value();
         String description = hotelForm1.field("description").value();
+        String stars = hotelForm1.field("stars").value();
+        Logger.debug(stars);
+
+        Integer starsHotel = null;
+        if (stars != null && !"".equals(stars.trim())) {
+            try {
+                starsHotel = Integer.parseInt(stars);
+            } catch (NumberFormatException e) {
+
+            }
+        }
 
         List<Feature> features = listOfFeatures();
         Map<Integer, String> featurePrice = new HashMap<>();
@@ -131,6 +142,7 @@ public class Hotels extends Controller {
             }
         }
 
+        hotel.stars = starsHotel;
         hotel.name = name;
         hotel.location = location;
         hotel.description = description;
