@@ -8,6 +8,7 @@
 @main {
     <script src="@routes.Assets.versioned("javascripts/deleteComment.js")"></script>
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
+    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
 
     <div  id="main-background">
         <div class="container" id="background">
@@ -270,7 +271,7 @@
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
+                                                                    <a  data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
                                                                         <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px;
                                                                         color: #42b3e5;"></i>
                                                                     </a>
