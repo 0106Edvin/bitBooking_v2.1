@@ -83,7 +83,7 @@ POST          /seller/saveroom/:hotelId                             @controllers
 GET           /seller/updateroom/:id                                @controllers.Rooms.editRoom(id: Integer)
 POST          /seller/updateroom/:id                                @controllers.Rooms.updateRoom(id: Integer)
 DELETE        /seller/updateroom/delete/:id                         @controllers.Prices.delete(id: Integer)
-DELETE        /deleteroom/:roomId                                   @controllers.Rooms.deleteRoom(roomId: Integer)
+GET        /deleteroom/:roomId                                   @controllers.Rooms.deleteRoom(roomId: Integer)
 
 GET           /seller/hotelreservations/:hotelId                    @controllers.Rooms.hotelReservations(hotelId: Integer)
 POST          /seller/updateroom/editprice/:priceId                 @controllers.Prices.editPrice(priceId: Integer)
