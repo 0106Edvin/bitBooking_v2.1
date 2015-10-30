@@ -105,12 +105,12 @@
 
 
 
-                                    <span class="font-size-20" id="price-for-period" style="float: right"></span>
+                                    <span class="font-size-20" id="price-for-period" style="float: right" hidden></span>
                                     <div class="col-md-5">
                                     @if(room.prices.size() == 0 || room.roomType == 0) {
                                         <button class="btn btn-primary book" disabled>Book it</button>
                                     } else {
-                                        <button class="btn btn-primary book" data-toggle="modal" data-target="#basicModal">Book it</button>
+                                        <button onclick="getPrice()" class="btn btn-primary book" data-toggle="modal" data-target="#basicModal">Book it</button>
                                     }
                                     </div>
 
@@ -121,7 +121,7 @@
 
                         </div>
 
-                        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
+
 
                     </section>
                 }
@@ -224,3 +224,4 @@
      $('#total-price').html(price2).style.fontWeight="700";
      }
 </script>
+<script type="text/javascript" src="@routes.Assets.versioned("javascripts/priceForReservation.js")"></script>
