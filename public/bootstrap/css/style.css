@@ -504,6 +504,14 @@ li a.active {
     left: 40%;
 }
 
+.recommended {
+    width: 70px;
+    height: 52px;
+    position: relative;
+    top: -30px;
+    left: 30%;
+}
+
 /*.gogo:before {*/
     /*content: "";*/
     /*position: absolute;*/

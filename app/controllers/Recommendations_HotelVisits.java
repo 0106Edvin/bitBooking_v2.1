@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Recommendations_HotelVisits extends Controller {
 
+    //public static List<Hotel> recommendedHotels;
     public static Model.Finder<String, HotelVisit> finder = new Model.Finder<>(HotelVisit.class);
 
     List<HotelVisit> allHotelVisits = finder.findList();
@@ -61,12 +62,12 @@ public class Recommendations_HotelVisits extends Controller {
      * You should use this lost for recommendations.
      * @return
      */
-    public List<Hotel> returnMostPopularHotels() {
-        List<Hotel> mostPopularHotels = null;
+    public static List<Hotel> returnMostPopularHotels() {
+        List<Hotel> mostPopularHotels = new ArrayList<>();
 
         List<HotelVisit> mostPopularVisites =
                 finder.orderBy("visits_no, visits_no desc")
-                        .setMaxRows(10)
+                        .setMaxRows(6)
                         .findList();
 
         for(HotelVisit hv : mostPopularVisites) {
