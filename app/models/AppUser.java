@@ -9,7 +9,6 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Model of App_User. App_User is a person who sign up into database on bitBooking.ba web page
@@ -71,6 +70,9 @@ public class AppUser extends Model {
     @Column(unique = true)
     public String forgottenPassToken;
 
+    @OneToMany
+    public HotelVisit hotelVisit;
+
     /**
      * Default constructor
      */
@@ -86,7 +88,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -96,6 +98,7 @@ public class AppUser extends Model {
         this.reservations = reservations;
         this.token = token;
         this.forgottenPassToken = forgottenPassToken;
+        this.hotelVisit = hotelVisit;
     }
 
     /**

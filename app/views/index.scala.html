@@ -1,5 +1,5 @@
 @import helpers.Constants
-@(content: Html)
+@(list: Html)
 @main {
     <section class="slider" id="home">
         <div class="container-fluid">
@@ -123,7 +123,7 @@
                 <div class="marginbottom">
                 <h3>Best rated hotels by our guests</h3>
                 </div>
-                @content
+                @list
 
             </div>
         </div>
@@ -169,6 +169,20 @@
 
     </section>
 
+
+<!-- about section -->
+<section class="about text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <h2>We recommend</h2>
+            <div class="marginbottom">
+                <h3>You may be interested in following hotels</h3>
+            </div>
+            @_recommendationList()
+
+        </div>
+    </div>
+</section> <!-- end of about section -->
 
     <!-- team section -->
 
