@@ -10,13 +10,29 @@
                                 <h2>Your hotels</h2>
                                 <div style="font-size: 25px; color:#189800;">
                                     @if(flash.containsKey("create")){
-                                        @flash.get("create")
+                                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                            <span class="sr-only">Success:</span>
+                                            @flash.get("create")
+                                        </div>
+
                                     }
                                     @if(flash.containsKey("delete")){
-                                        @flash.get("delete")
+
+                                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                            <span class="sr-only">Success:</span>
+                                            @flash.get("delete")
+                                        </div>
                                     }
                                     @if(flash.containsKey("edit")){
-                                        @flash.get("edit")
+
+
+                                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                            <span class="sr-only">Success:</span>
+                                            @flash.get("edit")
+                                        </div>
                                     }
 
                                 </div>

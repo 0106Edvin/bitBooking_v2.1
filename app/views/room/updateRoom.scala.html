@@ -81,7 +81,11 @@
                                         <div class="contact-form">
                                             <div class="duplicate-email" style="font-size: 20px;color: red">
                                             @if(flash.containsKey("error")) {
-                                                @flash.get("error")
+                                                <div class="alert alert-danger" role="alert">
+                                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                    <span class="sr-only">Error:</span>
+                                                    @flash.get("error")
+                                                </div>
                                             }
                                             </div>
                                             <div class="nomarginbottom">
@@ -106,12 +110,18 @@
                                     </form>
                                 </div>
                                 }
+                                <div class="duplicate-email" style="font-size: 20px">
                                 @if(flash.containsKey("success")) {
-                                    <span style="background-color: #189800; color: white; font-size: 20px; padding: 0px 5px 0px 5px;">
-                                    @flash.get("success")
-                                    </span>
-                                }
 
+                                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Success:</span>
+                                        @flash.get("success")
+
+                                    </div>
+
+                                }
+</div>
 
                                 <div>
                                     <table class="table " style="font-size: 20px; color: white">
@@ -141,13 +151,17 @@
                                                                 <h4 class="modal-title"  style="font-size: 24px; font-weight: bold">UPDATE PRICE</h4>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <div id="info-container" style="color: #204d74; font-size: 20px">
+                                                                <div id="info-container" style="font-size: 20px">
                                                                     @if(flash.containsKey("missing-price")) {
-                                                                        <span id="price-missing" style="font-size: 20px; color: red">
-                                                                        @flash.get("missing-price")
-                                                                        </span>
+                                                                        <div class="alert alert-danger" role="alert">
+                                                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                                                            <span class="sr-only">Error:</span>
+                                                                            @flash.get("missing-price")
+                                                                        </div>
                                                                     }
+
                                                                 <span id="price-missing" style="font-size: 20px; color: red"></span>
+
                                                                 <div class="row">
                                                                     <div class="col-md-3">
                                                                         <label>From date:</label>

@@ -14,9 +14,12 @@
                         <h2>HOTELS</h2>
                     </div>
                     @if(flash.containsKey("seller-changed")) {
-                        <span style="font-size: 20px; color: #189800;">
-                        @flash.get("seller-changed")
-                        </span>
+                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Success:</span>
+                            @flash.get("seller-changed")
+
+                        </div>
                     }
                     <div id="success" style="font-size: 25px; color: greenyellow"></div>
                     <div id="error" style="font-size: 25px; color: red"></div>

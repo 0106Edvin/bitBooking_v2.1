@@ -15,23 +15,35 @@
                     </div>
 
                 @if(flash.containsKey("save")) {
-                    <b> <span style="font-size: 24px; color: #189800">
-                    @flash.get("save")
-                    </span></b>
+                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Success:</span>
+                        @flash.get("save")
+                    </div>
+
                 }
                 </div>
                 <div>
                 @if(flash.containsKey("update")) {
-                    <b>  <span style="font-size: 24px; color: #189800">
-                    @flash.get("update")
-                    </span></b>
+                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Success:</span>
+                        @flash.get("update")
+
+                    </div>
                 }
                 </div>
                 <div>
                 @if(flash.containsKey("delete")) {
-                    <b> <span style="font-size: 24px; color: #189800">
-                    @flash.get("delete")
-                    </span></b>
+
+                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Success:</span>
+                        @flash.get("delete")
+
+
+                    </div>
+
                 }
                 </div>
             </section>

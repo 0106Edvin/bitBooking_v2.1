@@ -208,12 +208,23 @@
                         </nav>
                         <div  style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
                         @if(flash.containsKey("error-search")) {
-                            @flash.get("error-search")
+                            <div class="alert alert-danger" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                @flash.get("error-search")
+
+                            </div>
                         }
                         </div>
                         <div  style="font-size: 20px; color: #189800; margin-right: 1.8cm;" align="right">
                         @if(flash.containsKey("info")) {
-                            @flash.get("info")
+
+                            <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Success:</span>
+                                @flash.get("info")
+
+                            </div>
                         }
                         </div>
 
