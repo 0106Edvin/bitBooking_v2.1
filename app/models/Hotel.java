@@ -28,7 +28,7 @@ public class Hotel extends Model {
     public String coordinateX;
     public String coordinateY;
     public Integer sellerId;
-    private Double rating;
+    private Double rating = Constants.INITIAL_RATING;
 
     @Column(name = "page_visits")
     public Integer hotelPageVisits = 0;
@@ -98,9 +98,9 @@ public class Hotel extends Model {
         List<Hotel> hotels = null;
 
         if (checkNumbers == 0) {
-            hotels = finder.where().gt("rooms.roomType", 0).findList();
+            hotels = finder.where().gt("rooms.roomType", 0).orderBy("rating desc").orderBy().desc("rating").orderBy().asc("name").findList();
         } else {
-            hotels = finder.where().betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", first).betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", second).gt("rooms.roomType", 0).findList();
+            hotels = finder.where().betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", first).betweenProperties("rooms.reservations.checkIn", "rooms.reservations.checkOut", second).gt("rooms.roomType", 0).orderBy().desc("rating").orderBy().asc("name").findList();
         }
         String column = "";
 
@@ -120,7 +120,7 @@ public class Hotel extends Model {
             }
         }
 
-        List<Hotel> searchedHotels = finder.where().ilike(column, "%" + term + "%").findList();
+        List<Hotel> searchedHotels = finder.where().ilike(column, "%" + term + "%").orderBy().desc("rating").orderBy().asc("name").findList();
 
         for (Hotel h1 : hotels) {
             for (Hotel h2 : searchedHotels) {
