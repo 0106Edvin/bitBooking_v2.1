@@ -5,42 +5,49 @@
     <div id="main-background">
         <div class="container" id="background">
 
+            <div class="margin-top-15 text-center">
+                <div class="col-sm-12">
+                    <p class="font-size-30 upper-text">Search results</p>
+                    <p class="font-size-22">Best rated hotels are shown first</p>
+                </div>
+            </div>
+
             <div class="row" id="easyPaginate">
 
-                @for(hotel <- hotels) {
-                    <div class="hotel">
+            @for(hotel <- hotels) {
+                <div class="hotel">
 
-                        <div class="edvin-class">
-                            <div class="col-md-3 col-sm-6">
-                            @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
+                    <div class="margin-top-10">
+                        <div class="col-md-3 col-sm-6">
+                        @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
 
-                                <div class="single-about-detail clearfix">
-                                    <div class="about-img" style="text-align: center">
-                                        @if(hotel.images.size() == 0) {
-                                            <img class="img-responsive" src="http://placehold.it/360x300" alt="">
-                                        } else {
-                                            <img src="@hotel.images.get(0).getSize(360, 300)"/>
-                                        }
-                                        <a href="@routes.Hotels.showHotel(hotel.id)">
-                                            <div class="about-details">
-                                                <div class="gogo" style="background-image: url('http://res.cloudinary.com/dzkq8z522/image/upload/w_70,h_50/v1443185744/urssuhubmnnmr32hd8n0.png'); background-repeat: no-repeat; font-size: 50px">
-                                                    <h1>
-                                                    @hotel.getRating()
-                                                    </h1>
-                                                </div>
-                                                <h3>@hotel.name</h3>
-                                                <p>Hotel address: <br>@hotel.location</p>
-                                                <button class="edvin-button">VIEW HOTEL</button>
+                            <div class="single-about-detail clearfix">
+                                <div class="about-img" style="text-align: center">
+                                    @if(hotel.images.size() == 0) {
+                                        <img class="img-responsive" src="http://placehold.it/360x300" alt="">
+                                    } else {
+                                        <img src="@hotel.images.get(0).getSize(360, 300)"/>
+                                    }
+                                    <a href="@routes.Hotels.showHotel(hotel.id)">
+                                        <div class="about-details">
+                                            <div class="gogo" style="background-image: url('http://res.cloudinary.com/dzkq8z522/image/upload/w_70,h_50/v1443185744/urssuhubmnnmr32hd8n0.png'); background-repeat: no-repeat; font-size: 50px">
+                                                <h1>
+                                                @hotel.getRating()
+                                                </h1>
                                             </div>
-                                        </a>
-                                    </div>
+                                            <h3>@hotel.name</h3>
+                                            <p>Hotel address: <br>@hotel.location</p>
+                                            <button class="edvin-button">VIEW HOTEL</button>
+                                        </div>
+                                    </a>
                                 </div>
-                                <br>
-                                }
                             </div>
+                            <br>
+                            }
                         </div>
                     </div>
-                }
+                </div>
+            }
             </div>
 
             <div class="edvin-class">
@@ -59,26 +66,23 @@
     </div>
 
     <style>
-        .easyPaginateNav {
-            text-align: center;
-        }
-        .easyPaginateNav a {
-            font-family: "Lucida Sans","Lucida Grande",sans-serif;
-            font-size: 76%;
-            padding:9px;
-            text-align: center;
-        }
-
-        .easyPaginateNav a.current {
-            font-weight:bold;
-            text-decoration:underline;
-        }
-
-        .easyPaginateNav a:hover {
-            background-color: #DEDEDE;
-            color: #000;
-        }
-
+    .easyPaginateNav {
+    text-align: center;
+    }
+    .easyPaginateNav a {
+    font-family: "Lucida Sans","Lucida Grande",sans-serif;
+    font-size: 76%;
+    padding:9px;
+    text-align: center;
+    }
+    .easyPaginateNav a.current {
+    font-weight:bold;
+    text-decoration:underline;
+    }
+    .easyPaginateNav a:hover {
+    background-color: #DEDEDE;
+    color: #000;
+    }
     </style>
 
 
@@ -100,7 +104,6 @@
 
 
 }
-
 
 
 
