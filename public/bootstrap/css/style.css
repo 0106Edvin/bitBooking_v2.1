@@ -181,6 +181,20 @@ html, body {
 .font-size-22 {
     font-size: 22px;
 }
+
+.margin-top-15 {
+    margin-top: 15%;
+}
+
+.margin-top-10 {
+    margin-top: 10%;
+}
+
+.upper-text {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .input{
     margin-top: 10px;
     font-size: 22px;
