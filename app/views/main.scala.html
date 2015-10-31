@@ -136,12 +136,12 @@
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminPanel()" >Admin panel</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminPanel()" > <i class="fa fa-bars fa-fw"></i> Admin panel</a></li>
                                                             <li class="divider"></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminUsers()">See All Users</a></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminHotels()" >See All Hotels</a></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminFeatures()" >See All Features</a></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Features.createFeature()" >Add New Feature</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminUsers()"> <i class="fa fa-users fa-fw"></i> See All Users</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminHotels()" > <i class="fa fa-building-o fa-fw"></i> See All Hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminFeatures()" > <i class="fa fa-flag fa-fw"></i> See All Features</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Features.createFeature()" > <i class="fa fa-plus fa-fw"></i> Add New Feature</a></li>
                                                             <li class="divider"></li>
                                                             <li><a class="menu font-size-20" href="@routes.Application.seeErrors()" > <i class="rediconcolor fa fa-exclamation-triangle fa-fw"></i> Logged errors</a></li>
                                                         </ul>
@@ -153,9 +153,10 @@
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Manager dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a class="menu font-size-20" href="@routes.Users.showManagerHotels()" >Manage hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showManagerHotels()" > <i class="fa fa-building-o fa-fw"></i> Manage Hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Hotels.createHotel()" > <i class="fa fa-plus fa-fw"></i> Add New Hotel</a></li>
                                                             <li class="divider"></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Users.seeAllSellers()" >See all sellers</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.seeAllSellers()" > <i class="fa fa-users fa-fw"></i> See All Sellers</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -167,11 +168,11 @@
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Seller dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels(currentUser.id)" >Your hotels</a></li>
-                                                            <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()">See all reservations <span class="info badge font-size-15" id="notify"></span></a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels(currentUser.id)" > <i class="fa fa-building fa-fw"></i> Your hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()"> <i class="fa fa-list-alt fa-fw"></i> See all reservations <span class="info badge font-size-15" id="notify"></span></a></li>
                                                             <li class="divider"></li>
-                                                            <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.createPromotion()">Create promotion</a></li>
-                                                            <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
+                                                            <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.createPromotion()"> <i class="fa fa-plus fa-fw"></i> Create promotion</a></li>
+                                                            <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.statistics()"> <i class="fa fa-line-chart fa-fw"></i> Statistics</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -187,9 +188,9 @@
                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                                         @currentUser.firstname <span class="caret"></span></a>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a class="menu my-profile font-size-20" href="@routes.Users.editUser(currentUser.email)">Edit profile</a></li>
+                                                        <li><a class="menu my-profile font-size-20" href="@routes.Users.editUser(currentUser.email)"><i class="fa fa-pencil-square-o fa-fw"></i> Edit profile</a></li>
                                                         <li class="divider"></li>
-                                                        <li><a class="menu font-size-20" href="@routes.Users.logOut()">Log out</a></li>
+                                                        <li><a class="menu font-size-20" href="@routes.Users.logOut()"><i class="fa fa-sign-out fa-fw"></i> Log out</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
