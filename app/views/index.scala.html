@@ -320,7 +320,11 @@
                             <div style="font-size: 20px; color: red" class="duplicate-email" >
                             @if(flash.containsKey("error")) {
                                 <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
-                                @flash.get("error")
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    @flash.get("error")
+                                </div>
 
 
                             }
@@ -329,8 +333,12 @@
                             <div style="font-size: 20px; color: #189800" class="duplicate-email" >
                                 @if(flash.containsKey("success")){
                                     <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Success:</span>
                                         @flash.get("success")
 
+                                    </div>
 
                                 }
                             </div>
