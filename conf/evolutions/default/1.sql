@@ -40,6 +40,14 @@ create table comment (
   constraint pk_comment primary key (id))
 ;
 
+create table error_logger (
+  id                        integer auto_increment not null,
+  custom_message            varchar(500),
+  error_message             TEXT,
+  error_date                datetime,
+  constraint pk_error_logger primary key (id))
+;
+
 create table feature (
   id                        integer auto_increment not null,
   name                      varchar(255),
@@ -298,6 +306,8 @@ SET FOREIGN_KEY_CHECKS=0;
 drop table app_user;
 
 drop table comment;
+
+drop table error_logger;
 
 drop table feature;
 
