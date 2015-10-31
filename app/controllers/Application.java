@@ -1,14 +1,13 @@
 package controllers;
 
+import helpers.Authenticators;
 import helpers.SessionsAndCookies;
-import models.AppUser;
-import models.Hotel;
-import models.Question;
-import models.SiteStats;
+import models.*;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.list;
 
 import javax.persistence.PersistenceException;
@@ -36,6 +35,7 @@ public class Application extends Controller {
         try {
             stats.save();
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to save stats in Application.index. Stats were updated insetead.", e.getMessage());
             if(tempStat != null) {
                 tempStat.update();
             }
@@ -61,5 +61,11 @@ public class Application extends Controller {
     public Result searchFAQ() {
         List<Question> q = Question.finder.all();
         return ok(views.html.user.searchFAQ.render(q));
+    }
+
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result seeErrors() {
+        List<ErrorLogger> errors = ErrorLogger.getAllErrors();
+        return ok(views.html.admin.errors.render(errors));
     }
 }

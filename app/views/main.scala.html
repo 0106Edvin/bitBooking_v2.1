@@ -132,7 +132,21 @@
                                             </li>
                                         } else {
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.ADMIN)) {
-                                                <li><a class="menu" href="@routes.Users.showAdminPanel()" >Admin panel</a></li>
+                                                <ul class="nav navbar-nav">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin dashboard<span class="caret"></span></a>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminPanel()" >Admin panel</a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminUsers()">See All Users</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminHotels()" >See All Hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Users.showAdminFeatures()" >See All Features</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Features.createFeature()" >Add New Feature</a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Application.seeErrors()" > <i class="rediconcolor fa fa-exclamation-triangle fa-fw"></i> Logged errors</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
                                             }
                                             @if(currentUser.userAccessLevel.equals(UserAccessLevel.HOTEL_MANAGER)) {
                                                 <ul class="nav navbar-nav">
