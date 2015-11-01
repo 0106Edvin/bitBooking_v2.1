@@ -1,5 +1,6 @@
 package helpers;
 
+import models.ErrorLogger;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
@@ -64,6 +65,7 @@ public class MailHelper {
             ));
             mail.send();
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to send email from MailHelper", e.getMessage());
             logger.warn("Email error" + e);
         }
     }

@@ -61,7 +61,7 @@ public class Reservation extends Model {
     public Reservation() {
     }
 
-    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room,String sale_id, AppUser user,Boolean isRefunded, Date timeOfReservation, String payment_id) {
+    public Reservation(Integer id, BigDecimal cost, Date checkIn, Date checkOut, Room room, String sale_id, AppUser user, Boolean isRefunded, Date timeOfReservation, String payment_id) {
         this.id = id;
         this.cost = cost;
         this.checkIn = checkIn;
@@ -154,6 +154,7 @@ public class Reservation extends Model {
                     try {
                         reservation.update();
                     } catch (PersistenceException e) {
+                        ErrorLogger.createNewErrorLogger("Could not update reservation status automatically. checkReservationExpiration()", e.getMessage());
                         Logger.info("Could not update reservation.");
                         Logger.info("Reservation made by " + reservation.user.firstname);
                         Logger.error("Error message " + e.getMessage());

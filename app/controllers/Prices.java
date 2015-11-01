@@ -1,15 +1,14 @@
 package controllers;
 
 import helpers.Authenticators;
+import models.ErrorLogger;
 import models.Price;
 import models.Room;
-import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.addPrice;
-import views.html.room.updateRoom;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -33,8 +32,8 @@ public class Prices extends Controller {
     public Result savePrice(Integer roomId) {
         Form<Price> boundForm = priceForm.bindFromRequest();
         String cost = boundForm.field("cost").value();
-        if(cost.equals("") || cost == null) {
-            flash("error","You must set room price!");
+        if (cost.equals("") || cost == null) {
+            flash("error", "You must set room price!");
             return redirect(routes.Rooms.editRoom(roomId));
         }
         String checkin = boundForm.field("checkIn").value();
@@ -46,14 +45,15 @@ public class Prices extends Controller {
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
-            if(firstDate.before(secondDate)) {
+            if (firstDate.before(secondDate)) {
                 price.dateFrom = firstDate;
                 price.dateTo = secondDate;
             } else {
-                flash("error","First date can't be after second date!");
+                flash("error", "First date can't be after second date!");
                 return redirect(routes.Rooms.editRoom(roomId));
             }
         } catch (ParseException e) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates when saving price.", e.getMessage());
             System.out.println(e.getMessage());
         }
         price.room = room;
@@ -65,12 +65,12 @@ public class Prices extends Controller {
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result insertPrice(Integer roomId){
+    public Result insertPrice(Integer roomId) {
         return ok(addPrice.render(roomId));
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result delete(Integer id){
+    public Result delete(Integer id) {
 
         Price price = Price.findPriceById(id);
         Room room = Room.findRoomById(price.room.id);
@@ -89,16 +89,16 @@ public class Prices extends Controller {
         Form<Price> boundForm = priceForm.bindFromRequest();
         // price in Price model => BigDecimal cost
         String cost = boundForm.field("cost").value();
-        if(cost.equals("") || cost == null) {
+        if (cost.equals("") || cost == null) {
             flash("missing-price", "Please, set room price value and then save.");
             // here I should render just modal .. this way msg is shown when u open modal again
             return redirect(routes.Rooms.updateRoom(room.id));
         }
-            price.cost = new BigDecimal(Long.parseLong(cost));
-            price.save();
+        price.cost = new BigDecimal(Long.parseLong(cost));
+        price.save();
 
-            List<Price> prices = Price.getRoomPrices(room);
-            return redirect(routes.Rooms.updateRoom(room.id));
+        List<Price> prices = Price.getRoomPrices(room);
+        return redirect(routes.Rooms.updateRoom(room.id));
 
     }
 }

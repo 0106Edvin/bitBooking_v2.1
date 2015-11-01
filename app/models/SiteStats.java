@@ -178,6 +178,7 @@ public class SiteStats extends Model {
             });
             return hRooms.get(0);
         } catch (IndexOutOfBoundsException e) {
+            ErrorLogger.createNewErrorLogger("Failed to compare rooms. Probably only one room in hotel.",e.getMessage());
             return new Room();
         }
     }

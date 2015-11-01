@@ -35,7 +35,6 @@ public class Application extends Controller {
         try {
             stats.save();
         } catch (PersistenceException e) {
-            ErrorLogger.createNewErrorLogger("Failed to save stats in Application.index. Stats were updated insetead.", e.getMessage());
             if(tempStat != null) {
                 tempStat.update();
             }

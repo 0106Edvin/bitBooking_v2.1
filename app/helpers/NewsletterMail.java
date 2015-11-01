@@ -1,5 +1,6 @@
 package helpers;
 
+import models.ErrorLogger;
 import models.Hotel;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.HtmlEmail;
@@ -42,9 +43,11 @@ public class NewsletterMail {
                 mailString += reader.readLine() + "\n";
             }
         } catch (FileNotFoundException e) {
+            ErrorLogger.createNewErrorLogger("Failed to find HTML file for Newsletter email.", e.getMessage());
             logger.debug("file missing", e.getLocalizedMessage());
             e.printStackTrace();
         } catch (IOException e) {
+            ErrorLogger.createNewErrorLogger("Failed to read HTML file for Newsletter email.", e.getMessage());
             logger.debug("cant read", e.getLocalizedMessage());
             e.printStackTrace();
         }
@@ -69,6 +72,7 @@ public class NewsletterMail {
             ));
             mail.send();
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to send Newsletter email.", e.getMessage());
             logger.warn("Email error" + e);
         }
     }

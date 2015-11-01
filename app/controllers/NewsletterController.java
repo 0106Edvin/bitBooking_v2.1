@@ -3,6 +3,7 @@ package controllers;
 import helpers.Authenticators;
 import helpers.NewsletterMail;
 import models.AppUser;
+import models.ErrorLogger;
 import models.Hotel;
 import models.Newsletter;
 import play.Logger;
@@ -47,6 +48,7 @@ public class NewsletterController extends Controller {
         try {
             nl.save();
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Subscribed user tried to subscribe to newsletters again.", e.getMessage());
             return badRequest();
         }
         return ok();

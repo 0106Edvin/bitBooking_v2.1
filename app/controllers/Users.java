@@ -109,6 +109,7 @@ public class Users extends Controller {
                 flash("registration-msg", "Thank you for joining us.");
                 return ok(login.render(userForm));
             } catch (Exception e) {
+                ErrorLogger.createNewErrorLogger("Failed to save user. Possible duplicate email entry.", e.getMessage());
                 flash("error", "Email already exists in our database, please try again!");
                 return ok(register.render(boundForm));
             }
@@ -260,6 +261,7 @@ public class Users extends Controller {
                 return redirect(routes.Users.updateUser(currentUser.email));
 
             } catch (Exception e) {
+                ErrorLogger.createNewErrorLogger("Failed to update user profile.", e.getMessage());
                 flash("error", "You didn't fill the form correctly, please try again\n" + e.getMessage());
                 return ok(profilePage.render(currentUser));
             }
@@ -321,6 +323,7 @@ public class Users extends Controller {
                 return redirect(routes.Application.index());
             }
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to validate user registration via email.", e.getMessage());
             return redirect(routes.Application.index());
         }
     }
@@ -380,6 +383,7 @@ public class Users extends Controller {
             flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
             return badRequest(askForPasswordChange.render());
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to send confirmation email for password change.", e.getMessage());
             flash("error", "User with provided email address does not exist.");
             return ok(askForPasswordChange.render());
         }
@@ -399,6 +403,7 @@ public class Users extends Controller {
             AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
             return ok(forgottenPassword.render(forgottenPasswordToken));
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to find user with provided token for password reset.", e.getMessage());
             return badRequest();
         }
     }

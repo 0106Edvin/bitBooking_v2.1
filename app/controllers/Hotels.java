@@ -115,7 +115,7 @@ public class Hotels extends Controller {
             try {
                 starsHotel = Integer.parseInt(stars);
             } catch (NumberFormatException e) {
-
+                ErrorLogger.createNewErrorLogger("Failed to parse input for hotel stars.", e.getMessage());
             }
         }
 
@@ -265,6 +265,7 @@ public class Hotels extends Controller {
                 return redirect(routes.Application.index());
             }
         } catch (ParseException e) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates in search.", e.getMessage());
             System.out.println(e.getMessage());
         }
 

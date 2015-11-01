@@ -1,5 +1,6 @@
 package helpers;
 
+import models.ErrorLogger;
 import models.Reservation;
 
 /**
@@ -24,6 +25,7 @@ public class AutocompleteReservation {
                     Reservation.checkReservationExpiration();
                     Thread.sleep(ONE_HOUR);
                 } catch (InterruptedException e) {
+                    ErrorLogger.createNewErrorLogger("Failed to execute autocomplete reservation.", e.getMessage());
                     e.printStackTrace();
                 }
             }

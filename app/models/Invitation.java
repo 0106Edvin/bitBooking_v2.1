@@ -48,6 +48,15 @@ public class Invitation extends Model {
         // leave empty
     }
 
+    /**
+     * Creates new invitation used to send seller email with registration link.
+     *
+     * @param email   <code>String</code> type value of seller email
+     * @param title   <code>String</code> type value of invitation title
+     * @param content <code>String</code> type value of invitation content
+     * @param manager <code>AppUser</code> type value of manager
+     * @return <code>true</code> if invitation is successfuly created, <code>false</code> if not
+     */
     public static boolean createNewInvitation(String email, String title, String content, AppUser manager) {
         Invitation temp = new Invitation();
         temp.title = title;
@@ -60,18 +69,32 @@ public class Invitation extends Model {
             MailHelper.send(temp.email, host, Constants.REGISTER_SELLER, null, title, content);
             return true;
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to create invitation for seller registration.", e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Set's created by parameter by providing <code>AppUser</code> first and last name
+     *
+     * @param user <code>AppUser</code> type value
+     */
     public void setCreatedBy(AppUser user) {
         createdBy = user.firstname + " " + user.lastname;
     }
 
+    /**
+     * Set's updated by parameter by providing <code>AppUser</code> first and last name
+     *
+     * @param user <code>AppUser</code> type value
+     */
     public void setUpdatedBy(AppUser user) {
         updatedBy = user.firstname + " " + user.lastname;
     }
 
+    /**
+     * Overrided Ebean update method, used to set updateDate parameter
+     */
     @Override
     public void update() {
         updateDate = new Date();
