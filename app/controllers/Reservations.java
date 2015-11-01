@@ -6,10 +6,7 @@ import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
 import helpers.*;
-import models.AppUser;
-import models.Hotel;
-import models.Reservation;
-import models.Room;
+import models.*;
 import play.Logger;
 import play.Play;
 import play.data.DynamicForm;
@@ -129,9 +126,11 @@ public class Reservations extends Controller {
             Logger.info("new PAYMENT "  + newPayment);
 
         } catch (PayPalRESTException e) {
+            ErrorLogger.createNewErrorLogger("Failed execute PayPal.", e.getMessage());
             Logger.warn("PayPal Exception");
             e.printStackTrace();
         } catch (ParseException ex) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates in reservation.", ex.getMessage());
             System.out.println(ex.getMessage());
         }
         return redirect("/");
@@ -192,6 +191,7 @@ public class Reservations extends Controller {
             MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null, null, null);
 
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to receive PayPal succes.", e.getMessage());
             flash("error");
             Logger.debug("Error at purchaseSucess: " + e.getMessage(), e);
             return redirect("/");
@@ -248,6 +248,7 @@ public class Reservations extends Controller {
 
            Logger.info("Refounded done");
         } catch (PayPalRESTException e) {
+            ErrorLogger.createNewErrorLogger("Failed to execute PayPal refund.", e.getMessage());
             //flash("error", Messages.get("error.msg.02"));
             Logger.error("Error at purchaseProcessing: " + e.getMessage());
 
@@ -333,6 +334,7 @@ public class Reservations extends Controller {
             reservation.checkOut = secondDate;
             price = reservation.getCost();
         } catch (ParseException e) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates in reservations (getPrice()).", e.getMessage());
             System.out.println(e.getMessage());
         }
         return ok(price.toString());

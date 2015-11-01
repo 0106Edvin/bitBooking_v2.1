@@ -2,6 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import helpers.Authenticators;
+import models.ErrorLogger;
 import models.Feature;
 
 import models.Image;
@@ -60,6 +61,7 @@ public class Features extends Controller {
             feature.update();
             return redirect(routes.Users.showAdminFeatures());
         } catch (Exception e) {
+            ErrorLogger.createNewErrorLogger("Failed to save new feature.", e.getMessage());
             //flash("error", "Feature with same name already exists in our database, please try again!");
             return ok(createFeature.render());
         }

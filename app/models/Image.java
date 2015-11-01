@@ -77,6 +77,7 @@ public class Image extends Model {
             result = cloudinary.uploader().upload(image, null);
             return create(result, hotelId, userId, featureId, roomId, restaurantId);
         } catch (IOException e) {
+            ErrorLogger.createNewErrorLogger("Failed to save image.", e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -120,6 +121,7 @@ public class Image extends Model {
 
             return url;
         }catch (NullPointerException e){
+            ErrorLogger.createNewErrorLogger("Failed to receive image url.", e.getMessage());
             return "null";
         }
 
@@ -140,6 +142,7 @@ public class Image extends Model {
         try {
             cloudinary.uploader().destroy(public_id, null);
         } catch (IOException e) {
+            ErrorLogger.createNewErrorLogger("Failed to delete image.", e.getMessage());
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

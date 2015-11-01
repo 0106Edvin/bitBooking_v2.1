@@ -50,6 +50,15 @@ public class Message extends Model {
         // leave empty
     }
 
+    /**
+     * Creates new message when buyer engages seller. Seller is found from inputed hotel id.
+     *
+     * @param subject <code>String</code> type value of message subject
+     * @param content <code>String</code> type value of message content
+     * @param hotelId <code>Integer</code> type value of hotel id used to find seller
+     * @param sender  <code>AppUser</code> type value of sender
+     * @return <code>true</code> if successfully saved, <code>false</code> if not
+     */
     public static boolean createNewMessageFromHotelPage(String subject, String content, Integer hotelId, AppUser sender) {
         Message temp = new Message();
         temp.title = subject;
@@ -61,10 +70,20 @@ public class Message extends Model {
             temp.save();
             return true;
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to save new message.", e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Creates new message when user replies to received one and saves it to database.
+     *
+     * @param subject  <code>String</code> type value of message subject
+     * @param content  <code>String</code> type value of message content
+     * @param receiver <code>Integer</code> type value of receiver id
+     * @param sender   <code>AppUser</code> type value of sender
+     * @return <code>true</code> if successfully saved, <code>false</code> if not
+     */
     public static boolean createReplyMessage(String subject, String content, Integer receiver, AppUser sender) {
         Message temp = new Message();
         temp.title = subject;
@@ -76,10 +95,19 @@ public class Message extends Model {
             temp.save();
             return true;
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to save replied message.", e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Deletes message from inbox. Message is not deleted from database but only hidden for provided user.
+     * Message inbox status is set to deleted message.
+     *
+     * @param messageId <code>Integer</code> type value of message id
+     * @param user      <code>AppUser</code> type value of user who wanted to delete message from inbox
+     * @return <code>true</code> if message was deleted successfully, <code>false</code> if it wasn't
+     */
     public static boolean deleteMessageFromInbox(Integer messageId, AppUser user) {
         Message temp = finder.byId(messageId);
         if (temp == null) {
@@ -92,10 +120,19 @@ public class Message extends Model {
             temp.update();
             return true;
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to delete message from inbox.", e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Deletes message from outbox. Message is not deleted from database but only hidden for provided user.
+     * Message outbox status is set to deleted message.
+     *
+     * @param messageId <code>Integer</code> type value of message id
+     * @param user      <code>AppUser</code> type value of user who wanted to delete message from outbox
+     * @return <code>true</code> if message was deleted successfully, <code>false</code> if it wasn't
+     */
     public static boolean deleteMessageFromOutbox(Integer messageId, AppUser user) {
         Message temp = finder.byId(messageId);
         if (temp == null) {
@@ -107,13 +144,23 @@ public class Message extends Model {
             temp.update();
             return true;
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Failed to delete message from outbox.", e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Checks if provided user is either receiver of message or sender of message.
+     * If it is he/she can open message and read it.
+     * If provided user is receiver of message and message is new it's status is changed to read message.
+     *
+     * @param message <code>Message</code> type value of message
+     * @param user    <code>AppUser</code> type value of user
+     * @return <code>true</code> if user has rights to read message, <code>false</code> if it doesn't
+     */
     public static boolean clearanceToRead(Message message, AppUser user) {
-        if(user.id.equals(message.receiver.id) || user.id.equals(message.sender.id)) {
-            if (user.id.equals(message.receiver.id)) {
+        if (user.id.equals(message.receiver.id) || user.id.equals(message.sender.id)) {
+            if (user.id.equals(message.receiver.id) && message.status == Constants.MESSAGE_NEW) {
                 message.status = Constants.MESSAGE_READ;
                 message.setUpdatedBy(user);
                 message.update();
@@ -123,18 +170,37 @@ public class Message extends Model {
         return false;
     }
 
+    /**
+     * Finds number of new messages, unread ones.
+     *
+     * @param receiver <code>AppUser</code> type value of message receiver
+     * @return <code>Integer</code> type value of number of unread messages
+     */
     public static Integer numberOfNewMessages(AppUser receiver) {
         return finder.where().eq("receiver", receiver).eq("status", Constants.MESSAGE_NEW).findRowCount();
     }
 
+    /**
+     * Shortens the message in inbox and outbox so it can be shown next to title.
+     * If possible message is shortenedto 80 characters, otherwise full mesage is returned.
+     *
+     * @return <code>String</code> type value of message content
+     */
     public String getShortContent() {
         try {
             return content.substring(0, 80);
         } catch (StringIndexOutOfBoundsException e) {
+            ErrorLogger.createNewErrorLogger("Message content too short to parse to 80 substring. Full message is shown.", e.getMessage());
             return content;
         }
     }
 
+    /**
+     * Formats date message was sent in following format.
+     * hour:minutes dayInWeek, day month year.
+     *
+     * @return <code>String</code> type value od timestamp message was sent
+     */
     public String getSentDate() {
         if (createDate == null) {
             return "NO DATE RECORDED";
@@ -161,6 +227,9 @@ public class Message extends Model {
     }
 
 
+    /**
+     * Overrided Ebean update method used to set parameter updateDate
+     */
     @Override
     public void update() {
         updateDate = new Date();
