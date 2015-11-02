@@ -3,59 +3,63 @@
 @import helper._
 @main   {
 
-  <div class="container">
-    <div class="row">
-      <div class="contact-caption clearfix">
-        <div class="contact-heading text-center">
-          <h2>Register</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>REGISTER</h2>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="col-md-6 col-md-offset-3 contact-form">
+                    <h3>Please enter your data</h3>
+                    <div class="info-detail">
+                    @helper.form(action = routes.Users.saveUser(Constants.USER_SELLER)) {
+
+                        <div class="duplicate-email" style="font-size: 18px; color: red;">
+                        @if(flash.containsKey("error")) {
+                            <div class="alert alert-danger" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                @flash.get("error")
+                            </div>
+                        }
+                        </div>
+                            <!--input field for email-->
+                        <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onkeyup="checkEmail();">
+                        <div style="font-size: 20px; color: red" id="email_error"></div>
+                            <!--input field for password-->
+                        <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="Password(min 6 characters)" required onkeyup="checkPasswordLength();">
+                        <div style="font-size: 20px; color: red" id="password_error"></div>
+                            <!--input field for password confirmation-->
+                        <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onkeyup="checkPasswordMatch();" >
+                        <div style="font-size: 20px; color: red" id="password2_error"></div>
+                            <!--input for name-->
+                        <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onkeyup="checkName();" onkeyup=" checkNameLength()">
+                        <div style="font-size: 20px; color: red" id="name_error"></div>
+                        <div style="font-size: 20px; color: red" id="namelength_error"></div>
+
+                            <!--input for lastname-->
+                        <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onkeyup="checkLastname();" onkeyup="checkLastnameLength()" >
+                        <div style="font-size: 20px; color: red" id="lastname_error"></div>
+                        <div style="font-size: 20px; color: red" id="lastnamelength_error"></div>
+                            <!--input for lastname-->
+                        <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onkeyup="isNumber();" onkeyup="numberLength()">
+                        <div style="font-size: 20px; color: red" id="numberlength_error"></div>
+                        <div style="font-size: 20px; color: red" id="number_error"></div>
+
+                            <!--submit button-->
+                        <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 140px;" type="submit" value="Register">
+
+                        }
+                    </div>
+                </div>
+            </section>
+
+
         </div>
-
-
-        <div class="col-md-6 col-md-offset-3 contact-form">
-          <h3>Please enter your data</h3>
-          <div class="info-detail">
-          @helper.form(action = routes.Users.saveUser(Constants.USER_SELLER)) {
-
-              <div class="duplicate-email" style="font-size: 18px; color: red;">
-              @if(flash.containsKey("error")) {
-                  <div class="alert alert-danger" role="alert">
-                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                      <span class="sr-only">Error:</span>
-                      @flash.get("error")
-                  </div>
-              }
-              </div>
-                <!--input field for email-->
-              <input type="email" id="email" name = "email" value="@userForm.bindFromRequest().field("email").value()" required placeholder="e.g. john.doe&#64example.com" required onkeyup="checkEmail();">
-              <div style="font-size: 20px; color: red" id="email_error"></div>
-                <!--input field for password-->
-              <input type="password" id="password1" name = "password" value="@userForm.bindFromRequest().field("password").value()" placeholder="Password(min 6 characters)" required onkeyup="checkPasswordLength();">
-              <div style="font-size: 20px; color: red" id="password_error"></div>
-                <!--input field for password confirmation-->
-              <input type="password" id="password-retype" name="passwordretype" value="@userForm.bindFromRequest().field("passwordretype").value()" placeholder="Please confirm your password" required onkeyup="checkPasswordMatch();" >
-              <div style="font-size: 20px; color: red" id="password2_error"></div>
-                <!--input for name-->
-              <input type="text" id="name" name="firstname" value="@userForm.bindFromRequest().field("firstname").value()" placeholder="Please enter your name" required onkeyup="checkName();" onkeyup=" checkNameLength()">
-              <div style="font-size: 20px; color: red" id="name_error"></div>
-              <div style="font-size: 20px; color: red" id="namelength_error"></div>
-
-                <!--input for lastname-->
-              <input type="text" id="last-name" name="lastname" value="@userForm.bindFromRequest().field("lastname").value()" placeholder="Please enter your last name" required onkeyup="checkLastname();" onkeyup="checkLastnameLength()" >
-              <div style="font-size: 20px; color: red" id="lastname_error"></div>
-              <div style="font-size: 20px; color: red" id="lastnamelength_error"></div>
-                <!--input for lastname-->
-              <input type="text" id="phone-number" required name="phoneNumber" value="@userForm.bindFromRequest().field("phoneNumber").value()" placeholder="Please enter your number" onkeyup="isNumber();" onkeyup="numberLength()">
-              <div style="font-size: 20px; color: red" id="numberlength_error"></div>
-              <div style="font-size: 20px; color: red" id="number_error"></div>
-
-                <!--submit button-->
-              <input class="submit-btn" style="background-color: #204d74; border-radius: 5px; height: 40px; width: 80px;" type="submit" value="Register">
-
-          }
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-}
+        }
+</div>

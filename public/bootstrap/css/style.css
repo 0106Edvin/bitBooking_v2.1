@@ -137,11 +137,15 @@ html, body {
 }
 .footer{
     margin-top: 50px;
-    background: #c4e3f3;
+    background: #5e5e5e;
     bottom: 0;
     left: 0;
     right: 0;
+    color:white;
 
+}
+.footer a {
+    color: #1c94c4;
 }
 .footer1{
     position: relative;
@@ -1012,7 +1016,7 @@ li a.active {
 
 .footer p {
     font-size: 20px;
-    color: #000;
+    color: white;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     margin: 0;
@@ -1022,12 +1026,12 @@ li a.active {
 
 .footer a i.fa {
     font-size: 26px;
-    color: grey;
+    color: white;
     padding: 22px 10px;
 }
 
 .footer a i.fa:hover {
-    color: #42b3e5;
+    color: white;
 }
 
 .carousel-inner {
@@ -1365,10 +1369,12 @@ responsive area
     .footer a i.fa {
         font-size: 18px;
         padding: 25px 7px;
+        color: white;
     }
 
     .footer p {
         font-size: 10px;
+        color: white;
     }
 }
 
