@@ -12,21 +12,26 @@
 
             <section>
                 <div class="col-md-8 col-md-offset-1 contact-form">
+                    <div  style="font-size: 20px;">
                     @if(flash.containsKey("error")) {
-                        <div class="alert alert-danger alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">�</a>
-                            <i class="fa fa-coffee"></i>
-                            @flash.get("error");
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            @flash.get("error")
                         </div>
                     }
+                        </div>
+                    <div  style="font-size: 20px;">
 
                     @if(flash.containsKey("success")) {
-                        <div class="alert alert-success alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">�</a>
-                            <i class="fa fa-coffee"></i>
-                            @flash.get("success");
+                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Success:</span>
+                            @flash.get("success")
+
                         </div>
                     }
+                        </div>
                 </div>
 
             </section>

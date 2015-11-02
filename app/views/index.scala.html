@@ -126,6 +126,7 @@
             </div>
         </div>
 
+
     </section> <!-- end of about section -->
 
     <div id="searchPanel" style="margin-top: 50px">
@@ -135,6 +136,7 @@
 
 
         <div class="container">
+
                 <div class="row">
                     <div class="contact-heading text-center">
                         <h2>Search Hotels</h2>
@@ -145,16 +147,20 @@
                             <form method="get" action="@routes.Hotels.search()">
 
                                 <div class="col-md-5">
+
                                     <input class="date-class" name="firstDate" id="date" placeholder="Check-in" style="border-radius: 20px"/>
                                 </div>
                                 <div class="col-md-5">
                                     <input class="date-class" name="secondDate" id="date2" placeholder="Check-out" style="border-radius: 20px"/>
+
                                 </div>
 
 
                                 <!--input field for search-->
                                 <div class="col-md-5">
+
                                     <input type="text" id="search1" name = "search" style="border-radius: 25px; font-size: 17px;width: 250px; height: 50px;" minlength="1" maxlength="32" required placeholder="e.g. city, country, hotel...">
+
                                 </div>
                                     <!--submit button-->
                                 <div class="col-md-10">
@@ -320,7 +326,11 @@
                             <div style="font-size: 20px; color: red" class="duplicate-email" >
                             @if(flash.containsKey("error")) {
                                 <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
-                                @flash.get("error")
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span>
+                                    @flash.get("error")
+                                </div>
 
 
                             }
@@ -329,8 +339,12 @@
                             <div style="font-size: 20px; color: #189800" class="duplicate-email" >
                                 @if(flash.containsKey("success")){
                                     <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
+                                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Success:</span>
                                         @flash.get("success")
 
+                                    </div>
 
                                 }
                             </div>

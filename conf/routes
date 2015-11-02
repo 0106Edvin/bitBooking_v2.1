@@ -136,7 +136,12 @@ GET           /newsletter/unsubscribe/:token                        @controllers
 GET           /seller/createpromotion                               @controllers.user.Seller.createPromotion()
 
 #REST
+
+GET           /api/users                                            @controllers.api.ApiUserController.getAllUsers()
+GET           /api/hotels                                           @controllers.api.ApiHotelController.getHotelList()
 GET           /api/users                                            @controllers.user.UserApiController.getAllUsers()
+
+
 
 #FAQ
 POST          /admin/createFAQ                                      @controllers.Questions.saveFAQ()
@@ -147,8 +152,6 @@ GET           /admin/seeallFAQ                                      @controllers
 DELETE        /admin/deleteFAQ/:id                                  @controllers.Questions.deleteFAQ(id: Integer)
 GET           /FAQ                                                  @controllers.Application.showFAQ()
 GET           /searchFAQ                                            @controllers.Application.searchFAQ()
-
-
 
 # Messages
 POST          /message/save/:id                                     @controllers.MessageController.saveMessage(id: Integer)

@@ -24,7 +24,13 @@
               <form>
                 <div class="duplicate-email">
                 @if(flash.containsKey("error")) {
-                  @flash.get("error")
+
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    @flash.get("error")
+                  </div>
+
                 }
                 </div>
                   <!--input field for email-->
@@ -35,7 +41,13 @@
                 <div style="font-size: 20px; color: red" id="password_error"></div>
                 @if(flash.containsKey("login-error")) {
                   <div class="form-group" style="font-size: 20px; color: red;">
-                  @flash.get("login-error")
+
+                    <div class="alert alert-danger" role="alert">
+                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                      <span class="sr-only">Error:</span>
+                      @flash.get("login-error")
+                    </div>
+
                   </div>
                 }
                 <div class="forgotten-password-div">
