@@ -9,15 +9,18 @@ $('body').on('click', 'a[data-role="delete"]', function (e) {
         text: 'You are about to delete from database.',
         type: 'warning',
         showCancelButton: true,
+        showConfirmButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
         confirmButtonClass: 'confirm-class',
         cancelButtonClass: 'cancel-class',
+        showLoaderOnConfirm: true,
         closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnCancel: true
     }, function (isConfirm) {
+        swal.disableButtons();
         if (isConfirm) {
             $.ajax({
                 url: $toDelete.attr("href"),
@@ -30,13 +33,6 @@ $('body').on('click', 'a[data-role="delete"]', function (e) {
                     type: 'success',
                     timer: 1000
                 });
-            });
-        } else {
-            swal({
-                title: 'Canceled!',
-                text: 'Delete canceled.',
-                type: 'error',
-                timer: 1000
             });
         }
     });
