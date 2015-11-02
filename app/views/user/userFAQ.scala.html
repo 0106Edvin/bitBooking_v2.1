@@ -1,37 +1,44 @@
 @(questions: List[Question])
 
 @main{
-<section>
-<div class="container">
-    <div class="row">
-        <div class="contact-caption clearfix">
-            <div class="contact-heading text-center">
-                <h2>Frequently asked questions</h2>
-            </div>
-            <div class="contact-info ">
-                <div class="col-md-10 col-md-offset-0">
-                    @for(question <- questions) {
-                    <div id="comment-to-delete" class="service">
-
-                        <h3 style="cursor: pointer;" class="link-hover" id="answerOpen@question.id">@question.question<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
-                        <div id="answerDiv@question.id" class="info-detail" hidden>
-                        <br>
-
-                        <div style="color: black; font-size: 25px;">@question.answer</div>
-
-                        <hr>
-                        </div>
-                        }
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>FREQUENTLY ASKED QUESTIONS</h2>
                     </div>
                 </div>
+            </section>
+            <section>
+                <div class="contact-info ">
+                    <div class="col-md-11">
+                        @for(question <- questions) {
+                            <div id="comment-to-delete" class="about">
+
+                                <h4 style="cursor: pointer;" class="link-hover" id="answerOpen@question.id">@question.question<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h4>
+                                <div id="answerDiv@question.id" hidden>
+                                    <h4>@question.answer</h4>
+                                </div>
+                                }
+                             </div>
+                    </div>
+                </div>
+
+            </section>
+            <div col-md-1>
+                <a href="@routes.Application.searchFAQ()"><button class="submit-btn" id="searchFAQ">SEARCH FAQ</button></a>
+
             </div>
+
+
         </div>
-    </div>
+        }
 </div>
 
 
-</section>
-}
+
+
 
 <script>
 $(document).ready(function(){

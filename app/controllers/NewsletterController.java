@@ -3,6 +3,8 @@ package controllers;
 import helpers.Authenticators;
 import helpers.NewsletterMail;
 import models.AppUser;
+import models.ErrorLogger;
+import models.Hotel;
 import models.Newsletter;
 import play.Logger;
 import play.Play;
@@ -46,6 +48,7 @@ public class NewsletterController extends Controller {
         try {
             nl.save();
         } catch (PersistenceException e) {
+            ErrorLogger.createNewErrorLogger("Subscribed user tried to subscribe to newsletters again.", e.getMessage());
             return badRequest();
         }
         return ok();
@@ -66,14 +69,15 @@ public class NewsletterController extends Controller {
         String title = form.field("title").value();
         String content = form.field("content").value();
 
+        Hotel temp = Hotel.findHotelById(Integer.parseInt(hotel));
+
         String host = Play.application().configuration().getString("unsubscribe");
 
         List<Newsletter> newsletters = Newsletter.finder.where().eq("is_subscribed", true).findList();
         for (Newsletter nl : newsletters) {
-            NewsletterMail.send(nl.email, host, title, content, hotel, nl.token);
+            NewsletterMail.send(nl.email, host, title, content, temp, nl.token);
         }
-        Logger.debug(hotel + " " + title + " " + " " + content + " " + host);
-        flash("info", "Successfully send all newsletters.");
+        flash("info", "Successfully sent to all subscribers.");
         return redirect(routes.Application.index());
     }
 

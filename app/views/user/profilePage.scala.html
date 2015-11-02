@@ -1,113 +1,121 @@
 @(user: AppUser)
 @main {
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>edit profile</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>EDIT PROFILE</h2>
+                    </div>
                 </div>
-                <div class="info-detail form-group">
+            </section>
 
-
-                </div>
+            <section>
                 <div class="col-md-8 col-md-offset-1 contact-form">
+                    <div  style="font-size: 20px;">
                     @if(flash.containsKey("error")) {
-                        <div class="alert alert-danger alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">�</a>
-                            <i class="fa fa-coffee"></i>
-                            @flash.get("error");
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            @flash.get("error")
                         </div>
                     }
+                        </div>
+                    <div  style="font-size: 20px;">
 
                     @if(flash.containsKey("success")) {
-                        <div class="alert alert-success alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">�</a>
-                            <i class="fa fa-coffee"></i>
-                            @flash.get("success");
+                        <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Success:</span>
+                            @flash.get("success")
+
                         </div>
                     }
+                        </div>
                 </div>
+
+            </section>
+
+            <section>
                 <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="@routes.Users.updateUser(user.email)">
 
                     <div class="col-md-5 contact-info text-left">
-                    @if(user.profileImg == null) {
-                        <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
-                        background-image : url(http://www.dreveterinary.com/lib/img/placeholder_small.png)"></div>
+                        @if(user.profileImg == null) {
+                            <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
+                            background-image : url(http://www.dreveterinary.com/lib/img/placeholder_small.png)"></div>
 
-                    } else {
-                    <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
-                    background-image : url(@user.profileImg.getThumbnail)"></div>
-            }
-            <div class="service">
-                <p class="btn btn-link btn-file">Upload a profile photo...<input type="file" name="image" class="form-control" accept="image/*" id="upload-img"/></p>
-            </div>
+                        } else {
+                            <div id="img-preview-block" class="img-circle avatar avatar-original center-block" style="background-size : cover ;
+                            background-image : url(@user.profileImg.getThumbnail)"></div>
+                        }
+                        <div class="about text-center">
+                            <h4 class="btn btn-link btn-file">Upload a profile photo...<input type="file" name="image" class="form-control" accept="image/*" id="upload-img"/></h4>
+                        </div>
 
+                    </div>
+                    <div class="col-md-6 col-md-offset-1 contact-form">
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-lg-3 control-label">First name:</h4>
+                            </div>
+                            <div class="col-lg-8">
+                                <input class="margininput" name="firstname" required placeholder="Name" type="text" value="@user.firstname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-lg-3 control-label">Last name:</h4>
+                            </div>
+                            <div class="col-lg-8">
+                                <input class="margininput" name="lastname" required placeholder="Last name" type="text" value="@user.lastname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-lg-3 control-label">Email:</h4>
+                            </div>
+                            <div class="col-lg-8">
+                                <input class="margininput" name="email" required placeholder="example&#example.com" type="text" value="@user.email" onfocus="this.blur()" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-md-3 control-label">Password:</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="margininput" name="password" placeholder="Password" type="password" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-md-3 control-label">Confirm password:</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="margininput" name="passwordretype" placeholder="Retype password" type="password" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="about">
+                                <h4 class="col-md-3 control-label">Phone number:</h4>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="margininput" name="phoneNumber" required placeholder="+12345678910" type="text" value="@user.phoneNumber">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="col-md-3 control-label"></h4>
+                            <div class="col-md-8">
+                                <input class="submit-btn" id="save-profile-updates" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </section>
         </div>
-        <div class="col-md-6 col-md-offset-1 contact-form">
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-lg-3 control-label">First name:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input class="form-control" name="firstname" required placeholder="Name" type="text" value="@user.firstname">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-lg-3 control-label">Last name:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input class="form-control" name="lastname" required placeholder="Last name" type="text" value="@user.lastname">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-lg-3 control-label">Email:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input class="form-control" name="email" required placeholder="example&#example.com" type="text" value="@user.email" onfocus="this.blur()" readonly="readonly">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-md-3 control-label">Password:</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" name="password" placeholder="Password" type="password" value="">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-md-3 control-label">Confirm password:</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" name="passwordretype" placeholder="Retype password" type="password" value="">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="service">
-                    <label class="col-md-3 control-label">Phone number:</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" name="phoneNumber" required placeholder="+12345678910" type="text" value="@user.phoneNumber">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label"></label>
-                <div class="col-md-8">
-                    <input class="submit-btn" id="save-profile-updates" type="submit" value="SAVE UPDATES" onclick="@routes.Users.updateUser(user.email)">
-                </div>
-            </div>
-        </div>
+        }
+</div>
 
-        </form>
-
-
-    </div>
-
-    </div>
-    </div>
-
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/showPicture.css")" />
-    <script src="@routes.Assets.versioned("javascripts/showPicture.js")"></script>
-}
+<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/showPicture.css")" />
+<script src="@routes.Assets.versioned("javascripts/showPicture.js")"></script>

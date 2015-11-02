@@ -3,6 +3,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Email;
+import models.ErrorLogger;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import play.Play;
@@ -51,6 +52,7 @@ public class Emails extends Controller {
 
                 email.send();
             } catch (EmailException e) {
+                ErrorLogger.createNewErrorLogger("Failed to send mail from Contact form.", e.getMessage());
                 e.printStackTrace();
             }
             flash("success", "Your message was sent! Thank You for contacting us!");

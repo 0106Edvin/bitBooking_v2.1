@@ -13,11 +13,8 @@ public class Feature extends Model {
 
     @Id
     public Integer id;
-    //@Column(unique = true)
+    @Column(unique = true)
     public String name;
-
-    @Column(name = "is_free")
-    public Boolean isFree;
 
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
@@ -30,9 +27,6 @@ public class Feature extends Model {
 
     @OneToOne
     public Image icon;
-
-    @ManyToMany(mappedBy = "features")
-    public List<Hotel> hotels;
 
     @ManyToMany(mappedBy = "features")
     public List<Room> rooms;
@@ -52,20 +46,13 @@ public class Feature extends Model {
         this.id = id;
         this.name = name;
         this.icon = icon;
-        this.hotels = new LinkedList<Hotel>(hotels);
-        for(Hotel h: hotels){
-            h.features.add(this);
-        }
+
     }
     //finding createFeature by id
     public static Feature findFeatureById(Integer id) {
         Feature feature = finder.where().eq("id", id).findUnique();
 
         return feature;
-    }
-
-    public String toString() {
-        return name +  " " + isFree;
     }
 
 }

@@ -1,14 +1,13 @@
 package controllers;
 
+import helpers.Authenticators;
 import helpers.SessionsAndCookies;
-import models.AppUser;
-import models.Hotel;
-import models.Question;
-import models.SiteStats;
+import models.*;
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.list;
 
 import javax.persistence.PersistenceException;
@@ -28,9 +27,9 @@ public class Application extends Controller {
                 tempStat.setUpdatedBy(temp.firstname, temp.lastname);
             }
         } else {
-            stats.createdBy = "Anonimous user";
+            stats.createdBy = "Anonymous user";
             if (tempStat != null) {
-                tempStat.updatedBy = "Anonimous user";
+                tempStat.updatedBy = "Anonymous user";
             }
         }
         try {
@@ -57,4 +56,15 @@ public class Application extends Controller {
         return ok(views.html.user.userFAQ.render(q));
     }
 
+
+    public Result searchFAQ() {
+        List<Question> q = Question.finder.all();
+        return ok(views.html.user.searchFAQ.render(q));
+    }
+
+    @Security.Authenticated(Authenticators.AdminFilter.class)
+    public Result seeErrors() {
+        List<ErrorLogger> errors = ErrorLogger.getAllErrors();
+        return ok(views.html.admin.errors.render(errors));
+    }
 }

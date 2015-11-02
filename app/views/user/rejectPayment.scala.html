@@ -1,28 +1,31 @@
 @import helpers.Constants
 @import helper._
 @main   {
-
-  <div class="container">
-    <div class="row">
-      <div class="contact-caption clearfix" style="height: 200px;">
-        <div class="contact-heading text-center">
-          <h3 style="font-size: 40px; color:#D00000;">Your payment was rejected!</h3>
+  <div  id="main-background">
+    <div class="container" id="background">
+      <section id="hotel-section1" class="marginbottom">
+        <div class="container">
+          <div class="about text-center">
+            <h2>YOUR PAYMENT WAS REJECTED</h2>
+          </div>
         </div>
+       </section>
 
         <!-- contact section starts here -->
-
+      <section>
         <div class="container" id="mailPanel">
           <div class="row">
             <a href="https://www.paypal.com/ba/webapps/mpp/merchant">
               <img src="http://www.custarddesigns.com/wp-content/uploads/paypal-logo-transparent.png"/>
             </a>
-            <div class="contact-caption clearfix">
-              <div class="contact-heading text-center">
-                <h2>contact us</h2>
-              </div>
 
-              <div class="col-md-5 contact-info text-left">
-                <h3>contact information</h3>
+
+              <div class="about text-center">
+                <h2>CONTACT US</h2>
+              </div>
+            <div class="about clearfix">
+              <div class="col-md-5 about text-left">
+                <h3>CONTACT INFORMATION</h3>
 
                 <div class="info-detail" style="font-size : 20px;">
                   <ul><li><i class="fa fa-calendar"></i><span>Monday - Friday:</span>
@@ -36,9 +39,9 @@
               </div>
 
 
-              <div class="col-md-6 col-md-offset-1 contact-form" id="contact">
-                <h3>leave us a message</h3>
-
+              <div class="col-md-6 col-md-offset-1 about contact-form" >
+                <h3>Leave us a message</h3>
+                <div class="info-detail">
                 <form method="post" action="@routes.Emails.sendMail()">
 
                   <input id="name" name="user_name" class="name" type="text" aria-required="true" placeholder="Name" required onkeyup="checkName()" onkeyup="checkNameLength()">
@@ -55,18 +58,27 @@
                   <textarea class="message" name="message" id="message" cols="30" rows="10" placeholder="Message" required ></textarea>
 
                   <div style="font-size: 20px; color: red" class="duplicate-email" >
-                    @if(flash.containsKey("error")) {
+                  @if(flash.containsKey("error")) {
                     <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
-                    @flash.get("error")
+                    <div class="alert alert-danger" role="alert">
+                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                      <span class="sr-only">Error:</span>
+                      @flash.get("error")
+                    </div>
 
 
                     }
                   </div>
 
-                  <div style="font-size: 20px; color: #33FF00" class="duplicate-email" >
-                    @if(flash.containsKey("success")){
+                  <div style="font-size: 20px; color: #189800" class="duplicate-email" >
+                  @if(flash.containsKey("success")){
                     <input type="" autofocus style="height: 0px; width: 0px; opacity: 0;" readonly="readonly">
-                    @flash.get("success")
+                    <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">
+                      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                      <span class="sr-only">Success:</span>
+                      @flash.get("success")
+
+                    </div>
 
 
                     }
@@ -76,11 +88,16 @@
                   <input href="@routes.Emails.sendMail()" class="submit-btn" id="contact-us" type="submit" value="SUBMIT">
 
                 </form>
+                </div>
               </div>
 
             </div>
           </div>
-      </div>
+        </div>
+      </section>
+
+
     </div>
+    }
   </div>
-}
+

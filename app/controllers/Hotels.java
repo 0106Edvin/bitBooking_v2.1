@@ -1,11 +1,14 @@
 package controllers;
 
 import com.avaje.ebean.Model;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import helpers.Authenticators;
 import helpers.Constants;
+import helpers.MailHelper;
+import helpers.UserAccessLevel;
 import models.*;
 import play.Logger;
+import play.Play;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -19,6 +22,8 @@ import views.html.seller.sellerPanel;
 import views.html.user.profilePage;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Hotels extends Controller {
@@ -40,47 +45,59 @@ public class Hotels extends Controller {
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
-
+        AppUser user = AppUser.getUserByEmail(session("email"));
         Form<Hotel> boundForm = hotelForm.bindFromRequest();
         Hotel hotel = boundForm.get();
 
-        List<Feature> features = listOfFeatures();
-        //Getting values from checkboxes
-        List<String> checkBoxValues = new ArrayList<>();
-        for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.field(features.get(i).id.toString()).value();
-
-            if (feature != null) {
-                checkBoxValues.add(feature);
-            }
-        }
-
-        List<Feature> featuresForHotel = new ArrayList<Feature>();
-
-        for (int i = 0; i < checkBoxValues.size(); i++) {
-            for (int j = 0; j < features.size(); j++) {
-                if (features.get(j).id.toString().equals(checkBoxValues.get(i))) {
-                    featuresForHotel.add(features.get(j));
-                }
-            }
-        }
-
-        hotel.features = featuresForHotel;
         Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
 
         hotel.sellerId = sellerId;
         hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
         hotel.save();
 
+        List<Feature> features = listOfFeatures();
+        for (int i = 0; i < features.size(); i++) {
+            String feature = boundForm.field(features.get(i).id.toString()).value();
+
+            if (feature != null) {
+                HotelFeature hotelFeature = new HotelFeature();
+                hotelFeature.feature = features.get(i);
+                hotelFeature.hotel = hotel;
+                hotelFeature.setCreatedBy(user);
+                hotelFeature.save();
+            }
+        }
+
         List<Hotel> hotels = finder.all();
         List<AppUser> users = userfinder.all();
+
+        // Sending an email to the seller after creating the hotel.
+        String message = String
+                .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
+                        "Dear ", user.firstname, ",",
+                        "we want to inform you that Hotel Manager has created hotel for you.",
+                        "HOTEL INFORMATION:",
+                        boundForm.field("name").value(),
+                        boundForm.field("location").value(),
+                        boundForm.field("city").value(),
+                        boundForm.field("country").value(),
+                        boundForm.field("stars").value(), " stars",
+
+                        "Please visit your profile and check for updates.",
+                        "Sincerely yours,",
+                        "bitBooking team.",
+                        Play.application().configuration().getString("logo"));
+
+        AppUser seller = AppUser.findUserById(sellerId);
+
+        MailHelper.send(seller.email, message, Constants.HOTEL_CREATED, null, null, null);
+
         return ok(managerHotels.render(hotels, users));
-
-
     }
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
+        AppUser user = AppUser.getUserByEmail(session("email"));
 
         Hotel hotel = Hotel.findHotelById(id);
         Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
@@ -90,8 +107,42 @@ public class Hotels extends Controller {
         String country = hotelForm1.field("country").value();
         String location = hotelForm1.field("location").value();
         String description = hotelForm1.field("description").value();
+        String stars = hotelForm1.field("stars").value();
+        Logger.debug(stars);
 
+        Integer starsHotel = null;
+        if (stars != null && !"".equals(stars.trim())) {
+            try {
+                starsHotel = Integer.parseInt(stars);
+            } catch (NumberFormatException e) {
+                ErrorLogger.createNewErrorLogger("Failed to parse input for hotel stars.", e.getMessage());
+            }
+        }
 
+        List<Feature> features = listOfFeatures();
+        Map<Integer, String> featurePrice = new HashMap<>();
+
+        for (int i = 0; i < features.size(); i++) {
+            String price = hotelForm1.field(features.get(i).id.toString()).value();
+
+            if (price != null) {
+                featurePrice.put(features.get(i).id, price);
+            }
+        }
+
+        for (Map.Entry<Integer, String> entry : featurePrice.entrySet()) {
+            if (!"".equals(entry.getValue().trim())) {
+                int featureId = entry.getKey();
+                String price = featurePrice.get(featureId);
+                HotelFeature temp = HotelFeature.getHotelFeatureByHotelIdAndFeatureId(id, featureId);
+                temp.isFree = Constants.FEATURE_NOT_FREE;
+                temp.price = price;
+                temp.setUpdatedBy(user);
+                temp.update();
+            }
+        }
+
+        hotel.stars = starsHotel;
         hotel.name = name;
         hotel.location = location;
         hotel.description = description;
@@ -131,6 +182,7 @@ public class Hotels extends Controller {
 
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
+        List<HotelFeature> features = HotelFeature.getFeaturesByHotelId(id);
         List<Room> rooms = hotel1.rooms;
         if(hotel1 != null) {
             hotel1.update();
@@ -140,16 +192,24 @@ public class Hotels extends Controller {
             user = AppUser.findUserById(Integer.parseInt(session("userId")));
             Boolean hasRights = Comment.userHasRightsToCommentThisHotel(request().cookies().get("email").value(), hotel1);
             Boolean alreadyCommented = Comment.userAlreadyCommentedThisHotel(request().cookies().get("email").value(), hotel1);
-            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms));
+
+            // Checking if UserAccessLevel is BUYER, and records his/hers visit for recommendation purposes
+            if (user.userAccessLevel == UserAccessLevel.BUYER) {
+                HotelVisit.createOrUpdateVisit(hotel1, user);
+            }
+
+            return ok(hotel.render(hotel1, hasRights, alreadyCommented, user, rooms, features));
         } else {
-            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms));
+            return ok(views.html.hotel.hotel.render(hotel1, false, true, user, rooms, features));
         }
     }
+
 
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
-        return ok(updateHotel.render(hotel));
+        List<HotelFeature> features = HotelFeature.getFeaturesByHotelId(id);
+        return ok(updateHotel.render(hotel, features));
     }
 
 
@@ -185,11 +245,31 @@ public class Hotels extends Controller {
     }
 
     public Result search() {
-        Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
-        String category = hotelForm1.field("category").value();
-        String searchWhat = hotelForm1.field("search").value();
-        List<Hotel> hotels = Hotel.searchHotels(category, searchWhat);
+        DynamicForm form = Form.form().bindFromRequest();
 
+        String searchWhat = form.field("search").value();
+        String checkin = form.field("firstDate").value();
+        String checkout = form.field("secondDate").value();
+
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date firstDate = null;
+        Date secondDate = null;
+
+        try {
+            firstDate = dtf.parse(checkin);
+            secondDate = dtf.parse(checkout);
+
+            if(firstDate.after(secondDate)) {
+                flash("error-search","First date can't be after second date!");
+                return redirect(routes.Application.index());
+            }
+        } catch (ParseException e) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates in search.", e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        List<Hotel> hotels = Hotel.searchHotels(firstDate, secondDate, searchWhat);
         return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 
@@ -203,4 +283,7 @@ public class Hotels extends Controller {
         Hotel.setHotelVisibilityOnHomePage(hotel, !visibility);
         return redirect(routes.Users.showManagerHotels());
     }
+
+
+
 }

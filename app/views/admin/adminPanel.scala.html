@@ -1,13 +1,16 @@
 @import helper._
 @main {
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix" style="height: 300px;">
-                <div class="contact-heading text-center">
-                    <h2>admin panel</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>ADMIN PANEL</h2>
+                    </div>
                 </div>
-
-                <div class="col-md-4">
+            </section>
+            <section class="marginbottom-admin">
+                <div class="col-md-3">
                     <br/>
                     <a href="@routes.Users.showAdminHotels()">
                         <button id="hotelsbtn" class="btn-default" style="background-color:darkorange;color:white;width : 70% ; height : 100px ; font-size : 30px">
@@ -15,8 +18,7 @@
                         </button>
                     </a>
                 </div>
-
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <br/>
                     <a href="@routes.Users.showAdminUsers()">
                         <button id="hotelsbtn" class="btn-success" style="width : 70% ; height : 100px ; font-size : 30px">
@@ -24,7 +26,7 @@
                         </button>
                     </a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <br/>
                     <a href="@routes.Users.showAdminFeatures()">
                         <button id="hotelsbtn" class="btn-primary" style="width : 70% ; height : 100px ; font-size : 30px">
@@ -32,9 +34,16 @@
                         </button>
                     </a>
                 </div>
+                <div class="col-md-3">
+                    <br/>
+                    <a href="@routes.Questions.seeAll()">
+                        <button id="hotelsbtn" class="btn-danger" style="width : 70% ; height : 100px ; font-size : 30px">
+                            FAQ
+                        </button>
+                    </a>
+                </div>
+            </section>
 
-
-            </div>
         </div>
-    </div>
-}
+        }
+</div>

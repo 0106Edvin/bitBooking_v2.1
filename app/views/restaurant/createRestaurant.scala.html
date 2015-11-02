@@ -1,41 +1,61 @@
 @(hotelId: Integer)
 @import helper._
 @main {
-@helper.form(action = routes.Restaurants.saveRestaurant(hotelId)) {
-<form class="form">
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>CREATE RESTAURANT</h2>
-                </div>
-                <div class="col-md-6 col-md-offset-3 contact-form">
-                    <h3>Restaurant information</h3>
-                    <div class="info-detail">
-                        <div class="duplicate-email" style="font-size: 20px; color: red">
-                            @if(flash.containsKey("error")) {
-                            @flash.get("error")
-                            }
-                        </div>
-                        <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
-                        <input name="restauranType" class="name" type="text" placeholder="Cuisine (italian, mexican,...)" required>
-                        <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
-                        <div class="" style="display: inline">
-                            <label style="color: white; font-size: 20px; margin-left: 0cm; padding-right: 5px;">Opens at: </label>
-                            <input type="time" style="width: 190px; font-size: 15px;" name="restOpen" required>
-                            <label style="color: white; font-size: 20px; padding-right: 5px; padding-left: 23px;"> Closes at:  </label>
-                            <input type="time" style="width: 190px; font-size: 15px;" name="restClose" required>
-                        </div>
+    @helper.form(action = routes.Restaurants.saveRestaurant(hotelId)) {
 
-                        <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description"></textarea>
-                        <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
-                        <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" style="background-color : #0066FF ; border-radius : 5px; width: 90px; float: left;" type="button" value="BACK" ></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+        <div  id="main-background">
+            <div class="container" id="background">
+                <form class="form">
+                    <section id="hotel-section1" class="marginbottom">
+                        <div class="container">
+                            <div class="about text-center">
+                                <h2>CREATE RESTAURANT</h2>
+                            </div>
 
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="col-md-6 col-md-offset-3 contact-form">
+                            <div class="about ">
+                                <div class="text-center">
+                                    <h3>Restaurant information</h3>
+                                </div>
+                                <div class="info-detail">
+                                    <div class="duplicate-email" style="font-size: 20px; color: red">
+                                    @if(flash.containsKey("error")) {
+                                        <div class="alert alert-danger" role="alert">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                            <span class="sr-only">Error:</span>
+                                            @flash.get("error")
+                                        </div>
+                                    }
+                                    </div>
+                                        <input name="name" class="name" type="text" placeholder="Restaurant Name" required>
+                                        <input name="restauranType" class="name" type="text" placeholder="Cuisine (italian, mexican,...)" required>
+                                        <input name="capacity" class="phone" type="number" min="10" placeholder="Capacity" required>
+                                    <div class="about" style="float: left">
+                                        <h4 >Opens at: </h4>
+                                        <input type="time" style="width: 160px; font-size: 15px;" name="restOpen" required>
+                                    </div>
+                                    <div class="about" style="float: right">
+                                        <h4 > Closes at:  </h4>
+                                        <input type="time" style="width: 160px; font-size: 15px;" name="restClose" required>
+                                    </div>
+
+
+                                    <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : vertical" placeholder="Description"></textarea>
+                                    <a href="@routes.Restaurants.saveRestaurant(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
+                                    <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" type="button" value="BACK" ></a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </form>
+
+                }
+</div>
 }
-}
+</div>

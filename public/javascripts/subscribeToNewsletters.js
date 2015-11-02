@@ -21,16 +21,16 @@ $('body').on('click', '#newsletter', function (e) {
         if(response.responseText == "input") {
             swal({
                 title: 'Inputted email is wrong.',
-                text: 'Window will close in 3 seconds.',
+                text: 'Window will close in 2 seconds.',
                 type: 'error',
-                timer: 3000
+                timer: 2000
             });
         } else {
             swal({
                 title: 'You already are registered for newsletters.',
-                text: 'Window will close in 3 seconds.',
+                text: 'Window will close in 2 seconds.',
                 type: 'error',
-                timer: 3000
+                timer: 2000
             });
         }
     });

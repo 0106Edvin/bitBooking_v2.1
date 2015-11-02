@@ -1,0 +1,42 @@
+@(errors: List[ErrorLogger])
+@main {
+  <div  id="main-background">
+    <div class="container" id="background">
+      <div class= font-size-20" id="sorting">
+        <div class="container">
+          <div class="about text-center">
+            <h2 style="color:red">LOGGED ERRORS</h2>
+          </div>
+        </div>
+        <table id="sort" class="table">
+          <thead>
+            <tr class="font-size-22">
+              <th>Custom message</th>
+              <th>Error message</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+          @for(error <- errors) {
+            <tr class="font-size-18">
+              <td>@error.getCustomMessage</td>
+              <td>@error.getErrorMessage</td>
+              <td>@error.getFormattedDate</td>
+            </tr>
+          }
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#sort').DataTable({
+                "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                "iDisplayLength": 25
+            });
+        });
+    </script>
+    }
+</div>

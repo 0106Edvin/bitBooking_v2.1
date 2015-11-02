@@ -1,21 +1,16 @@
 @(hotels: java.util.List[Hotel])
     @main {
     <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
-
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>Hotels</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>HOTELS</h2>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <br/>
-                    <a href="@routes.Users.showAdminHotels()">
-                        <button id="hotelsbtn" class="btn-default" style="background-color:darkorange;color:white;width : 70% ; height : 100px ; font-size : 30px">
-                            Hotels
-                        </button>
-                    </a>
-                </div>
+            </section>
+            <section class="marginbottom-admin-hotels">
 
                 <div class="col-md-4">
                     <br/>
@@ -33,37 +28,45 @@
                         </button>
                     </a>
                 </div>
-
-
-                <div>
+                <div class="col-md-4">
                     <br/>
-                <table class="table table-responsive">
-                    <thead>
-                        <tr class="service">
-                            <th style="font-size: 30px;">Name</th>
-                            <th style="font-size: 30px;">Location</th>
-                            <th style="font-size: 30px;">Description</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @for(hotel <- hotels) {
-                        <tr class="service" >
-                            <td style="font-size: 22px;">@hotel.name</td>
-                            <td style="font-size: 22px;">@hotel.location</td>
-                            <td style="font-size: 22px;">@hotel.description</td>
-                            <td>
-                                <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotelAdmin(hotel.id)" role="button">
-                                    <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
-                            </td>
-
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-
+                    <a href="@routes.Questions.seeAll()">
+                        <button id="hotelsbtn" class="btn-danger" style="width : 70% ; height : 100px ; font-size : 30px">
+                            FAQ
+                        </button>
+                    </a>
                 </div>
+            </section>
+
+<section>
+    <table class="table table-responsive">
+        <thead>
+            <tr class="about">
+                <th>Name</th>
+                <th>Location</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(hotel <- hotels) {
+            <tr class="about" >
+                <td>@hotel.name</td>
+                <td>@hotel.location</td>
+                <td>@hotel.description</td>
+                <td>
+                    <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotelAdmin(hotel.id)" role="button">
+                        <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>
+
+
+
             </div>
-        </div>
-    </div>
     }
+
+</div>

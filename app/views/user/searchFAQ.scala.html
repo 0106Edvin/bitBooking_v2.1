@@ -1,0 +1,42 @@
+@(questions: List[Question])
+@main {
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                    <div class="about text-center">
+                        <h2>SEARCH</h2>
+                    </div>
+
+                    <table id="sort" class="table">
+                        <thead>
+                            <tr class="about">
+                                <th>Question</th>
+                                <th>Answer</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @for(question <- questions) {
+                            <tr class="about">
+                                <td>@question.question</td>
+                                <td>@question.answer</td>
+                            </tr>
+                        }
+                        </tbody>
+
+                    </table>
+            </section>
+        </div>
+        }
+
+</div>
+
+
+    <script>
+        $(document).ready(function(){
+            $('#sort').DataTable({
+                "aLengthMenu": [[10, 50, 75, -1], [10, 50, 75, "All"]],
+                "iDisplayLength": 10
+            });
+        });
+    </script>

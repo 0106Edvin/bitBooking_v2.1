@@ -3,140 +3,231 @@
 @import helpers.UserAccessLevel
 @import models.Restaurant
 
-@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])
+@(hotel: Hotel)(hasRights: Boolean)(hasCommented: Boolean)(currentUser: AppUser)(rooms: List[Room])(features: List[HotelFeature])
 @import helper._
 @main {
-    <script src="@routes.Assets.versioned("javascripts/deleteComment.js")"></script>
     <script src='@routes.Assets.versioned("javascripts/js/coordinate2.js")'></script>
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>@hotel.name</h2>
-                    <div class="info-detail"></div>
-                </div>
 
 
-                <div class="col-md-6 col-md-offset-0 ">
-                    <div class="service">
-                        <div class="text-center">
-                            @if(hotel.images.size() == 0) {
-                                <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
-                            } else {
-                                <img src="@hotel.images.get(0).getSize(400, 300)"/>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-5  text-left">
-                    <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
-                    <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
-                    <div id="mapCanvas" class="shrinked-map"></div>
-                    <div id="infoPanel" style="display: none">
-                        <div id="info"></div>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>@hotel.name</h2>
                     </div>
 
-                    <div class="service">
-                        <br><br><br>
-                        <h4 value="@hotel.location">Hotel Adress: @hotel.location</h4>
-                    </div>
-                </div>
 
-                    <!-- description -->
-                <div class="contact-info ">
-                    <div class="col-md-10 col-md-offset-0">
-                        <div>
-                            <h3>Description</h3>
-                            <div class="info-detail">
-                                <div class="service">
-                                    <p>
-                                    @hotel.description
-                                    </p>
-                                </div>
+                    <div class="col-md-6 col-md-offset-0 ">
+                        <div class="margintop">
+                            <div class="about text-center">
+                                @if(hotel.images.size() == 0) {
+                                    <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
+                                } else {
+                                    @if(hotel.images.size() != 0) {
+                                        <div id="myCarousel" class="carousel slide center-block" data-ride="carousel" style="width:400px;">
+                                                <!-- Wrapper for slides -->
+                                            <div class="carousel-inner" role="listbox">
+                                                <div class="item active">
+                                                    <img src="@hotel.images.get(0).getSize(400, 300)" alt="Chania">
+                                                </div>
+                                                @for(image <- hotel.images) {
+                                                    <div class="item">
+                                                        <img src="@image.getSize(400, 300)"/>
+                                                    </div>
+                                                }
+                                            </div>
+                                                <!-- Left and right controls -->
+                                            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                    }
+
+                                }
+                                <h4>Hotel Address: @hotel.location</h4>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                    <!-- features and galery -->
-                <div class="contact-info ">
-                    <div class="col-md-10 col-md-offset-0">
-                        <h3>Feature</h3>
-                        <div class="info-detail">
-                            <ul>
-                                <div class="service" style="text-transform: capitalize;">
+                        <!-- description -->
+                    <div class="col-md-6  ">
+                        <div class="col-md-10 col-md-offset-0">
+                            <div class="about">
+                                <h3>Description</h3>
+                                <div class="info-detail">
+                                <h4>
+                                @hotel.description
+                                </h4>
+                                    </div>
 
-                                @if(hotel.features.size() != 0) {
-                                    @for(feature <- hotel.features) {
-
-                                        <li style="font-size: 16px;">
-                                            @feature.name
-                                            <img src="@feature.icon.getSize(30, 30)"/>
-                                            @if(feature.isFree == false) {
-                                                Extra $
-                                            } else {
-                                                Free
-                                            }
-                                        </li>
-
-                                    }
+                                @if(currentUser != null && currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
+                                    <a href="#" data-toggle="modal" data-target="#privateMessage" class="font-size-18"><i class="fa fa-envelope-o"></i>
+                                        Contact seller</a>
                                 }
 
-                                </div>
-                            </ul>
+                                    <!-- start of modal -->
+                                <div id="privateMessage" class="modal fade" role="dialog" style="background-color : #204d74">
+                                    <div class="modal-dialog">
+
+                                        <form method="post" action="@routes.MessageController.saveMessage(hotel.id)">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title font-size-30" style="color: #204d74">Compose Message</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 font-size-20" style="color: #204d74" for="inputSubject">Subject</label>
+                                                        <div class="col-sm-10">
+                                                            <input class="form-control" name="subject" style="color: #575757; font-size: 20px" id="inputSubject" placeholder="Subject" type="text" required />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-12 font-size-20" style="color: #204d74" for="inputBody">Message</label>
+                                                        <div class="col-sm-12">
+                                                            <textarea class="form-control" name="content" style="color: #575757; font-size: 20px" id="inputBody" placeholder="Message text" rows="10" required ></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row"></div>
+
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <input type="submit" class="edvin-button-role" id="modal-button-blue" value="Send"/>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div> <!-- end of modal -->
+
+
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="hotel-section-map" class="marginbottom">
+                <div class="container">
+
+                    <div class=" text-left">
+                        <input id="gLat" name="coordinateX" value="@hotel.coordinateX">
+                        <input id="gLng" name="coordinateY" value="@hotel.coordinateY">
+                        <div id="mapCanvas" class="shrinked-map"></div>
+                        <div id="infoPanel" style="display: none">
+                            <div id="info"></div>
+                        </div>
+
 
                     </div>
                 </div>
-                @if(Restaurant.findRestaurantByHotelId(hotel.id) != null) {
-                    <div class="contact-info ">
-                        <div class="col-md-10 col-md-offset-0">
-                            <div>
-                               <h3 style="cursor: pointer;" class="link-hover" id="restaurantOpen">@Restaurant.findRestaurantByHotelId(hotel.id).name<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
-                                <div id="restaurantDiv" class="info-detail" hidden>
-                                    <div class="service">
-                                        <p style="color: dimgrey; display: inline">Type of MENU: </p>
-                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).restauranType</p>
-                                        <br>
-                                        <p style="color: dimgrey; display: inline">Description: </p>
-                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).description</p>
-                                        <br>
-                                        <p style="color: dimgrey; display: inline">Working hours:</p>
-                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).workingHours</p>
-                                        <br>
-                                        <p style="color: dimgrey; display: inline">Capacity (number of seats): </p>
-                                        <p style="font-weight: normal;display: inline; margin-left: 5px"> @Restaurant.findRestaurantByHotelId(hotel.id).capacity</p>
-                                        <br>
-                                        @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
-                                            <p>RESTAURANT GALLERY</p>
-                                        }
-                                        <div class="info-detail">
+            </section>
+
+
+
+
+                <section id="hotel-section-features" class="marginbottom">
+                    <div class="container">
+
+                            <!-- features and galery -->
+                        <div class="about ">
+                            <div class="col-md-10 col-md-offset-0">
+                                <h3>Features</h3>
+                                <div class="info-detail">
+                                @if(features.size != 0) {
+                                <ul>
+                                    <div class="about" style="text-transform: capitalize;">
+                                    @for(feature <- features) {
+                                        <h4>
+                                            @feature.feature.name
+                                            @if(!feature.isFree) {
+                                                - will cost @feature.price extra $
+                                            }
+                                            <div class="col-md-1">
+                                                <img src="@feature.feature.icon.getSize(30, 30)"/>
+                                            </div>
+
+                                        </h4>
+                                    }
+
+                                    </div>
+                                </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+            @if(Restaurant.findRestaurantByHotelId(hotel.id) != null) {
+                <section id="hotel-section-restaurant" class="marginbottom">
+                    <div class="container">
+                        <div class="about ">
+                            <div class="col-md-10 col-md-offset-0">
+                                <div>
+                                    <h3 style="cursor: pointer;" class="link-hover" id="restaurantOpen">@Restaurant.findRestaurantByHotelId(hotel.id).name<i class="glyphicon glyphicon-triangle-bottom" style="float:right"></i> </h3>
+                                    <div id="restaurantDiv" class="info-detail" hidden>
+                                        <div class="about">
+                                            <h4>Type of MENU: @Restaurant.findRestaurantByHotelId(hotel.id).restauranType </h4>
+                                            <br>
+                                            <h4>Description: @Restaurant.findRestaurantByHotelId(hotel.id).description</h4>
+                                            <br>
+                                            <h4>Working hours: @Restaurant.findRestaurantByHotelId(hotel.id).workingHours</h4>
+                                            <h4> </h4>
+                                            <br>
+                                            <h4>Capacity (number of seats): @Restaurant.findRestaurantByHotelId(hotel.id).capacity</h4>
+                                            <br>
+                                            @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
+                                                <h4>RESTAURANT GALLERY</h4>
+                                            }
+                                            <div class="info-detail">
                                             @if(Restaurant.findRestaurantByHotelId(hotel.id).images.size() != 0) {
                                                 @for(image <- Restaurant.findRestaurantByHotelId(hotel.id).images) {
-                                                   <img src="@image.getSize(300, 200)"/>
+                                                    <img src="@image.getSize(300, 200)"/>
                                                 }
                                             }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                }
-                @if(hotel.rooms.size() != 0) {
-                    <div class="contact-info ">
-                        <div class="col-md-10 col-md-offset-0">
-                            <div>
-                                <h3 style="cursor : pointer ;" class="link-hover" id="roomsOpen">
-                                    ROOMS <i class="glyphicon glyphicon-triangle-bottom" style="float : right"></i> </h3>
-                                <div id="roomsDiv" class="info-detail" hidden>
-                                    <div class="service">
-                                        <div class="row">
+                    }
+
+        </section>
+
+            @if(hotel.rooms.size() != 0) {
+                <section id="hotel-section-rooms" class="marginbottom">
+                    <div class="container">
+                            <div class="col-md-10 col-md-offset-0">
+                                <div class="about">
+                                    <h3 style="cursor : pointer ;" class="link-hover" id="roomsOpen">
+                                        ROOMS </h3>
+
+                                <!--    <i class="glyphicon glyphicon-triangle-bottom" style="float : right"></i>
+                                    <div id="roomsDiv" class="info-detail" hidden>  -->
+
                                             <table class="table">
                                                 <thead>
-                                                    <tr class="service" >
+                                                    <tr class="about" >
                                                         <th id="textcenter" style="font-size: 22px">Name</th>
                                                         <th id="textcenter" style="font-size: 22px">Beds</th>
                                                         <th></th>
@@ -152,7 +243,7 @@
 
                                                 @for(room <- rooms) {
                                                     @if(room.hotel == hotel) {
-                                                        <tr class="service" id="textcenter">
+                                                        <tr class="about" id="textcenter">
                                                             <td style="font-size: 22px ;">@room.name</td>
                                                             <td style="font-size: 22px ;">@room.numberOfBeds</td>
                                                             <td>
@@ -171,15 +262,18 @@
                                                             }
 
                                                             @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                                <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
                                                                 <td></td>
                                                                 <td>
                                                                     <a href="@routes.Rooms.editRoom(room.id)">
-                                                                        <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px; color: white"></i>
+                                                                        <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px;
+                                                                        color: #42b3e5;"></i>
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <a onclick="return deleteConfirmation()" data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
-                                                                        <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px; color: white"></i>
+                                                                    <a  data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
+                                                                        <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px;
+                                                                        color: #42b3e5;"></i>
                                                                     </a>
                                                                 </td>
                                                             }
@@ -190,36 +284,41 @@
 
                                                 </tbody>
                                             </table>
-                                        </div>
+
                                     </div>
+                                </div>
+                     </div>
+
+                </section>
+            }
+
+           <!-- @if(hotel.images.size() != 0) {
+                <section id="hotel-section-gallery" class="marginbottom">
+                    <div class="container">
+                        <div class="about ">
+                            <div class="col-md-10 col-md-offset-0 about">
+                                <h3>Gallery</h3>
+                                <div class="info-detail">
+
+                                @for(image <- hotel.images) {
+                                    <img src="@image.getSize(300, 200)"/>
+                                }
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
+                </section>
+            }-->
 
-                <div class="contact-info ">
-                    <div class="col-md-10 col-md-offset-0">
-                        <h3>Gallery</h3>
-                        <div class="info-detail">
-                            @if(hotel.images.size() != 0) {
-                                @for(image <- hotel.images) {
-                                    <img src="@image.getSize(300, 200)"/>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
+            <section id="hotel-section-comments" class="marginbottom">
+                <div class="container">
+                    <div class="about">
+                        <div class="col-md-10 col-md-offset-0">
 
-
-
-                <div class="contact-info ">
-                    <div class="col-md-10 col-md-offset-0">
-
-                        <h3>Comments</h3>
-                        <div class="info-detail">
-                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
-                            <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
+                            <h3>Comments</h3>
+                            <div class="info-detail">
+                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
+                                <form action="@routes.Comments.insertComment(hotel.id)" method="POST">
 
                                 @if(hasRights) {
                                     @if(hasCommented) {
@@ -230,23 +329,19 @@
                                     } else {
                                         <div class="form-group">
                                             <div>
-                                                <div class="service">
-                                                    <label>User:</label>
+                                                <h4>User: @request.cookies.get("name").value()</h4>
 
-                                                    <label>@request.cookies.get("name").value()</label>
-                                                </div>
                                             </div>
-                                            <div class="service">
-                                                <label for="usr">Title:</label>
-                                            </div>
+                                            <h4 for="usr">Title:</h4>
+
                                             <input type="text" class="form-control" style="font-size: 17px;" id="usr" name="title" required>
-                                            <div class="service">
-                                                <label for="comment">Comment:</label>
-                                            </div>
+
+                                            <h4 for="comment">Comment:</h4>
+
                                             <textarea class="form-control" rows="5" id="comment" style="resize : none; font-size: 18px;" name="content" required></textarea>
-                                            <div class="service">
-                                                <label for="rate">Rate hotel:</label>
-                                            </div>
+
+                                            <h4 for="rate">Rate hotel:</h4>
+
 
                                             <select id="rate" name="rating" class="form-control" onchange="" style="width : 70 px">
                                                 <option value="1">1</option>
@@ -255,10 +350,19 @@
                                                 <option value="4">4</option>
                                                 <option value="5">5</option>
                                             </select>
+                                            <div class="acidjs-rating-stars" name="rating" id="rate">
+                                                @*<form>*@
+                                                @*<input type="radio" name="group-2" id="group-2-0" value="5" /><label for="group-2-0"></label>*@
+                                                @*<input type="radio" name="group-2" id="group-2-1" value="4" /><label for="group-2-1"></label>*@
+                                                @*<input type="radio" name="group-2" id="group-2-2" value="3" /><label for="group-2-2"></label>*@
+                                                @*<input type="radio" name="group-2" id="group-2-3" value="2" /><label for="group-2-3"></label>*@
+                                                @*<input type="radio"  checked="checked" name="group-2" id="group-2-4"  value="1" /><label for="group-2-4"></label>*@
+                                                @*</form>*@
+                                            </div>
 
                                         </div>
-                                        <div style="text-align : right">
-                                            <button type="submit" id="post-comment" class="edvin-button">POST</button>
+                                        <div style="float : right">
+                                            <button type="submit"  class="btn btn-primary book">POST</button>
                                         </div>
                                     }
                                 } else {
@@ -267,41 +371,44 @@
                                         <hr>
                                     </div>
                                 }
-                            </form>
-                        }
-                        </div>
-                    </div>
-                </div>
-               
-
-
-                <div class="contact-info ">
-                    <div class="col-md-10 col-md-offset-0">
-                    @for(comment <- hotel.comments) {
-                        <div id="comment-to-delete" class="service">
-                            <div  style="color: black; font-size: 30px ">@comment.user.firstname</div>
-                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
-                                <a id="commDel" data-role="delete" data-delete-parent="#comment-to-delete" href="@routes.Comments.deleteComment(comment.id)" role="button">
-                                    <i class="rediconcolor fa fa-trash-o fa-lg" style="float: right;"></i></a>
+                                </form>
                             }
-                            <br>
-                            <div style="color: black; font-size: 25px ">@comment.title</div>
-                            <p style="color: white" required>@comment.content</p>
-                            <div style="font-size: 25px"><i>This user rated hotel with:</i> @comment.rating</div>
-
-                            <hr>
-                            }
-
+                            </div>
                         </div>
                     </div>
 
 
-                </div>
-            </div>
-        </div>
-    </div>
 
-}
+                    <div class="contact-info ">
+                        <div class="col-md-10 col-md-offset-0">
+                            @for(comment <- hotel.comments) {
+                                <div id="comment-to-delete" class="service">
+                                    <div  style="color: black; font-size: 30px ">@comment.user.firstname</div>
+                                    @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.ADMIN) {
+                                        <script src="@routes.Assets.versioned("javascripts/deleteComment.js")"></script>
+                                        <a id="commDel" data-role="delete" data-delete-parent="#comment-to-delete" href="@routes.Comments.deleteComment(comment.id)" role="button">
+                                            <i class="rediconcolor fa fa-trash-o fa-lg" style="float: right;"></i></a>
+                                    }
+                                    <br>
+                                    <div style="color: black; font-size: 25px ">@comment.title</div>
+                                    <p style="color: white" required>@comment.content</p>
+                                    <div style="font-size: 25px"><i>This user rated hotel with:</i> @comment.rating</div>
+
+                                    <hr>
+                                    }
+
+                        </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </section>
+        }
+</div>
+</div>
 
 <script>
 $(document).ready(function(){

@@ -25,6 +25,7 @@ public class Newsletter extends Model {
     public Boolean isSubscribed = true;
     @Column(name = "token")
     public String token = UUID.randomUUID().toString();
+    @Column(name = "updated_by", length = 50)
     public String updatedBy;
     @Column(name = "update_date", columnDefinition = "datetime")
     public Date updateDate;
@@ -36,10 +37,16 @@ public class Newsletter extends Model {
     /**
      * Empty constructor for Ebean use
      */
-    public Newsletter(){
+    public Newsletter() {
         //leave empty
     }
 
+    /**
+     * Checks if user is already signed up for newsletters
+     *
+     * @param user <code>AppUser</code> type value
+     * @return <code>true</code> if user is already signed up, <code>false</code> if not
+     */
     public static Boolean isSignedUp(AppUser user) {
         if (finder.where().eq("email", user.email).findUnique() != null) {
             return true;
@@ -47,6 +54,12 @@ public class Newsletter extends Model {
         return false;
     }
 
+    /**
+     * Finds Newsletter by inputed unique token.
+     *
+     * @param token <code>String</code> type value of token
+     * @return <code>Newsletter</code> type value
+     */
     public static Newsletter findByToken(String token) {
         return finder.where().eq("token", token).findUnique();
     }

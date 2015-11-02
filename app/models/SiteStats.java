@@ -170,12 +170,17 @@ public class SiteStats extends Model {
      * @return <code>Room</code> type value with most visits
      */
     public static Room getMostVisitedRoom(List<Room> hRooms) {
-        Collections.sort(hRooms, new Comparator<Room>() {
-            public int compare(Room o1, Room o2) {
-                return o2.reservations.size() - (o1.reservations.size());
-            }
-        });
-        return hRooms.get(0);
+        try {
+            Collections.sort(hRooms, new Comparator<Room>() {
+                public int compare(Room o1, Room o2) {
+                    return o2.reservations.size() - (o1.reservations.size());
+                }
+            });
+            return hRooms.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorLogger.createNewErrorLogger("Failed to compare rooms. Probably only one room in hotel.",e.getMessage());
+            return new Room();
+        }
     }
 
     /**
@@ -185,7 +190,7 @@ public class SiteStats extends Model {
      * @return <code>Integer</code> type value of number of features in inputed hotel
      */
     public static Integer getNumberOfHotelFeatures(Hotel hotel) {
-        return hotel.features.size();
+        return HotelFeature.getFeaturesByHotel(hotel);
     }
 
     /**

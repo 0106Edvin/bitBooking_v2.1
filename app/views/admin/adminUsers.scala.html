@@ -4,13 +4,17 @@
 @main {
     <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
 
-    <div class="container">
-        <div class="row">
-            <div class="contact-caption clearfix">
-                <div class="contact-heading text-center">
-                    <h2>users</h2>
+    <div  id="main-background">
+        <div class="container" id="background">
+            <section id="hotel-section1" class="marginbottom">
+                <div class="container">
+                    <div class="about text-center">
+                        <h2>USERS</h2>
+                    </div>
                 </div>
+            </section>
 
+            <section class="marginbottom-admin-hotels">
                 <div class="col-md-4">
                     <br/>
                     <a href="@routes.Users.showAdminHotels()">
@@ -22,24 +26,26 @@
 
                 <div class="col-md-4">
                     <br/>
-                    <a href="@routes.Users.showAdminUsers()">
-                        <button id="hotelsbtn" class="btn-success" style="width : 70% ; height : 100px ; font-size : 30px">
-                            Users
-                        </button>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <br/>
                     <a href="@routes.Users.showAdminFeatures()">
                         <button id="hotelsbtn" class="btn-primary" style="width : 70% ; height : 100px ; font-size : 30px">
                             Features
                         </button>
                     </a>
                 </div>
+                <div class="col-md-4">
+                    <br/>
+                    <a href="@routes.Questions.seeAll()">
+                        <button id="hotelsbtn" class="btn-danger" style="width : 70% ; height : 100px ; font-size : 30px">
+                            FAQ
+                        </button>
+                    </a>
+                </div>
+            </section>
 
+            <section>
                 <table class="table table-responsive" style="font-size: 45px;">
                     <thead>
-                        <tr class="service">
+                        <tr class="about">
                             <th>Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
@@ -53,21 +59,21 @@
                     <tbody>
                     @for(user <- users) {
                         @if(user.userAccessLevel != UserAccessLevel.ADMIN) {
-                            <tr class="service">
-                                <td style="text-transform: capitalize; font-size: 22px;">@user.firstname</td>
-                                <td style="text-transform: capitalize; font-size: 22px;">@user.lastname</td>
-                                <td style="font-size: 22px;">@user.email</td>
+                            <tr class="about">
+                                <td>@user.firstname</td>
+                                <td>@user.lastname</td>
+                                <td>@user.email</td>
                                 @if(user.userAccessLevel == UserAccessLevel.HOTEL_MANAGER) {
-                                    <td style="font-size: 22px;">Hotel Manager</td>
+                                    <td>Hotel Manager</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.SELLER) {
-                                    <td style="font-size: 22px;">Seller</td>
+                                    <td>Seller</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.BUYER) {
-                                    <td style="font-size: 22px;">Buyer</td>
+                                    <td>Buyer</td>
                                 }
                                 @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
-                                    <td style="font-size: 22px;">Admin</td>
+                                    <td>Admin</td>
                                 }
                                 <td></td>
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
@@ -91,7 +97,7 @@
                                         </select>
 
                                     </td>
-                                    <td><button class="edvin-button-role" type="submit" style="font-size: 20px; background-color: #204d74; border-radius: 5px; width: 90px; height:40px;">Change role</button></td>
+                                    <td><button class="edvin-button-role" type="submit" style="font-size: 20px; background-color: #204d74; border-radius: 5px; width: 90px; height:40px;">CHANGE ROLE</button></td>
                                 </form>
                                 <form method="delete" action="@routes.Users.deleteUser(user.email)">
                                     <td>
@@ -106,7 +112,8 @@
                     }
                     </tbody>
                 </table>
-            </div>
+            </section>
+
         </div>
-    </div>
-}
+        }
+</div>
