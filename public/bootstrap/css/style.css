@@ -147,6 +147,7 @@ html, body {
 .footer a {
     color: #1c94c4;
 }
+
 .footer1{
     position: relative;
     bottom: 0;
@@ -489,6 +490,7 @@ li a.active {
     color: #737373;
     margin-bottom: 45px;
 }
+
 .about td {
     font-size: 24px;
     color: #737373;
