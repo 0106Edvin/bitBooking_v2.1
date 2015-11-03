@@ -50,7 +50,9 @@
                                     }
 
                                 }
+
                                 <h4>Hotel Address: @hotel.location</h4>
+
                             </div>
                         </div>
                     </div>
@@ -61,10 +63,10 @@
                             <div class="about">
                                 <h3>Description</h3>
                                 <div class="info-detail">
-                                <h4>
-                                @hotel.description
-                                </h4>
-                                    </div>
+                                    <h4>
+                                    @hotel.description
+                                    </h4>
+                                </div>
 
                                 @if(currentUser != null && currentUser.userAccessLevel.equals(UserAccessLevel.BUYER)) {
                                     <a href="#" data-toggle="modal" data-target="#privateMessage" class="font-size-18"><i class="fa fa-envelope-o"></i>
@@ -139,15 +141,15 @@
 
 
 
-                <section id="hotel-section-features" class="marginbottom">
-                    <div class="container">
+            <section id="hotel-section-features" class="marginbottom">
+                <div class="container">
 
-                            <!-- features and galery -->
-                        <div class="about ">
-                            <div class="col-md-10 col-md-offset-0">
-                                <h3>Features</h3>
-                                <div class="info-detail">
-                                @if(features.size != 0) {
+                        <!-- features and galery -->
+                    <div class="about ">
+                        <div class="col-md-10 col-md-offset-0">
+                            <h3>Features</h3>
+                            <div class="info-detail">
+                            @if(features.size != 0) {
                                 <ul>
                                     <div class="about" style="text-transform: capitalize;">
                                     @for(feature <- features) {
@@ -156,23 +158,23 @@
                                             @if(!feature.isFree) {
                                                 - will cost @feature.price extra $
                                             }
-                                            <div class="col-md-1">
-                                                <img src="@feature.feature.icon.getSize(30, 30)"/>
-                                            </div>
+                                        <div class="col-md-1">
+                                            <img src="@feature.feature.icon.getSize(30, 30)"/>
+                                        </div>
 
                                         </h4>
                                     }
 
                                     </div>
                                 </ul>
-                                    </div>
-                                }
                             </div>
+                            }
                         </div>
-
                     </div>
 
-                </section>
+                </div>
+
+            </section>
 
 
             @if(Restaurant.findRestaurantByHotelId(hotel.id) != null) {
@@ -217,98 +219,97 @@
             @if(hotel.rooms.size() != 0) {
                 <section id="hotel-section-rooms" class="marginbottom">
                     <div class="container">
-                            <div class="col-md-10 col-md-offset-0">
-                                <div class="about">
-                                    <h3 style="cursor : pointer ;" class="link-hover" id="roomsOpen">
-                                        ROOMS </h3>
+                        <div class="col-md-10 col-md-offset-0">
+                            <div class="about">
+                                <h3 style="cursor : pointer ;" class="link-hover" id="roomsOpen">
+                                    ROOMS </h3>
 
-                                <!--    <i class="glyphicon glyphicon-triangle-bottom" style="float : right"></i>
+                                    <!--    <i class="glyphicon glyphicon-triangle-bottom" style="float : right"></i>
                                     <div id="roomsDiv" class="info-detail" hidden>  -->
 
-                                            <table class="table">
-                                                <thead>
-                                                    <tr class="about" >
-                                                        <th id="textcenter" style="font-size: 22px">Name</th>
-                                                        <th id="textcenter" style="font-size: 22px">Beds</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                                                            <th id="textcenter" style="font-size: 22px">Edit</th>
-                                                            <th id="textcenter" style="font-size: 22px">Delete</th>
-                                                        }
-                                                    </tr>
-                                                </thead>
+                                <table class="table">
+                                    <thead>
+                                        <tr class="about" >
+                                            <th id="textcenter" style="font-size: 22px">Name</th>
+                                            <th id="textcenter" style="font-size: 22px">Beds</th>
+                                            <th></th>
+                                            <th></th>
+                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                <th id="textcenter" style="font-size: 22px">Edit</th>
+                                                <th id="textcenter" style="font-size: 22px">Delete</th>
+                                            }
+                                        </tr>
+                                    </thead>
 
-                                                <tbody>
+                                    <tbody>
 
-                                                @for(room <- rooms) {
-                                                    @if(room.hotel == hotel) {
-                                                        <tr class="about" id="textcenter">
-                                                            <td style="font-size: 22px ;">@room.name</td>
-                                                            <td style="font-size: 22px ;">@room.numberOfBeds</td>
-                                                            <td>
-                                                                <a href="@routes.Rooms.showRoom(room.id)">
-                                                                    <button class="btn btn-warning" data-role="edit"  id="middlebuttons">
-                                                                        View room</button>
-                                                                </a>
-                                                            </td>
-                                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
-                                                                <td>
-                                                                    <a href="@routes.Rooms.showRoom(room.id)">
-                                                                        <button class="btn btn-warning" id="middlebuttons">
-                                                                            CREATE RESERVATION</button>
-                                                                    </a>
-                                                                </td>
-                                                            }
-
-                                                            @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                                                                <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
-                                                                <td></td>
-                                                                <td>
-                                                                    <a href="@routes.Rooms.editRoom(room.id)">
-                                                                        <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px;
-                                                                        color: #42b3e5;"></i>
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    <a  data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
-                                                                        <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px;
-                                                                        color: #42b3e5;"></i>
-                                                                    </a>
-                                                                </td>
-                                                            }
-
-                                                        </tr>
-                                                    }
+                                    @for(room <- rooms) {
+                                        @if(room.hotel == hotel) {
+                                            <tr class="about" id="textcenter">
+                                                <td style="font-size: 22px ;">@room.name</td>
+                                                <td style="font-size: 22px ;">@room.numberOfBeds</td>
+                                                <td>
+                                                    <a href="@routes.Rooms.showRoom(room.id)">
+                                                        <button class="btn btn-warning" data-role="edit"  id="middlebuttons">
+                                                            View room</button>
+                                                    </a>
+                                                </td>
+                                                @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.BUYER) {
+                                                    <td>
+                                                        <a href="@routes.Rooms.showRoom(room.id)">
+                                                            <button class="btn btn-warning" id="middlebuttons">
+                                                                CREATE RESERVATION</button>
+                                                        </a>
+                                                    </td>
                                                 }
 
-                                                </tbody>
-                                            </table>
+                                                @if(currentUser != null && currentUser.userAccessLevel == UserAccessLevel.SELLER) {
+                                                    <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+                                                    <td></td>
+                                                    <td>
+                                                        <a href="@routes.Rooms.editRoom(room.id)">
+                                                            <i class="glyphicon glyphicon-pencil" data-role="edit" style="font-size:22px;
+                                                            color: #42b3e5;"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a  data-toggle="modal" href="@routes.Rooms.deleteRoom(room.id)">
+                                                            <i class="glyphicon glyphicon-trash" data-role="delete" style="font-size:22px;
+                                                            color: #42b3e5;"></i>
+                                                        </a>
+                                                    </td>
+                                                }
 
-                                    </div>
-                                </div>
-                     </div>
+                                            </tr>
+                                        }
+                                    }
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </section>
             }
 
-           <!-- @if(hotel.images.size() != 0) {
-                <section id="hotel-section-gallery" class="marginbottom">
-                    <div class="container">
-                        <div class="about ">
-                            <div class="col-md-10 col-md-offset-0 about">
-                                <h3>Gallery</h3>
-                                <div class="info-detail">
-
-                                @for(image <- hotel.images) {
-                                    <img src="@image.getSize(300, 200)"/>
-                                }
-                                </div>
+                <!-- @if(hotel.images.size() != 0) {
+            <section id="hotel-section-gallery" class="marginbottom">
+                <div class="container">
+                    <div class="about ">
+                        <div class="col-md-10 col-md-offset-0 about">
+                            <h3>Gallery</h3>
+                            <div class="info-detail">
+                            @for(image <- hotel.images) {
+                                <img src="@image.getSize(300, 200)"/>
+                            }
                             </div>
                         </div>
                     </div>
-                </section>
-            }-->
+                </div>
+            </section>
+        }-->
 
             <section id="hotel-section-comments" class="marginbottom">
                 <div class="container">

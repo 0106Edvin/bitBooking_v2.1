@@ -44,7 +44,8 @@
             <tr class="about">
                 <th>Name</th>
                 <th>Location</th>
-                <th>Description</th>
+                <th>City</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -52,7 +53,7 @@
             <tr class="about" >
                 <td>@hotel.name</td>
                 <td>@hotel.location</td>
-                <td>@hotel.description</td>
+                <td>@hotel.city</td>
                 <td>
                     <a data-role="delete" data-delete-parent="tr" href="@routes.Hotels.deleteHotelAdmin(hotel.id)" role="button">
                         <i class="rediconcolor fa fa-trash-o fa-lg"></i></a>
