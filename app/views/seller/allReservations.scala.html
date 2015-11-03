@@ -33,6 +33,7 @@
           @for(hotel <- hotels) {
             @for(room <- hotel.rooms) {
               @for(reservation <- room.reservations) {
+                @if(reservation.status != ReservationStatus.PENDING) {
                 <tr class="about">
                   <td class="text-align">@reservation.user.firstname @reservation.user.lastname</td>
                   <td class="text-align">@hotel.name</td>
@@ -50,8 +51,8 @@
                   @if(reservation.status == ReservationStatus.CANCELED){
                     <td class="text-align" style="color : red ">CANCELED</td>
                   }
-
                 </tr>
+                }
               }
             }
           }
