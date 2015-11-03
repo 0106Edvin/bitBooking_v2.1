@@ -17,6 +17,7 @@
                     <h3>Please enter your data</h3>
                     <div class="info-detail">
                     @helper.form(action = routes.Users.saveUser(Constants.USER_BUYER)) {
+
                         <form>
                             <div class="duplicate-email" style="font-size: 18px; color: red;">
                             @if(flash.containsKey("error")) {
