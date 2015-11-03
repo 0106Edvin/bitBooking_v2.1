@@ -43,25 +43,26 @@
                             @for(room <- rooms) {
                                 @if(room.reservations != 0) {
                                     @for(reservation <- room.reservations) {
-                                        <tr class="about text-align">
-                                            <td>@reservation.user.firstname @reservation.user.lastname</td>
-                                            <td>@room.name</td>
-                                            <td>@room.numberOfBeds</td>
-                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
-                                            <td>@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
-                                            <td>@reservation.createDate</td>
-                                            <td>@reservation.cost $</td>
-                                            @if(reservation.status == ReservationStatus.APPROVED) {
-                                                <td class="text-align" style="color : #189800">APPROVED</td>
-                                            }
-                                            @if(reservation.status == ReservationStatus.COMPLETED){
-                                                <td class="text-align" style="color :#42b3e5">COMPLETED</td>
-                                            }
-                                            @if(reservation.status == ReservationStatus.CANCELED){
-                                                <td class="text-align" style="color : red ">CANCELED</td>
-                                            }
-
-                                        </tr>
+                                        @if(reservation.status != ReservationStatus.PENDING) {
+                                            <tr class="about text-align">
+                                                <td>@reservation.user.firstname @reservation.user.lastname</td>
+                                                <td>@room.name</td>
+                                                <td>@room.numberOfBeds</td>
+                                                <td>@CommonHelperMethods.getDateAsString(reservation.checkIn)</td>
+                                                <td>@CommonHelperMethods.getDateAsString(reservation.checkOut)</td>
+                                                <td>@reservation.createDate</td>
+                                                <td>@reservation.cost $</td>
+                                                @if(reservation.status == ReservationStatus.APPROVED) {
+                                                    <td class="text-align" style="color : #189800">APPROVED</td>
+                                                }
+                                                @if(reservation.status == ReservationStatus.COMPLETED){
+                                                    <td class="text-align" style="color :#42b3e5">COMPLETED</td>
+                                                }
+                                                @if(reservation.status == ReservationStatus.CANCELED){
+                                                    <td class="text-align" style="color : red ">CANCELED</td>
+                                                }
+                                            </tr>
+                                        }
                                     }
                                 }
                             }
