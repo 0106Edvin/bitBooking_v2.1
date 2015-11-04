@@ -37,6 +37,8 @@ public class Constants {
 
     // Homepage - number of hotels by page
     public static final Integer PAGE_SIZE = 8;
+    // Homepage - number of recommended hotels
+    public static final Integer RECOMMENDATIONS_NO = 6;
 
     public static final Boolean FEATURE_FREE = true;
     public static final Boolean FEATURE_NOT_FREE = false;
