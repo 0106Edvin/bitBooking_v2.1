@@ -1,7 +1,10 @@
+@import helpers.SessionsAndCookies
 @import helpers.Constants
 @import controllers.Recommendations_HotelVisits
 @import helper._
-@()
+@()(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
+
+@if(currentUser == null) {
     @if(Recommendations_HotelVisits.returnMostPopularHotels.size != null && Recommendations_HotelVisits.returnMostPopularHotels.size != 0) {
         @for(hotel <- Recommendations_HotelVisits.returnMostPopularHotels) {
         @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
@@ -33,5 +36,36 @@
             }
         }
     }
+} else {
+    @if(Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id).size != null && Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id).size != 0) {
+        @for(hotel <- Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id)) {
+            @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
+                <div class="col-md-2 col-sm-2">
+                    <div class="single-about-detail clearfix">
+                        <div class="about-img">
+                            @if(hotel.images.size() == 0) {
+                            <img class="img-responsive" src="http://placehold.it/260x200" alt="">
+                            } else {
+                            <img src="@hotel.images.get(0).getSize(260, 200)"/>
+                            }
+                            <a href="@routes.Hotels.showHotel(hotel.id)">
+                                <div class="about-details">
+                                    <div class="recommended" style="background-image: url('http://res.cloudinary.com/dzkq8z522/image/upload/w_70,h_50/v1443185744/urssuhubmnnmr32hd8n0.png');background-repeat: no-repeat;font-size: 30px">
+                                        <h1>
+                                            @hotel.stars
+                                        </h1>
+                                    </div>
+                                    <h3>@hotel.name</h3>
+                                    <p>@hotel.city</p>
+                                    <button class="edvin-button">VIEW HOTEL</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
 
-
+                </div>
+            }
+        }
+    }
+}
