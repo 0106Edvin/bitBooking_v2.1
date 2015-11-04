@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import play.data.Form;
 import play.data.format.Formats;
 
@@ -43,6 +44,7 @@ public class Price extends Model {
     public Date createDate = new Date();
 
     @ManyToOne
+    @JsonBackReference
     public Room room;
 
     public Price(){}

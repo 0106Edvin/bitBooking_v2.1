@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class Comment extends Model {
     public AppUser user;
 
     @ManyToOne
+    @JsonBackReference
     public Hotel hotel;
 
     public String title;

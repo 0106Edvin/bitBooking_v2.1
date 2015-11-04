@@ -37,6 +37,7 @@ public class ApiUserController extends Controller {
         String password = boundForm.field("password").value();
 
         AppUser user = AppUser.authenticate(email, password);
+
         if(user != null) {
             return ok(Json.toJson(user.id));
         }
@@ -48,7 +49,6 @@ public class ApiUserController extends Controller {
         return ok(Json.toJson(users));
     }
 
-    @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result payPal(Integer roomId) {
 
         //   AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
@@ -72,6 +72,7 @@ public class ApiUserController extends Controller {
                 reservation.cost = reservation.getCost();
             } else {
                 flash("error", "Check in date can't be after check out date!");
+                Logger.info("---------------------1-----------");
                 return redirect("/");
             }
 
@@ -136,6 +137,7 @@ public class ApiUserController extends Controller {
             while (it.hasNext()) {
                 Links link = it.next();
                 if (link.getRel().equals("approval_url")) {
+                    Logger.info("---------------------2-----------");
                     return redirect(link.getHref());
                 }
             }
@@ -149,6 +151,7 @@ public class ApiUserController extends Controller {
         } catch (ParseException ex) {
             System.out.println(ex.getMessage());
         }
+        Logger.info("---------------------3-----------");
         return redirect("/");
     }
 

@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import helpers.Constants;
 
 import javax.persistence.*;
@@ -39,8 +40,10 @@ public class Message extends Model {
     @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
     public Date createDate = new Date();
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     public AppUser sender;
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     public AppUser receiver;
 
     /**

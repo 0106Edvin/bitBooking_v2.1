@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import helpers.Constants;
 
 import javax.persistence.*;
@@ -26,9 +27,11 @@ public class HotelFeature extends Model {
     public String price;
     @ManyToOne
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")
+    @JsonBackReference
     public Hotel hotel;
     @ManyToOne
     @JoinColumn(name = "feature_id", referencedColumnName = "id")
+    @JsonBackReference
     public Feature feature;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
