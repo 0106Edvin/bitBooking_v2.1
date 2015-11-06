@@ -42,7 +42,7 @@
     <table class="table table-responsive">
         <thead>
             <tr class="about">
-                <th>Name</th>
+                <th >Name</th>
                 <th>Location</th>
                 <th>City</th>
                 <th>Delete</th>
@@ -51,7 +51,7 @@
         <tbody>
         @for(hotel <- hotels) {
             <tr class="about" >
-                <td>@hotel.name</td>
+                <td aria-sort="ascending">@hotel.name</td>
                 <td>@hotel.location</td>
                 <td>@hotel.city</td>
                 <td>

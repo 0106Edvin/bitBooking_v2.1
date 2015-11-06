@@ -1,17 +1,15 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import helpers.Constants;
 import models.AppUser;
 import models.Hotel;
 import models.HotelVisit;
-import play.Logger;
 import play.mvc.Controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import helpers.Constants;
 
 /**
  * Created by ajla.eltabari on 29/10/15.
@@ -128,6 +126,10 @@ public class Recommendations_HotelVisits extends Controller {
         }
 
         if (mostPopularHotels.size() > 0) {
+            int showLimit = 0;
+
+            showLimit = (mostPopularHotels.size() <= Constants.RECOMMENDATIONS_NO) ? mostPopularHotels.size() - 1 : Constants.RECOMMENDATIONS_NO;
+
             List<Integer> indexes = new ArrayList<>();
             do {
                 int index = (int) (Math.random() * allVisits.size() - 1);
@@ -135,9 +137,11 @@ public class Recommendations_HotelVisits extends Controller {
                     indexes.add(index);
                     listToDisplay.add(mostPopularHotels.get(index));
                 }
-            } while (indexes.size() != Constants.RECOMMENDATIONS_NO);
+
+            } while (indexes.size() != showLimit);
         }
         return listToDisplay;
+
     }
 
 }
