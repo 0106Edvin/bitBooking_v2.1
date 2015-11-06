@@ -365,7 +365,5 @@ public class Reservations extends Controller {
             return ok(views.html.user.buyerReservations.render(room, hotel, reservationList, user));
         }
         return badRequest();
-
     }
-
 }
