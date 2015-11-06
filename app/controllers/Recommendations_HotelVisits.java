@@ -127,15 +127,16 @@ public class Recommendations_HotelVisits extends Controller {
             }
         }
 
-        List<Integer> indexes = new ArrayList<>();
-        do {
-            int index = (int)(Math.random() * allVisits.size() - 1);
-            if (!indexes.contains(index)) {
-                indexes.add(index);
-                listToDisplay.add(mostPopularHotels.get(index));
-            }
-        } while (indexes.size() != Constants.RECOMMENDATIONS_NO);
-
+        if (mostPopularHotels.size() > 0) {
+            List<Integer> indexes = new ArrayList<>();
+            do {
+                int index = (int) (Math.random() * allVisits.size() - 1);
+                if (!indexes.contains(index)) {
+                    indexes.add(index);
+                    listToDisplay.add(mostPopularHotels.get(index));
+                }
+            } while (indexes.size() != Constants.RECOMMENDATIONS_NO);
+        }
         return listToDisplay;
     }
 
