@@ -71,10 +71,12 @@ public class Hotels extends Controller {
         List<Hotel> hotels = finder.all();
         List<AppUser> users = userfinder.all();
 
+        AppUser seller = AppUser.findUserById(sellerId);
+
         // Sending an email to the seller after creating the hotel.
         String message = String
                 .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
-                        "Dear ", user.firstname, ",",
+                        "Dear ", seller.firstname, ",",
                         "we want to inform you that Hotel Manager has created hotel for you.",
                         "HOTEL INFORMATION:",
                         boundForm.field("name").value(),
@@ -87,8 +89,6 @@ public class Hotels extends Controller {
                         "Sincerely yours,",
                         "bitBooking team.",
                         Play.application().configuration().getString("logo"));
-
-        AppUser seller = AppUser.findUserById(sellerId);
 
         MailHelper.send(seller.email, message, Constants.HOTEL_CREATED, null, null, null);
 
