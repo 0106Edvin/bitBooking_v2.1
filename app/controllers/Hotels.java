@@ -72,7 +72,7 @@ public class Hotels extends Controller {
         List<AppUser> users = userfinder.all();
 
         AppUser seller = AppUser.findUserById(sellerId);
-        
+
         // Sending an email to the seller after creating the hotel.
         String message = String
                 .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
