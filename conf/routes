@@ -136,11 +136,13 @@ GET           /newsletter/unsubscribe/:token                        @controllers
 GET           /seller/createpromotion                               @controllers.user.Seller.createPromotion()
 
 #REST
+POST          /api/user/login                                   @controllers.api.ApiUserController.login()
+GET           /api/users                                        @controllers.api.ApiUserController.getAllUsers()
+GET           /api/hotels                                       @controllers.api.ApiHotelController.getHotelList()
+GET           /api/rooms/:id                                    @controllers.api.ApiHotelController.getHotelRooms(id: Integer)
+GET           /api/prices/:roomId                               @controllers.api.ApiHotelController.getRoomPrices(roomId: Integer)
 
-GET           /api/users                                            @controllers.api.ApiUserController.getAllUsers()
-GET           /api/hotels                                           @controllers.api.ApiHotelController.getHotelList()
-GET           /api/users                                            @controllers.user.UserApiController.getAllUsers()
-
+GET          /api/hotel/room/reservation/:roomId                @controllers.api.ApiUserController.payPal(roomId: Integer)
 
 
 #FAQ

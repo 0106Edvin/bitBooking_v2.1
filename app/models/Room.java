@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -41,9 +42,11 @@ public class Room extends Model {
     public Date createDate = new Date();
 
     @ManyToMany
+    @JsonBackReference
     public List<Feature> features;
 
     @ManyToOne
+    @JsonBackReference
     public Hotel hotel;
 
     @OneToMany(mappedBy="room")
