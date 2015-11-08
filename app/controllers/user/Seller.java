@@ -68,7 +68,7 @@ public class Seller extends Controller {
      */
     public Result createPromotion() {
         AppUser seller = AppUser.getUserByEmail(session("email"));
-        List<Hotel> hotels = Hotel.getHotelsBySellerSortedByNameAscending(seller);
+        List<Hotel> hotels = Hotel.getHotelsBySellerAndSortedByNameAscending(seller);
         return ok(views.html.seller.createPromotion.render(hotels));
     }
 

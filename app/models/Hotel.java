@@ -160,6 +160,16 @@ public class Hotel extends Model {
         return finder.where().ilike("comments.rating", term).findRowCount();
     }
 
+    /**
+     * Method used for rendering list of hotels when seller creates promotion.
+     *
+     * @param seller <code>AppUser</code> type value of seller
+     * @return <code>List</code> of hotels operated by inputed seller ordered by hotel name ascending
+     */
+    public static List<Hotel> getHotelsBySellerAndSortedByNameAscending(AppUser seller) {
+        return finder.where().eq("seller_id", seller.id).orderBy("name asc").findList();
+    }
+
     @Override
     public String toString() {
         return (id.toString() + " " + name + " " + location);

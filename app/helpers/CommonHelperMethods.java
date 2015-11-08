@@ -2,6 +2,7 @@ package helpers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * This helper class contains common methods.
@@ -17,6 +18,7 @@ public class CommonHelperMethods {
      * @return
      */
     public static String getDateAsString(Date date){
+
         if (date == null) {
             return "Unknown date";
         }
@@ -33,5 +35,19 @@ public class CommonHelperMethods {
      */
     public static String getCurrentDateFormated() {
         return new SimpleDateFormat("HH:mm:ss EEE, dd MMM yyyy").format(new Date());
+    }
+
+    /**
+     * Checks if given email is valid by matching it to regex pattern.
+     *
+     * @param email <code>String</code> value of email
+     * @return <code>boolean</code> type value true if email is correct, false if not
+     */
+    public static boolean validateEmail(String email) {
+        final Pattern pattern = Pattern.compile("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$");
+        if (!pattern.matcher(email).matches()) {
+            return false;
+        }
+        return true;
     }
 }
