@@ -17,6 +17,9 @@ html, body {
     background: whitesmoke;
     /*opacity: 0.9;*/
 }
+#tablemargins{
+    margin-bottom: 30px;
+}
 .push {
     height: 220px;
 }

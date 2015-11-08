@@ -31,7 +31,7 @@ import java.util.UUID;
 public class Users extends Controller {
     private static final Form<AppUser> userForm = Form.form(AppUser.class);
 
-    private static List<Hotel> hotels = Hotel.finder.all();
+//    private static List<Hotel> hotels = Hotel.finder.all();
     private static Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
 
     private static List<AppUser> users = AppUser.finder.all();

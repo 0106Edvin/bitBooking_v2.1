@@ -59,9 +59,10 @@ GET           /admin/adminfeatures/editFeature/:id                  @controllers
 GET           /seller/edithotel/:id                                 @controllers.Hotels.editHotel(id: Integer)
 POST          /seller/updatehotel/:id                               @controllers.Hotels.updateHotel(id: Integer)
 POST          /seller/updateroom/setprice/:roomId                   @controllers.Prices.savePrice(roomId: Integer)
-GET           /seller/sellerPanel/:userId                           @controllers.Hotels.showSellerHotels(userId: Integer)
+GET           /seller/sellerPanel/                                  @controllers.Hotels.showSellerHotels()
 GET           /seller/sellerPanel/updatehotel/:hotelId              @controllers.Hotels.editHotel(hotelId: Integer)
 POST          /seller/sellerPanel/updatehotel/:hotelId              @controllers.Hotels.updateHotel(hotelId: Integer)
+
 
 #Restaurant
 GET           /seller/createrestaurant/:hotelId                     @controllers.Restaurants.createRestaurant(hotelId: Integer)
@@ -96,8 +97,7 @@ GET           /weather/getweather                                   @controllers
 POST          /user/sendMmail                                       @controllers.Emails.sendMail()
 
 #Reservations
-#POST        /room/reservation                                  @controllers.Reservations.saveReservation(roomId: Integer)
-POST          /seller/hotelreservations/:id                         @controllers.Reservations.setStatus(id: Integer)
+
 GET           /buyer/showbuyerreservations/:buyerId                 @controllers.Reservations.showBuyerReservations(buyerId: Integer)
 POST          /buyer/showbuyerreservations/:id                      @controllers.Reservations.setStatusByUser(id: Integer)
 
@@ -122,11 +122,11 @@ GET           /seller/pdf                                           @controllers
 GET           /validate/:token                                      @controllers.Users.emailValidation(token: String)
 
 #PayPal
-#POST        /hotel/room/reservation                            @controllers.PayPal.payPal()
+
 GET           /paypal/success                                       @controllers.Reservations.paypalSuccess()
 
-GET           /rejectPayment                                        @controllers.Application.see()
-GET           /successfulPayment                                    @controllers.Application.see1()
+GET           /rejectPayment                                        @controllers.Application.reject()
+GET           /successfulPayment                                    @controllers.Application.success()
 GET           /seller/allreservations                               @controllers.Rooms.allReservations()
 
 #Newsletter

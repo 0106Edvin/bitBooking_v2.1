@@ -60,7 +60,7 @@
                                         <li><a href="@routes.Users.editUser(currentUser.email)">Edit personal profile</a></li>
                                     }
                                     @if(currentUser.userAccessLevel == UserAccessLevel.SELLER) {
-                                        <li><a href="@routes.Hotels.showSellerHotels(currentUser.id)">Seller panel</a></li>
+                                        <li><a href="@routes.Hotels.showSellerHotels()">Seller panel</a></li>
                                         <li><a href="@routes.Rooms.allReservations()">See all reservations</a></li>
                                         <li><a href="@controllers.user.routes.Seller.statistics()">Statistics</a></li>
                                     }

@@ -1,5 +1,8 @@
 @(errors: List[ErrorLogger])
 @main {
+  <script src='@routes.Assets.versioned("javascripts/errorsSort.js")'></script>
+
+
   <div  id="main-background">
     <div class="container" id="background">
       <div class= font-size-20" id="sorting">
@@ -29,14 +32,5 @@
         </table>
       </div>
     </div>
-
-    <script>
-        $(document).ready(function(){
-            $('#sort').DataTable({
-                "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-                "iDisplayLength": 25
-            });
-        });
-    </script>
     }
 </div>
