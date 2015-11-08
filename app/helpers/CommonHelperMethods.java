@@ -4,10 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * This helper class contains common methods.
+ * Those methods aren't related to system functionalities,
+ * and yet, they can be used in everywhere int the project.
  * Created by ajla.eltabari on 02/10/15.
  */
 public class CommonHelperMethods {
 
+    /**
+     * Returnes provided date as a String value
+     * @param date
+     * @return
+     */
     public static String getDateAsString(Date date){
         if (date == null) {
             return "Unknown date";

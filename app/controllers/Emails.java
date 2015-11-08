@@ -1,7 +1,5 @@
 package controllers;
 
-
-import com.fasterxml.jackson.databind.JsonNode;
 import models.Email;
 import models.ErrorLogger;
 import org.apache.commons.mail.EmailException;
@@ -13,9 +11,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.libs.ws.*;
 import helpers.*;
-import play.libs.F.Function;
-import play.libs.F.Promise;
-import views.html.*;
 import javax.inject.Inject;
 
 /**
@@ -42,15 +37,15 @@ public class Emails extends Controller {
         // If user is verifyed create mail and send to bitCamp team
         if (verify) {
             SimpleEmail email = new SimpleEmail();
-            email.setHostName(Play.application().configuration().getString("smtp.host"));
-            email.setSmtpPort(587);
+            email.setHostName(ConfigProvider.SMTP_HOST);
+            email.setSmtpPort(Integer.parseInt(ConfigProvider.SMTP_PORT1));
             try {
                 /*Configuring mail*/
-                email.setFrom(Play.application().configuration().getString("mailFrom"));
-                email.setAuthentication(Play.application().configuration().getString("mailFromPass"), Play.application().configuration().getString("mail.smtp.pass"));
+                email.setFrom(ConfigProvider.MAIL_FROM);
+                email.setAuthentication(ConfigProvider.MAIL_FROM_PASS, ConfigProvider.SMTP_PASS);
                 email.setStartTLSEnabled(true);
                 email.setDebug(true);
-                email.addTo(Play.application().configuration().getString("mail.smtp.user"));
+                email.addTo(ConfigProvider.SMTP_USER);
                 email.setSubject(subject);
                 email.setMsg(user_name + "\n" + mail + "\n\n"+subject +"\n" + message);
 

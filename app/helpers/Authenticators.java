@@ -11,10 +11,21 @@ import java.util.logging.Logger;
 
 
 /**
+ * This helper contains static classes that extend Security.Authenticator class
+ * from Play. It allows us to create filters, that will provide us security on
+ * methods level. If you put security annotation above particular method
+ * (example: @Security.Authenticated(Authenticators.Filter.class)) you will be able
+ * to control who can access to that method (or that block of code.
+ *
  * Created by ajla.eltabari on 22/09/15.
  */
 public class Authenticators {
 
+    /**
+     * Filter for users with Administrator rights.
+     * Should be used with methods that only administrator
+     * can run or access.
+     */
     public static class AdminFilter extends Security.Authenticator {
 
         @Override
@@ -34,6 +45,11 @@ public class Authenticators {
         }
     }
 
+    /**
+     * Filter for users with Hotel Manager rights.
+     * Should be used with methods that only hotel manager
+     * can run or access.
+     */
     public static class HotelManagerFilter extends Security.Authenticator {
 
         @Override
@@ -53,6 +69,11 @@ public class Authenticators {
         }
     }
 
+    /**
+     * Filter for users with Seller rights.
+     * Should be used with methods that only seller
+     * can run or access.
+     */
     public static class SellerFilter extends Security.Authenticator {
 
         @Override
@@ -72,6 +93,11 @@ public class Authenticators {
         }
     }
 
+    /**
+     * Filter for users with Buyer rights.
+     * Should be used with methods that only buyer
+     * can run or access.
+     */
     public static class BuyerFilter extends Security.Authenticator {
 
         @Override
@@ -91,6 +117,11 @@ public class Authenticators {
         }
     }
 
+    /**
+     * Filter for logged users.
+     * Should be used with methods that only logged
+     * users can run or access.
+     */
     public static class isUserLogged extends Security.Authenticator {
 
         AppUser user = null;

@@ -1,6 +1,9 @@
 package helpers;
 
 /**
+ * This helper class contains constants for entire project.
+ * Keeps us from using "magic" values and repeating mistakes.
+ *
  * Created by ajla.eltabari on 21/09/15.
  */
 
