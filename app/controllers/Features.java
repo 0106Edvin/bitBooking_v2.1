@@ -26,15 +26,15 @@ import java.util.List;
 public class Features extends Controller {
 
     private Form<Feature> featureForm = Form.form(Feature.class);
+    private static Model.Finder<String, Feature> finder = new Model.Finder<>(Feature.class);
 
     public Result createFeature(){
         return ok(createFeature.render());
     }
 
-    private static Model.Finder<String, Feature> finder = new Model.Finder<>(Feature.class);
 
 
-
+    /*This method saves features to database*/
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result saveFeature() {
         Form<Feature> boundForm = featureForm.bindFromRequest();
@@ -44,11 +44,9 @@ public class Features extends Controller {
 
         try {
             feature = boundForm.get();
-
             feature.save();
 
-            feature.save();
-
+            /* Allows admin to add pictures for features*/
             Http.MultipartFormData body = request().body().asMultipartFormData();
             Http.MultipartFormData.FilePart filePart = body.getFile("image");
             if(filePart != null){
@@ -62,14 +60,13 @@ public class Features extends Controller {
             return redirect(routes.Users.showAdminFeatures());
         } catch (Exception e) {
             ErrorLogger.createNewErrorLogger("Failed to save new feature.", e.getMessage());
-            //flash("error", "Feature with same name already exists in our database, please try again!");
             return ok(createFeature.render());
         }
 
 
 
     }
-
+    /* This method allows admin to delete features from database */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteFeature(Integer id){
         Feature feature = Feature.findFeatureById(id);
@@ -78,12 +75,15 @@ public class Features extends Controller {
         return redirect(routes.Users.showAdminFeatures());
     }
 
+    /* This method redirect to edit view for feature  */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result editfeature(Integer id){
         Feature feature = Feature.findFeatureById(id);
         return ok(updateFeature.render(feature));
     }
 
+
+    /* This method allows admin to update features from database */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result updateFeature(Integer id){
         Form<Feature> boundForm = featureForm.bindFromRequest();
@@ -97,7 +97,5 @@ public class Features extends Controller {
 
         return redirect(routes.Users.showAdminFeatures());
     }
-
-
 
 }

@@ -25,6 +25,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Created by Edvin Mulabdic on 9/30/2015.
+ */
 public class Hotels extends Controller {
 
     private Form<Hotel> hotelForm = Form.form(Hotel.class);
@@ -54,20 +57,21 @@ public class Hotels extends Controller {
         return ok(managerHotels.render(hotels, users));
     }
 
+    /* updating hotel  */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result updateHotel(Integer id) {
         AppUser user = AppUser.getUserByEmail(session("email"));
 
         Hotel hotel = Hotel.findHotelById(id);
-        Form<Hotel> hotelForm1 = hotelForm.bindFromRequest();
+        Form<Hotel> boundForm = hotelForm.bindFromRequest();
 
-        String name = hotelForm1.field("name").value();
-        String city = hotelForm1.field("city").value();
-        String country = hotelForm1.field("country").value();
-        String location = hotelForm1.field("location").value();
-        String description = hotelForm1.field("description").value();
-        String stars = hotelForm1.field("stars").value();
-        Logger.debug(stars);
+        //filling input fields with values
+        String name = boundForm.field("name").value();
+        String city = boundForm.field("city").value();
+        String country = boundForm.field("country").value();
+        String location = boundForm.field("location").value();
+        String description = boundForm.field("description").value();
+        String stars = boundForm.field("stars").value();
 
         Integer starsHotel = null;
         if (stars != null && !"".equals(stars.trim())) {
@@ -81,8 +85,9 @@ public class Hotels extends Controller {
         List<Feature> features = listOfFeatures();
         Map<Integer, String> featurePrice = new HashMap<>();
 
+        //allowing seller to set prices for features or leave them blank if feature is free
         for (int i = 0; i < features.size(); i++) {
-            String price = hotelForm1.field(features.get(i).id.toString()).value();
+            String price = boundForm.field(features.get(i).id.toString()).value();
 
             if (price != null) {
                 featurePrice.put(features.get(i).id, price);
@@ -108,6 +113,7 @@ public class Hotels extends Controller {
         hotel.city = city;
         hotel.country = country;
 
+        //adding a pictures to hotel gallery
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
         if(fileParts != null){
@@ -124,12 +130,14 @@ public class Hotels extends Controller {
         return redirect(routes.Hotels.showHotel(hotel.id));
     }
 
-
+    /* method that finds all features  */
     public List<Feature> listOfFeatures() {
         List<Feature> features = featureFinder.all();
         return features;
     }
 
+
+    /* showing hotel with his properties */
     public Result showHotel(Integer id) {
         Hotel hotel1 = Hotel.findHotelById(id);
         List<HotelFeature> features = HotelFeature.getFeaturesByHotelId(id);
@@ -155,6 +163,7 @@ public class Hotels extends Controller {
     }
 
 
+    /* opens a  new window for editing hotel */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editHotel(Integer id) {
         Hotel hotel = Hotel.findHotelById(id);
@@ -182,18 +191,14 @@ public class Hotels extends Controller {
         return redirect(routes.Users.showAdminHotels());
     }
 
-    public List<Hotel> listOfHotels() {
-        List<Hotel> hotels = finder.all();
-        return hotels;
-    }
-
+    /*This method send a list of all hotels to seller pael */
     @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result showSellerHotels(Integer userId) {
+    public Result showSellerHotels() {
         List<Hotel> hotels = finder.all();
         return ok(sellerPanel.render(hotels));
 
     }
-
+    /* search method for hotels */
     public Result search() {
         DynamicForm form = Form.form().bindFromRequest();
 
@@ -223,10 +228,13 @@ public class Hotels extends Controller {
         return ok(views.html.hotel.searchedhotels.render(hotels));
     }
 
+    /* redirect on advanced search view */
     public Result advancedSearch() {
         return ok(views.html.hotel.advancedSearch.render(Hotel.finder.all()));
     }
 
+    /* This method allows hotel manager to decide which hotels should appear on main page */
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result changeVisibility(Integer hotelId) {
         Hotel hotel = Hotel.findHotelById(hotelId);
         Boolean visibility = hotel.showOnHomePage;
