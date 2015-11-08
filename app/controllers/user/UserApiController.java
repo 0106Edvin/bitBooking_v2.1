@@ -12,6 +12,11 @@ import java.util.List;
  */
 public class UserApiController extends Controller {
 
+    /**
+     * List of all users as Json
+     *
+     * @return
+     */
     public Result getAllUsers() {
         List<AppUser> users = AppUser.finder.all();
         return ok(play.libs.Json.toJson(users));
