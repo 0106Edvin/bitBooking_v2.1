@@ -136,11 +136,21 @@ GET           /newsletter/unsubscribe/:token                        @controllers
 GET           /seller/createpromotion                               @controllers.user.Seller.createPromotion()
 
 #REST
+<<<<<<< Updated upstream
 
 GET           /api/users                                            @controllers.api.ApiUserController.getAllUsers()
 GET           /api/hotels                                           @controllers.api.ApiHotelController.getHotelList()
 GET           /api/users                                            @controllers.user.UserApiController.getAllUsers()
 
+=======
+POST          /api/user/login                                       @controllers.api.ApiUserController.login()
+GET           /api/users                                            @controllers.api.ApiUserController.getAllUsers()
+GET           /api/hotels                                           @controllers.api.ApiHotelController.getHotelList()
+GET           /api/rooms/:id                                        @controllers.api.ApiHotelController.getHotelRooms(id: Integer)
+GET           /api/prices/:roomId                                   @controllers.api.ApiHotelController.getRoomPrices(roomId: Integer)
+
+GET           /api/hotel/room/reservation/:roomId                   @controllers.api.ApiUserController.payPal(roomId: Integer)
+>>>>>>> Stashed changes
 
 
 #FAQ
@@ -169,6 +179,7 @@ POST          /invitation                                           @controllers
 
 #Erros
 GET           /loggederrors                                         @controllers.Application.seeErrors()
+
 
 
 

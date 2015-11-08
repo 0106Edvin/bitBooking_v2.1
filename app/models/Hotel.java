@@ -47,25 +47,22 @@ public class Hotel extends Model {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     public List<Image> images;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     public List<Room> rooms;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     public List<Comment> comments;
 
     @Column
     public Boolean showOnHomePage;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public HotelVisit hotelVisit;
 
     /**
      * Default empty constructor for Ebean use
      */
-    public Hotel() {
-    }
-
-    ;
+    public Hotel() {};
 
     public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage, HotelVisit hotelVisit) {
 

@@ -60,7 +60,7 @@ public class AppUser extends Model {
     @OneToOne
     public Image profileImg;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     public List<Reservation> reservations;
 
     @Column(unique = true)
@@ -72,6 +72,7 @@ public class AppUser extends Model {
 
     @OneToMany
     public HotelVisit hotelVisit;
+    
 
     /**
      * Default constructor
