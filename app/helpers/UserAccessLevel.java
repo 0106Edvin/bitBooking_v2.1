@@ -1,6 +1,8 @@
 package helpers;
 
 /**
+ * This helper class contains User Access Level codes.
+ *
  * Created by ajla.eltabari on 21/09/15.
  */
 public class UserAccessLevel {

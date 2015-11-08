@@ -11,6 +11,8 @@ import static play.mvc.Controller.response;
 import static play.mvc.Controller.session;
 
 /**
+ * This helper class contains methods that manipulate with sessions and cookies.
+ *
  * Created by ajla.eltabari on 21/09/15.
  */
 public class SessionsAndCookies extends Security.Authenticator {
