@@ -6,6 +6,7 @@ import helpers.Authenticators;
 import models.AppUser;
 import models.Comment;
 import models.Hotel;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -28,6 +29,8 @@ public class Comments extends Controller {
         Hotel hotel = Hotel.findHotelById(hotelId);
         comment.user = user;
         comment.hotel = hotel;
+
+        Logger.debug("Zvezdo moja zvezdana " + boundForm.field("rating").value());
 
         comment.save();
         return redirect(routes.Hotels.showHotel(comment.hotel.id));

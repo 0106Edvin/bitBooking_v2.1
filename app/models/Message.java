@@ -2,6 +2,8 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
+import helpers.MailHelper;
+import play.Play;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -234,5 +236,28 @@ public class Message extends Model {
     public void update() {
         updateDate = new Date();
         super.update();
+    }
+
+    public static void sendEmailToSeller(Integer sellerId, Hotel hotel){
+
+        // Sending an email to the seller after creating the hotel.
+        AppUser seller = AppUser.findUserById(sellerId);
+        String message = String
+                .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
+                        "Dear ", seller.firstname, ",",
+                        "we want to inform you that Hotel Manager has created hotel for you.",
+                        "HOTEL INFORMATION:",
+                        hotel.name,
+                        hotel.location,
+                        hotel.city,
+                        hotel.country,
+                        hotel.stars, "stars",
+
+                        "Please visit your profile and check for updates.",
+                        "Sincerely yours,",
+                        "bitBooking team.",
+                        Play.application().configuration().getString("logo"));
+
+        MailHelper.send(seller.email, message, Constants.HOTEL_CREATED, null, null, null);
     }
 }

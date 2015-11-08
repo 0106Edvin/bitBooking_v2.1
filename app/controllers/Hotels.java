@@ -19,7 +19,6 @@ import views.html.hotel.hotel;
 import views.html.hotel.updateHotel;
 import views.html.manager.managerHotels;
 import views.html.seller.sellerPanel;
-import views.html.user.profilePage;
 
 import java.io.File;
 import java.text.ParseException;
@@ -45,52 +44,12 @@ public class Hotels extends Controller {
 
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result saveHotel() {
+
         AppUser user = AppUser.getUserByEmail(session("email"));
-        Form<Hotel> boundForm = hotelForm.bindFromRequest();
-        Hotel hotel = boundForm.get();
-
-        Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
-
-        hotel.sellerId = sellerId;
-        hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
-        hotel.save();
-
-        List<Feature> features = listOfFeatures();
-        for (int i = 0; i < features.size(); i++) {
-            String feature = boundForm.field(features.get(i).id.toString()).value();
-
-            if (feature != null) {
-                HotelFeature hotelFeature = new HotelFeature();
-                hotelFeature.feature = features.get(i);
-                hotelFeature.hotel = hotel;
-                hotelFeature.setCreatedBy(user);
-                hotelFeature.save();
-            }
-        }
-
+        Hotel.saveHotel(user);
         List<Hotel> hotels = finder.all();
         List<AppUser> users = userfinder.all();
 
-        AppUser seller = AppUser.findUserById(sellerId);
-
-        // Sending an email to the seller after creating the hotel.
-        String message = String
-                .format("<html><body><strong> %s %s %s <br> <p> %s </p></strong> %s <br> %s <br> %s <br>%s <br> %s <br> %s %s <strong><p> %s <br> %s <br> %s </p></strong> <img src='%s'></body></html>",
-                        "Dear ", seller.firstname, ",",
-                        "we want to inform you that Hotel Manager has created hotel for you.",
-                        "HOTEL INFORMATION:",
-                        boundForm.field("name").value(),
-                        boundForm.field("location").value(),
-                        boundForm.field("city").value(),
-                        boundForm.field("country").value(),
-                        boundForm.field("stars").value(), " stars",
-
-                        "Please visit your profile and check for updates.",
-                        "Sincerely yours,",
-                        "bitBooking team.",
-                        Play.application().configuration().getString("logo"));
-
-        MailHelper.send(seller.email, message, Constants.HOTEL_CREATED, null, null, null);
 
         return ok(managerHotels.render(hotels, users));
     }
@@ -149,14 +108,6 @@ public class Hotels extends Controller {
         hotel.city = city;
         hotel.country = country;
 
-//        Http.MultipartFormData body = request().body().asMultipartFormData();
-//        Http.MultipartFormData.FilePart filePart = body.getFile("profileImage");
-//        if(filePart != null){
-//            File file = filePart.getFile();
-//            Image profileImage = Image.create(file,hotel.id,null,null);
-//            hotel.profileImg = profileImage;
-//        }
-
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
         if(fileParts != null){
@@ -171,7 +122,6 @@ public class Hotels extends Controller {
         hotel.update();
 
         return redirect(routes.Hotels.showHotel(hotel.id));
-        //return redirect(routes.Application.index());
     }
 
 

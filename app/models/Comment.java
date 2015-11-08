@@ -24,9 +24,8 @@ public class Comment extends Model {
     @ManyToOne
     public Hotel hotel;
 
-    public String title;
     public String content;
-    public Double rating;
+    public Integer rating;
 
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
@@ -42,11 +41,10 @@ public class Comment extends Model {
     /*
      *Default constructor
      */
-    public Comment(Integer id, AppUser user, Hotel hotel, String title, String content, Double rating) {
+    public Comment(Integer id, AppUser user, Hotel hotel, String content, Integer rating) {
         this.id = id;
         this.user = user;
         this.hotel = hotel;
-        this.title = title;
         this.content = content;
         this.rating = rating;
     }
@@ -80,7 +78,6 @@ public class Comment extends Model {
                 "id=" + id +
                 ", user_id=" + user +
                 ", hotel_id=" + hotel +
-                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", rating=" + rating +
                 '}';
