@@ -63,9 +63,7 @@ public class Hotel extends Model {
      * Default empty constructor for Ebean use
      */
     public Hotel() {
-    }
-
-    ;
+    };
 
     public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage, HotelVisit hotelVisit) {
 
@@ -92,6 +90,10 @@ public class Hotel extends Model {
         Hotel hotel = finder.where().eq("id", id).findUnique();
 
         return hotel;
+    }
+
+    public static List<Hotel> getAllHotels() {
+        return finder.all();
     }
 
     public static List<Hotel> searchHotels(Date first, Date second, String term) {
@@ -160,6 +162,39 @@ public class Hotel extends Model {
         return finder.where().ilike("comments.rating", term).findRowCount();
     }
 
+    /**
+     * Method used for rendering list of hotels when seller creates promotion.
+     *
+     * @param seller <code>AppUser</code> type value of seller
+     * @return <code>List</code> of hotels operated by inputed seller ordered by hotel name ascending
+     */
+    public static List<Hotel> getHotelsBySellerAndSortedByNameAscending(AppUser seller) {
+        return finder.where().eq("seller_id", seller.id).orderBy("name asc").findList();
+    }
+
+    /**
+     * Changes seller of specific hotel
+     *
+     * @param hotelId     <code>Integer</code> type value of hotel id
+     * @param sellerEmail <code>String</code> type value of seller email
+     * @return <code>boolean</code> type value true if successfully updated, false if not
+     */
+    public static boolean changeSeller(Integer hotelId, String sellerEmail) {
+        AppUser seller = AppUser.getUserByEmail(sellerEmail);
+        Hotel hotel = Hotel.findHotelById(hotelId);
+        if (hotel != null && seller != null) {
+            try {
+                hotel.sellerId = seller.id;
+                hotel.update();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to change seller of hotel.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return (id.toString() + " " + name + " " + location);
@@ -176,6 +211,13 @@ public class Hotel extends Model {
         DecimalFormat format = new DecimalFormat(Constants.INITIAL_RATING.toString());
         rating = Double.valueOf(format.format(rating));
         return rating;
+    }
+
+
+    public static AppUser findUserByHotel(Hotel hotel) {
+        Integer userId = hotel.sellerId;
+        AppUser user = AppUser.findUserById(userId);
+        return user;
     }
 
     public static AppUser findUserByHotelId(Integer hotelId) {
@@ -237,6 +279,7 @@ public class Hotel extends Model {
         List<Feature> features = featureFinder.all();
         for (int i = 0; i < features.size(); i++) {
             String feature = boundForm.field(features.get(i).id.toString()).value();
+
 
             if (feature != null) {
                 HotelFeature hotelFeature = new HotelFeature();

@@ -1,22 +1,14 @@
 package controllers;
 
 import helpers.Authenticators;
-import helpers.NewsletterMail;
+import helpers.CommonHelperMethods;
 import models.AppUser;
-import models.ErrorLogger;
-import models.Hotel;
 import models.Newsletter;
-import play.Logger;
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-
-import javax.persistence.PersistenceException;
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by boris on 10/17/15.
@@ -31,27 +23,17 @@ public class NewsletterController extends Controller {
      * regex validation or empty badRequest if user is already subscribed to newsletters.
      */
     public Result signUp() {
-        final Pattern pattern = Pattern.compile("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$");
+        AppUser user = AppUser.getUserByEmail(session("email"));
         DynamicForm form = Form.form().bindFromRequest();
         String email = form.field("email").value();
-        if (!pattern.matcher(email).matches()) {
+
+        if (!CommonHelperMethods.validateEmail(email)) {
             return badRequest("input");
         }
-        Newsletter nl = new Newsletter();
-        nl.email = email;
-        AppUser user = AppUser.getUserByEmail(session("email"));
-        if (user != null) {
-            nl.createdBy = user.firstname + " " + user.lastname;
-        } else {
-            nl.createdBy = "Unregistered";
+        if (Newsletter.createNewNewsletter(email, user)) {
+            return ok();
         }
-        try {
-            nl.save();
-        } catch (PersistenceException e) {
-            ErrorLogger.createNewErrorLogger("Subscribed user tried to subscribe to newsletters again.", e.getMessage());
-            return badRequest();
-        }
-        return ok();
+        return badRequest();
     }
 
     /**
@@ -64,20 +46,15 @@ public class NewsletterController extends Controller {
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result sendPromotion() {
         DynamicForm form = Form.form().bindFromRequest();
-
         String hotel = form.field("hotel").value();
         String title = form.field("title").value();
         String content = form.field("content").value();
 
-        Hotel temp = Hotel.findHotelById(Integer.parseInt(hotel));
-
-        String host = Play.application().configuration().getString("unsubscribe");
-
-        List<Newsletter> newsletters = Newsletter.finder.where().eq("is_subscribed", true).findList();
-        for (Newsletter nl : newsletters) {
-            NewsletterMail.send(nl.email, host, title, content, temp, nl.token);
+        if (Newsletter.sendPromotionToSubscribers(hotel, title, content)) {
+            flash("info", "Successfully sent to all subscribers.");
+            return redirect(routes.Application.index());
         }
-        flash("info", "Successfully sent to all subscribers.");
+        flash("error-search", "Promotion could not be sent. Please contact our staff.");
         return redirect(routes.Application.index());
     }
 
@@ -88,16 +65,8 @@ public class NewsletterController extends Controller {
      * @return index page with flash info if all goes well, otherwise flash error is used
      */
     public Result unsubscribe(String token) {
-        Newsletter temp = Newsletter.findByToken(token);
         AppUser user = AppUser.getUserByEmail(session("email"));
-        if (temp != null) {
-            temp.isSubscribed = false;
-            if (user != null) {
-                temp.createdBy = user.firstname + " " + user.lastname;
-            } else {
-                temp.createdBy = "Unregistered";
-            }
-            temp.update();
+        if (Newsletter.unsubscribeFromNewsletters(token, user)) {
             flash("info", "Successfully unsubscribed from newsletters.");
             return redirect(routes.Application.index());
         }

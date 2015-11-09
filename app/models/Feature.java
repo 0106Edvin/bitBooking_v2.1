@@ -40,6 +40,10 @@ public class Feature extends Model {
         //leave empty
     }
 
+    public static List<Feature> getAllFeatures() {
+        return finder.all();
+    }
+
     public Feature(String name) {
         this.name = name;
     }

@@ -45,4 +45,9 @@ public class Constants {
 
     public static final Boolean FEATURE_FREE = true;
     public static final Boolean FEATURE_NOT_FREE = false;
+
+    public static final Boolean NEWSLETTERS_SUBSCRIBED = true;
+    public static final Boolean NEWSLETTERS_UNSUBSCRIBED = false;
+
+
 }

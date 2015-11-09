@@ -3,6 +3,10 @@
 @import helper._
 @main {
     @helper.form(action = routes.Hotels.saveHotel()) {
+        <script src='@routes.Assets.versioned("javascripts/js/bootstrap-formhelpers-countries.js")'></script>
+        <script src='@routes.Assets.versioned("javascripts/js/bootstrap-formhelpers.min.js")'></script>
+        <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/bootstrap-formhelpers.css")'>
+        <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/bootstrap-formhelpers.min.css")'>
 
         <div  id="main-background">
             <div class="container" id="background">
@@ -37,7 +41,9 @@
                                 <input name="name" class="name" type="text" placeholder="Hotel Name" required>
                                 <input name="location" class="email" type="text" placeholder="Address" required>
                                 <input name="city" class="email" type="text" placeholder="City" required>
-                                <input name="country" class="email" type="text" placeholder="Country" required>
+                                <div style="">
+                                <select id="country_dropdown" class="input-medium bfh-countries" name="country" data-country="BA"></select>
+                                </div>
                                 <input name="stars" type="number" min="1" max="7" placeholder="Hotel stars 1-7"/>
                                 <textarea class="message" name="description" id="message" placeholder="Description" style="resize : vertical"></textarea>
                             </div>

@@ -1,6 +1,7 @@
 package controllers;
 
 import helpers.Authenticators;
+import helpers.CommonHelperMethods;
 import models.ErrorLogger;
 import models.Price;
 import models.Room;
@@ -21,84 +22,110 @@ import java.util.List;
  * Created by User on 9/17/2015.
  */
 public class Prices extends Controller {
-    public static final Form<Price> priceForm = Form.form(Price.class);
 
-    public Price getPrice(Integer id) {
-        Price price = Price.findPriceById(id);
-        return price;
-    }
+    private static final Form<Price> priceForm = Form.form(Price.class);
 
+    /**
+     * Saves new price to database. Collects data from view via priceForm, checks strings if valid.
+     * Converts date strings to <code>Date</code> type value, saves price with success message.
+     * If something could not pass correctly error message is shown.
+     *
+     * @param roomId <code>Integer</code> type value of room id
+     * @return
+     */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result savePrice(Integer roomId) {
         Form<Price> boundForm = priceForm.bindFromRequest();
+        Room room = Room.findRoomById(roomId);
         String cost = boundForm.field("cost").value();
-        if (cost.equals("") || cost == null) {
+        String checkin = boundForm.field("checkIn").value();
+        String checkout = boundForm.field("checkOut").value();
+
+        if (!CommonHelperMethods.validateInputString(cost)) {
             flash("error", "You must set room price!");
             return redirect(routes.Rooms.editRoom(roomId));
         }
-        String checkin = boundForm.field("checkIn").value();
-        String checkout = boundForm.field("checkOut").value();
-        Price price = new Price();
-        Room room = Room.findRoomById(roomId);
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
 
-        try {
-            Date firstDate = dtf.parse(checkin);
-            Date secondDate = dtf.parse(checkout);
-            if (firstDate.before(secondDate)) {
-                price.dateFrom = firstDate;
-                price.dateTo = secondDate;
-            } else {
+        if (!CommonHelperMethods.validateInputString(checkin) || !CommonHelperMethods.validateInputString(checkout)) {
+            flash("error", "You must select date for room price!");
+            return redirect(routes.Rooms.editRoom(roomId));
+        }
+
+        Date firstDate = CommonHelperMethods.convertStringToDate(checkin);
+        Date secondDate = CommonHelperMethods.convertStringToDate(checkout);
+
+        if (firstDate != null && secondDate != null) {
+            if (firstDate.after(secondDate)) {
                 flash("error", "First date can't be after second date!");
                 return redirect(routes.Rooms.editRoom(roomId));
             }
-        } catch (ParseException e) {
-            ErrorLogger.createNewErrorLogger("Failed to parse inputed dates when saving price.", e.getMessage());
-            System.out.println(e.getMessage());
+            if (Price.createNewPrice(room, firstDate, secondDate, cost)) {
+                List<Price> prices = Price.getRoomPrices(room);
+                flash("success", " Price successfully added. ");
+                return ok(views.html.room.updateRoom.render(room, prices));
+            }
         }
-        price.room = room;
-        price.cost = new BigDecimal(Long.parseLong(cost));
-        price.save();
-        flash("success", " Price successfully added. ");
-        List<Price> prices = Price.getRoomPrices(room);
-        return ok(views.html.room.updateRoom.render(room, prices));
+        flash("error", "Price could not be added.");
+        return redirect(routes.Rooms.editRoom(roomId));
     }
 
+    /**
+     * Renders price secton of view.
+     *
+     * @param roomId <code>Integer</code> type value of room prices
+     * @return
+     */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result insertPrice(Integer roomId) {
         return ok(addPrice.render(roomId));
     }
 
+    /**
+     * Deleted selected price.
+     *
+     * @param id <code>Integer</code> type value of price id
+     * @return
+     */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result delete(Integer id) {
-
         Price price = Price.findPriceById(id);
         Room room = Room.findRoomById(price.room.id);
-        price.delete();
-
-        List<Price> prices = Price.getRoomPrices(room);
+        if (Price.deletePrice(price)) {
+            List<Price> prices = Price.getRoomPrices(room);
+            flash("error", "Price could not be deleted.");
+            return redirect(routes.Rooms.updateRoom(room.id));
+        }
+        flash("info", "Price successfully deleted.");
         return redirect(routes.Rooms.updateRoom(room.id));
-        //return redirect(views.html.room.updateRoom.render(room, prices));
     }
 
+    /**
+     * Edit price with new cost value, cost is taken from priceForm, and price id is passed as method parameter.
+     * If price is edited successfully info message is shown, otherwise error message is shown.
+     *
+     * @param id <code>Integer</code> type value of price id
+     * @return
+     */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editPrice(Integer id) {
         Price price = Price.findPriceById(id);
         Room room = Room.findRoomById(price.room.id);
 
         Form<Price> boundForm = priceForm.bindFromRequest();
-        // price in Price model => BigDecimal cost
         String cost = boundForm.field("cost").value();
-        if (cost.equals("") || cost == null) {
+
+        if (!CommonHelperMethods.validateInputString(cost)) {
             flash("missing-price", "Please, set room price value and then save.");
-            // here I should render just modal .. this way msg is shown when u open modal again
             return redirect(routes.Rooms.updateRoom(room.id));
         }
-        price.cost = new BigDecimal(Long.parseLong(cost));
-        price.save();
 
-        List<Price> prices = Price.getRoomPrices(room);
+        if (Price.updatePrice(price, cost)) {
+            List<Price> prices = Price.getRoomPrices(room);
+            flash("info", "Price successfully updated.");
+            return redirect(routes.Rooms.updateRoom(room.id));
+        }
+        flash("error", "Price could not be updated.");
         return redirect(routes.Rooms.updateRoom(room.id));
-
     }
+
 }
