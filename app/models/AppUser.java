@@ -229,6 +229,38 @@ public class AppUser extends Model {
     }
 
     /**
+     * Updates user profile with new values and adds a picture to user profile if one is selected.
+     *
+     * @param user         <code>AppUser</code> type value of user
+     * @param password     <code>String</code> type value of user password
+     * @param name         <code>String</code> type value of user name
+     * @param lastname     <code>String</code> type value of user lastname
+     * @param phone        <code>String</code> type value of user phone
+     * @param profileImage <code>Image</code> type value of user profile image
+     * @return <code>boolean</code> type value true if user profile was successfully updated, false if not
+     */
+    public static boolean updateUserProfile(AppUser user, String password, String name, String lastname, String phone, Image profileImage) {
+        if (user != null) {
+            try {
+                user.firstname = name;
+                user.lastname = lastname;
+                user.password = password;
+                user.hashPass();
+                user.phoneNumber = phone;
+                if (profileImage != null) {
+                    user.profileImg = profileImage;
+                }
+                user.update();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to update user profile.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Deletes specific user from database, user is foundby provided email.
      *
      * @param email <code>String</code> type alue of email
