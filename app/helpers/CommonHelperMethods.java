@@ -1,5 +1,8 @@
 package helpers;
 
+import models.ErrorLogger;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -38,6 +41,22 @@ public class CommonHelperMethods {
     }
 
     /**
+     * Converts inputed string into Date type value, with format day/month/year
+     *
+     * @param date <code>String</code> type value of date
+     * @return <code>Date</code> if string is parsed correctly, <code>null</code> if it not
+     */
+    public static Date convertStringToDate(String date) {
+        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return dtf.parse(date);
+        } catch (ParseException e) {
+            ErrorLogger.createNewErrorLogger("Failed to parse inputed date.", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Checks if given email is valid by matching it to regex pattern.
      *
      * @param email <code>String</code> value of email
@@ -50,4 +69,19 @@ public class CommonHelperMethods {
         }
         return true;
     }
+
+    /**
+     * Simple validation for any sting, can't be empty.
+     *
+     * @param input <code>String</code> type value
+     * @return <code>boolean</code> true if string is not empty or null, false if it is
+     */
+    public static boolean validateInputString(String input) {
+        if (input == null || "".equals(input.trim())) {
+            return false;
+        }
+        return true;
+    }
+
+
 }
