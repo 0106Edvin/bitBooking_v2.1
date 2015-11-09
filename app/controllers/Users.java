@@ -31,7 +31,7 @@ import java.util.UUID;
 public class Users extends Controller {
     private static final Form<AppUser> userForm = Form.form(AppUser.class);
 
-//    private static List<Hotel> hotels = Hotel.finder.all();
+    //    private static List<Hotel> hotels = Hotel.finder.all();
     private static Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
 
     private static List<AppUser> users = AppUser.finder.all();
@@ -213,7 +213,8 @@ public class Users extends Controller {
     }
 
     /**
-     * TODO change to CRUD
+     * Tries to update user profile with new data, and add user personal picture
+     *
      * @param email
      * @return
      */
@@ -232,54 +233,25 @@ public class Users extends Controller {
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
+        Image profileImage = null;
         if (filePart != null) {
             File file = filePart.getFile();
-            Image profileImage = Image.create(file, null, currentUser.id, null, null, null);
-            currentUser.profileImg = profileImage;
+            profileImage = Image.create(file, null, currentUser.id, null, null, null);
         }
 
-        if (!pass1.equals(pass2)) {
-            flash("error", "Passwords don't match");
-            return ok(profilePage.render(currentUser));
-
-        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
-            flash("error", "Name and last name must contain letters only");
-            return ok(profilePage.render(currentUser));
-
-        } else if (name.length() < 2 || lastname.length() < 2) {
-            flash("error", "Name and last name must be at least 2 letters long");
-            return ok(profilePage.render(currentUser));
-
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
-            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
-            return ok(profilePage.render(currentUser));
-
-        } else if (phone.matches("^[a-zA-Z]+$")) {
-            flash("error", "Phone number must contain digits only");
-            return ok(profilePage.render(currentUser));
-
-        } else {
-
-            try {
-                currentUser.firstname = name;
-                currentUser.lastname = lastname;
-                if (pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
-                    currentUser.password = pass1;
-                    currentUser.hashPass();
-                }
-                currentUser.phoneNumber = phone;
-
-                currentUser.update();
-
-                flash("success", "Your data was updated");
-                return redirect(routes.Users.updateUser(currentUser.email));
-
-            } catch (Exception e) {
-                ErrorLogger.createNewErrorLogger("Failed to update user profile.", e.getMessage());
-                flash("error", "You didn't fill the form correctly, please try again\n" + e.getMessage());
-                return ok(profilePage.render(currentUser));
-            }
+        Result r = CommonHelperMethods.validateUser(pass1, pass2, name, lastname, phone, email, boundForm);
+        if (r != null) {
+            return r;
         }
+
+        boolean isUpdated = AppUser.updateUserProfile(currentUser, pass1, name, lastname, phone, profileImage);
+
+        if (isUpdated) {
+            flash("success", "Your data was updated");
+            return redirect(routes.Users.updateUser(currentUser.email));
+        }
+        flash("error-search", "Failed to update user profile.");
+        return ok(profilePage.render(currentUser));
     }
 
     /**
