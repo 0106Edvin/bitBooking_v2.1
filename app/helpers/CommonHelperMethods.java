@@ -87,6 +87,7 @@ public class CommonHelperMethods {
         return true;
     }
 
+
     public static play.mvc.Result validateUser(String pass1, String pass2, String name, String lastname, String phone, String email, Form<AppUser> boundForm) {
         if (!pass1.equals(pass2)) {
             flash("error", "Passwords don't match!");
