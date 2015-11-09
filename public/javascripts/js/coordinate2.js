@@ -48,7 +48,6 @@ function initialize() {
         position: latLng,
         title: 'Click here to zoom',
         map: map,
-        animation: google.maps.Animation.BOUNCE,
         draggable: false
     });
 
@@ -57,14 +56,6 @@ function initialize() {
         map.setCenter(marker.getPosition());
         infowindow.open(map,marker);
     });
-
-    //create circle options
-    var circleOptions = {
-        fillColor: 'white',
-        map: map,
-        center: latLng,
-        radius: 1000
-    };
 
     //create circle
     myCircle = new google.maps.Circle(circleOptions);
