@@ -1,11 +1,15 @@
 package helpers;
 
+import models.AppUser;
 import models.ErrorLogger;
+import play.data.Form;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
+import static play.mvc.Controller.flash;
+import static play.mvc.Results.ok;
 
 /**
  * This helper class contains common methods.
@@ -16,7 +20,7 @@ import java.util.regex.Pattern;
 public class CommonHelperMethods {
 
     /**
-     * Returnes provided date as a String value
+     * Returns provided date as a String value
      * @param date
      * @return
      */
@@ -81,6 +85,39 @@ public class CommonHelperMethods {
             return false;
         }
         return true;
+    }
+
+    public static play.mvc.Result validateUser(String pass1, String pass2, String name, String lastname, String phone, String email, Form<AppUser> boundForm) {
+        if (!pass1.equals(pass2)) {
+            flash("error", "Passwords don't match!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if (pass1.length() < Constants.MIN_PASSWORD_LENGTH || pass2.length() < Constants.MIN_PASSWORD_LENGTH) {
+            flash("error", "Password must be at least 6 characters long!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
+            flash("error", "Name and last name must contain letters only!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if (name.length() < Constants.MIN_NAME_LENGTH || lastname.length() < Constants.MIN_NAME_LENGTH) {
+            flash("error", "Name and last name must be at least 2 letters long!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
+            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if (phone.matches("^[a-zA-Z]+$")) {
+            flash("error", "Phone number must contain digits only!");
+            return ok(views.html.user.register.render(boundForm));
+
+        } else if (!validateEmail(email)) {
+            flash("error", "Email is wrong!");
+            return ok(views.html.user.register.render(boundForm));
+
+        }
+        return null;
     }
 
 
