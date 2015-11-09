@@ -1390,3 +1390,11 @@ responsive area
     font-weight: bold;
     font-size: 26px;
 }
+
+#country_dropdown {
+    font-size: 17px;
+    width: 515px;
+    margin-bottom: 0.3cm;
+    height: 40px;
+    border: none;
+}
