@@ -103,8 +103,8 @@ public class Reservations extends Controller {
             /*Redirect links , if transaction is completed user will be redirected to execute payment
             * else, user will be notified that transaction is rejected*/
             RedirectUrls redirects = new RedirectUrls();
-            redirects.setCancelUrl("http://localhost:9000/rejectPayment");
-            redirects.setReturnUrl("http://localhost:9000/paypal/success");
+            redirects.setCancelUrl("http://rockit.cloudapp.net/rejectPayment");
+            redirects.setReturnUrl("http://rockit.cloudapp.net/paypal/success");
 
             payment.setRedirectUrls(redirects);
 
