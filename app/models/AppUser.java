@@ -1,14 +1,18 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.Constants;
+import helpers.MailHelper;
 import helpers.UserAccessLevel;
 import org.mindrot.jbcrypt.BCrypt;
+import play.Play;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Model of App_User. App_User is a person who sign up into database on bitBooking.ba web page
@@ -60,7 +64,7 @@ public class AppUser extends Model {
     @OneToOne
     public Image profileImg;
 
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     public List<Reservation> reservations;
 
     @Column(unique = true)
@@ -88,7 +92,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber,Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber, Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -99,6 +103,10 @@ public class AppUser extends Model {
         this.token = token;
         this.forgottenPassToken = forgottenPassToken;
         this.hotelVisit = hotelVisit;
+    }
+
+    public static List<AppUser> getAllUsers() {
+        return finder.all();
     }
 
     /**
@@ -149,6 +157,7 @@ public class AppUser extends Model {
 
     /**
      * Retrieves user from the database by provided email.
+     *
      * @param email
      * @return
      */
@@ -167,13 +176,14 @@ public class AppUser extends Model {
         return users;
     }
 
-    public static AppUser findUserById(Integer id){
-        AppUser user = finder.where().eq("id",id).findUnique();
+    public static AppUser findUserById(Integer id) {
+        AppUser user = finder.where().eq("id", id).findUnique();
         return user;
     }
 
     /**
      * Retreives user from database with provided token
+     *
      * @param token
      * @return
      */
@@ -183,6 +193,7 @@ public class AppUser extends Model {
 
     /**
      * Retreives user from database with provided token for forgotten password
+     *
      * @param forgottenPassToken
      * @return
      */
@@ -191,7 +202,112 @@ public class AppUser extends Model {
     }
 
     /**
+     * Saves new user to database, user is checked for being null value, depending on userType,
+     * seller doesn't have to authenticate email address.
+     *
+     * @param user     <code>AppUser</code> type value of user
+     * @param userType <code>String</code> type value of user type
+     * @return <code>boolean</code> type value if user is successfully saved to database, false if not
+     */
+    public static boolean saveNewUser(AppUser user, String userType) {
+        if (user != null) {
+            user.hashPass();
+            user.token = UUID.randomUUID().toString();
+            if (Constants.USER_SELLER.equals(userType)) {
+                user.userAccessLevel = UserAccessLevel.SELLER;
+                user.validated = Constants.VALIDATED_USER;
+            }
+            try {
+                user.save();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to save user. Possible duplicate email entry.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Deletes specific user from database, user is foundby provided email.
+     *
+     * @param email <code>String</code> type alue of email
+     * @return <code>boolean</code> type value true if user is successfully deleted, false if not
+     */
+    public static boolean deleteUser(String email) {
+        AppUser user = AppUser.getUserByEmail(email);
+        if (user != null) {
+            try {
+                user.delete();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to delete user.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Changes role of user, new role is taken from html selection box.
+     * User is found with provided email.
+     *
+     * @param email <code>String</code> type value of user email
+     * @param role  <code>String</code> type value of new user role
+     * @return <code>boolean</code> type value true if user is successfully updated, false if not
+     */
+    public static boolean changeUserRole(String email, String role) {
+        AppUser user = AppUser.getUserByEmail(email);
+        if (user != null) {
+            if ("buyer".equals(role)) {
+                user.userAccessLevel = UserAccessLevel.BUYER;
+            } else if ("seller".equals(role)) {
+                user.userAccessLevel = UserAccessLevel.SELLER;
+            } else if ("hotelmanager".equals(role)) {
+                user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
+            }
+            try {
+                user.update();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to change user role.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean activateForgottenPassword(String email) {
+        AppUser user = AppUser.getUserByEmail(email);
+        if (user != null) {
+            try {
+                user.forgottenPassToken = UUID.randomUUID().toString();
+                user.update();
+                // Sending Email To user
+                String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user.forgottenPassToken;
+                String cancelRequest = Play.application().configuration().getString("url") + "user/cancelpasswordchangerequest/" + user.forgottenPassToken;
+                MailHelper.send(user.email, host, Constants.CHANGE_PASSWORD, cancelRequest, null, null);
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to set password reset token.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Finds all sellers in database and orders them by first name ascending.
+     *
+     * @return <code>List</code> type value of AppUser
+     */
+    public static List<AppUser> getAllSellersOrderedByFirstname() {
+        return finder.where().eq("user_access_level", UserAccessLevel.SELLER).orderBy("firstname asc").findList();
+    }
+
+    /**
      * Validates user
+     *
      * @param user
      * @return
      */
@@ -206,7 +322,7 @@ public class AppUser extends Model {
     }
 
     public static Boolean sellersHotel(Hotel hotel, AppUser seller) {
-        if(hotel.sellerId == seller.id){
+        if (hotel.sellerId == seller.id) {
             return true;
         }
         return false;
@@ -214,15 +330,15 @@ public class AppUser extends Model {
 
     public static Boolean sellersHotelByRoomId(Room room, AppUser user) {
         Hotel hotel = room.hotel;
-        if(user != null)
-        if(hotel.sellerId == user.id) {
-            return true;
-        }
+        if (user != null)
+            if (hotel.sellerId == user.id) {
+                return true;
+            }
         return false;
     }
 
     public static AppUser sellersHotel2(Hotel hotel, AppUser seller) {
-        if(hotel.sellerId == seller.id) {
+        if (hotel.sellerId == seller.id) {
             return seller;
         } else {
             return null;
@@ -231,26 +347,28 @@ public class AppUser extends Model {
 
     /**
      * Hashes the new password and saves it into the database.
-     *
+     * <p>
      * Clears the forgotten password token field in the database
+     *
      * @param user
      * @param newPassword
      * @return
      */
     public void updatePassword(AppUser user, String newPassword) {
-            user.password = newPassword;
-            user.hashPass();
-            user.forgottenPassToken = null;
-            user.save();
+        user.password = newPassword;
+        user.hashPass();
+        user.forgottenPassToken = null;
+        user.save();
     }
 
     /**
      * Clears the forgotten password token field for provided user
+     *
      * @param user
      */
     public static void clearChangePasswordToken(AppUser user) {
-            user.forgottenPassToken = null;
-            user.save();
+        user.forgottenPassToken = null;
+        user.save();
     }
 
     public static boolean sellerHaveHotel(AppUser user) {
