@@ -72,6 +72,8 @@ public class Hotels extends Controller {
         String location = boundForm.field("location").value();
         String description = boundForm.field("description").value();
         String stars = boundForm.field("stars").value();
+        String coordinteX = boundForm.field("coordinateX").value();
+        String coordinteY = boundForm.field("coordinateY").value();
 
         Integer starsHotel = null;
         if (stars != null && !"".equals(stars.trim())) {
@@ -112,6 +114,8 @@ public class Hotels extends Controller {
         hotel.description = description;
         hotel.city = city;
         hotel.country = country;
+        hotel.coordinateX = coordinteX;
+        hotel.coordinateY = coordinteY;
 
         //adding a pictures to hotel gallery
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
