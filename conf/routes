@@ -142,7 +142,9 @@ GET           /api/hotels                                       @controllers.api
 GET           /api/rooms/:id                                    @controllers.api.ApiHotelController.getHotelRooms(id: Integer)
 GET           /api/prices/:roomId                               @controllers.api.ApiHotelController.getRoomPrices(roomId: Integer)
 
-GET          /api/hotel/room/reservation/:roomId                @controllers.api.ApiUserController.payPal(roomId: Integer)
+GET           /api/hotel/room/reservation/:roomId               @controllers.api.ApiUserController.payPal(roomId: Integer)
+
+GET           /api/hotelsForNavigator                           @controllers.api.ApiHotelsForNavigator.getHotelsForExternalUsages()
 
 
 #FAQ
