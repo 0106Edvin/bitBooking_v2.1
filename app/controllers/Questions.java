@@ -26,7 +26,7 @@ public class Questions extends Controller {
     /**
      * Renders view for admin so he/she can create new FAQ
      *
-     * @return
+     * @return ok and renders view for creating FAQ
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result createFAQ() {
@@ -47,9 +47,9 @@ public class Questions extends Controller {
     }
 
     /**
-     * Saves new FAW to database, checks if input fields are valid, then tries to save to database.
+     * Saves new FAQ to database, checks if input fields are valid, then tries to save to database.
      *
-     * @return
+     * @return redirect to all FAQ with appropriate flash messages
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result saveFAQ() {
@@ -73,7 +73,7 @@ public class Questions extends Controller {
      * Finds specific FAQ and tries to update it with new values.
      *
      * @param Id <code>Integer</code> type value of FAQ id
-     * @return
+     * @return redirect to all FAQ with appropriate flash messages
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result updateFAQ(Integer Id) {
@@ -98,7 +98,7 @@ public class Questions extends Controller {
      * Tries to delete specific FAQ from database.
      *
      * @param Id <code>Integer</code> type value of FAQ id
-     * @return
+     * @return redirect to all FAQ with appropriate flash messages
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteFAQ(Integer Id) {
@@ -113,7 +113,7 @@ public class Questions extends Controller {
     /**
      * Renders all FAQ for public users to see
      *
-     * @return
+     * @return ok and renders with single FAQ for editing
      */
     public Result seeAll() {
         List<Question> questions = Question.getAllQuestions();

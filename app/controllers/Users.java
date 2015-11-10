@@ -31,20 +31,10 @@ import java.util.UUID;
 public class Users extends Controller {
     private static final Form<AppUser> userForm = Form.form(AppUser.class);
 
-    //    private static List<Hotel> hotels = Hotel.finder.all();
-    private static Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
-
-    private static List<AppUser> users = AppUser.finder.all();
-    private static Model.Finder<String, AppUser> userFinder = new Model.Finder<>(AppUser.class);
-
-    private static List<Feature> features = Feature.finder.all();
-    private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
-
-
     /**
      * Renders register form for registering new user to site.
      *
-     * @return
+     * @return ok and renders form for user registration
      */
     public Result registerUser() {
         return ok(register.render(userForm));
@@ -55,7 +45,7 @@ public class Users extends Controller {
      * and assignees them to AppUser parameters.
      *
      * @param userType <code>String</code> type value of userType, can be seller or regular buyer
-     * @return
+     * @return ok with appropriate flash message
      */
     public Result saveUser(String userType) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
@@ -94,7 +84,8 @@ public class Users extends Controller {
      * and if it is successful, logs the user in. Stores the data in the cookies
      * and redirect user to the corresponding profile page.
      *
-     * @return
+     * @return badRequest if error occurs, ok that renders admin panel if admin logs in,
+     * redirect to index page if any other user logs in
      */
     public Result login() {
         Form<AppUser> boundForm = userForm.bindFromRequest();
@@ -123,7 +114,7 @@ public class Users extends Controller {
      * Renders user profile for editing.
      *
      * @param email <code>String</code> type value of user email
-     * @return
+     * @return ok and renders profile page of user for editing
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result editUser(String email) {
@@ -134,7 +125,7 @@ public class Users extends Controller {
     /**
      * Logs user out from application, deleted all coockies and session data
      *
-     * @return
+     * @return redirect to index
      */
     public Result logOut() {
         SessionsAndCookies.clearCookies();
@@ -145,7 +136,7 @@ public class Users extends Controller {
     /**
      * Renders hotel list for admin to see
      *
-     * @return
+     * @return ok and renders list of hotels
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminHotels() {
@@ -156,7 +147,7 @@ public class Users extends Controller {
     /**
      * Shows the list of users to admin
      *
-     * @return
+     * @return ok and renders list of users
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminUsers() {
@@ -167,7 +158,7 @@ public class Users extends Controller {
     /**
      * Shows list of features to admin
      *
-     * @return
+     * @return ok and renders list of features
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminFeatures() {
@@ -179,7 +170,7 @@ public class Users extends Controller {
     /**
      * Shows list of hotels to hotel manager
      *
-     * @return
+     * @return ok and renders hotels
      */
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result showManagerHotels() {
@@ -191,7 +182,7 @@ public class Users extends Controller {
     /**
      * Renders admin panel
      *
-     * @return
+     * @return ok and renders admin panel
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminPanel() {
@@ -202,7 +193,7 @@ public class Users extends Controller {
      * Deletes specific user from database. Method is called by ajax function.
      *
      * @param email <code>String</code> type value of user email
-     * @return
+     * @return ok if user is deleted, internalServerError if user cant be deleted
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteUser(String email) {
@@ -216,7 +207,7 @@ public class Users extends Controller {
      * Tries to update user profile with new data, and add user personal picture
      *
      * @param email
-     * @return
+     * @return ok with appropriate flash message if error occurs, redirect to update page if successful
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result updateUser(String email) {
@@ -257,7 +248,7 @@ public class Users extends Controller {
     /**
      * Renders view for creating hotel by hotel manager
      *
-     * @return
+     * @return ok and renders all sellers
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result getSellers() {
@@ -270,7 +261,7 @@ public class Users extends Controller {
      * Tries to change user role, only admin can change role
      *
      * @param email <code>String</code> type value of user email
-     * @return
+     * @return redirect with appropriate flash message
      */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result setRole(String email) {
@@ -301,7 +292,7 @@ public class Users extends Controller {
      * Validates user email after registration.
      *
      * @param token <code>String</code> type value of unique access token
-     * @return
+     * @return redirect to index page if error occurs, ok if email is validated successfully
      */
     public Result emailValidation(String token) {
         try {
@@ -325,7 +316,7 @@ public class Users extends Controller {
      * Changes seller of certain hotel, hotel manager can access this method
      *
      * @param hotelId <code>Integer</code> type value of hotel id
-     * @return
+     * @return redirect to index page if error occurs, ok and renders view with hotels
      */
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result changeSeller(Integer hotelId) {
@@ -345,7 +336,7 @@ public class Users extends Controller {
     /**
      * Redirects to page for sending request for changing password
      *
-     * @return
+     * @return ok and renders page for password change
      */
     public Result askForPasswordChange() {
         return ok(askForPasswordChange.render());
@@ -356,7 +347,7 @@ public class Users extends Controller {
      * Generates unique token for changin password
      * and sends an email to the user to confirm request
      *
-     * @return
+     * @return ok with appropriate flash messages
      */
     public Result sendChangePasswordRequest() {
         Form<String> form = Form.form(String.class);
@@ -377,7 +368,7 @@ public class Users extends Controller {
      * If it doesn't, returns a bad request warning.
      *
      * @param forgottenPasswordToken
-     * @return
+     * @return ok if user is found, badRequest if token is wrong
      */
     public Result forgotYourPassword(String forgottenPasswordToken) {
         try {
@@ -396,7 +387,7 @@ public class Users extends Controller {
      * Clears the forgotten password token field in the database
      *
      * @param forgottenPasswordToken
-     * @return
+     * @return redirect to index page with appropriate flash message
      */
     public Result changePassword(String forgottenPasswordToken) {
         Form<String> form = Form.form(String.class);
@@ -420,7 +411,7 @@ public class Users extends Controller {
      * Cancels password change request if user didn't want to change it.
      * Clears the forgotten password token field in the database
      *
-     * @return
+     * @return redirect to index page with appropriate flash message
      */
     public Result cancelPasswordChangeRequest(String forgottenPasswordToken) {
         AppUser user = AppUser.findUserByForgottenPasswordToken(forgottenPasswordToken);
@@ -439,7 +430,7 @@ public class Users extends Controller {
      * Renders view for seller registration, invitation is set to expired.
      *
      * @param token
-     * @return
+     * @return ok and renders view for seller registration
      */
     public Result registerSeller(String token) {
         Invitation.resetInvitation(token);
@@ -449,7 +440,7 @@ public class Users extends Controller {
     /**
      * Saves new Invitation to database and sends email with registration link only for seller.
      *
-     * @return
+     * @return redirect to view with all sellers with appropriate message
      */
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result sendInvitation() {
@@ -472,7 +463,7 @@ public class Users extends Controller {
     /**
      * Renders all AppUsers that are sellers, orders them by first name.
      *
-     * @return
+     * @return ok and renders view with all sellers
      */
     public Result seeAllSellers() {
         List<AppUser> sellers = AppUser.getAllSellersOrderedByFirstname();

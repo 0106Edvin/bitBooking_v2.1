@@ -27,7 +27,7 @@ public class Seller extends Controller {
     /**
      * Renders statistics for seller, sends current user to view so it can be used in static methods.
      *
-     * @return
+     * @return ok and renders stats for seller
      */
     public Result statistics() {
         return ok(views.html.seller.statistic.render(SessionsAndCookies.getCurrentUser(ctx())));
@@ -36,7 +36,7 @@ public class Seller extends Controller {
     /**
      * Renders statsToPDF file into PDF file, PdfGenerator is used to render.
      *
-     * @return
+     * @return ok and generates stats in PDF format
      */
     public Result pdf() {
         return pdfGenerator.ok(views.html.seller.statsToPDF.render(SessionsAndCookies.getCurrentUser(ctx())), Configuration.root().getString("application.host"));
@@ -45,7 +45,7 @@ public class Seller extends Controller {
     /**
      * Method is used for ajax request by script numberOfUniqueVisits, method is called every 3.5 seconds.
      *
-     * @return
+     * @return ok and returns number of unique visitors
      */
     public Result uniqueIndexVisits() {
         return ok(String.valueOf(SiteStats.getUniquePageVisits()));
@@ -54,7 +54,7 @@ public class Seller extends Controller {
     /**
      * Method is used for ajax request by script numberOfOverallVisits, method is called every 3.5 seconds.
      *
-     * @return
+     * @return ok and returns number of overall visitors
      */
     public Result overallIndexVisits() {
         return ok(String.valueOf(SiteStats.getTotalOfPageVisits()));
@@ -64,7 +64,7 @@ public class Seller extends Controller {
      * Renders wiew for seller so he/she can create promotion for hotel.
      * List of hotels is sent sorted by hotel name in ascending order.
      *
-     * @return
+     * @return ok and renders view for creating promotion
      */
     public Result createPromotion() {
         AppUser seller = AppUser.getUserByEmail(session("email"));

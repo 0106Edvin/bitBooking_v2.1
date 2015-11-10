@@ -51,6 +51,46 @@ public class SiteStats extends Model {
     }
 
     /**
+     * Creates new cound of unique and overall visits to index page
+     *
+     * @param temp <code>AppUser</code> type value of user
+     * @param ipAddress <code>String</code> type value of ip address
+     */
+    public static void createNewStats(AppUser temp, String ipAddress) {
+        SiteStats stats = new SiteStats();
+        SiteStats tempStat = findUniqueStats(ipAddress);
+        stats.ipAddress = ipAddress;
+        if (temp != null) {
+            stats.setCreatedBy(temp.firstname, temp.lastname);
+            if (tempStat != null) {
+                tempStat.setUpdatedBy(temp.firstname, temp.lastname);
+            }
+        } else {
+            stats.createdBy = "Anonymous user";
+            if (tempStat != null) {
+                tempStat.updatedBy = "Anonymous user";
+            }
+        }
+        try {
+            stats.save();
+        } catch (PersistenceException e) {
+            if (tempStat != null) {
+                tempStat.update();
+            }
+        }
+    }
+
+    /**
+     * Finds unique SiteStats with provided ip address
+     *
+     * @param ipAddress <code>String</code> type value of ip address
+     * @return <code>SiteStats</code> type value
+     */
+    private static SiteStats findUniqueStats(String ipAddress) {
+        return finder.where().eq("ip_address", ipAddress).findUnique();
+    }
+
+    /**
      * Finds number of unique page visits of site index page,
      * uniqueness parameter is ip address.
      *
@@ -178,7 +218,7 @@ public class SiteStats extends Model {
             });
             return hRooms.get(0);
         } catch (IndexOutOfBoundsException e) {
-            ErrorLogger.createNewErrorLogger("Failed to compare rooms. Probably only one room in hotel.",e.getMessage());
+            ErrorLogger.createNewErrorLogger("Failed to compare rooms. Probably only one room in hotel.", e.getMessage());
             return new Room();
         }
     }
@@ -280,4 +320,3 @@ public class SiteStats extends Model {
 
 
 }
-
