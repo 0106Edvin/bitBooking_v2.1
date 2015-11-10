@@ -26,7 +26,7 @@ public class MessageController extends Controller {
      * with appropriate error message.
      *
      * @param hotelId <code>Integer</code> type value of hotel id, used to find seller from that hotel
-     * @return
+     * @return redirect to index if error occurs, redirect to hotel page
      */
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result saveMessage(Integer hotelId) {
@@ -55,7 +55,7 @@ public class MessageController extends Controller {
      * user is redirected to it's inbox, if not it's redirected to index page.
      *
      * @param userId <code>Integer</code> type value of sender's id
-     * @return
+     * @return redirect to index if error occurs, redirect to all messages page
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result replyMessage(Integer userId) {
@@ -81,7 +81,7 @@ public class MessageController extends Controller {
      * Used to render view that shows inbox and outbox with all messages, messages are sorted descending.
      * If user is not logged in it's redirected to index page, otherwise messages are shown.
      *
-     * @return
+     * @return redirect to index if error occurs, or ok and render all message page
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result allMessages() {
@@ -102,7 +102,8 @@ public class MessageController extends Controller {
      * a bad request is send.
      *
      * @param messageId <code>Integer</code> type value of message id
-     * @return
+     * @return redirect to index if error occurs or bad request if tring to read message by entering
+     * it's id to browser address, ok is returned and message rendered
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result readMessage(Integer messageId) {
@@ -123,7 +124,7 @@ public class MessageController extends Controller {
     /**
      * Returns number of new unread messages to ajax request.
      *
-     * @return
+     * @return ok with nmber of new unread messages
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result notification() {
@@ -138,7 +139,8 @@ public class MessageController extends Controller {
      * If message can't be deleted internal server error is returned.
      *
      * @param messageId <code>Integer</code> type value of message id
-     * @return
+     * @return redirect to index if error occurs or internalServerError if message cant be deleted,
+     * redirect to all messages page if deleted successfully
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result deleteMessageFromInbox(Integer messageId) {
@@ -160,7 +162,8 @@ public class MessageController extends Controller {
      * If message can't be deleted internal server error is returned.
      *
      * @param messageId <code>Integer</code> type value of message id
-     * @return
+     * @return redirect to index if error occurs or internalServerError if message cant be deleted,
+     * redirect to all messages page if deleted successfully
      */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result deleteMessageFromOutbox(Integer messageId) {

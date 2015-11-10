@@ -31,7 +31,7 @@ public class Prices extends Controller {
      * If something could not pass correctly error message is shown.
      *
      * @param roomId <code>Integer</code> type value of room id
-     * @return
+     * @return redirect to editRoom if error occurs, redirect to updateRoom if price is saved
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result savePrice(Integer roomId) {
@@ -73,7 +73,7 @@ public class Prices extends Controller {
      * Renders price secton of view.
      *
      * @param roomId <code>Integer</code> type value of room prices
-     * @return
+     * @return ok and renders view with price
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result insertPrice(Integer roomId) {
@@ -84,7 +84,7 @@ public class Prices extends Controller {
      * Deleted selected price.
      *
      * @param id <code>Integer</code> type value of price id
-     * @return
+     * @return redirect to updateRoom with appropriate flash message
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result delete(Integer id) {
@@ -104,7 +104,7 @@ public class Prices extends Controller {
      * If price is edited successfully info message is shown, otherwise error message is shown.
      *
      * @param id <code>Integer</code> type value of price id
-     * @return
+     * @return redirec to updateRoom with appropriate flash message
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result editPrice(Integer id) {

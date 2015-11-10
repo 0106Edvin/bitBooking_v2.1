@@ -41,7 +41,7 @@ public class NewsletterController extends Controller {
      * Gets string for unsubscribing from newsletter finds all newsletter subscribers that are active
      * sends binded data, subscribers email and token to <code>NewsletterMail.send()</code> method.
      *
-     * @return
+     * @return redirect to index with appropriate flash message
      */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result sendPromotion() {
