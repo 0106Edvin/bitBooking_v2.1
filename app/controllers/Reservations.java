@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by gordan on 9/29/15.
+ * Created by Edvin Mulabdic on 9/29/15.
  */
 public class Reservations extends Controller {
 
@@ -29,20 +29,21 @@ public class Reservations extends Controller {
     private static Form<Reservation> reservationForm = Form.form(Reservation.class);
 
 
-
+    /*Pay pal*/
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result payPal(Integer roomId) {
+        /*Taking information about reservation*/
         AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
         Form<Reservation> boundForm = reservationForm.bindFromRequest();
         String checkin = boundForm.field("checkIn").value();
         String checkout = boundForm.field("checkOut").value();
-
         Room room = Room.findRoomById(roomId);
         Reservation reservation = new Reservation();
         reservation.room = room;
         reservation.user = user;
         reservation.setCreatedBy(user.firstname, user.lastname);
         SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
             Date firstDate = dtf.parse(checkin);
             Date secondDate = dtf.parse(checkout);
@@ -56,7 +57,7 @@ public class Reservations extends Controller {
             }
 
 
-            // Configuration
+            /*Configuration of pay pal*/
             String clientid = Play.application().configuration().getString("clientId");
             String secret = Play.application().configuration().getString("clientSecret");
 
@@ -68,22 +69,22 @@ public class Reservations extends Controller {
             APIContext context = new APIContext(token);
             context.setConfigurationMap(config);
 
-            // Process cart/payment information
-
+            /* Process payment information */
             double price = reservation.cost.doubleValue();
 
             String priceString = String.format("%1.2f", price);
-
             String desc = "Costumer name: " + reservation.createdBy + "\n" +
                     "Reservation for hotel: " + room.hotel.name + "\n " +
                     "Check-in: " + reservation.checkIn + "\n" +
                     "Check-out" + reservation.checkOut + "\n" +
                     "Amount: " + priceString;
-            // Configure payment
+
+            /*Configure payment*/
             Amount amount = new Amount();
             amount.setTotal(priceString);
             amount.setCurrency("USD");
 
+            /*Configure transaction*/
             List<Transaction> transactionList = new ArrayList<>();
             Transaction transaction = new Transaction();
             transaction.setAmount(amount);
@@ -99,18 +100,18 @@ public class Reservations extends Controller {
             payment.setTransactions(transactionList);
 
 
-
+            /*Redirect links , if transaction is completed user will be redirected to execute payment
+            * else, user will be notified that transaction is rejected*/
             RedirectUrls redirects = new RedirectUrls();
             redirects.setCancelUrl("http://localhost:9000/rejectPayment");
             redirects.setReturnUrl("http://localhost:9000/paypal/success");
 
             payment.setRedirectUrls(redirects);
 
+            /*Creating payment, setting reservation status on pending until user pay reservation*/
             Payment madePayments = payment.create(context);
             String id = madePayments.getId();
             reservation.payment_id = id;
-
-
             reservation.status = ReservationStatus.PENDING;
             reservation.save();
 
@@ -121,7 +122,7 @@ public class Reservations extends Controller {
                     return redirect(link.getHref());
                 }
             }
-
+            /*Executing payment*/
             Payment newPayment = payment.execute(context, paymentExecution );
             Logger.info("new PAYMENT "  + newPayment);
 
@@ -136,6 +137,7 @@ public class Reservations extends Controller {
         return redirect("/");
     }
 
+    /*Executnig payment*/
     public Result paypalSuccess() {
 
         APIContext context;
@@ -160,17 +162,18 @@ public class Reservations extends Controller {
             //Executes a payment
             Payment response = payment.execute(context, paymentExecution);
             String saleId = response.getTransactions().get(0).getRelatedResources().get(0).getSale().getId();
-
+            /*Setting reservation status on approved, and update reservaton*/
             Reservation reservation = Reservation.findByPaymentId(paymentId);
             reservation.status = ReservationStatus.APPROVED;
             reservation.sale_id = saleId;
             reservation.update();
-
+            /*Decreasing number of free romms of this type*/
             Room room = Room.findRoomById(reservation.room.id);
             room.roomType -= 1;
             room.update();
             flash("info");
 
+            /*Sending a mail to user with his reservation*/
             AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
 
             String message = String
@@ -202,7 +205,8 @@ public class Reservations extends Controller {
         return ok(views.html.user.successfulPayment.render());
     }
 
-
+    /*Allowing buyer to cancel reservation and refund money*/
+    @Security.Authenticated(Authenticators.BuyerFilter.class)
     public static void executeRefund(String paymentId) {
         APIContext context;
         Model.Finder<String, Reservation> finder = new Model.Finder<String, Reservation>(Reservation.class);
@@ -219,74 +223,36 @@ public class Reservations extends Controller {
             context = new APIContext(accessToken);
             context.setConfigurationMap(sdkConfig);
 
-
+            /*Finding reservation in database by payment id, and executing refund*/
             Reservation reservation = Reservation.findByPaymentId(paymentId);
             String saleId = reservation.sale_id;
-            Logger.info("PAYMENT ID   " + paymentId);
             Sale sale = new Sale();
             Refund refund = new Refund();
 
-                    totalPrice = reservation.cost.doubleValue();
-                    String totalPriceString = String.format("%1.2f", totalPrice);
-                    sale.setId(saleId);
-                    Logger.info("SALE ID " + sale.getId());
-                    Amount amount = new Amount();
-                    amount.setCurrency("USD");
-                    amount.setTotal(totalPriceString);
-                    refund.setAmount(amount);
-                    sale.refund(context, refund);
-                    Logger.info("SALE REFUND " + sale.refund(context, refund));
+            totalPrice = reservation.cost.doubleValue();
+            String totalPriceString = String.format("%1.2f", totalPrice);
+            sale.setId(saleId);
+            Logger.info("SALE ID " + sale.getId());
+            Amount amount = new Amount();
+            amount.setCurrency("USD");
+            amount.setTotal(totalPriceString);
+            refund.setAmount(amount);
+            sale.refund(context, refund);
+            Logger.info("SALE REFUND " + sale.refund(context, refund));
 
-                    reservation.isRefunded = true;
-                    reservation.save();
+            reservation.isRefunded = true;
+            reservation.save();
+            /*Increasing number of available rooms*/
+            Room room = Room.findRoomById(reservation.room.id);
+            room.roomType += 1;
+            room.update();
 
-                    Room room = Room.findRoomById(reservation.room.id);
-                    room.roomType += 1;
-                    room.update();
-
-              
-
-           Logger.info("Refounded done");
         } catch (PayPalRESTException e) {
             ErrorLogger.createNewErrorLogger("Failed to execute PayPal refund.", e.getMessage());
-            //flash("error", Messages.get("error.msg.02"));
-            Logger.error("Error at purchaseProcessing: " + e.getMessage());
-
-        }
+            Logger.error("Error at purchaseProcessing: " + e.getMessage());        }
     }
 
-    @Security.Authenticated(Authenticators.SellerFilter.class)
-    public Result setStatus(Integer reservationId) {
-        AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
-        Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        Reservation reservation = Reservation.findReservationById(reservationId);
-        Room room = Reservation.findRoomByReservation(reservation);
-
-
-
-        String status = boundForm.field("status").value();
-
-        if (status.equals(ReservationStatus.APPROVED.toString())) {
-            reservation.status = ReservationStatus.APPROVED;
-            reservation.notification = ReservationStatus.NEW_NOTIFICATION;
-            if(room.roomType > 0){
-                room.roomType = room.roomType - 1;
-            } else {
-                flash("error", "All rooms of this type are booked");
-            }
-
-        } else if (status.equals(ReservationStatus.COMPLETED.toString())) {
-
-            reservation.status = ReservationStatus.COMPLETED;
-            room.roomType = room.roomType + 1;
-        }
-        room.update();
-        reservation.setUpdatedBy(temp.firstname, temp.lastname);
-        reservation.update();
-
-        return redirect(routes.Rooms.hotelReservations(reservation.room.hotel.id));
-    }
-
+    /*Shows buyer his reservations */
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result showBuyerReservations(Integer userId) {
         AppUser user = AppUser.findUserById(userId);
@@ -340,7 +306,7 @@ public class Reservations extends Controller {
         return ok(price.toString());
     }
 
-
+    /*Allows buyer to cancel reservations*/
     @Security.Authenticated(Authenticators.BuyerFilter.class)
     public Result setStatusByUser(Integer resId) {
         DynamicForm form = Form.form().bindFromRequest();
@@ -355,6 +321,7 @@ public class Reservations extends Controller {
 
             Room room = Reservation.findRoomByReservation(reservation);
             reservation.status = ReservationStatus.CANCELED;
+            //calling a method to execute refund
             executeRefund(paymentId);
             room.update();
             reservation.setUpdatedBy(user.firstname, user.lastname);

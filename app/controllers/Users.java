@@ -31,7 +31,7 @@ import java.util.UUID;
 public class Users extends Controller {
     private static final Form<AppUser> userForm = Form.form(AppUser.class);
 
-    private static List<Hotel> hotels = Hotel.finder.all();
+    //    private static List<Hotel> hotels = Hotel.finder.all();
     private static Model.Finder<String, Hotel> finder = new Model.Finder<>(Hotel.class);
 
     private static List<AppUser> users = AppUser.finder.all();
@@ -41,79 +41,52 @@ public class Users extends Controller {
     private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
 
 
-    /*opening register form */
+    /**
+     * Renders register form for registering new user to site.
+     *
+     * @return
+     */
     public Result registerUser() {
         return ok(register.render(userForm));
     }
 
-    /*insert registered user into the database*/
-
+    /**
+     * Tries to save new user to database. Takes values from input fields, validates them
+     * and assignees them to AppUser parameters.
+     *
+     * @param userType <code>String</code> type value of userType, can be seller or regular buyer
+     * @return
+     */
     public Result saveUser(String userType) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
 
-        //getting the values from the fields
         String pass1 = boundForm.field("password").value();
         String pass2 = boundForm.field("passwordretype").value();
         String name = boundForm.field("firstname").value();
         String lastname = boundForm.field("lastname").value();
         String phone = boundForm.field("phoneNumber").value();
+        String email = boundForm.field("email").value();
 
-
-        //validation of the form
-
-        if (!pass1.equals(pass2)) {
-            flash("error", "Passwords don't match!");
-            return ok(register.render(boundForm));
-
-        } else if (pass1.length() < Constants.MIN_PASSWORD_LENGTH || pass2.length() < Constants.MIN_PASSWORD_LENGTH) {
-            flash("error", "Password must be at least 6 characters long!");
-            return ok(register.render(boundForm));
-
-        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
-            flash("error", "Name and last name must contain letters only!");
-            return ok(register.render(boundForm));
-
-        } else if (name.length() < Constants.MIN_NAME_LENGTH || lastname.length() < Constants.MIN_NAME_LENGTH) {
-            flash("error", "Name and last name must be at least 2 letters long!");
-            return ok(register.render(boundForm));
-
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
-            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
-            return ok(register.render(boundForm));
-
-        } else if (phone.matches("^[a-zA-Z]+$")) {
-            flash("error", "Phone number must contain digits only!");
-            return ok(register.render(boundForm));
-
-        } else {
-            AppUser user;
-            try {
-                user = boundForm.get();
-                user.hashPass();
-
-                user.token = UUID.randomUUID().toString();
-                if (Constants.USER_SELLER.equals(userType)) {
-                    user.userAccessLevel = UserAccessLevel.SELLER;
-                    user.validated = Constants.VALIDATED_USER;
-                }
-                user.save();
-
-                if (Constants.USER_BUYER.equals(userType)) {
-                    // Sending Email To user
-                    String host = Play.application().configuration().getString("url") + "validate/" + user.token;
-                    MailHelper.send(user.email, host, Constants.REGISTER, null, null, null);
-
-                    flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
-                    return ok(login.render(userForm));
-                }
-                flash("registration-msg", "Thank you for joining us.");
-                return ok(login.render(userForm));
-            } catch (Exception e) {
-                ErrorLogger.createNewErrorLogger("Failed to save user. Possible duplicate email entry.", e.getMessage());
-                flash("error", "Email already exists in our database, please try again!");
-                return ok(register.render(boundForm));
-            }
+        Result r = CommonHelperMethods.validateUser(pass1, pass2, name, lastname, phone, email, boundForm);
+        if (r != null) {
+            return r;
         }
+
+        AppUser user = boundForm.get();
+
+        if (AppUser.saveNewUser(user, userType)) {
+            if (Constants.USER_BUYER.equals(userType)) {
+                String host = Play.application().configuration().getString("url") + "validate/" + user.token;
+                MailHelper.send(user.email, host, Constants.REGISTER, null, null, null);
+
+                flash("registration-msg", "Thank you for joining us. You need to verify your email address. Check your email for verification link.");
+                return ok(login.render(userForm));
+            }
+            flash("registration-msg", "Thank you for joining us.");
+            return ok(login.render(userForm));
+        }
+        flash("error", "Email already exists in our database, please try again!");
+        return ok(register.render(boundForm));
     }
 
     /**
@@ -125,7 +98,6 @@ public class Users extends Controller {
      */
     public Result login() {
         Form<AppUser> boundForm = userForm.bindFromRequest();
-
         String email = boundForm.field("email").value();
         String password = boundForm.field("password").value();
 
@@ -141,68 +113,111 @@ public class Users extends Controller {
             SessionsAndCookies.setUserSessionSata(user);
             SessionsAndCookies.setCookies(user);
             return ok(adminPanel.render());
-        } else {
-            SessionsAndCookies.setUserSessionSata(user);
-            SessionsAndCookies.setCookies(user);
-            return redirect(routes.Application.index());
         }
+        SessionsAndCookies.setUserSessionSata(user);
+        SessionsAndCookies.setCookies(user);
+        return redirect(routes.Application.index());
     }
 
+    /**
+     * Renders user profile for editing.
+     *
+     * @param email <code>String</code> type value of user email
+     * @return
+     */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result editUser(String email) {
         AppUser user = AppUser.getUserByEmail(email);
         return ok(profilePage.render(user));
     }
 
+    /**
+     * Logs user out from application, deleted all coockies and session data
+     *
+     * @return
+     */
     public Result logOut() {
         SessionsAndCookies.clearCookies();
         SessionsAndCookies.clearUserSessionData();
         return redirect(routes.Application.index());
     }
 
+    /**
+     * Renders hotel list for admin to see
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminHotels() {
-        List<Hotel> hotels = finder.all();
+        List<Hotel> hotels = Hotel.getAllHotels();
         return ok(adminHotels.render(hotels));
     }
 
-    /*shows the list of users to admin*/
+    /**
+     * Shows the list of users to admin
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminUsers() {
-        List<AppUser> users = userFinder.all();
+        List<AppUser> users = AppUser.getAllUsers();
         return ok(adminUsers.render(users));
     }
 
-    /*shows the list of features to admin*/
+    /**
+     * Shows list of features to admin
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminFeatures() {
-        List<Feature> features = featureFinder.all();
+        List<Feature> features = Feature.getAllFeatures();
         return ok(adminFeatures.render(features));
 
     }
 
-    /*shows the list of hotels to hotel manager*/
+    /**
+     * Shows list of hotels to hotel manager
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result showManagerHotels() {
-        List<Hotel> hotels = finder.all();
-        List<AppUser> users = AppUser.finder.all();
+        List<Hotel> hotels = Hotel.getAllHotels();
+        List<AppUser> users = AppUser.getAllUsers();
         return ok(managerHotels.render(hotels, users));
     }
 
-    /*shows the list of hotels to hotel manager*/
+    /**
+     * Renders admin panel
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result showAdminPanel() {
         return ok(adminPanel.render());
     }
 
-    /*This method allows admin to delete user*/
+    /**
+     * Deletes specific user from database. Method is called by ajax function.
+     *
+     * @param email <code>String</code> type value of user email
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result deleteUser(String email) {
-        AppUser user = AppUser.getUserByEmail(email);
-        Ebean.delete(user);
-        return redirect(routes.Users.showAdminUsers());
+        if (AppUser.deleteUser(email)) {
+            return ok();
+        }
+        return internalServerError();
     }
 
+    /**
+     * Tries to update user profile with new data, and add user personal picture
+     *
+     * @param email
+     * @return
+     */
     @Security.Authenticated(Authenticators.isUserLogged.class)
     public Result updateUser(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
@@ -218,83 +233,55 @@ public class Users extends Controller {
 
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart filePart = body.getFile("image");
+        Image profileImage = null;
         if (filePart != null) {
             File file = filePart.getFile();
-            Image profileImage = Image.create(file, null, currentUser.id, null, null, null);
-            currentUser.profileImg = profileImage;
+            profileImage = Image.create(file, null, currentUser.id, null, null, null);
         }
 
-        if (!pass1.equals(pass2)) {
-            flash("error", "Passwords don't match");
-            return ok(profilePage.render(currentUser));
-
-        } else if ((!name.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*")) || (!lastname.matches("[a-zA-Z]+(\\s+[a-zA-Z]+)*"))) {
-            flash("error", "Name and last name must contain letters only");
-            return ok(profilePage.render(currentUser));
-
-        } else if (name.length() < 2 || lastname.length() < 2) {
-            flash("error", "Name and last name must be at least 2 letters long");
-            return ok(profilePage.render(currentUser));
-
-        } else if (phone.length() > Constants.MAX_PHONE_NUMBER_LENGTH || phone.length() < Constants.MIN_PHONE_NUMBER_LENGTH) {
-            flash("error", "Phone number must be at least 9 and can't be more than 15 digits long!");
-            return ok(profilePage.render(currentUser));
-
-        } else if (phone.matches("^[a-zA-Z]+$")) {
-            flash("error", "Phone number must contain digits only");
-            return ok(profilePage.render(currentUser));
-
-        } else {
-
-            try {
-                currentUser.firstname = name;
-                currentUser.lastname = lastname;
-                if (pass1 != null && !pass1.equals("") && pass1.charAt(0) != ' ') {
-                    currentUser.password = pass1;
-                    currentUser.hashPass();
-                }
-                currentUser.phoneNumber = phone;
-
-                currentUser.update();
-
-                flash("success", "Your data was updated");
-                return redirect(routes.Users.updateUser(currentUser.email));
-
-            } catch (Exception e) {
-                ErrorLogger.createNewErrorLogger("Failed to update user profile.", e.getMessage());
-                flash("error", "You didn't fill the form correctly, please try again\n" + e.getMessage());
-                return ok(profilePage.render(currentUser));
-            }
+        Result r = CommonHelperMethods.validateUser(pass1, pass2, name, lastname, phone, email, boundForm);
+        if (r != null) {
+            return r;
         }
+
+        boolean isUpdated = AppUser.updateUserProfile(currentUser, pass1, name, lastname, phone, profileImage);
+
+        if (isUpdated) {
+            flash("success", "Your data was updated");
+            return redirect(routes.Users.updateUser(currentUser.email));
+        }
+        flash("error-search", "Failed to update user profile.");
+        return ok(profilePage.render(currentUser));
     }
 
+    /**
+     * Renders view for creating hotel by hotel manager
+     *
+     * @return
+     */
     @Security.Authenticated(Authenticators.SellerFilter.class)
     public Result getSellers() {
         List<AppUser> users = AppUser.getUsersByUserTypeId(5);
-        List<Feature> features = Feature.finder.all();
+        List<Feature> features = Feature.getAllFeatures();
         return ok(createhotel.render(features, users));
     }
 
+    /**
+     * Tries to change user role, only admin can change role
+     *
+     * @param email <code>String</code> type value of user email
+     * @return
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result setRole(String email) {
         Form<AppUser> boundForm = userForm.bindFromRequest();
-
-        AppUser user = AppUser.getUserByEmail(email);
         String userType = boundForm.field("usertype").value();
-
-        if (userType.equals("buyer")) {
-            user.userAccessLevel = UserAccessLevel.BUYER;
-
-        } else if (userType.equals("seller")) {
-            user.userAccessLevel = UserAccessLevel.SELLER;
-
-        } else if (userType.equals("hotelmanager")) {
-            user.userAccessLevel = UserAccessLevel.HOTEL_MANAGER;
+        if (AppUser.changeUserRole(email, userType)) {
+            flash("info", "Role successfully changed.");
+            return redirect(routes.Users.showAdminUsers());
         }
-        user.update();
-
+        flash("error-search", "Could not change user role.");
         return redirect(routes.Users.showAdminUsers());
-
     }
 
     /**
@@ -310,6 +297,12 @@ public class Users extends Controller {
         return ok(String.valueOf(notification));
     }
 
+    /**
+     * Validates user email after registration.
+     *
+     * @param token <code>String</code> type value of unique access token
+     * @return
+     */
     public Result emailValidation(String token) {
         try {
             AppUser user = AppUser.findUserByToken(token);
@@ -318,7 +311,7 @@ public class Users extends Controller {
             }
             if (AppUser.validateUser(user)) {
                 flash("registration-msg", "Thank you for joining us. Your email has been verified. Please continue by logging in and enjoy searching some of the best places in the world.");
-                return badRequest(login.render(userForm));
+                return ok(login.render(userForm));
             } else {
                 return redirect(routes.Application.index());
             }
@@ -328,23 +321,25 @@ public class Users extends Controller {
         }
     }
 
+    /**
+     * Changes seller of certain hotel, hotel manager can access this method
+     *
+     * @param hotelId <code>Integer</code> type value of hotel id
+     * @return
+     */
+    @Security.Authenticated(Authenticators.HotelManagerFilter.class)
     public Result changeSeller(Integer hotelId) {
-        Form<AppUser> userForm = Form.form(AppUser.class);
-        Form<AppUser> boundForm = userForm.bindFromRequest();
-
+        DynamicForm boundForm = Form.form().bindFromRequest();
         String email = boundForm.field("selleremail").value();
 
-        AppUser seller = AppUser.getUserByEmail(email);
-        Hotel hotel = Hotel.findHotelById(hotelId);
-
-        hotel.sellerId = seller.id;
-        hotel.update();
-
-        List<Hotel> hotels = finder.all();
-        List<AppUser> users = AppUser.finder.all();
-
-        flash("seller-changed", "Seller was successfully updated.");
-        return ok(managerHotels.render(hotels, users));
+        if (Hotel.changeSeller(hotelId, email)) {
+            List<Hotel> hotels = Hotel.getAllHotels();
+            List<AppUser> users = AppUser.getAllUsers();
+            flash("seller-changed", "Seller was successfully updated.");
+            return ok(managerHotels.render(hotels, users));
+        }
+        flash("error-search", "Could not change seller of given hotel.");
+        return redirect(routes.Application.index());
     }
 
     /**
@@ -364,29 +359,15 @@ public class Users extends Controller {
      * @return
      */
     public Result sendChangePasswordRequest() {
-        try {
-            Form<String> form = Form.form(String.class);
-            Form<String> boundForm = form.bindFromRequest();
-
-            String email = boundForm.field("email").value();
-
-            AppUser user1 = AppUser.getUserByEmail(email);
-
-            user1.forgottenPassToken = UUID.randomUUID().toString();
-            user1.save();
-
-            // Sending Email To user
-            String host = Play.application().configuration().getString("url") + "user/forgotyourpassword/" + user1.forgottenPassToken;
-            String cancelRequest = Play.application().configuration().getString("url") + "user/cancelpasswordchangerequest/" + user1.forgottenPassToken;
-            MailHelper.send(user1.email, host, Constants.CHANGE_PASSWORD, cancelRequest, null, null);
-
+        Form<String> form = Form.form(String.class);
+        Form<String> boundForm = form.bindFromRequest();
+        String email = boundForm.field("email").value();
+        if (AppUser.activateForgottenPassword(email)) {
             flash("change-pass-msg", "Link to your personal page for changing password is sent to your email address.");
-            return badRequest(askForPasswordChange.render());
-        } catch (Exception e) {
-            ErrorLogger.createNewErrorLogger("Failed to send confirmation email for password change.", e.getMessage());
-            flash("error", "User with provided email address does not exist.");
             return ok(askForPasswordChange.render());
         }
+        flash("error", "User with provided email address does not exist.");
+        return ok(askForPasswordChange.render());
     }
 
     /**
@@ -454,18 +435,20 @@ public class Users extends Controller {
         }
     }
 
+    /**
+     * Renders view for seller registration, invitation is set to expired.
+     *
+     * @param token
+     * @return
+     */
     public Result registerSeller(String token) {
-        Invitation invitation = Invitation.finder.where().eq("token", token).findUnique();
-        if (invitation != null) {
-            invitation.isActive = Constants.INVITATION_EXPIRED;
-            invitation.update();
-        }
-
+        Invitation.resetInvitation(token);
         return ok(views.html.user.registerSeller.render(userForm));
     }
 
     /**
      * Saves new Invitation to database and sends email with registration link only for seller.
+     *
      * @return
      */
     @Security.Authenticated(Authenticators.HotelManagerFilter.class)
@@ -482,9 +465,8 @@ public class Users extends Controller {
             flash("info", "Invitation successfully sent.");
             return redirect(routes.Users.seeAllSellers());
         }
-
-        Logger.debug(email + " " + title + " " + content);
-        return ok("bla");
+        flash("error-search", "Invitation could not be sent.");
+        return redirect(routes.Users.seeAllSellers());
     }
 
     /**
@@ -493,7 +475,7 @@ public class Users extends Controller {
      * @return
      */
     public Result seeAllSellers() {
-        List<AppUser> sellers = AppUser.finder.where().eq("user_access_level", UserAccessLevel.SELLER).orderBy("firstname asc").findList();
+        List<AppUser> sellers = AppUser.getAllSellersOrderedByFirstname();
         return ok(views.html.manager.seeAllSellers.render(sellers));
     }
 

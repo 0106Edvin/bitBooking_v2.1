@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import helpers.ReservationStatus;
 import play.Logger;
 import play.data.format.Formats;
@@ -52,9 +53,11 @@ public class Reservation extends Model {
     public Date createDate = new Date();
 
     @ManyToOne
+    @JsonBackReference
     public Room room;
 
     @ManyToOne
+    @JsonBackReference
     public AppUser user;
 
 
@@ -177,9 +180,8 @@ public class Reservation extends Model {
         cost = new BigDecimal(0);
         Date myDate = checkIn;
         for (Price price : room.prices) {
-
             while (myDate.compareTo(checkOut) < 0) {
-                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) < 0) {
+                if (myDate.compareTo(price.dateFrom) >= 0 && myDate.compareTo(price.dateTo) <= 0) {
                     cost = cost.add(price.cost);
                 } else {
                     break;

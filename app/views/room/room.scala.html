@@ -24,7 +24,7 @@
                             <img src="http://placehold.it/400x300" class="img-responsive img-thumbnail" alt=""/>
                         }
                         @if(room.roomType != 0){
-                            <label id="available">THERE IS @room.roomType ROOM(S) AVAILABLE</label>
+                            <label id="available">@room.roomType ROOM(S) AVAILABLE</label>
 
                         } else {
                             <label id="not-available">NOT AVAILABLE</label>
@@ -36,29 +36,33 @@
                         <div class="info-detail">
                             <h4 style="font-size: 25px;">@room.description</h4>
                         </div>
-                        <div id="margintop">
-                            <h3>Features</h3>
-                            <div class="info-detail">
-                                <ul>
-                                    <div class="service" style="text-transform : capitalize ;">
+                        @for(feature <- room.features) {
+                            @if(room.features != null) {
+                                <div id="margintop">
+                                    <h3>Features</h3>
+                                    <div class="info-detail">
+                                        <ul>
+                                            <div class="service" style="text-transform : capitalize ;">
 
-                                    @for(feature <- room.features) {
-                                        <tr>
-                                            <td>@feature.name</td>
-                                            <td> <img src="@feature.icon.getSize(30, 30)"/></td>
 
-                                        </tr>
-                                        @*<li style="font-size : 16px ;">*@
-                                        @*feature.name*@
-                                        @*<img src="@feature.icon.getSize(30, 30)"/>*@
+                                                <tr>
+                                                    <td>@feature.name</td>
+                                                    <td> <img src="@feature.icon.getSize(30, 30)"/></td>
 
-                                        @*</li>*@
-                                    }
+                                                </tr>
+                                                @*<li style="font-size : 16px ;">*@
+                                                @*feature.name*@
+                                                @*<img src="@feature.icon.getSize(30, 30)"/>*@
 
+                                                @*</li>*@
+
+                                            </div>
+                                        </ul>
                                     </div>
-                                </ul>
-                            </div>
-                        </div>
+                                </div>
+                            }
+                        }
+
 
                     </div>
                 </div>
@@ -166,31 +170,56 @@
 
 
     <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" style="background-color:rgb(32, 77, 116);" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog" style="width: 350px;">
+        <div class="modal-dialog" style="width: 800px;">
             <div class="modal-content">
                 <form method="post" action="@routes.Reservations.payPal(room.id)">
                 <div class="modal-header">
                     <button type="button" style="font-size: 50px;" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="myModalLabel" style="text-align: center;">CONFIRM RESERVATION</h3>
+                    <h2 class="modal-title" id="myModalLabel" style="text-align: center;">CONFIRM RESERVATION</h2>
                 </div>
-                <div class="modal-body">
-                    <h4><strong>Hotel:</strong> @room.hotel.name</h4>
-                    <h4><strong>Room:</strong> @room.name</h4>
-                    <h4><strong>Beds:</strong> @room.numberOfBeds</h4>
-                    <h4><strong>Check In: </strong>
-                        <span id="show_check_in"></span>
-                    </h4>
-                    <h4><strong>Check Out:</strong>
-                    <span id="show_check_out"></span></h4>
+                <div class="modal-body" id="modalback">
+                    <table class=" table table-stripped">
+                        <thead>
+                            <tr class="about">
+                                <th>Hotel </th>
+                                <th>Room</th>
+                                <th>Beds</th>
+                                <th>Check in</th>
+                                <th>Check out</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="about">
+                            <tr class="about">
+                                <td>@room.hotel.name</td>
+                                <td>@room.name</td>
+                                <td>@room.numberOfBeds</td>
+                                <td><span id="show_check_in"></span></td>
+                                <td><span id="show_check_out"></span></td>
+                                <td id="total-price"></td>
+                            </tr>
 
-                    <h4 style="font-weight: bold;" id="total-price"></h4>
+
+                        </tbody>
+                    </table>
+                        @**@
+                    @*<h4><strong>Hotel:</strong> @room.hotel.name</h4>*@
+                    @*<h4><strong>Room:</strong> @room.name</h4>*@
+                    @*<h4><strong>Beds:</strong> @room.numberOfBeds</h4>*@
+                    @*<h4><strong>Check In: </strong>*@
+                        @*<span id="show_check_in"></span>*@
+                    @*</h4>*@
+                    @*<h4><strong>Check Out:</strong>*@
+                    @*<span id="show_check_out"></span></h4>*@
+
+                    @*<h4 style="font-weight: bold;" id="total-price"></h4>*@
 
                     <input name="checkIn" value="" id="check_in" hidden/>
                     <input name="checkOut" value="" id="check_out" hidden/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" style="font-size: 18px;" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" style="font-size: 18px;" class="btn btn-primary" href="@routes.Reservations.payPal(room.id)">Confirm</button>
+                    <button type="button" style="width:140px; font-size: 18px;" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" style="width:140px; font-size: 18px;" class="btn btn-primary" href="@routes.Reservations.payPal(room.id)">Confirm</button>
                 </div>
                 </form>
             </div>

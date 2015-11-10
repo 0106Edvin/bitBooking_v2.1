@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +17,10 @@ public class HotelVisit extends Model {
     @Id
     public Integer id;
     @ManyToOne
+    @JsonBackReference
     public Hotel hotel;
     @ManyToOne
+    @JsonBackReference
     public AppUser user;
     @Column
     public Integer visitsNo;

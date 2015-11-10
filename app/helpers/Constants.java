@@ -1,6 +1,9 @@
 package helpers;
 
 /**
+ * This helper class contains constants for entire project.
+ * Keeps us from using "magic" values and repeating mistakes.
+ *
  * Created by ajla.eltabari on 21/09/15.
  */
 
@@ -37,7 +40,14 @@ public class Constants {
 
     // Homepage - number of hotels by page
     public static final Integer PAGE_SIZE = 8;
+    // Homepage - number of recommended hotels
+    public static final Integer RECOMMENDATIONS_NO = 6;
 
     public static final Boolean FEATURE_FREE = true;
     public static final Boolean FEATURE_NOT_FREE = false;
+
+    public static final Boolean NEWSLETTERS_SUBSCRIBED = true;
+    public static final Boolean NEWSLETTERS_UNSUBSCRIBED = false;
+
+
 }

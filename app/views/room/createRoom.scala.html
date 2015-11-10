@@ -24,7 +24,7 @@
                                 <input name="roomType" type="number" min="1" placeholder="Number of rooms">
                                 <textarea  class="message" name="description" id="message" cols="30" rows="10" style="resize : none" placeholder="Description" required></textarea>
                                 <a href="@routes.Rooms.saveRoom(hotelId)"> <input class="submit-btn" id="add-room-submit"  type="submit" value="SUBMIT" ></a>
-                                <a href="@routes.Hotels.showSellerHotels(hotelId)"> <input class="submit-btn" id="add-room-back" type="button" value="BACK" ></a>
+                                <a href="@routes.Hotels.showSellerHotels()"> <input class="submit-btn" id="add-room-back" type="button" value="BACK" ></a>
                             </div>
                             <div>
                                 <br><br>
@@ -44,7 +44,7 @@
                                 <div>
                                     <span>
                                         <div class="about">
-                                        <input type="checkbox" style="width: 16px; height: 16px;" class="fa-check-circle" id="@feature.id" name="@feature.name"/>
+                                        <input type="checkbox" style="width: 16px; height: 16px;"  id="@feature.id" name="@feature.name"/>
 
                                            <label  for="@feature.name">@feature.name</label>
 

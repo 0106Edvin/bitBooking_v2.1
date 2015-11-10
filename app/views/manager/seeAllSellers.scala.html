@@ -4,55 +4,60 @@
 
 @main {
 
-  <div class="container">
-    <div class="row">
-      <div class="contact-caption clearfix">
-        <div class="contact-heading text-center">
-          <h2>Sellers</h2>
+
+  <div  id="main-background">
+    <div class="container" id="background">
+      <section id="hotel-section1" class="marginbottom">
+        <div class="container">
+          <div class="about text-center">
+            <h2>SELLERS</h2>
+          </div>
         </div>
-
-
+      </section>
+      <section>
         <table class="table ">
           <thead>
-            <tr class="service">
-              <th style="font-size: 30px;">Name</th>
-              <th style="font-size: 30px;">Email</th>
-              <th style="font-size: 30px;">Have hotels</th>
-              <th style="font-size: 30px;">Is verified user</th>
+            <tr class="about">
+              <th>Name</th>
+              <th>Email</th>
+              <th>Have hotels</th>
+              <th>Is verified user</th>
             </tr>
           </thead>
           <tbody>
 
-            <tr>
-              <a href="" data-toggle="modal" data-target="#invitationModal" class="button">
-                <button class="btn btn-success font-size-20" style="float: right; margin-right: 20px;">Invite new seller</button>
-              </a>
-            </tr>
-
             @for(user <- users) {
-              <tr class="service">
-                <td style="font-size: 22px;">@user.firstname @user.lastname</td>
-                <td style="font-size: 22px;">@user.email</td>
-                <td style="font-size: 22px;">
-                  @if(AppUser.sellerHaveHotel(user)) {
-                    YES
-                  } else {
-                    NO
-                  }
+              <tr class="about">
+                <td>@user.firstname @user.lastname</td>
+                <td>@user.email</td>
+                <td>
+                @if(AppUser.sellerHaveHotel(user)) {
+                  YES
+                } else {
+                  NO
+                }
                 </td>
                 <td style="font-size: 22px;">
-                  @if(user.validated) {
-                    YES
-                  } else {
-                    NO
-                  }
+                @if(user.validated) {
+                  YES
+                } else {
+                  NO
+                }
                 </td>
               </tr>
             }
+
+
+
           </tbody>
         </table>
+        <a href="" data-toggle="modal" data-target="#invitationModal" class="button">
+          <button class="btn btn-success font-size-20" style="float: left; margin-left: 20px; margin-bottom: 20px;">Invite new seller</button>
+        </a>
+      </section>
+
+
       </div>
+    }
     </div>
-  </div>
   @manager.sendInvitation()
-}

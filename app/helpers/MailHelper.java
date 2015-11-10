@@ -5,10 +5,11 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import play.Play;
-import helpers.Constants;
 
 /**
+ * This helper class is used for sending an email from our application.
+ * We are able to send few different email messages, using HtmlEmail class.
+ *
  * Created by ajla.eltabari on 12/10/15.
  */
 public class MailHelper {
@@ -27,7 +28,7 @@ public class MailHelper {
             } else if (type == Constants.HOTEL_CREATED) {
                 mail.setSubject("bitBooking - Hotel manager has created hotel for you");
             }
-            mail.setFrom(Play.application().configuration().getString("mail.smtp.user"));
+            mail.setFrom(ConfigProvider.SMTP_USER);
             mail.addTo(email);
             mail.setMsg(host);
 
@@ -36,33 +37,32 @@ public class MailHelper {
                         .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "Thanks for signing up to bitBooking!",
                                 "Please confirm your email address", host,
-                                Play.application().configuration().getString("logo")));
+                                ConfigProvider.LOGO));
             } else if (type == Constants.CHANGE_PASSWORD) {
                 mail.setHtmlMsg(String
                         .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "You have requested to change your password.",
                                 "Please confirm your request and complete your password change following this link:", host,
                                 "If you did not ask for password change, please cancel this request following this link:", cancelRequest,
-                                Play.application().configuration().getString("logo")));
+                                ConfigProvider.LOGO));
             } else if (type.equals(Constants.REGISTER_SELLER)) {
                 mail.setHtmlMsg(String
                         .format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> <img src='%s'></body></html>",
                                 "Join us at bitBooking and promote your hotel",
                                 content, host,
-                                Play.application().configuration().getString("logo")));
+                                ConfigProvider.LOGO));
             } else if (type == Constants.SUCCESSFUL_RESERVATION) {
                 mail.setHtmlMsg(host);
             } else if (type == Constants.HOTEL_CREATED) {
                 mail.setHtmlMsg(host);
             }
 
-            mail.setHostName(Play.application().configuration().getString("smtp.host"));
+            mail.setHostName(ConfigProvider.SMTP_HOST);
             mail.setStartTLSEnabled(true);
             mail.setSSLOnConnect(true);
             mail.setAuthenticator(new DefaultAuthenticator(
-                    Play.application().configuration().getString("mail.smtp.user"),
-                    Play.application().configuration().getString("mail.smtp.pass")
-            ));
+                    ConfigProvider.SMTP_USER,
+                            ConfigProvider.SMTP_PASS));
             mail.send();
         } catch (Exception e) {
             ErrorLogger.createNewErrorLogger("Failed to send email from MailHelper", e.getMessage());

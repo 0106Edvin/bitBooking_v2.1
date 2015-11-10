@@ -75,6 +75,27 @@ public class Invitation extends Model {
     }
 
     /**
+     * Updates specific invitation for seller to expired when seller registers to application
+     *
+     * @param token <code>String</code> type value of invitation token
+     * @return <code>boolean</code> type value true if update is successfull, false if not
+     */
+    public static boolean resetInvitation(String token) {
+        Invitation invitation = Invitation.finder.where().eq("token", token).findUnique();
+        if (invitation != null) {
+            invitation.isActive = Constants.INVITATION_EXPIRED;
+            try {
+                invitation.update();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to update invitation when seller tried to register.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Set's created by parameter by providing <code>AppUser</code> first and last name
      *
      * @param user <code>AppUser</code> type value

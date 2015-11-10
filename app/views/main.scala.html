@@ -27,6 +27,7 @@
 
         <script src='@routes.Assets.versioned("javascripts/register.js")'></script>
 
+
         <script src='@routes.Assets.versioned("javascripts/deleteConfirmation.js")'></script>
         <script type="text/javascript" src='@routes.Assets.versioned("javascripts/jquery-ui.min.js")'></script>
         <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("stylesheets/jquery-ui.min.css")'/>
@@ -38,6 +39,7 @@
         <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/coordinate.css")'>
         <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/buttons.css")'>
         <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/main.css")'/>
+
 
 
         <script src='@routes.Assets.versioned("javascripts/js/jquery.easyPaginate.js")'></script>
@@ -168,7 +170,7 @@
                                                     <li class="dropdown">
                                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Seller dashboard<span class="caret"></span></a>
                                                         <ul class="dropdown-menu" role="menu">
-                                                            <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels(currentUser.id)" > <i class="fa fa-building fa-fw"></i> Your hotels</a></li>
+                                                            <li><a class="menu font-size-20" href="@routes.Hotels.showSellerHotels()" > <i class="fa fa-building fa-fw"></i> Your hotels</a></li>
                                                             <li><a class="menu font-size-20" href="@routes.Rooms.allReservations()"> <i class="fa fa-list-alt fa-fw"></i> See all reservations <span class="info badge font-size-15" id="notify"></span></a></li>
                                                             <li class="divider"></li>
                                                             <li><a class="menu font-size-20" href="@controllers.user.routes.Seller.createPromotion()"> <i class="fa fa-plus fa-fw"></i> Create promotion</a></li>
@@ -206,7 +208,7 @@
                             </div><!-- / .container-fluid -->
 
                         </nav>
-                        <div  style="font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
+                        <div  style="width:200px; font-size: 20px; color: red; margin-right: 1.8cm;" align="right">
                         @if(flash.containsKey("error-search")) {
                             <div class="alert alert-danger" role="alert">
                                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -216,7 +218,7 @@
                             </div>
                         }
                         </div>
-                        <div  style="font-size: 20px; color: #189800; margin-right: 1.8cm;" align="right">
+                        <div  style="width:200px; font-size: 20px; color: #189800; margin-right: 1.8cm;" align="right">
                         @if(flash.containsKey("info")) {
 
                             <div style="margin-bottom: 10px" class="alert-success alert-success" role="alert">

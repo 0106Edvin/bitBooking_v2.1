@@ -3,6 +3,7 @@
 @(users: java.util.List[AppUser])
 @main {
     <script src="@routes.Assets.versioned("javascripts/deleteConfirm.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/sort.js")"></script>
 
     <div  id="main-background">
         <div class="container" id="background">
@@ -43,15 +44,14 @@
             </section>
 
             <section>
-                <table class="table table-responsive" style="font-size: 45px;">
+                <table class="table table-responsive" style="font-size: 45px;" id="sort">
                     <thead>
                         <tr class="about">
                             <th>Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th></th>
-                            <th>Change Role</th>
+                            <th>Role</th>
                             <th>Submit</th>
                             <th>Delete</th>
                         </tr>
@@ -75,7 +75,7 @@
                                 @if(user.userAccessLevel == UserAccessLevel.ADMIN) {
                                     <td>Admin</td>
                                 }
-                                <td></td>
+
                                 <form method="post" action="@routes.Users.setRole(user.email)" >
                                     <td>
                                         <select name="usertype" id="admin-change-role" class="form-control" onchange="@routes.Users.setRole(user.email)" required>

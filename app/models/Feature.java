@@ -1,10 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -26,9 +26,11 @@ public class Feature extends Model {
     public Date createDate = new Date();
 
     @OneToOne
+    @JsonBackReference
     public Image icon;
 
     @ManyToMany(mappedBy = "features")
+    @JsonBackReference
     public List<Room> rooms;
 
     /**
@@ -36,6 +38,10 @@ public class Feature extends Model {
      */
     public Feature() {
         //leave empty
+    }
+
+    public static List<Feature> getAllFeatures() {
+        return finder.all();
     }
 
     public Feature(String name) {

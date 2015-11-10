@@ -10,9 +10,15 @@ html, body {
     height: 100%;
     margin: 0 auto -220px; /* the bottom margin is the negative value of the footer's height */
 }
+#modalback{
+    background: #f7ecb5;
+}
 #background{
     background: whitesmoke;
     /*opacity: 0.9;*/
+}
+#tablemargins{
+    margin-bottom: 30px;
 }
 .push {
     height: 220px;
@@ -1383,4 +1389,12 @@ responsive area
 .easyPaginateNav {
     font-weight: bold;
     font-size: 26px;
+}
+
+#country_dropdown {
+    font-size: 17px;
+    width: 515px;
+    margin-bottom: 0.3cm;
+    height: 40px;
+    border: none;
 }

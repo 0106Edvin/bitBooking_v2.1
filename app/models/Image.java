@@ -4,7 +4,9 @@ package models;
 import com.avaje.ebean.Model;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import play.Logger;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import play.Play;
 
 @Entity
 public class Image extends Model {
@@ -28,9 +29,11 @@ public class Image extends Model {
     public String secret_image_url;
 
     @ManyToOne
+    @JsonBackReference
     public Hotel hotel;
 
     @ManyToOne
+    @JsonBackReference
     public Room room;
 
     @OneToOne(mappedBy = "profileImg")
@@ -40,6 +43,7 @@ public class Image extends Model {
     public Feature feature;
 
     @ManyToOne
+    @JsonBackReference
     public Restaurant restaurant;
 
 

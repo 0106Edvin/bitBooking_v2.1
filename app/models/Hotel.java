@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import helpers.Constants;
+import play.data.Form;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
@@ -10,10 +11,10 @@ import java.util.*;
 /**
  * Created by Edvin Mulabdic on 9/6/2015.
  */
-
 @Entity
 public class Hotel extends Model {
     public static Finder<String, Hotel> finder = new Finder<>(Hotel.class);
+    private static Model.Finder<String, Feature> featureFinder = new Model.Finder<>(Feature.class);
 
     @Id
     public Integer id;
@@ -32,7 +33,7 @@ public class Hotel extends Model {
 
     @Column(name = "page_visits")
     public Integer hotelPageVisits = 0;
-    @Column(name="stars", length = 1)
+    @Column(name = "stars", length = 1)
     public Integer stars;
     @Column(name = "updated_by", length = 50)
     public String updatedBy;
@@ -43,13 +44,13 @@ public class Hotel extends Model {
     @Column(name = "create_date", updatable = false, columnDefinition = "datetime")
     public Date createDate = new Date();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="hotel")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
     public List<Image> images;
 
-    @OneToMany(mappedBy="hotel")
+    @OneToMany(mappedBy = "hotel")
     public List<Room> rooms;
 
-    @OneToMany(mappedBy="hotel")
+    @OneToMany(mappedBy = "hotel")
     public List<Comment> comments;
 
     @Column
@@ -61,7 +62,8 @@ public class Hotel extends Model {
     /**
      * Default empty constructor for Ebean use
      */
-    public Hotel() {};
+    public Hotel() {
+    };
 
     public Hotel(Integer id, String name, String location, String description, String city, String country, List<Feature> features, List<Comment> comments, String coordinateX, String coordinateY, Integer stars, List<Room> rooms, Integer sellerId, List<Image> images, Double rating, Boolean showOnHomePage, HotelVisit hotelVisit) {
 
@@ -88,6 +90,10 @@ public class Hotel extends Model {
         Hotel hotel = finder.where().eq("id", id).findUnique();
 
         return hotel;
+    }
+
+    public static List<Hotel> getAllHotels() {
+        return finder.all();
     }
 
     public static List<Hotel> searchHotels(Date first, Date second, String term) {
@@ -156,6 +162,39 @@ public class Hotel extends Model {
         return finder.where().ilike("comments.rating", term).findRowCount();
     }
 
+    /**
+     * Method used for rendering list of hotels when seller creates promotion.
+     *
+     * @param seller <code>AppUser</code> type value of seller
+     * @return <code>List</code> of hotels operated by inputed seller ordered by hotel name ascending
+     */
+    public static List<Hotel> getHotelsBySellerAndSortedByNameAscending(AppUser seller) {
+        return finder.where().eq("seller_id", seller.id).orderBy("name asc").findList();
+    }
+
+    /**
+     * Changes seller of specific hotel
+     *
+     * @param hotelId     <code>Integer</code> type value of hotel id
+     * @param sellerEmail <code>String</code> type value of seller email
+     * @return <code>boolean</code> type value true if successfully updated, false if not
+     */
+    public static boolean changeSeller(Integer hotelId, String sellerEmail) {
+        AppUser seller = AppUser.getUserByEmail(sellerEmail);
+        Hotel hotel = Hotel.findHotelById(hotelId);
+        if (hotel != null && seller != null) {
+            try {
+                hotel.sellerId = seller.id;
+                hotel.update();
+                return true;
+            } catch (PersistenceException e) {
+                ErrorLogger.createNewErrorLogger("Failed to change seller of hotel.", e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return (id.toString() + " " + name + " " + location);
@@ -163,7 +202,7 @@ public class Hotel extends Model {
 
     public Double getRating() {
         rating = Constants.INITIAL_RATING;
-        if(comments != null && comments.size() > 0) {
+        if (comments != null && comments.size() > 0) {
             for (int i = 0; i < comments.size(); i++) {
                 rating += comments.get(i).rating;
             }
@@ -174,13 +213,14 @@ public class Hotel extends Model {
         return rating;
     }
 
-    public static AppUser findUserByHotel (Hotel hotel){
+
+    public static AppUser findUserByHotel(Hotel hotel) {
         Integer userId = hotel.sellerId;
         AppUser user = AppUser.findUserById(userId);
         return user;
     }
 
-    public static AppUser findUserByHotelId (Integer hotelId){
+    public static AppUser findUserByHotelId(Integer hotelId) {
         Hotel h = findHotelById(hotelId);
         Integer userId = h.sellerId;
         AppUser user = AppUser.findUserById(userId);
@@ -190,6 +230,7 @@ public class Hotel extends Model {
     /**
      * Sets hotel visibility on homepage.
      * Only hotel managers should be able to call this method.
+     *
      * @param hotel
      * @param visibility
      */
@@ -200,6 +241,7 @@ public class Hotel extends Model {
 
     /**
      * Returns only hotels marked to be visible on the homepage.
+     *
      * @return
      */
     public static List<Hotel> hotelsForHomepage() {
@@ -217,13 +259,36 @@ public class Hotel extends Model {
 
     /**
      * Returns the number of hotels shown on homepage
+     *
      * @return
      */
 
-    public static int showingHotels(){
-        int shownHotels = finder.where().eq("show_on_home_page", true).findRowCount();
+    public static void saveHotel(AppUser user) {
+        Form<Hotel> hotelForm = Form.form(Hotel.class);
+        Form<Hotel> boundForm = hotelForm.bindFromRequest();
+        Hotel hotel = boundForm.get();
 
-        return shownHotels;
+        Integer sellerId = Integer.parseInt(boundForm.field("seller").value());
+
+        hotel.sellerId = sellerId;
+        hotel.showOnHomePage = Constants.SHOW_HOTEL_ON_HOMEPAGE;
+        hotel.save();
+        Message.sendEmailToSeller(sellerId, hotel);
+
+
+        List<Feature> features = featureFinder.all();
+        for (int i = 0; i < features.size(); i++) {
+            String feature = boundForm.field(features.get(i).id.toString()).value();
+
+
+            if (feature != null) {
+                HotelFeature hotelFeature = new HotelFeature();
+                hotelFeature.feature = features.get(i);
+                hotelFeature.hotel = hotel;
+                hotelFeature.setCreatedBy(user);
+                hotelFeature.save();
+            }
+        }
     }
 
 
