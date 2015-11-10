@@ -15,10 +15,10 @@ public class UserApiController extends Controller {
     /**
      * List of all users as Json
      *
-     * @return
+     * @return ok and send all users as Json
      */
     public Result getAllUsers() {
-        List<AppUser> users = AppUser.finder.all();
+        List<AppUser> users = AppUser.getAllUsers();
         return ok(play.libs.Json.toJson(users));
     }
 }

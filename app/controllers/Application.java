@@ -14,56 +14,65 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class Application extends Controller {
-    /*Opens a front page with list of hotels*/
+
+    /**
+     * Opens a front page with list of hotels, and update SiteStats with information
+     * about visits to home page
+     *
+     * @return ok and renders list of hotels
+     */
     public Result index() {
         String ipAddress = request().remoteAddress();
-        SiteStats tempStat = SiteStats.finder.where().eq("ip_address", ipAddress).findUnique();
         AppUser temp = SessionsAndCookies.getCurrentUser(ctx());
-        //site stats
-        SiteStats stats = new SiteStats();
-        stats.ipAddress = ipAddress;
-        if (temp != null) {
-            stats.setCreatedBy(temp.firstname, temp.lastname);
-            if (tempStat != null) {
-                tempStat.setUpdatedBy(temp.firstname, temp.lastname);
-            }
-        } else {
-            stats.createdBy = "Anonymous user";
-            if (tempStat != null) {
-                tempStat.updatedBy = "Anonymous user";
-            }
-        }
-        try {
-            stats.save();
-        } catch (PersistenceException e) {
-            if(tempStat != null) {
-                tempStat.update();
-            }
-        }
+        SiteStats.createNewStats(temp, ipAddress);
+
         List<Hotel> hotels = Hotel.hotelsForHomepage();
         return ok(list.render(hotels));
     }
-    /*Opens a page with message that payment on pay pal is rejected*/
-    public Result reject(){
+
+    /**
+     * Opens a page with message that payment on pay pal is rejected
+     *
+     * @return ok
+     */
+    public Result reject() {
         return ok(views.html.user.rejectPayment.render());
     }
-    /*Opens a page with message that payment on pay pal is successful*/
-    public Result success(){
+
+    /**
+     * Opens a page with message that payment on pay pal is successful
+     *
+     * @return ok
+     */
+    public Result success() {
         return ok(views.html.user.successfulPayment.render());
     }
 
+    /**
+     * Renders all FAQ for public users
+     *
+     * @return ok
+     */
     public Result showFAQ() {
-        List<Question> q = Question.finder.all();
+        List<Question> q = Question.getAllQuestions();
         return ok(views.html.user.userFAQ.render(q));
     }
 
-    /*Returns list of FAQ*/
+    /**
+     * Renders view with all FAQ to sort and search
+     *
+     * @return ok
+     */
     public Result searchFAQ() {
-        List<Question> q = Question.finder.all();
+        List<Question> q = Question.getAllQuestions();
         return ok(views.html.user.searchFAQ.render(q));
     }
 
-    /*Allows admin to see all errors that appears on page*/
+    /**
+     * Renders all errors for admin to see
+     *
+     * @return ok
+     */
     @Security.Authenticated(Authenticators.AdminFilter.class)
     public Result seeErrors() {
         List<ErrorLogger> errors = ErrorLogger.getAllErrors();
