@@ -16,12 +16,14 @@ public class HotelForNavigator {
     public String description;
     public String coordinateX;
     public String coordinateY;
+    public String link;
 
-    public HotelForNavigator(String name,  String coordinateX, String coordinateY, String description) {
+    public HotelForNavigator(String name,  String coordinateX, String coordinateY, String description, String link) {
         this.name = name;
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
         this.description = description;
+        this.link = link;
     }
 
     @Override
