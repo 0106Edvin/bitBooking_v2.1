@@ -1,5 +1,6 @@
 package controllers.api;
 
+import helpers.ConfigProvider;
 import models.Hotel;
 import models.HotelForNavigator;
 import play.libs.Json;
@@ -28,7 +29,7 @@ public class ApiHotelsForNavigator extends Controller {
         /* Iterating through the list of hotels, creating HotelForNavigator obj,
         and filling the list that will be returned as a result */
         for (Hotel h : allHotels) {
-            HotelForNavigator hfn = new HotelForNavigator(h.name, h.coordinateX, h.coordinateY, h.description);
+            HotelForNavigator hfn = new HotelForNavigator(h.name, h.coordinateX, h.coordinateY, h.description, ConfigProvider.APPLICATION_HOST + "/hotel/showhotel/" + h.id);
             hotelsToGo.add(hfn);
         }
 
