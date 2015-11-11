@@ -5,9 +5,10 @@ import helpers.Constants;
 import models.AppUser;
 import models.Hotel;
 import models.HotelVisit;
+import play.Logger;
 import play.mvc.Controller;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class Recommendations_HotelVisits extends Controller {
      * without repeating.
      *
      * Should be used for unlogged users, to recommend them
-     * six currently most pupular hotels on the site.
+     * six currently most popular hotels on the site.
      * @return
      */
     public static List<Hotel> returnMostPopularHotels() {
@@ -120,7 +121,7 @@ public class Recommendations_HotelVisits extends Controller {
                         .findList();
 
         for(HotelVisit hv : mostPopularVisits) {
-            if (!mostPopularHotels.contains(hv.hotel.id)) {
+            if (!mostPopularHotels.contains(hv.hotel)) {
                 mostPopularHotels.add(hv.hotel);
             }
         }
@@ -131,15 +132,19 @@ public class Recommendations_HotelVisits extends Controller {
             showLimit = (mostPopularHotels.size() <= Constants.RECOMMENDATIONS_NO) ? mostPopularHotels.size() - 1 : Constants.RECOMMENDATIONS_NO;
 
             List<Integer> indexes = new ArrayList<>();
+            Logger.debug(allVisits.size() + "  size");
+
             do {
-                int index = (int) (Math.random() * allVisits.size() - 1);
+                int index = (int) (Math.random() * (allVisits.size() - 1));
                 if (!indexes.contains(index)) {
                     indexes.add(index);
                     listToDisplay.add(mostPopularHotels.get(index));
+                    Logger.debug(mostPopularHotels.get(index).toString());
                 }
 
             } while (indexes.size() != showLimit);
         }
+
         return listToDisplay;
 
     }
