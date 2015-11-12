@@ -9,6 +9,7 @@ import play.data.format.Formats;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -206,5 +207,23 @@ public class Reservation extends Model {
         super.update();
     }
 
+    /**
+     * Finds last five approved reservations
+     * @return
+     */
+    public static List<Hotel> getTopFiveRecentReservedHotels() {
+        
+        List<Reservation> lastReservations = finder.where().eq("status", ReservationStatus.APPROVED).findList();
+        Collections.reverse(lastReservations);
+
+        List<Hotel> recentReservatedHotels = new ArrayList<>();
+
+        for (int i = 0; i < 5 && i < lastReservations.size(); i++) {
+            Reservation r = lastReservations.get(i);
+            recentReservatedHotels.add(Room.findRoomById(r.room.id).hotel);
+        }
+
+        return recentReservatedHotels;
+    }
 
 }

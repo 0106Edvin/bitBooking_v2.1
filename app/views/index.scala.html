@@ -1,10 +1,10 @@
 @import helpers.Constants
+@import models.Reservation
 @(list: Html)
 @main {
     <section class="slider" id="home">
         <div class="container-fluid">
             <div class="row">
-
                 <div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
                     <div class="header-backup"></div>
                         <!-- Wrapper for slides -->
@@ -128,6 +128,38 @@
 
 
     </section> <!-- end of about section -->
+
+    <!-- recent reservations section -->
+    <section>
+        <div class="container" id="liveRecentReservations">
+            <div class="row">
+                <div class="contact-heading text-center">
+                    <h2>Recent reservations</h2>
+                </div>
+                <div class="margins">
+                    <table>
+                        @for(hotel <- Reservation.getTopFiveRecentReservedHotels()) {
+                            <tr data-href="@routes.Hotels.showHotel(hotel.id)" class="recent-reservation-tr">
+                                <td class="recent-reservation-td-img">
+                                    @if(hotel.images.size() == 0) {
+                                        <img class="img-responsive" src="http://placehold.it/60x40" alt="">
+                                    } else {
+                                        <img src="@hotel.images.get(0).getSize(60, 40)"/>
+                                    }
+                                </td>
+                                <td class="recent-reservation-td">
+                                    Someone just booked at
+                                    <br>
+                                    <b><i>@hotel.name in @hotel.city</i></b>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end of recent reservations section -->
 
     <div id="searchPanel" style="margin-top: 50px">
     </div>
@@ -362,6 +394,11 @@
     <!-- script tags
 	============================================================= -->
 
+<script>
+    $('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+});
+</script>
 
 
 
