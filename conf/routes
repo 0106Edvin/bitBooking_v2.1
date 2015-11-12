@@ -137,7 +137,6 @@ GET           /seller/createpromotion                               @controllers
 
 #REST
 POST          /api/user/login                                   @controllers.api.ApiUserController.login()
-GET           /api/users                                        @controllers.api.ApiUserController.getAllUsers()
 GET           /api/hotels                                       @controllers.api.ApiHotelController.getHotelList()
 GET           /api/rooms/:id                                    @controllers.api.ApiHotelController.getHotelRooms(id: Integer)
 GET           /api/prices/:roomId                               @controllers.api.ApiHotelController.getRoomPrices(roomId: Integer)

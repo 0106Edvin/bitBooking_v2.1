@@ -1,6 +1,5 @@
 package models;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.Constants;
 import helpers.MailHelper;
@@ -77,6 +76,9 @@ public class AppUser extends Model {
     @OneToMany
     public HotelVisit hotelVisit;
 
+    @Column(unique = true)
+    public String androidToken;
+
     /**
      * Default constructor
      */
@@ -92,7 +94,7 @@ public class AppUser extends Model {
      * @param password    - App_User's password.
      * @param phoneNumber - App_User's phone number.
      */
-    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber, Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit) {
+    public AppUser(String firstName, String lastName, String email, String password, String phoneNumber, Image profileImg, List<Reservation> reservations, String token, String forgottenPassToken, HotelVisit hotelVisit, String androidToken) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -103,6 +105,7 @@ public class AppUser extends Model {
         this.token = token;
         this.forgottenPassToken = forgottenPassToken;
         this.hotelVisit = hotelVisit;
+        this.androidToken = androidToken;
     }
 
     public static List<AppUser> getAllUsers() {
@@ -213,6 +216,7 @@ public class AppUser extends Model {
         if (user != null) {
             user.hashPass();
             user.token = UUID.randomUUID().toString();
+            user.androidToken = UUID.randomUUID().toString();
             if (Constants.USER_SELLER.equals(userType)) {
                 user.userAccessLevel = UserAccessLevel.SELLER;
                 user.validated = Constants.VALIDATED_USER;
