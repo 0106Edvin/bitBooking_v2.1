@@ -19,10 +19,12 @@ create table app_user (
   token                     varchar(255),
   validated                 tinyint(1) default 0,
   forgotten_pass_token      varchar(255),
+  android_token             varchar(255),
   constraint uq_app_user_email unique (email),
   constraint uq_app_user_profile_img_id unique (profile_img_id),
   constraint uq_app_user_token unique (token),
   constraint uq_app_user_forgotten_pass_token unique (forgotten_pass_token),
+  constraint uq_app_user_android_token unique (android_token),
   constraint pk_app_user primary key (id))
 ;
 
