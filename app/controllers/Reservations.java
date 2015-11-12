@@ -334,5 +334,4 @@ public class Reservations extends Controller {
         return badRequest();
 
     }
-
 }

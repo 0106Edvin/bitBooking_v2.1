@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import controllers.Hotels;
 import helpers.ReservationStatus;
 import play.Logger;
 import play.data.format.Formats;
@@ -206,5 +207,22 @@ public class Reservation extends Model {
         super.update();
     }
 
+    public static List<Hotel> getTopFiveRecentReservedHotels() {
+        Logger.debug("ulazim");
+        
+        List<Reservation> lastReservations = finder.orderBy("id, id asc").setMaxRows(5).findList();
+
+
+        List<Hotel> recentReservatedHotels = new ArrayList<>();
+
+        for (Reservation r : lastReservations) {
+
+            Logger.debug(r.id + "   ");
+
+            recentReservatedHotels.add(Room.findRoomById(r.room.id).hotel);
+        }
+
+        return recentReservatedHotels;
+    }
 
 }
