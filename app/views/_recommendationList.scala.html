@@ -5,7 +5,7 @@
 @()(implicit currentUser: AppUser = SessionsAndCookies.getCurrentUser(ctx()))
 
 @if(currentUser == null) {
-    @if(Recommendations_HotelVisits.returnMostPopularHotels.size != null && Recommendations_HotelVisits.returnMostPopularHotels.size != 0) {
+    @if(Recommendations_HotelVisits.returnMostPopularHotels.size != 0) {
         @for(hotel <- Recommendations_HotelVisits.returnMostPopularHotels) {
             @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
                 <div class="col-md-2 col-sm-2">
@@ -37,7 +37,7 @@
         }
     }
 } else {
-    @if(Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id).size != null && Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id).size != 0) {
+    @if(Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id).size != 0) {
         @for(hotel <- Recommendations_HotelVisits.getRecommendedHotelsForLoggedUsers(currentUser.id)) {
             @helper.form(action = routes.Hotels.showHotel(hotel.id)) {
                 <div class="col-md-2 col-sm-2">

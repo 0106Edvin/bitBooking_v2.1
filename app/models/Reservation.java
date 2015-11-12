@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import controllers.Hotels;
 import helpers.ReservationStatus;
 import play.Logger;
 import play.data.format.Formats;
@@ -10,6 +9,7 @@ import play.data.format.Formats;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -207,18 +207,19 @@ public class Reservation extends Model {
         super.update();
     }
 
+    /**
+     * Finds last five approved reservations
+     * @return
+     */
     public static List<Hotel> getTopFiveRecentReservedHotels() {
-        Logger.debug("ulazim");
         
-        List<Reservation> lastReservations = finder.orderBy("id, id asc").setMaxRows(5).findList();
-
+        List<Reservation> lastReservations = finder.where().eq("status", ReservationStatus.APPROVED).findList();
+        Collections.reverse(lastReservations);
 
         List<Hotel> recentReservatedHotels = new ArrayList<>();
 
-        for (Reservation r : lastReservations) {
-
-            Logger.debug(r.id + "   ");
-
+        for (int i = 0; i < 5 && i < lastReservations.size(); i++) {
+            Reservation r = lastReservations.get(i);
             recentReservatedHotels.add(Room.findRoomById(r.room.id).hotel);
         }
 

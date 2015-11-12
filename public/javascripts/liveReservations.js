@@ -8,6 +8,6 @@ $(document).ready(setInterval(function(){
     }).success(function(response) {
         $("#liveRecentReservations").load(location.href + " #liveRecentReservations");
     })
-}, 2000));
+}, 6000));
 
 
