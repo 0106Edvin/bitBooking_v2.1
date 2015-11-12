@@ -1,15 +1,16 @@
 package controllers.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
-import helpers.Authenticators;
+
 import helpers.ReservationStatus;
+
 import models.AppUser;
 import models.Reservation;
 import models.Room;
+
 import play.Logger;
 import play.Play;
 import play.data.DynamicForm;
@@ -17,7 +18,6 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Security;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +29,14 @@ public class ApiUserController extends Controller {
     private static PaymentExecution paymentExecution;
     private static Form<Reservation> reservationForm = Form.form(Reservation.class);
 
+    /**
+     * Log in method
+     * this method handles log in activity from android app.
+     * Collects data from form by id and authenticate user,
+     * and as response sends user android token if user exists,
+     * else returns unauthorized response.
+     * @return - token as Json if user exists, else unauthorized response
+     */
     public Result login() {
 
         Form<AppUser> boundForm = userForm.bindFromRequest();
@@ -39,120 +47,123 @@ public class ApiUserController extends Controller {
         AppUser user = AppUser.authenticate(email, password);
 
         if(user != null) {
-            return ok(Json.toJson(user.id));
+            return ok(Json.toJson(user.androidToken.toString()));
         }
         return unauthorized();
     }
 
-    public Result getAllUsers() {
-        List<AppUser> users = AppUser.finder.all();
-        return ok(Json.toJson(users));
-    }
-
     public Result payPal(Integer roomId) {
 
-        //   AppUser user = AppUser.findUserById(Integer.parseInt(session("userId")));
-        Form<Reservation> boundForm = reservationForm.bindFromRequest();
-        AppUser user = AppUser.findUserById(Integer.parseInt(boundForm.field("userId").value()));
-        String checkin = boundForm.field("checkIn").value();
-        String checkout = boundForm.field("checkOut").value();
+        String userToken = request().getHeader("User_Token");
+        List<AppUser> users = AppUser.finder.all();
 
-        Room room = Room.findRoomById(roomId);
-        Reservation reservation = new Reservation();
-        reservation.room = room;
-        reservation.user = user;
-        reservation.setCreatedBy(user.firstname, user.lastname);
-        SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date firstDate = dtf.parse(checkin);
-            Date secondDate = dtf.parse(checkout);
-            if (firstDate.before(secondDate)) {
-                reservation.checkIn = firstDate;
-                reservation.checkOut = secondDate;
-                reservation.cost = reservation.getCost();
-            } else {
-                flash("error", "Check in date can't be after check out date!");
-                Logger.info("---------------------1-----------");
-                return redirect("/");
-            }
+        for (AppUser user: users) {
+            if (user.androidToken != null) {
+                if (user.androidToken.equals(userToken)) {
+                    Form<Reservation> boundForm = reservationForm.bindFromRequest();
+                    user = AppUser.findUserById(Integer.parseInt(boundForm.field("userId").value()));
+                    String checkin = boundForm.field("checkIn").value();
+                    String checkout = boundForm.field("checkOut").value();
 
-
-            // Configuration
-            String clientid = Play.application().configuration().getString("clientId");
-            String secret = Play.application().configuration().getString("clientSecret");
-
-            String token = new OAuthTokenCredential(clientid, secret).getAccessToken();
-
-            Map<String, String> config = new HashMap<>();
-            config.put("mode", "sandbox");
-
-            APIContext context = new APIContext(token);
-            context.setConfigurationMap(config);
-
-            // Process cart/payment information
-
-            double price = reservation.cost.doubleValue();
-
-            String priceString = String.format("%1.2f", price);
-
-            String desc = "Costumer name: " + reservation.createdBy + "\n" +
-                    "Reservation for hotel: " + room.hotel.name + "\n " +
-                    "Check-in: " + reservation.checkIn + "\n" +
-                    "Check-out" + reservation.checkOut + "\n" +
-                    "Amount: " + priceString;
-            // Configure payment
-            Amount amount = new Amount();
-            amount.setTotal(priceString);
-            amount.setCurrency("USD");
-
-            List<Transaction> transactionList = new ArrayList<>();
-            Transaction transaction = new Transaction();
-            transaction.setAmount(amount);
-            transaction.setDescription(desc);
-            transactionList.add(transaction);
-
-            Payer payer = new Payer();
-            payer.setPaymentMethod("paypal");
-
-            Payment payment = new Payment();
-            payment.setPayer(payer);
-            payment.setIntent("sale");
-            payment.setTransactions(transactionList);
-
-            RedirectUrls redirects = new RedirectUrls();
-            redirects.setCancelUrl("http://localhost:9000/rejectPayment");
-            redirects.setReturnUrl("http://localhost:9000/paypal/success");
-
-            payment.setRedirectUrls(redirects);
-
-            Payment madePayments = payment.create(context);
-            String id = madePayments.getId();
-            reservation.payment_id = id;
+                    Room room = Room.findRoomById(roomId);
+                    Reservation reservation = new Reservation();
+                    reservation.room = room;
+                    reservation.user = user;
+                    reservation.setCreatedBy(user.firstname, user.lastname);
+                    SimpleDateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date firstDate = dtf.parse(checkin);
+                        Date secondDate = dtf.parse(checkout);
+                        if (firstDate.before(secondDate)) {
+                            reservation.checkIn = firstDate;
+                            reservation.checkOut = secondDate;
+                            reservation.cost = reservation.getCost();
+                        } else {
+                            flash("error", "Check in date can't be after check out date!");
+                            Logger.info("---------------------1-----------");
+                            return badRequest();
+                        }
 
 
-            reservation.status = ReservationStatus.PENDING;
-            reservation.save();
+                        // Configuration
+                        String clientid = Play.application().configuration().getString("clientId");
+                        String secret = Play.application().configuration().getString("clientSecret");
 
-            Iterator<Links> it = madePayments.getLinks().iterator();
-            while (it.hasNext()) {
-                Links link = it.next();
-                if (link.getRel().equals("approval_url")) {
-                    Logger.info("---------------------2-----------");
-                    return redirect(link.getHref());
+                        String token = new OAuthTokenCredential(clientid, secret).getAccessToken();
+
+                        Map<String, String> config = new HashMap<>();
+                        config.put("mode", "sandbox");
+
+                        APIContext context = new APIContext(token);
+                        context.setConfigurationMap(config);
+
+                        // Process cart/payment information
+
+                        double price = reservation.cost.doubleValue();
+
+                        String priceString = String.format("%1.2f", price);
+
+                        String desc = "Costumer name: " + reservation.createdBy + "\n" +
+                                "Reservation for hotel: " + room.hotel.name + "\n " +
+                                "Check-in: " + reservation.checkIn + "\n" +
+                                "Check-out" + reservation.checkOut + "\n" +
+                                "Amount: " + priceString;
+                        // Configure payment
+                        Amount amount = new Amount();
+                        amount.setTotal(priceString);
+                        amount.setCurrency("USD");
+
+                        List<Transaction> transactionList = new ArrayList<>();
+                        Transaction transaction = new Transaction();
+                        transaction.setAmount(amount);
+                        transaction.setDescription(desc);
+                        transactionList.add(transaction);
+
+                        Payer payer = new Payer();
+                        payer.setPaymentMethod("paypal");
+
+                        Payment payment = new Payment();
+                        payment.setPayer(payer);
+                        payment.setIntent("sale");
+                        payment.setTransactions(transactionList);
+
+                        RedirectUrls redirects = new RedirectUrls();
+                        redirects.setCancelUrl("http://localhost:9000/rejectPayment");
+                        redirects.setReturnUrl("http://localhost:9000/paypal/success");
+
+                        payment.setRedirectUrls(redirects);
+
+                        Payment madePayments = payment.create(context);
+                        String id = madePayments.getId();
+                        reservation.payment_id = id;
+
+
+                        reservation.status = ReservationStatus.PENDING;
+                        reservation.save();
+
+                        Iterator<Links> it = madePayments.getLinks().iterator();
+                        while (it.hasNext()) {
+                            Links link = it.next();
+                            if (link.getRel().equals("approval_url")) {
+                                Logger.info("--------------2-----------");
+                                return redirect(link.getHref());
+                            }
+                        }
+
+                        Payment newPayment = payment.execute(context, paymentExecution);
+                        Logger.info("new PAYMENT " + newPayment);
+
+                    } catch (PayPalRESTException e) {
+                        Logger.warn("PayPal Exception");
+                        e.printStackTrace();
+                    } catch (ParseException ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
             }
-
-            Payment newPayment = payment.execute(context, paymentExecution );
-            Logger.info("new PAYMENT " + newPayment);
-
-        } catch (PayPalRESTException e) {
-            Logger.warn("PayPal Exception");
-            e.printStackTrace();
-        } catch (ParseException ex) {
-            System.out.println(ex.getMessage());
         }
-        Logger.info("---------------------3-----------");
-        return redirect("/");
+        Logger.info("-------------3-----------");
+        return unauthorized();
     }
 
     public Result paypalSuccess() {
@@ -192,11 +203,11 @@ public class ApiUserController extends Controller {
 
         } catch (Exception e) {
             flash("error");
-            Logger.debug("Error at purchaseSucess: " + e.getMessage(), e);
-            return redirect("/");
+            Logger.debug("Error at purchaseSuccess: " + e.getMessage(), e);
+            return unauthorized();
         }
 
-        return ok(views.html.user.successfulPayment.render());
+        return ok();
     }
 
 }
