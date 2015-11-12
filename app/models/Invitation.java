@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import helpers.ConfigProvider;
 import helpers.Constants;
 import helpers.MailHelper;
 import play.Play;
@@ -55,7 +56,7 @@ public class Invitation extends Model {
      * @param title   <code>String</code> type value of invitation title
      * @param content <code>String</code> type value of invitation content
      * @param manager <code>AppUser</code> type value of manager
-     * @return <code>true</code> if invitation is successfuly created, <code>false</code> if not
+     * @return <code>true</code> if invitation is successfully created, <code>false</code> if not
      */
     public static boolean createNewInvitation(String email, String title, String content, AppUser manager) {
         Invitation temp = new Invitation();
@@ -63,7 +64,7 @@ public class Invitation extends Model {
         temp.content = content;
         temp.email = email;
         temp.setCreatedBy(manager);
-        String host = Play.application().configuration().getString("url") + "register/seller/" + temp.token;
+        String host = ConfigProvider.APPLICATION_URL + "register/seller/" + temp.token;
         try {
             temp.save();
             MailHelper.send(temp.email, host, Constants.REGISTER_SELLER, null, title, content);

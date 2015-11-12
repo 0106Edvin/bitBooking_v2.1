@@ -124,7 +124,7 @@ public class Image extends Model {
                     .transformation(new Transformation().width(width).height(height)).generate(public_id);
 
             return url;
-        }catch (NullPointerException e){
+        }catch (NullPointerException e) {
             ErrorLogger.createNewErrorLogger("Failed to receive image url.", e.getMessage());
             return "null";
         }
@@ -132,7 +132,7 @@ public class Image extends Model {
 
     }
 
-    public String getThumbnail(){
+    public String getThumbnail() {
         String url = cloudinary.url().format("png")
                 .transformation(
                         new Transformation().width(150).height(150).crop("thumb").gravity("face").radius("max")

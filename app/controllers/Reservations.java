@@ -58,8 +58,8 @@ public class Reservations extends Controller {
 
 
             /*Configuration of pay pal*/
-            String clientid = Play.application().configuration().getString("clientId");
-            String secret = Play.application().configuration().getString("clientSecret");
+            String clientid = ConfigProvider.CLIENT_ID;
+            String secret = ConfigProvider.CLIENT_SECRET;
 
             String token = new OAuthTokenCredential(clientid, secret).getAccessToken();
 
@@ -146,8 +146,8 @@ public class Reservations extends Controller {
         DynamicForm form = Form.form().bindFromRequest();
         String paymentId = form.data().get("paymentId");
         String payerID = form.data().get("PayerID");
-        String clientId = Play.application().configuration().getString("clientId");
-        String secret = Play.application().configuration().getString("clientSecret");
+        String clientId = ConfigProvider.CLIENT_ID;
+        String secret = ConfigProvider.CLIENT_SECRET;
         try {
             String accessToken = new OAuthTokenCredential(clientId,
                     secret).getAccessToken();
@@ -189,7 +189,7 @@ public class Reservations extends Controller {
                             "Thank you for using our services. We wish you pleasant stay in our hotel.",
                             "Sincerely yours,",
                             "bitBooking team.",
-                            Play.application().configuration().getString("logo"));
+                            ConfigProvider.LOGO);
 
             MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null, null, null);
 
@@ -212,8 +212,8 @@ public class Reservations extends Controller {
         Model.Finder<String, Reservation> finder = new Model.Finder<String, Reservation>(Reservation.class);
         double totalPrice;
         try {
-            String clientid = Play.application().configuration().getString("clientId");
-            String secret = Play.application().configuration().getString("clientSecret");
+            String clientid = ConfigProvider.CLIENT_ID;
+            String secret = ConfigProvider.CLIENT_SECRET;
 
             String accessToken = new OAuthTokenCredential(clientid, secret).getAccessToken();
 
