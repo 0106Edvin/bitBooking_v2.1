@@ -41,6 +41,15 @@ create table comment (
   constraint pk_comment primary key (id))
 ;
 
+create table course (
+  id                        integer auto_increment not null,
+  name                      varchar(255),
+  description               varchar(255),
+  price                     double,
+  quantity                  integer,
+  constraint pk_course primary key (id))
+;
+
 create table error_logger (
   id                        integer auto_increment not null,
   custom_message            varchar(500),
@@ -232,6 +241,7 @@ create table room (
   created_by                varchar(50),
   create_date               datetime,
   hotel_id                  integer,
+  course_id                 integer,
   constraint pk_room primary key (id))
 ;
 
@@ -293,6 +303,8 @@ alter table restaurant add constraint fk_restaurant_hotel_18 foreign key (hotel_
 create index ix_restaurant_hotel_18 on restaurant (hotel_id);
 alter table room add constraint fk_room_hotel_19 foreign key (hotel_id) references hotel (id) on delete restrict on update restrict;
 create index ix_room_hotel_19 on room (hotel_id);
+alter table room add constraint fk_room_course_20 foreign key (course_id) references course (id) on delete restrict on update restrict;
+create index ix_room_course_20 on room (course_id);
 
 
 
@@ -307,6 +319,8 @@ SET FOREIGN_KEY_CHECKS=0;
 drop table app_user;
 
 drop table comment;
+
+drop table course;
 
 drop table error_logger;
 

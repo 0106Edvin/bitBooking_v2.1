@@ -1,6 +1,7 @@
 @(room: Room)(prices: java.util.List[Price])
 @import helper._
 @import helpers.CommonHelperMethods
+@import models.Course
 @main {
     <script src='@routes.Assets.versioned("javascripts/modalverification.js")'></script>
 
@@ -45,7 +46,7 @@
                                     <h3>Features</h3>
 
                                     <div class="info-detail">
-                                    @if(room.features.size()>0) {
+                                    @if(room.features.size() > 0) {
                                         @for(feature <- room.features) {
                                             <div>
                                                 <span>
@@ -57,6 +58,15 @@
                                         }
                                     }
                                     </div>
+                                </div>
+                                <h4>You can add a course on discount for this room (optional)</h4>
+                                <div class="info-detail course-ddl">
+                                    <select class="ddlsellers" name="course">
+                                        <option value = "-1" selected>Select the course</option>
+                                        @for(course <- Course.getAvailableCourses) {
+                                            <option value="@course.id" >@course.name</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="marginbottom-buttons">
                                     <a href="@routes.Rooms.showRooms(room.hotel.id)"> <input class="submit-btn" id="edit-room-back" type="button" value="BACK" ></a>

@@ -7,6 +7,7 @@ import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
 import helpers.*;
 import models.*;
+import org.json.simple.JSONObject;
 import play.Logger;
 import play.Play;
 import play.data.DynamicForm;
@@ -192,6 +193,20 @@ public class Reservations extends Controller {
                             ConfigProvider.LOGO);
 
             MailHelper.send(user.email, message, Constants.SUCCESSFUL_RESERVATION, null, null, null);
+
+            if (room.course != null) {
+                room.course.quantity -= 1;
+                room.course.save();
+
+                JSONObject json = new JSONObject();
+
+                json.put("user_email", user.email);
+                json.put("premium_id", room.course.id + "bitbooking");
+
+                // Sending request to the bitClassroom application.
+                ServiceRequest.post(ConfigProvider.BIT_CLASSROOM_URL, json.toString(), ServiceRequest.checkRequest());
+
+            }
 
         } catch (Exception e) {
             ErrorLogger.createNewErrorLogger("Failed to receive PayPal succes.", e.getMessage());

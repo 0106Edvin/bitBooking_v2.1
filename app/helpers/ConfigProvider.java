@@ -44,4 +44,6 @@ public class ConfigProvider {
 
     // Unsubscribe configurations
     public static final String UNSUBSCRIBE = Play.application().configuration().getString("unsubscribe");
+    public static final String BIT_CLASSROOM_KEY = Play.application().configuration().getString("classroomKey");
+    public static final String BIT_CLASSROOM_URL = Play.application().configuration().getString("classroomUrl");
 }
