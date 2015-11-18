@@ -121,7 +121,7 @@ public class Hotels extends Controller {
         Http.MultipartFormData body1 = request().body().asMultipartFormData();
         List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
         if(fileParts != null){
-            for (Http.MultipartFormData.FilePart filePart1 : fileParts){
+            for (Http.MultipartFormData.FilePart filePart1 : fileParts) {
                 File file = filePart1.getFile();
                 Image image = Image.create(file, hotel.id, null, null, null, null);
                 hotel.images.add(image);

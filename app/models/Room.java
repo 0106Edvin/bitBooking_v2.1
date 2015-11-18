@@ -58,11 +58,14 @@ public class Room extends Model {
     @OneToMany(mappedBy="room")
     public List<Reservation> reservations;
 
+    @ManyToOne
+    public Course course;
+
     public Room() {
     }
 
 
-    public Room(Integer id, String description, String name,Integer roomType,List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images, List<Reservation> reservations){
+    public Room(Integer id, String description, String name,Integer roomType,List<Feature> features, Hotel hotel, Integer numberOfBeds, List<Price> prices , List<Image>images, List<Reservation> reservations, Course course){
 
         this.id = id;
         this.description = description;
@@ -74,6 +77,7 @@ public class Room extends Model {
         this.images = images;
         this.reservations = reservations;
         this.roomType= roomType;
+        this.course = course;
     }
 
     public static Room findRoomById(Integer id) {

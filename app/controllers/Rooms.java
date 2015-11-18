@@ -4,6 +4,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import helpers.Authenticators;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -147,11 +148,21 @@ public class Rooms extends Controller {
             String description = roomForm1.field("description").value();
             Integer numberOfBeds = Integer.parseInt(roomForm1.field("numberOfBeds").value());
             Integer roomType = Integer.parseInt(roomForm1.field("roomType").value());
+            Integer courseId = Integer.parseInt(roomForm1.field("course").value());
 
             room.name = name;
             room.description = description;
             room.numberOfBeds = numberOfBeds;
             room.roomType = roomType;
+
+            Logger.debug(courseId + " COURSE ID");
+            if (courseId != -1) {
+                Logger.debug("aaaaa");
+                room.course = Course.getCourseByCourseId(courseId);
+            } else {
+                room.course = null;
+            }
+
 
             Http.MultipartFormData body1 = request().body().asMultipartFormData();
             List<Http.MultipartFormData.FilePart> fileParts = body1.getFiles();
