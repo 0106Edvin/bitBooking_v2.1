@@ -38,7 +38,7 @@ public class Emails extends Controller {
         if (verify) {
             SimpleEmail email = new SimpleEmail();
             email.setHostName(ConfigProvider.SMTP_HOST);
-            email.setSmtpPort(Integer.parseInt(ConfigProvider.SMTP_PORT1));
+            email.setSmtpPort(Integer.parseInt(ConfigProvider.SMTP_PORT));
             try {
                 /*Configuring mail*/
                 email.setFrom(ConfigProvider.MAIL_FROM);
