@@ -30,6 +30,7 @@ public class Recommendations_HotelVisits extends Controller {
      * list of users that already clicked on that hotel as value.
      */
     private static void populateUsersThatClickedOnHotelMap() {
+
         usersThatClickedOnHotelMap = new HashMap<>();
         for (HotelVisit hv : allHotelVisits) {
             if (!usersThatClickedOnHotelMap.containsKey(hv.hotel.id)) {
@@ -45,6 +46,7 @@ public class Recommendations_HotelVisits extends Controller {
      * list of hotels that user has already clicked as value.
      */
     private static void populateHotelsThatAreClickedByUserMap() {
+
         hotelsThatAreClickedByUserMap = new HashMap<>();
         for (HotelVisit hv : allHotelVisits) {
             if (!hotelsThatAreClickedByUserMap.containsKey(hv.user.id)) {
@@ -133,14 +135,13 @@ public class Recommendations_HotelVisits extends Controller {
 
             List<Integer> indexes = new ArrayList<>();
 
-            do {
+            while (indexes.size() != showLimit) {
                 int index = (int) (Math.random() * (allVisits.size() - 1));
                 if (!indexes.contains(index)) {
                     indexes.add(index);
                     listToDisplay.add(mostPopularHotels.get(index));
                 }
-
-            } while (indexes.size() != showLimit);
+            }
         }
 
         return listToDisplay;
