@@ -28,8 +28,8 @@ html, body {
     /*background-image: url(http://www.transparenttextures.com/patterns/foggy-birds.png);*/
     /*/!* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! *!/*/
 
-    background: url(http://likefon.com/uploads/p1g/seashell-sand-beach-plyazh-leto.jpg);
-    /* background: url(http://i.imgur.com/Nun3b.jpg);*/
+    /* background: url(http://likefon.com/uploads/p1g/seashell-sand-beach-plyazh-leto.jpg); */
+    background: url(http://i.imgur.com/Nun3b.jpg);
     /*background: url(http://res.cloudinary.com/dsjagtpwx/image/upload/e_blur_region:2000/v1445869032/Hotels_nmatjq.jpg);*/
     background-size: cover;
     background-repeat: no-repeat;
