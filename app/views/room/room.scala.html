@@ -35,6 +35,13 @@
                         <h3>Description</h3>
                         <div class="info-detail">
                             <h4 style="font-size: 25px;">@room.description</h4>
+                            @if(room.course != null) {
+                            <h3 class="course-div">Available course</h3>
+                                <div class="info-detail">
+                                    <h4>If you reserve this room, you will get this course on bitClassroom for free</h4>
+                                    <h3>@room.course.name (@room.course.description)</h3>
+                                </div>
+                            }
                         </div>
                         @for(feature <- room.features) {
                             @if(room.features != null) {
