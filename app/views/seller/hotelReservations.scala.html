@@ -41,7 +41,7 @@
                         <tbody style="font-size : 20px">
                         @if(rooms.size != 0) {
                             @for(room <- rooms) {
-                                @if(room.reservations != 0) {
+                                @if(room.reservations.size() != 0) {
                                     @for(reservation <- room.reservations) {
                                         @if(reservation.status != ReservationStatus.PENDING) {
                                             <tr class="about text-align">

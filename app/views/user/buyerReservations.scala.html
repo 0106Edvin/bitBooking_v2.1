@@ -35,7 +35,7 @@
                     @for(reservation <- reservations) {
 
                         @if(room != null) {
-                            @if(room.reservations != 0 && reservation.status != ReservationStatus.PENDING) {
+                            @if(room.reservations.size() != 0 && reservation.status != ReservationStatus.PENDING) {
                                 <tr class="about">
                                     <div class="text-align">
                                         <td class="text-align">@Reservation.findHotelNameByReservation(reservation)</td>

@@ -1398,3 +1398,25 @@ responsive area
     height: 40px;
     border: none;
 }
+
+.recent-reservation-tr {
+    height: 80px;
+    width: 250px;
+    padding: 10px;
+    background-color: #dedee9;
+}
+
+.recent-reservation-tr:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.recent-reservation-td {
+    width: 165px;
+    text-align: center;
+}
+
+.recent-reservation-td-img {
+    width: 90px;
+    text-align: center;
+}

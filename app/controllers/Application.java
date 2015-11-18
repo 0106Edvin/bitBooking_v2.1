@@ -3,14 +3,10 @@ package controllers;
 import helpers.Authenticators;
 import helpers.SessionsAndCookies;
 import models.*;
-import play.Logger;
-import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.list;
-
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class Application extends Controller {

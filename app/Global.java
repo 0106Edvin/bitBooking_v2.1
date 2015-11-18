@@ -41,22 +41,8 @@ public class Global extends GlobalSettings {
          * be set as completed.
          */
         AutocompleteReservation.completeReservations();
-
         Image.cloudinary = new Cloudinary("cloudinary://" + Play.application().configuration().getString("cloudinary.string"));
 
-        if(AppUser.finder.findRowCount() == 0) {
-            FillDatabase.createUsers();
-        }
-//        if (Hotel.finder.findRowCount() == 0) {
-//            FillDatabase.createHotels();
-//        }
     }
-
-//    @Override
-//    public <T extends EssentialFilter> Class<T>[] filters() {
-//        Class[] filters = {CSRFFilter.class};
-//        return filters;
-//
-//    }
 }
 
